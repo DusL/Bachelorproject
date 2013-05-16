@@ -16,5 +16,10 @@ namespace CLESMonitor
         {
             InitializeComponent();
         }
+
+        private void CLChart_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
