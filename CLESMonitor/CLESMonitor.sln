@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLESMonitor", "CLESMonitor\CLESMonitor.csproj", "{D21790F2-80D9-4BEC-A8EE-F9F8CA89E1D7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Model", "Model", "{5BCA2C40-291A-4D51-94D6-44741B4F1AE0}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Controller", "Controller", "{C98EC726-A023-4938-9737-068213C20EFE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{B4947425-6B32-43C3-A948-9954A43E218F}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,8 +16,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{D21790F2-80D9-4BEC-A8EE-F9F8CA89E1D7} = {B4947425-6B32-43C3-A948-9954A43E218F}
 	EndGlobalSection
 EndGlobal
