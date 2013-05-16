@@ -1,0 +1,8 @@
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\bin\Debug\CLESMonitor.exe.config
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\bin\Debug\CLESMonitor.exe
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\bin\Debug\CLESMonitor.pdb
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\obj\Debug\CLESMonitor.csprojResolveAssemblyReference.cache
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\obj\Debug\CLESMonitor.Properties.Resources.resources
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\obj\Debug\CLESMonitor.csproj.GenerateResource.Cache
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\obj\Debug\CLESMonitor.exe
+D:\vvandertas\GitHub\Bachelorproject\CLESMonitor\CLESMonitor\obj\Debug\CLESMonitor.pdb
