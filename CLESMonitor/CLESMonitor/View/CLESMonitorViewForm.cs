@@ -16,7 +16,7 @@ namespace CLESMonitor.View
         private ViewController _controller;
         public CLESMonitorViewForm()
         {
-            //_controller = new ViewController();
+            //_controller = controller;
             InitializeComponent();
         }
 
