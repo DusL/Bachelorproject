@@ -1,6 +1,7 @@
-﻿namespace CLESMonitor
+﻿namespace CLESMonitor.View
+
 {
-    partial class Form1
+    partial class CLESMonitorViewForm
     {
         /// <summary>
         /// Required designer variable.

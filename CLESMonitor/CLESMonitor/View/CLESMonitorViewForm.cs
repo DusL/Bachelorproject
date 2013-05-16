@@ -7,13 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CLESMonitor.Controller;
 
-namespace CLESMonitor
+namespace CLESMonitor.View
 {
-    public partial class Form1 : Form
+    public partial class CLESMonitorViewForm : Form
     {
-        public Form1()
+        private ViewController _controller;
+        public CLESMonitorViewForm()
         {
+            //_controller = new ViewController();
             InitializeComponent();
         }
 
