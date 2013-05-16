@@ -27,12 +27,15 @@ namespace CLESMonitor.Controller
         public delegate void UpdateChartDataDelegate();
         public UpdateChartDataDelegate updateCLChartDataDelegate;
         public UpdateChartDataDelegate updateESChartDataDelegate;
+        public delegate void UpdateConsoleDelegate();
+        public UpdateConsoleDelegate updateConsoleDelegate;
 
         // Outlets
         Chart CLChart;
         Chart ESChart;
         TextBox clTextBox;
         TextBox esTextBox;
+        RichTextBox richTextBox1;
 
         public CLESMonitorViewForm View
         {
@@ -51,6 +54,7 @@ namespace CLESMonitor.Controller
             ESChart = this.View.ESChart;
             clTextBox = this.View.clTextBox;
             esTextBox = this.View.esTextBox;
+            richTextBox1 = this.View.richTextBox1;
 
             // Creëer een thread voor de real-time grafiek - nog niet starten
             ThreadStart updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
@@ -59,6 +63,7 @@ namespace CLESMonitor.Controller
             // Wijs delegates toe
             updateCLChartDataDelegate += new UpdateChartDataDelegate(UpdateCLChartData);
             updateESChartDataDelegate += new UpdateChartDataDelegate(UpdateESChartData);
+            updateConsoleDelegate += new UpdateConsoleDelegate(UpdateConsole);
 
             startTrending_Click(null, null);
         }
@@ -69,9 +74,19 @@ namespace CLESMonitor.Controller
             {
                 CLChart.Invoke(updateCLChartDataDelegate);
                 ESChart.Invoke(updateESChartDataDelegate);
+                richTextBox1.Invoke(updateConsoleDelegate);
 
                 Thread.Sleep(LOOP_SLEEP_INTERVAL);
             }
+        }
+
+        ///<summary>
+        ///Hiermee wordt in het tekst veld telkens bovenaan een regel toegevoegd. 
+        ///</summary>
+        private void UpdateConsole()
+        {
+            richTextBox1.Select(0, 0);
+            richTextBox1.SelectedText = " Deze bla staat nu boven aan" + "\n";
         }
 
         public void UpdateCLChartData()
