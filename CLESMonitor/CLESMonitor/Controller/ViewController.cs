@@ -10,8 +10,8 @@ namespace CLESMonitor.Controller
 {
     class ViewController
     {
-        private CLModel clModel;
-        private ESModel esModel;
+        public CLModel clModel;
+        public ESModel esModel;
         private CLESMonitorViewForm _view;
 
         public CLESMonitorViewForm View

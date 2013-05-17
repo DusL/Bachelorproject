@@ -47,7 +47,10 @@
   <ItemGroup>
     <Compile Include="Controller\ViewController.cs" />
     <Compile Include="Model\CLModel.cs" />
+    <Compile Include="Model\CTLModel.cs" />
+    <Compile Include="Model\CTLTask.cs" />
     <Compile Include="Model\ESModel.cs" />
+    <Compile Include="Model\PRLDomain.cs" />
     <Compile Include="View\CLESMonitorViewForm.cs">
       <SubType>Form</SubType>
     </Compile>

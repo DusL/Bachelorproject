@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CLESMonitor.Model;
 using CLESMonitor.Controller;
 
 namespace CLESMonitor
@@ -19,6 +20,7 @@ namespace CLESMonitor
             Application.SetCompatibleTextRenderingDefault(false);
 
             var controller = new ViewController();
+            controller.clModel = new CTLModel();
             
             ///<summary>
             ///Hiermee wordt in het tekst veld telkens bovenaan een regel toegevoegd. 
