@@ -15,9 +15,11 @@ namespace CLESMonitor.Model
             modelDomain = new PRLDomain();
         }
 
-        public override int calculateModelValue()
+        public override double calculateModelValue()
         {
-            return 0;
+            // We genereren op dit moment random waarden
+            Random random = new Random();
+            return random.Next(0, 5);
         }
     }
 }

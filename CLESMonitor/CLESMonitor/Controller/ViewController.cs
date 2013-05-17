@@ -122,55 +122,47 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void UpdateCLChartData()
         {
-            DateTime timeStamp = DateTime.Now;
-            Series series = CLChart.Series["Series1"];
+            // Bereken de nieuwste waarde
+            double newDataPoint = this.clModel.calculateModelValue();
 
-            double newDataValue = AddNewPoint(timeStamp, series);
-
-            // Update chart
-            CLChart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            CLChart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
-            CLChart.Invalidate(); //redraw
-
-            // Update TextBox
-            clTextBox.Text = newDataValue.ToString();
+            // Update de grafiek en TextBox
+            this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);
+            clTextBox.Text = newDataPoint.ToString();
         }
         /// <summary>
         /// Hiermee wordt de ES grafiek bijgewerkt
         /// </summary>
         public void UpdateESChartData()
         {
-            DateTime timeStamp = DateTime.Now;
-            Series series = ESChart.Series["Series1"];
+            // Bereken de nieuwste waarde (random op dit moment)
+            double newDataPoint = random.Next(5, 15);
 
-            double newDataValue = AddNewPoint(timeStamp, series);
-
-            // Update chart
-            ESChart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            ESChart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
-            ESChart.Invalidate(); //redraw
-
-            // Update TextBox
-            esTextBox.Text = newDataValue.ToString();
+            // Update de grafiek en TextBox
+            this.UpdateChartData(ESChart, newDataPoint, DateTime.Now);
+            esTextBox.Text = newDataPoint.ToString();
         }
 
-        /// The AddNewPoint function is called for each series in the chart when
-        /// new points need to be added.  The new point will be placed at specified
-        /// X axis (Date/Time) position with a random Y value
-        public double AddNewPoint(DateTime timeStamp, System.Windows.Forms.DataVisualization.Charting.Series ptSeries)
+        /// <summary>
+        /// Pre: grafiek bevat een series genaamd "Series1"
+        /// Werkt "Series1" van een grafiek bij
+        /// </summary>
+        /// <param name="chart"></param>
+        /// <param name="newDataPoint"></param>
+        private void UpdateChartData(Chart chart, double newDataPoint, DateTime timeStamp)
         {
-            // Add new data point to its series.
-            double newPoint = random.Next(5, 15);
-            ptSeries.Points.AddXY(timeStamp.ToOADate(), newPoint);
+            // Update de chart
+            Series series = chart.Series["Series1"];
+            series.Points.AddXY(timeStamp.ToOADate(), newDataPoint);
+            chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
+            chart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
+            chart.Invalidate(); //redraw
 
-            // Remove all points from the source series older than the time window
+            // Verwijder oude datapunten
             double removeBefore = timeStamp.AddSeconds((double)(60) * (-TIME_WINDOW)).ToOADate();
-            while (ptSeries.Points[0].XValue < removeBefore)
+            while (series.Points[0].XValue < removeBefore)
             {
-                ptSeries.Points.RemoveAt(0);
+                series.Points.RemoveAt(0);
             }
-
-            return newPoint;
         }
 
         public void startTrending_Click(object sender, System.EventArgs e)
