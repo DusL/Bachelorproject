@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
-    abstract class ESModel
+    public abstract class ESModel
     {
         /// <summary>
         /// Bereken opnieuw de model-waarde
