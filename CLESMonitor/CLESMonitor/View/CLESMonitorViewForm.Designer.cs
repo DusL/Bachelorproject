@@ -29,23 +29,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
             this.stopButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.CLtextBox = new System.Windows.Forms.TextBox();
-            this.EStextBox = new System.Windows.Forms.TextBox();
+            this.clTextBox = new System.Windows.Forms.TextBox();
+            this.esTextBox = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.pauseButton = new System.Windows.Forms.Button();
+            this.calibrateButton = new System.Windows.Forms.Button();
+            this.timeLable = new System.Windows.Forms.Label();
+            this.sesionTimeBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.SuspendLayout();
@@ -54,46 +58,45 @@
             // 
             this.CLChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea5.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.CLChart.Legends.Add(legend5);
+            chartArea1.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.CLChart.Legends.Add(legend1);
             this.CLChart.Location = new System.Drawing.Point(12, 12);
             this.CLChart.Name = "CLChart";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.CLChart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.CLChart.Series.Add(series1);
             this.CLChart.Size = new System.Drawing.Size(456, 369);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title5.Name = "CL-Waarden";
-            title5.Text = "CL-Waarden";
-            this.CLChart.Titles.Add(title5);
-            this.CLChart.Click += new System.EventHandler(this.CLChart_Click);
+            title1.Name = "CL-Waarden";
+            title1.Text = "CL-Waarden";
+            this.CLChart.Titles.Add(title1);
             // 
             // ESChart
             // 
             this.ESChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea6.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.ESChart.Legends.Add(legend6);
+            chartArea2.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.ESChart.Legends.Add(legend2);
             this.ESChart.Location = new System.Drawing.Point(520, 12);
             this.ESChart.Name = "ESChart";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.ESChart.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.ESChart.Series.Add(series2);
             this.ESChart.Size = new System.Drawing.Size(456, 369);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title6.Name = "ES-waarden";
-            title6.Text = "ES-Waarden";
-            this.ESChart.Titles.Add(title6);
+            title2.Name = "ES-waarden";
+            title2.Text = "ES-Waarden";
+            this.ESChart.Titles.Add(title2);
             // 
             // startButton
             // 
@@ -104,16 +107,19 @@
             this.startButton.TabIndex = 3;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // stopButton
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopButton.Enabled = false;
             this.stopButton.Location = new System.Drawing.Point(852, 647);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(124, 40);
             this.stopButton.TabIndex = 4;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // label1
             // 
@@ -133,19 +139,19 @@
             this.label2.TabIndex = 6;
             this.label2.Text = "ES-waarde";
             // 
-            // CLtextBox
+            // clTextBox
             // 
-            this.CLtextBox.Location = new System.Drawing.Point(86, 400);
-            this.CLtextBox.Name = "CLtextBox";
-            this.CLtextBox.Size = new System.Drawing.Size(50, 20);
-            this.CLtextBox.TabIndex = 7;
+            this.clTextBox.Location = new System.Drawing.Point(86, 400);
+            this.clTextBox.Name = "clTextBox";
+            this.clTextBox.Size = new System.Drawing.Size(50, 20);
+            this.clTextBox.TabIndex = 7;
             // 
-            // EStextBox
+            // esTextBox
             // 
-            this.EStextBox.Location = new System.Drawing.Point(594, 403);
-            this.EStextBox.Name = "EStextBox";
-            this.EStextBox.Size = new System.Drawing.Size(50, 20);
-            this.EStextBox.TabIndex = 8;
+            this.esTextBox.Location = new System.Drawing.Point(594, 403);
+            this.esTextBox.Name = "esTextBox";
+            this.esTextBox.Size = new System.Drawing.Size(50, 20);
+            this.esTextBox.TabIndex = 8;
             // 
             // richTextBox1
             // 
@@ -156,15 +162,58 @@
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Location = new System.Drawing.Point(156, 647);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(124, 40);
+            this.pauseButton.TabIndex = 11;
+            this.pauseButton.Text = "Pauze";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
+            // calibrateButton
+            // 
+            this.calibrateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.calibrateButton.Location = new System.Drawing.Point(452, 647);
+            this.calibrateButton.Name = "calibrateButton";
+            this.calibrateButton.Size = new System.Drawing.Size(124, 40);
+            this.calibrateButton.TabIndex = 12;
+            this.calibrateButton.Text = "Kalibreren";
+            this.calibrateButton.UseVisualStyleBackColor = true;
+            // 
+            // timeLable
+            // 
+            this.timeLable.AutoSize = true;
+            this.timeLable.Location = new System.Drawing.Point(849, 403);
+            this.timeLable.Name = "timeLable";
+            this.timeLable.Size = new System.Drawing.Size(58, 13);
+            this.timeLable.TabIndex = 13;
+            this.timeLable.Text = "Sessie Tijd";
+            this.timeLable.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // sesionTimeBox
+            // 
+            this.sesionTimeBox.Location = new System.Drawing.Point(926, 396);
+            this.sesionTimeBox.Name = "sesionTimeBox";
+            this.sesionTimeBox.Size = new System.Drawing.Size(50, 20);
+            this.sesionTimeBox.TabIndex = 14;
+            // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(988, 699);
+            this.Controls.Add(this.sesionTimeBox);
+            this.Controls.Add(this.timeLable);
+            this.Controls.Add(this.calibrateButton);
+            this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.richTextBox1);
-            this.Controls.Add(this.EStextBox);
-            this.Controls.Add(this.CLtextBox);
+            this.Controls.Add(this.esTextBox);
+            this.Controls.Add(this.clTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stopButton);
@@ -173,6 +222,7 @@
             this.Controls.Add(this.CLChart);
             this.Name = "CLESMonitorViewForm";
             this.Text = "CLES-Monitor";
+            this.Click += new System.EventHandler(this.label3_Click);
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).EndInit();
             this.ResumeLayout(false);
@@ -182,15 +232,19 @@
 
         #endregion
 
-        protected System.Windows.Forms.DataVisualization.Charting.Chart CLChart;
-        protected System.Windows.Forms.DataVisualization.Charting.Chart ESChart;
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.DataVisualization.Charting.Chart CLChart;
+        public System.Windows.Forms.DataVisualization.Charting.Chart ESChart;
+        public System.Windows.Forms.TextBox clTextBox;
+        public System.Windows.Forms.TextBox esTextBox;
         public System.Windows.Forms.RichTextBox richTextBox1;
-        public System.Windows.Forms.TextBox CLtextBox;
-        public System.Windows.Forms.TextBox EStextBox;
+        public System.Windows.Forms.Button startButton;
+        public System.Windows.Forms.Button stopButton;
+        public System.Windows.Forms.Button pauseButton;
+        public System.Windows.Forms.Button calibrateButton;
+        private System.Windows.Forms.Label timeLable;
+        public System.Windows.Forms.TextBox sesionTimeBox;
 
     }
 }

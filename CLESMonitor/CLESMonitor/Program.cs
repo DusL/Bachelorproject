@@ -22,16 +22,6 @@ namespace CLESMonitor
             var controller = new ViewController();
             controller.clModel = new CTLModel();
             
-            ///<summary>
-            ///Hiermee wordt in het tekst veld telkens bovenaan een regel toegevoegd. 
-            ///</summary>
-            for (int i = 0; i<=10; i++)                    
-            {
-                //TODO: Dit moet nog naar de controller
-                controller.View.richTextBox1.Select(0, 0);
-                controller.View.richTextBox1.SelectedText = i + " Deze bla staat nu boven aan" + "\n";
-            }
-
             Application.Run(controller.View);
         }
     }
