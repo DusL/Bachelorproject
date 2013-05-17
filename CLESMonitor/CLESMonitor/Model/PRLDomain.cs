@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
-    class PRLDomain
+    public class PRLDomain
     {
+        CTLTask[] taskArray;// = new CTLTask[7];
         public Array GenerateTasks()
         {
-            CTLTask[] taskArray = new CTLTask[2];
+            taskArray = new CTLTask[2];
 
             CTLTask task = new CTLTask("ARI uitschakelen voor geselecteerde planregels");
             task.moValue = 0;
@@ -26,5 +27,12 @@ namespace CLESMonitor.Model
 
             return taskArray;
         }
+
+        public void addNewTask(CTLTask task)
+        { 
+            Array.Resize(ref taskArray, taskArray.Length +1);
+            taskArray[taskArray.Length] = task;
+        }
+        
     }
 }

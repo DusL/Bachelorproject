@@ -7,14 +7,15 @@ using System.Threading.Tasks;
 namespace CLESMonitor.Model
 {
     //TODO: onderstaande is domein-specifiek, verkeerde plek!
-    enum InformationDomain
+    public enum InformationDomain
     {
         InformationDomainUnknown,
         InformationDomainUsingInterface,
         InformationDomainExternalContact
     }
+    
 
-    class CTLTask
+    public class CTLTask
     {
         public double moValue; //mental occupancy
         public int lipValue; //level of information processing
@@ -40,5 +41,24 @@ namespace CLESMonitor.Model
         {
             return String.Format("Name = {0}", name);
         }
+
+        public int getLip()
+        {
+            return this.lipValue;
+        }
+
+        public double getMO()
+        {
+            return this.moValue;
+        }
+        public InformationDomain getInfoDomain()
+        {
+            return this.informationDomain;
+        }
+        public double getDuration()
+        {
+            return this.duration;
+        }
+
     }
 }
