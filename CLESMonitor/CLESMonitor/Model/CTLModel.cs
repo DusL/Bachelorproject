@@ -14,5 +14,10 @@ namespace CLESMonitor.Model
         {
             modelDomain = new PRLDomain();
         }
+
+        public override int calculateModelValue()
+        {
+            return 0;
+        }
     }
 }

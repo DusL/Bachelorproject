@@ -8,5 +8,10 @@ namespace CLESMonitor.Model
 {
     abstract class ESModel
     {
+        /// <summary>
+        /// Bereken opnieuw de model-waarde
+        /// </summary>
+        /// <returns>De model-waarde</returns>
+        public abstract int calculateModelValue();
     }
 }
