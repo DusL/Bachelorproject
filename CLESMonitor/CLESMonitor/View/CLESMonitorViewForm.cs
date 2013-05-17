@@ -14,15 +14,32 @@ namespace CLESMonitor.View
     public partial class CLESMonitorViewForm : Form
     {
         private ViewController _controller;
-        public CLESMonitorViewForm()
+
+        public CLESMonitorViewForm(ViewController controller)
         {
-            //_controller = controller;
+            _controller = controller;
             InitializeComponent();
         }
 
-        private void CLChart_Click(object sender, EventArgs e)
+        private void startButton_Click(object sender, EventArgs e)
+        {
+           _controller.startTrending_Click(null, null);
+        }
+
+        private void stopButton_Click(object sender, EventArgs e)
+        {
+            _controller.stopButtonClicked();
+        }
+
+        private void pauseButton_Click(object sender, EventArgs e)
+        {
+            _controller.pauseButtonClicked();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
         {
 
         }
+       
     }
 }

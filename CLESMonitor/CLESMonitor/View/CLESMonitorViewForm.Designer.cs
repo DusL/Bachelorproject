@@ -46,6 +46,10 @@
             this.clTextBox = new System.Windows.Forms.TextBox();
             this.esTextBox = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.pauseButton = new System.Windows.Forms.Button();
+            this.calibrateButton = new System.Windows.Forms.Button();
+            this.timeLable = new System.Windows.Forms.Label();
+            this.sesionTimeBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.SuspendLayout();
@@ -71,7 +75,6 @@
             title1.Name = "CL-Waarden";
             title1.Text = "CL-Waarden";
             this.CLChart.Titles.Add(title1);
-            this.CLChart.Click += new System.EventHandler(this.CLChart_Click);
             // 
             // ESChart
             // 
@@ -104,16 +107,19 @@
             this.startButton.TabIndex = 3;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
+            this.startButton.Click += new System.EventHandler(this.startButton_Click);
             // 
             // stopButton
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.stopButton.Enabled = false;
             this.stopButton.Location = new System.Drawing.Point(852, 647);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(124, 40);
             this.stopButton.TabIndex = 4;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
+            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
             // 
             // label1
             // 
@@ -156,12 +162,55 @@
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pauseButton.Enabled = false;
+            this.pauseButton.Location = new System.Drawing.Point(156, 647);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(124, 40);
+            this.pauseButton.TabIndex = 11;
+            this.pauseButton.Text = "Pauze";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
+            // calibrateButton
+            // 
+            this.calibrateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.calibrateButton.Location = new System.Drawing.Point(452, 647);
+            this.calibrateButton.Name = "calibrateButton";
+            this.calibrateButton.Size = new System.Drawing.Size(124, 40);
+            this.calibrateButton.TabIndex = 12;
+            this.calibrateButton.Text = "Kalibreren";
+            this.calibrateButton.UseVisualStyleBackColor = true;
+            // 
+            // timeLable
+            // 
+            this.timeLable.AutoSize = true;
+            this.timeLable.Location = new System.Drawing.Point(849, 403);
+            this.timeLable.Name = "timeLable";
+            this.timeLable.Size = new System.Drawing.Size(58, 13);
+            this.timeLable.TabIndex = 13;
+            this.timeLable.Text = "Sessie Tijd";
+            this.timeLable.Click += new System.EventHandler(this.label3_Click);
+            // 
+            // sesionTimeBox
+            // 
+            this.sesionTimeBox.Location = new System.Drawing.Point(926, 396);
+            this.sesionTimeBox.Name = "sesionTimeBox";
+            this.sesionTimeBox.Size = new System.Drawing.Size(50, 20);
+            this.sesionTimeBox.TabIndex = 14;
+            // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(988, 699);
+            this.Controls.Add(this.sesionTimeBox);
+            this.Controls.Add(this.timeLable);
+            this.Controls.Add(this.calibrateButton);
+            this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.esTextBox);
             this.Controls.Add(this.clTextBox);
@@ -173,6 +222,7 @@
             this.Controls.Add(this.CLChart);
             this.Name = "CLESMonitorViewForm";
             this.Text = "CLES-Monitor";
+            this.Click += new System.EventHandler(this.label3_Click);
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).EndInit();
             this.ResumeLayout(false);
@@ -182,8 +232,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Button startButton;
-        private System.Windows.Forms.Button stopButton;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         public System.Windows.Forms.DataVisualization.Charting.Chart CLChart;
@@ -191,6 +239,12 @@
         public System.Windows.Forms.TextBox clTextBox;
         public System.Windows.Forms.TextBox esTextBox;
         public System.Windows.Forms.RichTextBox richTextBox1;
+        public System.Windows.Forms.Button startButton;
+        public System.Windows.Forms.Button stopButton;
+        public System.Windows.Forms.Button pauseButton;
+        public System.Windows.Forms.Button calibrateButton;
+        private System.Windows.Forms.Label timeLable;
+        public System.Windows.Forms.TextBox sesionTimeBox;
 
     }
 }
