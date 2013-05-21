@@ -13,6 +13,15 @@ using System.Drawing;
 
 namespace CLESMonitor.Controller
 {
+    enum ViewControllerState
+    {
+        Unknown,
+        Started,
+        Paused,
+        Stopped,
+        Calibrating
+    }
+
     public class ViewController
     {
         private const double TIME_WINDOW = 0.5; //in minuten
@@ -33,6 +42,8 @@ namespace CLESMonitor.Controller
         public UpdateConsoleDelegate updateConsoleDelegate;
         public delegate void UpdateSessionTimeDelegate();
         public UpdateSessionTimeDelegate updateSessionTimeDelegate;
+
+        private ViewControllerState currentState;
 
         // Outlets
         Chart CLChart;
@@ -59,20 +70,31 @@ namespace CLESMonitor.Controller
             _view = new CLESMonitorViewForm(this);
 
             // Stel outlets in
-            CLChart = this.View.CLChart;
-            ESChart = this.View.ESChart;
-            clTextBox = this.View.clTextBox;
-            esTextBox = this.View.esTextBox;
-            richTextBox1 = this.View.richTextBox1;
-            sessionTimeBox = this.View.sesionTimeBox;
-            startButton = this.View.startButton;
-            stopButton = this.View.stopButton;
-            calibrateButton = this.View.calibrateButton;
-            pauseButton = this.View.pauseButton;
+            this.setupOutlets();
+
+            // Setup van chart1
+            CLChart.Series.Clear();
+            Series newSeries = new Series("Series1");
+            newSeries.ChartType = SeriesChartType.Spline;
+            newSeries.BorderWidth = 2;
+            newSeries.Color = Color.OrangeRed;
+            newSeries.XValueType = ChartValueType.DateTime;
+            CLChart.Series.Add(newSeries);
+
+            // Setup van chart2
+            ESChart.Series.Clear();
+            Series newSeries2 = new Series("Series1");
+            newSeries2.ChartType = SeriesChartType.Spline;
+            newSeries2.BorderWidth = 2;
+            newSeries2.Color = Color.Blue;
+            newSeries2.XValueType = ChartValueType.DateTime;
+            ESChart.Series.Add(newSeries2);
 
             // Creëer een thread voor de real-time grafiek - nog niet starten
             ThreadStart updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
             updateChartDataThread = new Thread(updateChartDataThreadStart);
+            // Een background thread zal automatisch stoppen voordat het programma sluit
+            updateChartDataThread.IsBackground = true;
 
             // Wijs delegates toe
             updateCLChartDataDelegate += new UpdateChartDataDelegate(UpdateCLChartData);
@@ -83,7 +105,28 @@ namespace CLESMonitor.Controller
             // Stelt de timer initeel in op 0 seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
+
+            this.writeStringToConsole("ViewController State = Stopped");
+            this.currentState = ViewControllerState.Stopped;
         }
+
+        /// <summary>
+        /// Stelt de outlets van de controller in
+        /// </summary>
+        private void setupOutlets()
+        {
+            CLChart = this.View.CLChart;
+            ESChart = this.View.ESChart;
+            clTextBox = this.View.clTextBox;
+            esTextBox = this.View.esTextBox;
+            richTextBox1 = this.View.richTextBox1;
+            sessionTimeBox = this.View.sesionTimeBox;
+            startButton = this.View.startButton;
+            stopButton = this.View.stopButton;
+            calibrateButton = this.View.calibrateButton;
+            pauseButton = this.View.pauseButton;            
+        }
+
         /// <summary>
         /// De loop waarmee iedere seconde alles geupdate wordt
         /// </summary>
@@ -91,9 +134,13 @@ namespace CLESMonitor.Controller
         {
             while (true)
             {
-                //Dit lever een error op wanneer je het scherm sluit
-                CLChart.Invoke(updateCLChartDataDelegate);
-                ESChart.Invoke(updateESChartDataDelegate);
+                // TODO: het updaten van de chart wordt hier gepauzeerd; je wilt
+                // eigenlijk dat er tijdelijk geen metingen/calculaties meer plaatsvinden!
+                if (this.currentState == ViewControllerState.Started)
+                {
+                    CLChart.Invoke(updateCLChartDataDelegate);
+                    ESChart.Invoke(updateESChartDataDelegate);
+                }
                 richTextBox1.Invoke(updateConsoleDelegate);
                 sessionTimeBox.Invoke(updateSessionTimeDelegate);
 
@@ -110,13 +157,22 @@ namespace CLESMonitor.Controller
         }
 
         ///<summary>
-        ///Hiermee wordt in het tekst veld telkens bovenaan een regel toegevoegd. 
+        /// Schrijft als onderdeel van de loop console-berichten. 
         ///</summary>
         private void UpdateConsole()
         {
-            richTextBox1.Select(0, 0);
-            richTextBox1.SelectedText = " Dit staat nu boven aan" + "\n";
         }
+
+        /// <summary>
+        /// Schrijft een string naar de console op het scherm
+        /// </summary>
+        /// <param name="stringToWrite"></param>
+        private void writeStringToConsole(String stringToWrite)
+        {
+            richTextBox1.Select(0, 0);
+            richTextBox1.SelectedText = " " + stringToWrite + "\n";
+        }
+
         /// <summary>
         /// Hiermee wordt de CL-grafiek bijgewerkt
         /// </summary>
@@ -165,9 +221,8 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public void startTrending_Click(object sender, System.EventArgs e)
+        public void startButtonClicked(object sender, System.EventArgs e)
         {
-            bool isRunning = updateChartDataThread.IsAlive;
             // Predefine the viewing area of the chart
             DateTime minValue = DateTime.Now;
             DateTime maxValue = minValue.AddSeconds(TIME_WINDOW*60);
@@ -177,49 +232,34 @@ namespace CLESMonitor.Controller
             ESChart.ChartAreas[0].AxisX.Minimum = minValue.ToOADate();
             ESChart.ChartAreas[0].AxisX.Maximum = maxValue.ToOADate();
 
-            // Setup van chart1
-            CLChart.Series.Clear();
-            Series newSeries = new Series("Series1");
-            newSeries.ChartType = SeriesChartType.Spline;
-            newSeries.BorderWidth = 2;
-            newSeries.Color = Color.OrangeRed;
-            newSeries.XValueType = ChartValueType.DateTime;
-            CLChart.Series.Add(newSeries);
-
-            // Setup van chart2
-            ESChart.Series.Clear();
-            Series newSeries2 = new Series("Series1");
-            newSeries2.ChartType = SeriesChartType.Spline;
-            newSeries2.BorderWidth = 2;
-            newSeries2.Color = Color.Blue;
-            newSeries2.XValueType = ChartValueType.DateTime;
-            ESChart.Series.Add(newSeries2);
-
-            // Zorg ervoor dat de thread gegarandeerd stopt voordat het programma sluit
-            updateChartDataThread.IsBackground = true;
-            // Start de thread 
-            if (!isRunning)
-            {  
-                startTime = DateTime.Now;
-                updateChartDataThread.Start();
-                startButton.Enabled = false;
-                calibrateButton.Enabled = false;
-            }
-            else
+            if (this.currentState == ViewControllerState.Stopped)
             {
-               updateChartDataThread.Resume();
-               
-               startButton.Enabled = false;
+                // Controleer of de thread al actief is
+                if (updateChartDataThread.IsAlive) {
+                    updateChartDataThread.Resume();
+                }
+                else {
+                    startTime = DateTime.Now;
+                    updateChartDataThread.Start();
+                }
             }
+
+            // Pas knoppen aan
+            startButton.Enabled = false;
             pauseButton.Enabled = true;
             stopButton.Enabled = true;
-            
+            calibrateButton.Enabled = false;
+
+            this.writeStringToConsole("ViewController State = Started");
+            this.currentState = ViewControllerState.Started;
         }
         public void pauseButtonClicked()
-        { 
-            //dateChartDataThread.Interrupt()
+        {
             pauseButton.Enabled = false;
             startButton.Enabled = true;
+
+            this.writeStringToConsole("ViewController State = Pauzed");
+            this.currentState = ViewControllerState.Paused;
         }
        
         public void stopButtonClicked()
@@ -231,11 +271,14 @@ namespace CLESMonitor.Controller
             startButton.Enabled = true;
            // updateChartDataThread.Interrupt();
            // updateChartDataThread.
+
+            this.writeStringToConsole("ViewController State = Stopped");
+            this.currentState = ViewControllerState.Stopped;
         }
+
         public void resetTimer() 
         {
            sessionTimeBox.Text = emptyTimer.ToString();
         }
-       
     }
 }

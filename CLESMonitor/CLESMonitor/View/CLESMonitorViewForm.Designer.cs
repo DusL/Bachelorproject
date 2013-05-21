@@ -29,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
@@ -50,58 +50,58 @@
             this.calibrateButton = new System.Windows.Forms.Button();
             this.timeLable = new System.Windows.Forms.Label();
             this.sesionTimeBox = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // CLChart
             // 
-            this.CLChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            chartArea1.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.CLChart.Legends.Add(legend1);
-            this.CLChart.Location = new System.Drawing.Point(12, 12);
+            chartArea5.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea5);
+            this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend5.Name = "Legend1";
+            this.CLChart.Legends.Add(legend5);
+            this.CLChart.Location = new System.Drawing.Point(3, 3);
             this.CLChart.Name = "CLChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.CLChart.Series.Add(series1);
-            this.CLChart.Size = new System.Drawing.Size(456, 369);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.CLChart.Series.Add(series5);
+            this.CLChart.Size = new System.Drawing.Size(474, 376);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title1.Name = "CL-Waarden";
-            title1.Text = "CL-Waarden";
-            this.CLChart.Titles.Add(title1);
+            title5.Name = "CL-Waarden";
+            title5.Text = "CL-Waarden";
+            this.CLChart.Titles.Add(title5);
             // 
             // ESChart
             // 
-            this.ESChart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea2.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.ESChart.Legends.Add(legend2);
-            this.ESChart.Location = new System.Drawing.Point(520, 12);
+            chartArea6.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea6);
+            this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend6.Name = "Legend1";
+            this.ESChart.Legends.Add(legend6);
+            this.ESChart.Location = new System.Drawing.Point(483, 3);
             this.ESChart.Name = "ESChart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.ESChart.Series.Add(series2);
-            this.ESChart.Size = new System.Drawing.Size(456, 369);
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.ESChart.Series.Add(series6);
+            this.ESChart.Size = new System.Drawing.Size(474, 376);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title2.Name = "ES-waarden";
-            title2.Text = "ES-Waarden";
-            this.ESChart.Titles.Add(title2);
+            title6.Name = "ES-waarden";
+            title6.Text = "ES-Waarden";
+            this.ESChart.Titles.Add(title6);
             // 
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.startButton.Location = new System.Drawing.Point(12, 647);
+            this.startButton.Location = new System.Drawing.Point(12, 660);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(124, 40);
             this.startButton.TabIndex = 3;
@@ -113,7 +113,7 @@
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(852, 647);
+            this.stopButton.Location = new System.Drawing.Point(848, 660);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(124, 40);
             this.stopButton.TabIndex = 4;
@@ -123,8 +123,9 @@
             // 
             // label1
             // 
+            this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 403);
+            this.label1.Location = new System.Drawing.Point(9, 403);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(58, 13);
             this.label1.TabIndex = 5;
@@ -132,8 +133,9 @@
             // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(517, 403);
+            this.label2.Location = new System.Drawing.Point(857, 403);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 13);
             this.label2.TabIndex = 6;
@@ -141,20 +143,24 @@
             // 
             // clTextBox
             // 
-            this.clTextBox.Location = new System.Drawing.Point(86, 400);
+            this.clTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.clTextBox.Location = new System.Drawing.Point(73, 400);
             this.clTextBox.Name = "clTextBox";
             this.clTextBox.Size = new System.Drawing.Size(50, 20);
             this.clTextBox.TabIndex = 7;
             // 
             // esTextBox
             // 
-            this.esTextBox.Location = new System.Drawing.Point(594, 403);
+            this.esTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.esTextBox.Location = new System.Drawing.Point(922, 400);
             this.esTextBox.Name = "esTextBox";
             this.esTextBox.Size = new System.Drawing.Size(50, 20);
             this.esTextBox.TabIndex = 8;
             // 
             // richTextBox1
             // 
+            this.richTextBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.richTextBox1.Location = new System.Drawing.Point(86, 459);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
@@ -166,7 +172,7 @@
             // 
             this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pauseButton.Enabled = false;
-            this.pauseButton.Location = new System.Drawing.Point(156, 647);
+            this.pauseButton.Location = new System.Drawing.Point(142, 660);
             this.pauseButton.Name = "pauseButton";
             this.pauseButton.Size = new System.Drawing.Size(124, 40);
             this.pauseButton.TabIndex = 11;
@@ -176,8 +182,8 @@
             // 
             // calibrateButton
             // 
-            this.calibrateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.calibrateButton.Location = new System.Drawing.Point(452, 647);
+            this.calibrateButton.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.calibrateButton.Location = new System.Drawing.Point(436, 660);
             this.calibrateButton.Name = "calibrateButton";
             this.calibrateButton.Size = new System.Drawing.Size(124, 40);
             this.calibrateButton.TabIndex = 12;
@@ -186,27 +192,45 @@
             // 
             // timeLable
             // 
+            this.timeLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.timeLable.AutoSize = true;
-            this.timeLable.Location = new System.Drawing.Point(849, 403);
+            this.timeLable.Location = new System.Drawing.Point(9, 627);
             this.timeLable.Name = "timeLable";
             this.timeLable.Size = new System.Drawing.Size(58, 13);
             this.timeLable.TabIndex = 13;
             this.timeLable.Text = "Sessie Tijd";
-            this.timeLable.Click += new System.EventHandler(this.label3_Click);
             // 
             // sesionTimeBox
             // 
-            this.sesionTimeBox.Location = new System.Drawing.Point(926, 396);
+            this.sesionTimeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sesionTimeBox.Location = new System.Drawing.Point(73, 624);
             this.sesionTimeBox.Name = "sesionTimeBox";
-            this.sesionTimeBox.Size = new System.Drawing.Size(50, 20);
+            this.sesionTimeBox.Size = new System.Drawing.Size(82, 20);
             this.sesionTimeBox.TabIndex = 14;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.CLChart, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.ESChart, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 12);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(960, 382);
+            this.tableLayoutPanel1.TabIndex = 15;
             // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ClientSize = new System.Drawing.Size(988, 699);
+            this.ClientSize = new System.Drawing.Size(984, 712);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.sesionTimeBox);
             this.Controls.Add(this.timeLable);
             this.Controls.Add(this.calibrateButton);
@@ -218,13 +242,13 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.stopButton);
             this.Controls.Add(this.startButton);
-            this.Controls.Add(this.ESChart);
-            this.Controls.Add(this.CLChart);
+            this.MinimumSize = new System.Drawing.Size(800, 600);
             this.Name = "CLESMonitorViewForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CLES-Monitor";
-            this.Click += new System.EventHandler(this.label3_Click);
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).EndInit();
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -245,6 +269,7 @@
         public System.Windows.Forms.Button calibrateButton;
         private System.Windows.Forms.Label timeLable;
         public System.Windows.Forms.TextBox sesionTimeBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
 
     }
 }
