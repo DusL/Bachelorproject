@@ -14,6 +14,7 @@ namespace CLESMonitor.Model
         public int lipValue; //level of information processing
         public InformationDomain[] domains; //een array van enum representaties van domeinen
         public double duration; //in seconden
+        public string description;
 
         private string name;
 
