@@ -3,23 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CLESMonitor.Model.PRLDomain;
 
 namespace CLESMonitor.Model
 {
-    //TODO: onderstaande is domein-specifiek, verkeerde plek!
-    public enum InformationDomain
-    {
-        InformationDomainUnknown,
-        InformationDomainUsingInterface,
-        InformationDomainExternalContact
-    }
-    
 
     public class CTLTask
     {
         public double moValue; //mental occupancy
         public int lipValue; //level of information processing
-        public InformationDomain informationDomain;
+        public InformationDomain[] domains; //een array van enum representaties van domeinen
         public double duration; //in seconden
 
         private string name;
@@ -32,6 +25,8 @@ namespace CLESMonitor.Model
         {
             name = _name;
         }
+
+       
 
         /// <summary>
         /// ToString methode
@@ -51,9 +46,9 @@ namespace CLESMonitor.Model
         {
             return this.moValue;
         }
-        public InformationDomain getInfoDomain()
+        public InformationDomain[] getInfoDomain()
         {
-            return this.informationDomain;
+            return this.domains;
         }
         public double getDuration()
         {
