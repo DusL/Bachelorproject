@@ -21,6 +21,7 @@ namespace CLESMonitor
 
             var controller = new ViewController();
             controller.clModel = new CTLModel();
+            controller.esModel = new FuzzyModel();
             
             Application.Run(controller.View);
         }

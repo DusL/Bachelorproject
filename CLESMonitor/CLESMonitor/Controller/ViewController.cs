@@ -135,7 +135,7 @@ namespace CLESMonitor.Controller
         public void UpdateESChartData()
         {
             // Bereken de nieuwste waarde (random op dit moment)
-            double newDataPoint = random.Next(5, 15);
+            double newDataPoint = this.esModel.calculateModelValue();
 
             // Update de grafiek en TextBox
             this.UpdateChartData(ESChart, newDataPoint, DateTime.Now);
