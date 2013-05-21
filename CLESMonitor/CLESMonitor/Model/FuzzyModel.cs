@@ -9,7 +9,7 @@ namespace CLESMonitor.Model
     class FuzzyModel : ESModel
     {
         private int heartRate; //in slagen/minuut?
-        private int skinConductance; //in Ohm?
+        private int skinConductance; //in siemens
 
         public override double calculateModelValue()
         {
