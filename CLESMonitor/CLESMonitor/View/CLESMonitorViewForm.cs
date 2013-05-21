@@ -23,7 +23,7 @@ namespace CLESMonitor.View
 
         private void startButton_Click(object sender, EventArgs e)
         {
-           _controller.startTrending_Click(null, null);
+            _controller.startButtonClicked(null, null);
         }
 
         private void stopButton_Click(object sender, EventArgs e)
