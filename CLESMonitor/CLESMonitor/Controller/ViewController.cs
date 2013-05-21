@@ -59,16 +59,7 @@ namespace CLESMonitor.Controller
             _view = new CLESMonitorViewForm(this);
 
             // Stel outlets in
-            CLChart = this.View.CLChart;
-            ESChart = this.View.ESChart;
-            clTextBox = this.View.clTextBox;
-            esTextBox = this.View.esTextBox;
-            richTextBox1 = this.View.richTextBox1;
-            sessionTimeBox = this.View.sesionTimeBox;
-            startButton = this.View.startButton;
-            stopButton = this.View.stopButton;
-            calibrateButton = this.View.calibrateButton;
-            pauseButton = this.View.pauseButton;
+            this.setupOutlets();
 
             // Creëer een thread voor de real-time grafiek - nog niet starten
             ThreadStart updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
@@ -84,6 +75,24 @@ namespace CLESMonitor.Controller
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
         }
+
+        /// <summary>
+        /// Stelt de outlets van de controller in
+        /// </summary>
+        private void setupOutlets()
+        {
+            CLChart = this.View.CLChart;
+            ESChart = this.View.ESChart;
+            clTextBox = this.View.clTextBox;
+            esTextBox = this.View.esTextBox;
+            richTextBox1 = this.View.richTextBox1;
+            sessionTimeBox = this.View.sesionTimeBox;
+            startButton = this.View.startButton;
+            stopButton = this.View.stopButton;
+            calibrateButton = this.View.calibrateButton;
+            pauseButton = this.View.pauseButton;            
+        }
+
         /// <summary>
         /// De loop waarmee iedere seconde alles geupdate wordt
         /// </summary>
@@ -91,7 +100,6 @@ namespace CLESMonitor.Controller
         {
             while (true)
             {
-                //Dit lever een error op wanneer je het scherm sluit
                 CLChart.Invoke(updateCLChartDataDelegate);
                 ESChart.Invoke(updateESChartDataDelegate);
                 richTextBox1.Invoke(updateConsoleDelegate);
