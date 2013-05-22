@@ -10,11 +10,13 @@ namespace CLESMonitor.Model
     class CTLModel : CLModel
     {
         private PRLDomain modelDomain;
+        private XMLFileTaskParser parser;
 
         public CTLModel()
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
+            parser = new XMLFileTaskParser();
         }
 
         public override double calculateModelValue()

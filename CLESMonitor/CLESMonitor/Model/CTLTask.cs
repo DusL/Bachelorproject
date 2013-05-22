@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CLESMonitor.Model.PRLDomain;
+using CLESMonitor.Model;
 
 namespace CLESMonitor.Model
 {
