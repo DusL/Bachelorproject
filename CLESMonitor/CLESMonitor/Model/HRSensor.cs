@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
-    class GSRSensor
+    class HRSensor
     {
-        public double sensorValue; //conductance, in siemens
+        public double sensorValue; //heart rate, in slagen/minuut
     }
 }

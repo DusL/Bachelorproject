@@ -52,6 +52,7 @@
     <Compile Include="Model\ESModel.cs" />
     <Compile Include="Model\FuzzyModel.cs" />
     <Compile Include="Model\GSRSensor.cs" />
+    <Compile Include="Model\HRSensor.cs" />
     <Compile Include="Model\PRLDomain.cs" />
     <Compile Include="View\CLESMonitorViewForm.cs">
       <SubType>Form</SubType>
