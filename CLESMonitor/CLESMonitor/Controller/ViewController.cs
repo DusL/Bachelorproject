@@ -56,6 +56,11 @@ namespace CLESMonitor.Controller
         Button stopButton;
         Button pauseButton;
         Button calibrateButton;
+        // Sensoren
+        TrackBar hrTrackbar;
+        Label hrValueLabel;
+        TrackBar gsrTrackbar;
+        Label gsrValueLabel;
        
         public CLESMonitorViewForm View
         {
@@ -106,6 +111,9 @@ namespace CLESMonitor.Controller
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
 
+            hrValueLabel.Text = hrTrackbar.Value.ToString();
+            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
         }
@@ -124,7 +132,11 @@ namespace CLESMonitor.Controller
             startButton = this.View.startButton;
             stopButton = this.View.stopButton;
             calibrateButton = this.View.calibrateButton;
-            pauseButton = this.View.pauseButton;            
+            pauseButton = this.View.pauseButton;
+            hrTrackbar = this.View.hrTrackBar;
+            hrValueLabel = this.View.hrValueLabel;
+            gsrTrackbar = this.View.gsrTrackBar;
+            gsrValueLabel = this.View.gsrValueLabel;
         }
 
         /// <summary>
@@ -274,6 +286,44 @@ namespace CLESMonitor.Controller
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
+        }
+
+        public void HRValueChangedInManualContext(object sender)
+        {
+            TrackBar trackBar = (TrackBar)sender;
+            int trackBarValue = trackBar.Value;
+            hrValueLabel.Text = trackBarValue.ToString();
+        }
+
+        public void increaseHRValueInManualContext()
+        {
+            hrTrackbar.Value = hrTrackbar.Value + 10;
+            hrValueLabel.Text = hrTrackbar.Value.ToString();
+        }
+
+        public void decreaseHRValueInManualContext()
+        {
+            hrTrackbar.Value = hrTrackbar.Value - 10;
+            hrValueLabel.Text = hrTrackbar.Value.ToString();
+        }
+
+        public void GSRValueChangedInManualContext(object sender)
+        {
+            TrackBar trackBar = (TrackBar)sender;
+            int trackBarValue = trackBar.Value;
+            gsrValueLabel.Text = trackBarValue.ToString();
+        }
+
+        public void increaseGSRValueInManualContext()
+        {
+            gsrTrackbar.Value = gsrTrackbar.Value + 10;
+            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+        }
+
+        public void decreaseGSRValueInManualContext()
+        {
+            gsrTrackbar.Value = gsrTrackbar.Value - 10;
+            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
         }
 
         public void resetTimer() 
