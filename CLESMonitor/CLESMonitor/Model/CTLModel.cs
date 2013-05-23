@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 //using System.
 
 namespace CLESMonitor.Model
@@ -16,12 +17,28 @@ namespace CLESMonitor.Model
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
-            parser = new XMLFileTaskParser();
+            parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
         }
 
-        public override double calculateModelValue()
-        {
-            // We genereren op dit moment random waarden
+        public override double calculateModelValue(DateTime time)
+        {         
+            //Haal voor de huidige seconde alle gebeurtenissen binnen
+            int sec = time.Minute * 60 + time.Second;
+            XmlNodeList actions = parser.getActionsForSecond(sec);
+            //En splitst deze in events en tasks
+            XmlNode[] events = parser.getEvents(actions);
+            XmlNode[] tasks = parser.getEvents(actions);
+            CTLTask[] CTLtasks = new CTLTask[tasks.Length];
+            if (tasks.Length != 0)
+            {
+                for (int i = 0; i <= tasks.Length; i++)
+                {
+                    string identifier = parser.taskIdentifier(tasks[i]);
+                    CTLtasks[i] = modelDomain.getTaskByIdentifier(identifier);
+                }
+            }
+
+            // We genereren op dit moment nog random waarden
             Random random = new Random();
             return random.Next(0, 5);
         }
@@ -80,7 +97,6 @@ namespace CLESMonitor.Model
         {
             return 0;
         }
-
 
         /// <summary>
         /// Berekent de gemiddelde genormaliseerde lip-waarde over het huidige time frame.
