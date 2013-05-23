@@ -34,6 +34,7 @@ namespace CLESMonitor.Controller
         private Random random = new Random();
         private DateTime startTime;
         private TimeSpan emptyTimer;
+        private TimeSpan currentSessionTime;
 
         public delegate void UpdateChartDataDelegate();
         public UpdateChartDataDelegate updateCLChartDataDelegate;
@@ -164,7 +165,7 @@ namespace CLESMonitor.Controller
         /// </summary>
         private void UpdateSessionTime()
         {
-            TimeSpan currentSessionTime =  DateTime.Now - startTime;
+            currentSessionTime =  DateTime.Now - startTime;
             sessionTimeBox.Text = currentSessionTime.ToString();
         }
 
@@ -190,12 +191,10 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void UpdateCLChartData()
         {
-            //Haal de sessieduur op
-            String sessionTime = sessionTimeBox.Text;
-            DateTime time = Convert.ToDateTime(sessionTime);
-
+           
             // Bereken de nieuwste waarde
-            double newDataPoint = this.clModel.calculateModelValue(time);
+            
+            double newDataPoint = this.clModel.calculateModelValue(currentSessionTime);
 
             // Update de grafiek en TextBox
             this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);

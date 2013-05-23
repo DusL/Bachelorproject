@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+
 //using System.
 
 namespace CLESMonitor.Model
@@ -12,6 +14,7 @@ namespace CLESMonitor.Model
     {
         private PRLDomain modelDomain;
         private XMLFileTaskParser parser;
+        private ArrayList currentActiveTasks;
 
         public CTLModel()
         {
@@ -20,27 +23,66 @@ namespace CLESMonitor.Model
             parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
         }
 
-        public override double calculateModelValue(DateTime time)
-        {         
-            //Haal voor de huidige seconde alle gebeurtenissen binnen
-            int sec = time.Minute * 60 + time.Second;
-            XmlNodeList actions = parser.getActionsForSecond(sec);
+        public override double calculateModelValue(TimeSpan time)
+        {
+            parser.findTasks(time);
+
             //En splitst deze in events en tasks
-            XmlNode[] events = parser.getEvents(actions);
-            XmlNode[] tasks = parser.getEvents(actions);
-            CTLTask[] CTLtasks = new CTLTask[tasks.Length];
-            if (tasks.Length != 0)
-            {
-                for (int i = 0; i <= tasks.Length; i++)
-                {
-                    string identifier = parser.taskIdentifier(tasks[i]);
-                    CTLtasks[i] = modelDomain.getTaskByIdentifier(identifier);
-                }
-            }
+            //XmlNode[] events = parser.getEvents(actions);
+            ArrayList tasksBegan = parser.tasksBegan();
+            ArrayList tasksEnded = parser.tasksEnded();
+            Console.WriteLine("Hier moet iets komen "+ String.Join(",", tasksBegan));
+            Console.WriteLine("Hier moet iets komen " + String.Join(",", tasksEnded));
+            ArrayList CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
+            currentActiveTasks.AddRange(CTLtasksStartedThisSecond);
+
+
+            //Bereken alle benodigde waarden
+            /*double lip = calculateOverallLip(CTLtasks);
+            double mo = calculateOverallMo(CTLtasks);
+            double tss = calculateTSS(CTLtasks);*/
+
 
             // We genereren op dit moment nog random waarden
             Random random = new Random();
             return random.Next(0, 5);
+        }
+        public XmlNodeList getActions(TimeSpan time) 
+        {
+            //Haal voor de huidige seconde alle gebeurtenissen binnen
+            
+            //int sec = time.Minute * 60 + time.Second;
+            return parser.getActionsForSecond((int)Math.Floor(time.TotalSeconds));
+        }
+        public XmlNode[] getEvents(XmlNodeList list)
+        {
+            return parser.getEvents(list);
+        }
+        public ArrayList getTasks(XmlNodeList list)
+        {
+            return parser.getTasks(list);
+        }
+
+
+
+        /// <summary>
+        /// Maak van een array van string identifiers een ArrayList van CTLtasks
+        /// </summary>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
+        public ArrayList getCTLTasksPerSecond(ArrayList tasks)
+        { 
+            //Zet alle CTLTask objecten in een array
+            ArrayList CTLtasks = new ArrayList();
+            if (tasks.Count != 0)
+            {
+                for (int i = 0; i <= tasks.Count; i++)
+                {
+                    //string identifier = parser.taskIdentifier(tasks[i]);
+                    CTLtasks.Add(modelDomain.getTaskByIdentifier((string)tasks[i]));
+                }
+            }
+            return CTLtasks;
         }
 
         /// <summary>
@@ -137,6 +179,12 @@ namespace CLESMonitor.Model
                 i++;
             }
             return moTimesDuration / lengthTimeFrame;
+        }
+
+        //TODO
+        public double calculateTSS(CTLTask[] tasks)
+        { 
+            return 0;
         }
     }
 }

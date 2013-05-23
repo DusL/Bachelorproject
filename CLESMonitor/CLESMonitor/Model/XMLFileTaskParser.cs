@@ -21,6 +21,7 @@ namespace CLESMonitor.Model
 {
     public class XMLFileTaskParser
     {
+        private ArrayList taskActionsOccured;
         private XmlNodeList seconds;
         /// <summary>
         /// 1 scenario is 1 file
@@ -28,17 +29,17 @@ namespace CLESMonitor.Model
         /// </summary>
         public XMLFileTaskParser(String path)
         {
-
-            XmlDocument xmlDoc = new XmlDocument(); //* create an xml document object.
-            xmlDoc.Load(path); //* load the XML document from the specified file
+            // Laad het gewenste Xml document in via het gespecificeerde pad.
+            XmlDocument xmlDoc = new XmlDocument(); 
+            xmlDoc.Load(path); 
 
             // Haal iedere scenarion in de file binnen.
             XmlNodeList scenario = xmlDoc.GetElementsByTagName("scenario");
-            //Console.WriteLine(scenario[0].Name);
-           // Console.WriteLine(second[0].Name);
 
             //Haal iedere sconde die in het scenario gedefinieerd is binnen
             seconds = xmlDoc.GetElementsByTagName("second");
+
+
             
         }
 
@@ -58,8 +59,9 @@ namespace CLESMonitor.Model
             XmlNode[] events = new XmlNode[0];
             foreach (XmlNode node in actions)
             {
-                if (node.GetType().Equals("event"))
+                if (node.Name.Equals("event"))
                 {
+                    
                     events[events.Count()] = node;
                 }
             }
@@ -71,18 +73,70 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="actions"></param>
         /// <returns>Een XmlNode array met taken</returns>
-        public XmlNode[] getTasks(XmlNodeList actions)
+        public ArrayList getTasks(XmlNodeList actions)
         {
-            XmlNode[] tasks = new XmlNode[0];
+            ArrayList tasks = new ArrayList();
             foreach (XmlNode node in actions)
             {
-                if (node.GetType().Equals("task"))
-                {
-                    tasks[tasks.Count()] = node;
+                if (node.Name.Equals("task"))
+                {   
+                    Console.WriteLine("taakjes");
+                    //Array.Resize(ref tasks, tasks.Length + 1);
+                    tasks.Add(node);
                 }
             }
             return tasks;
         }
+        public void findTasks(TimeSpan timeSpan)
+        {
+            XmlNodeList actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
+            taskActionsOccured = getTasks(actions);
+            Console.WriteLine(taskActionsOccured.Count);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>Een arraylist met strings, de identifiers van tasks</returns>
+        public ArrayList tasksBegan()
+        {
+            ArrayList tasksBegan = new ArrayList();
+            foreach (XmlNode node in taskActionsOccured)
+            {
+                XmlNodeList children = node.ChildNodes;
+                foreach (XmlNode c in node.ChildNodes)
+                {
+                    Console.WriteLine(c.Name + " " + c.InnerText);
+                    if (c.Name.Equals("action") & c.InnerText.Equals("started"))
+                    {
+                        tasksBegan.Add(node.InnerText);
+                    }
+                }
+            }
+
+            return tasksBegan;     
+        }
+
+        public ArrayList tasksEnded()
+        {
+           ArrayList tasksEnded = new ArrayList();
+            foreach (XmlNode node in taskActionsOccured)
+            {
+                XmlNodeList children = node.ChildNodes;
+                foreach (XmlNode c in node.ChildNodes)
+                {
+                    if (c.Name.Equals("action") & c.InnerText.Equals("stopped"))
+                    {
+                        Console.WriteLine("Hoppa");
+                        
+                        tasksEnded.Add(node.InnerText);
+                    }
+                }
+            }
+
+            return tasksEnded;
+        }
+
+        
         /// <summary>
         /// Bepaald bij welk event een task hoort.
         /// </summary>
@@ -104,9 +158,9 @@ namespace CLESMonitor.Model
             string identifier = ""; 
             foreach (XmlNode node in childNodes)
             {
-                if (node.GetType().Equals("name"))
+                if (node.Name.Equals("name"))
                 {
-                    identifier = node.Value;
+                    identifier = node.InnerText;
                 }
             }
             return identifier;

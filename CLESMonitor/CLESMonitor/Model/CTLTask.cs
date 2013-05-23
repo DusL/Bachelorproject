@@ -14,6 +14,8 @@ namespace CLESMonitor.Model
         public int lipValue; //level of information processing
         public InformationDomain[] domains; //een array van enum representaties van domeinen
         public double duration; //in seconden
+        public DateTime startTime;
+        public DateTime endTime;
         public string description;
 
         private string name;
@@ -54,6 +56,31 @@ namespace CLESMonitor.Model
         public double getDuration()
         {
             return this.duration;
+        }
+
+        public void setDuration(double d)
+        {
+            this.duration = d;
+        }
+        public void setInformationDomain(InformationDomain[] dom)
+        {
+            this.domains = dom;
+        }
+        public void setMO(double m)
+        {
+            this.moValue = m;
+        }
+        public void setLip(int lip)
+        {
+            this.lipValue = lip;
+        }
+        public void setStartTime(DateTime time)
+        {
+            this.startTime = time;
+        }
+        public void setEndTime(DateTime time)
+        {
+            this.endTime = time;
         }
 
     }

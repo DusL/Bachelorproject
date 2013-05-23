@@ -22,8 +22,7 @@ namespace CLESMonitor.Model
         
        public CTLTask getTaskByIdentifier(string identifier)
         {
-            taskArray = new ArrayList();
-            CTLTask task;
+             CTLTask task;
 
             if (identifier.Equals("ARI_UIT"))
             {

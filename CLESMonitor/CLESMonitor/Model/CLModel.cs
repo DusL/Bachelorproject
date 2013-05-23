@@ -15,7 +15,7 @@ namespace CLESMonitor.Model
         /// Bereken opnieuw de model-waarde
         /// </summary>
         /// <returns>De model-waarde</returns>
-        public abstract double calculateModelValue(DateTime time);
+        public abstract double calculateModelValue(TimeSpan time);
         
     }
 }
