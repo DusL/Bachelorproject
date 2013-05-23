@@ -35,6 +35,10 @@ namespace CLESMonitor.Controller
         private DateTime startTime;
         private TimeSpan emptyTimer;
 
+        // Verwijzing naar sensoren voor handmatige input
+        public HRSensor hrSensor;
+        public GSRSensor gsrSensor;
+
         public delegate void UpdateChartDataDelegate();
         public UpdateChartDataDelegate updateCLChartDataDelegate;
         public UpdateChartDataDelegate updateESChartDataDelegate;
@@ -202,7 +206,11 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void UpdateESChartData()
         {
-            // Bereken de nieuwste waarde (random op dit moment)
+            // Gesimuleerde sensor-data doorgeven
+            //hrSensor.sensorValue = hrTrackbar.Value;
+            gsrSensor.sensorValue = gsrTrackbar.Value;
+
+            // Bereken de nieuwste waarde
             double newDataPoint = this.esModel.calculateModelValue();
 
             // Update de grafiek en TextBox
@@ -246,6 +254,8 @@ namespace CLESMonitor.Controller
 
             if (this.currentState == ViewControllerState.Stopped)
             {
+                esModel.startSession();
+
                 // Controleer of de thread al actief is
                 if (updateChartDataThread.IsAlive) {
                     updateChartDataThread.Resume();

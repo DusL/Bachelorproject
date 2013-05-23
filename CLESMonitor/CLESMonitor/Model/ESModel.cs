@@ -13,5 +13,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <returns>De model-waarde</returns>
         public abstract double calculateModelValue();
+
+        public abstract void startSession();
     }
 }

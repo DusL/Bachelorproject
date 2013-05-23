@@ -49,15 +49,18 @@ namespace CLESMonitor.Model
             GSRMax = calibrationGSR.Max();
         }
 
+        public override void startSession()
+        {
+            hrSensor.setUpSerialPort();
+        }
+
         public override double calculateModelValue()
         {
             // Pak de waarden uit de sensoren
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 
-            // We geven op dit moment random waarden terug
-            Random random = new Random();
-            return random.Next(5, 10);
+            return currentHR;
         }
 
         private double calculateNormalisedHR(double HRValue)

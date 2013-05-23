@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
-    class GSRSensor
+    public class GSRSensor
     {
         public double sensorValue; //conductance, in siemens
     }
