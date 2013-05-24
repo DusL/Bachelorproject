@@ -21,6 +21,7 @@ namespace CLESMonitor.Model
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
             parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
+            currentActiveTasks = new ArrayList();
         }
 
         public override double calculateModelValue(TimeSpan time)
@@ -46,6 +47,8 @@ namespace CLESMonitor.Model
             // We genereren op dit moment nog random waarden
             Random random = new Random();
             return random.Next(0, 5);
+
+
         }
         public XmlNodeList getActions(TimeSpan time) 
         {
@@ -84,7 +87,21 @@ namespace CLESMonitor.Model
             }
             return CTLtasks;
         }
+        //TODO: Wat doen we met de naamgeving in de constructor van de nieuwe taak?
+        //TODO: Opsplitsen task1,task2.
+        public CTLTask createMultitask(CTLTask task1, CTLTask task2)
+        {
+            CTLTask newTask = new CTLTask("MultiTask");
+            newTask.setMO(multitaskMO(task1, task2));
+            newTask.setLip(multitaskLip(task1, task2));
+            newTask.setInformationDomain(multitaskDomain(task1, task2));
+            //Krijgen nu TimeSpan binnen maar willen double hebben.
+            /*newTask.setDuration(multitaskDuration(task1, task2));
+            newTask.setEndTime(findEndTimeMultitask);
+            newTask.setStartTime(findStartTimeMultitask);*/
+            return newTask;
 
+        }
         /// <summary>
         /// Stelt de array van domeinen van een nieuwe taak gelijk aan de domeinen van task1, task2 gecombineerd.
         /// Hierbij worden overlappende domeinen slechts 1 maal in de nieuwe array opgenomen
@@ -125,7 +142,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns></returns>
+        /// <returns>Een nieuwe Lip waarde voor een nieuwe taak</returns>
         public int multitaskLip(CTLTask task1, CTLTask task2)
         {
             int Lip1 = task1.getLip();
@@ -135,9 +152,28 @@ namespace CLESMonitor.Model
         
         //TODO: Maakt gebruik van de start en eind tijden van taken.
         //Deze zijn nu echter nog niet gedefinieerd.
-        public double multitaskDuration(CTLTask task1, CTLTask task2)
+        public TimeSpan multitaskDuration(CTLTask task1, CTLTask task2)
         {
-            return 0;
+            TimeSpan duration = findEndTimeMultitask(task1, task2) - findStartTimeMultitask(task1, task2);
+            return duration;
+        }
+        
+        public DateTime findStartTimeMultitask(CTLTask task1, CTLTask task2)
+        {
+            if (task1.startTime < task2.startTime)
+            {
+                return task2.startTime;
+            }
+            return task1.startTime;
+        }
+
+        public DateTime findEndTimeMultitask(CTLTask task1, CTLTask task2)
+        {
+            if (task1.endTime < task2.endTime)
+            {
+                return task1.endTime;
+            }
+            return task2.endTime;
         }
 
         /// <summary>
