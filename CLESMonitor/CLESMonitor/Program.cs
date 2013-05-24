@@ -24,8 +24,13 @@ namespace CLESMonitor
 
             HRSensor hrSensor = new HRSensor();
             GSRSensor gsrSensor = new GSRSensor();
-            controller.esModel = new FuzzyModel(hrSensor, gsrSensor);
+            XMLFileTaskParser parser = new XMLFileTaskParser();
+  
+            controller.parser = parser;
+            CTLModel ctlModel = (CTLModel)controller.clModel;
+            ctlModel.parser = parser;
 
+            controller.esModel = new FuzzyModel(hrSensor, gsrSensor);
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;
 

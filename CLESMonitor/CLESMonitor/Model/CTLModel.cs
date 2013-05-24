@@ -13,25 +13,25 @@ namespace CLESMonitor.Model
     class CTLModel : CLModel
     {
         private PRLDomain modelDomain;
-        private XMLFileTaskParser parser;
+        public XMLFileTaskParser parser;
         private ArrayList currentActiveTasks;
 
         public CTLModel()
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
-            parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
+            //parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
             currentActiveTasks = new ArrayList();
         }
 
         public override double calculateModelValue(TimeSpan time)
         {
-            parser.findTasks(time);
+            
 
             //En splitst deze in events en tasks
-            //XmlNode[] events = parser.getEvents(actions);
-            ArrayList tasksBegan = parser.tasksBegan();
-            ArrayList tasksEnded = parser.tasksEnded();
+
+            ArrayList tasksBegan = parser.tasksBegan(time);
+            ArrayList tasksEnded = parser.tasksEnded(time);
             Console.WriteLine("Hier moet iets komen "+ String.Join(",", tasksBegan));
             Console.WriteLine("Hier moet iets komen " + String.Join(",", tasksEnded));
             ArrayList CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
@@ -50,22 +50,14 @@ namespace CLESMonitor.Model
 
 
         }
-        public XmlNodeList getActions(TimeSpan time) 
+        public ArrayList getActions(TimeSpan time) 
         {
             //Haal voor de huidige seconde alle gebeurtenissen binnen
             
             //int sec = time.Minute * 60 + time.Second;
             return parser.getActionsForSecond((int)Math.Floor(time.TotalSeconds));
         }
-        public XmlNode[] getEvents(XmlNodeList list)
-        {
-            return parser.getEvents(list);
-        }
-        public ArrayList getTasks(XmlNodeList list)
-        {
-            return parser.getTasks(list);
-        }
-
+     
 
 
         /// <summary>
@@ -79,7 +71,7 @@ namespace CLESMonitor.Model
             ArrayList CTLtasks = new ArrayList();
             if (tasks.Count != 0)
             {
-                for (int i = 0; i <= tasks.Count; i++)
+                for (int i = 0; i <= tasks.Count-1; i++)
                 {
                     //string identifier = parser.taskIdentifier(tasks[i]);
                     CTLtasks.Add(modelDomain.getTaskByIdentifier((string)tasks[i]));

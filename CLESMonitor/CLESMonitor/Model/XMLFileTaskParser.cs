@@ -23,11 +23,17 @@ namespace CLESMonitor.Model
     {
         private ArrayList taskActionsOccured;
         private XmlNodeList seconds;
+        private bool endOfFileReached;
         /// <summary>
         /// 1 scenario is 1 file
         /// 
         /// </summary>
-        public XMLFileTaskParser(String path)
+        public XMLFileTaskParser()
+        {
+
+        }
+
+        public void readPath(String path)
         {
             // Laad het gewenste Xml document in via het gespecificeerde pad.
             XmlDocument xmlDoc = new XmlDocument(); 
@@ -39,13 +45,26 @@ namespace CLESMonitor.Model
             //Haal iedere sconde die in het scenario gedefinieerd is binnen
             seconds = xmlDoc.GetElementsByTagName("second");
 
-
-            
+            endOfFileReached = false;
         }
 
-        public XmlNodeList getActionsForSecond(int currentSecond)
+        public ArrayList getActionsForSecond(int currentSecond)
         {
-            return this.seconds[currentSecond].ChildNodes;
+            
+            ArrayList newList = new ArrayList();
+            if (currentSecond < seconds.Count )
+            {
+                foreach (XmlNode node in this.seconds[currentSecond].ChildNodes)
+                {
+                    newList.Add(node);
+                }
+            }
+            else 
+            {
+                endOfFileReached = true;
+            }
+            
+            return newList; 
         }
         /// <summary>
         /// Bepaald welke events voorkomen in een XmlNodeList. 
@@ -54,15 +73,15 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="actions"></param>
         /// <returns>Een XmlNode array van events</returns>
-        public XmlNode[] getEvents(XmlNodeList actions)
+        private ArrayList getEvents(XmlNodeList actions)
         {
-            XmlNode[] events = new XmlNode[0];
+            ArrayList events = new ArrayList();
             foreach (XmlNode node in actions)
             {
                 if (node.Name.Equals("event"))
                 {
                     
-                    events[events.Count()] = node;
+                    events.Add(node);
                 }
             }
             return events;
@@ -73,7 +92,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="actions"></param>
         /// <returns>Een XmlNode array met taken</returns>
-        public ArrayList getTasks(XmlNodeList actions)
+        private ArrayList getTasks(ArrayList actions)
         {
             ArrayList tasks = new ArrayList();
             foreach (XmlNode node in actions)
@@ -87,18 +106,19 @@ namespace CLESMonitor.Model
             }
             return tasks;
         }
-        public void findTasks(TimeSpan timeSpan)
+        private void findTasks(TimeSpan timeSpan)
         {
-            XmlNodeList actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
+            ArrayList actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
             taskActionsOccured = getTasks(actions);
-            Console.WriteLine(taskActionsOccured.Count);
+           
         }
         /// <summary>
         /// 
         /// </summary>
         /// <returns>Een arraylist met strings, de identifiers van tasks</returns>
-        public ArrayList tasksBegan()
+        public ArrayList tasksBegan(TimeSpan time)
         {
+            findTasks(time);
             ArrayList tasksBegan = new ArrayList();
             foreach (XmlNode node in taskActionsOccured)
             {
@@ -112,12 +132,14 @@ namespace CLESMonitor.Model
                     }
                 }
             }
+            Console.WriteLine(taskActionsOccured.Count);
 
             return tasksBegan;     
         }
 
-        public ArrayList tasksEnded()
+        public ArrayList tasksEnded(TimeSpan time)
         {
+           findTasks(time);
            ArrayList tasksEnded = new ArrayList();
             foreach (XmlNode node in taskActionsOccured)
             {
@@ -165,5 +187,7 @@ namespace CLESMonitor.Model
             }
             return identifier;
         }
+
+        
     }
 }

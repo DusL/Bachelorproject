@@ -29,6 +29,7 @@ namespace CLESMonitor.Controller
 
         public CLModel clModel;
         public ESModel esModel;
+        public XMLFileTaskParser parser;
         private CLESMonitorViewForm _view;
         private Thread updateChartDataThread;
         private Random random = new Random();
@@ -350,6 +351,7 @@ namespace CLESMonitor.Controller
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                parser.readPath(openFileDialog.FileName);
                 writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
             }            
         }
