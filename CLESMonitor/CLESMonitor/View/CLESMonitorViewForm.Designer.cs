@@ -29,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title9 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend10 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series10 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title10 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title11 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title12 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
@@ -55,70 +55,72 @@
             this.hrPlusButton = new System.Windows.Forms.Button();
             this.hrMinusButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.hrValueLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.gsrValueLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.gsrTrackBar = new System.Windows.Forms.TrackBar();
             this.gsrMinusButton = new System.Windows.Forms.Button();
             this.gsrPlusButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hrTrackBar)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CLChart
             // 
-            chartArea9.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea9);
+            chartArea11.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea11);
             this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend9.Enabled = false;
-            legend9.Name = "Legend1";
-            this.CLChart.Legends.Add(legend9);
+            legend11.Enabled = false;
+            legend11.Name = "Legend1";
+            this.CLChart.Legends.Add(legend11);
             this.CLChart.Location = new System.Drawing.Point(3, 3);
             this.CLChart.Name = "CLChart";
-            series9.ChartArea = "ChartArea1";
-            series9.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series9.Legend = "Legend1";
-            series9.Name = "Series1";
-            this.CLChart.Series.Add(series9);
+            series11.ChartArea = "ChartArea1";
+            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series11.Legend = "Legend1";
+            series11.Name = "Series1";
+            this.CLChart.Series.Add(series11);
             this.CLChart.Size = new System.Drawing.Size(474, 376);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title9.Name = "CL-Waarden";
-            title9.Text = "CL-Waarden";
-            this.CLChart.Titles.Add(title9);
+            title11.Name = "CL-Waarden";
+            title11.Text = "CL-Waarden";
+            this.CLChart.Titles.Add(title11);
             // 
             // ESChart
             // 
-            chartArea10.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea10);
+            chartArea12.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea12);
             this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend10.Enabled = false;
-            legend10.Name = "Legend1";
-            this.ESChart.Legends.Add(legend10);
+            legend12.Enabled = false;
+            legend12.Name = "Legend1";
+            this.ESChart.Legends.Add(legend12);
             this.ESChart.Location = new System.Drawing.Point(483, 3);
             this.ESChart.Name = "ESChart";
-            series10.ChartArea = "ChartArea1";
-            series10.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series10.Legend = "Legend1";
-            series10.Name = "Series1";
-            this.ESChart.Series.Add(series10);
+            series12.ChartArea = "ChartArea1";
+            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series12.Legend = "Legend1";
+            series12.Name = "Series1";
+            this.ESChart.Series.Add(series12);
             this.ESChart.Size = new System.Drawing.Size(474, 376);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title10.Name = "ES-waarden";
-            title10.Text = "ES-Waarden";
-            this.ESChart.Titles.Add(title10);
+            title12.Name = "ES-waarden";
+            title12.Text = "ES-Waarden";
+            this.ESChart.Titles.Add(title12);
             // 
             // startButton
             // 
@@ -251,7 +253,7 @@
             // hrTrackBar
             // 
             this.hrTrackBar.LargeChange = 10;
-            this.hrTrackBar.Location = new System.Drawing.Point(6, 32);
+            this.hrTrackBar.Location = new System.Drawing.Point(6, 43);
             this.hrTrackBar.Maximum = 150;
             this.hrTrackBar.Minimum = 30;
             this.hrTrackBar.Name = "hrTrackBar";
@@ -263,7 +265,7 @@
             // 
             // hrPlusButton
             // 
-            this.hrPlusButton.Location = new System.Drawing.Point(314, 32);
+            this.hrPlusButton.Location = new System.Drawing.Point(314, 43);
             this.hrPlusButton.Name = "hrPlusButton";
             this.hrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.hrPlusButton.TabIndex = 17;
@@ -273,7 +275,7 @@
             // 
             // hrMinusButton
             // 
-            this.hrMinusButton.Location = new System.Drawing.Point(278, 32);
+            this.hrMinusButton.Location = new System.Drawing.Point(278, 43);
             this.hrMinusButton.Name = "hrMinusButton";
             this.hrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.hrMinusButton.TabIndex = 18;
@@ -285,6 +287,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.radioButton2);
+            this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.hrValueLabel);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.hrTrackBar);
@@ -292,15 +296,37 @@
             this.groupBox1.Controls.Add(this.hrPlusButton);
             this.groupBox1.Location = new System.Drawing.Point(6, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(461, 78);
+            this.groupBox1.Size = new System.Drawing.Size(461, 113);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hartslagmeter";
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(6, 20);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(76, 17);
+            this.radioButton2.TabIndex = 22;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Handmatig";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(88, 20);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(109, 17);
+            this.radioButton1.TabIndex = 21;
+            this.radioButton1.Text = "Zephyr BT sensor";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // hrValueLabel
             // 
             this.hrValueLabel.AutoSize = true;
-            this.hrValueLabel.Location = new System.Drawing.Point(315, 16);
+            this.hrValueLabel.Location = new System.Drawing.Point(178, 91);
             this.hrValueLabel.Name = "hrValueLabel";
             this.hrValueLabel.Size = new System.Drawing.Size(25, 13);
             this.hrValueLabel.TabIndex = 20;
@@ -309,7 +335,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(142, 16);
+            this.label3.Location = new System.Drawing.Point(6, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(166, 13);
             this.label3.TabIndex = 19;
@@ -327,6 +353,72 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sensoren";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.gsrValueLabel);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.gsrTrackBar);
+            this.groupBox3.Controls.Add(this.gsrMinusButton);
+            this.groupBox3.Controls.Add(this.gsrPlusButton);
+            this.groupBox3.Location = new System.Drawing.Point(6, 138);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(461, 78);
+            this.groupBox3.TabIndex = 21;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Zweetmeter";
+            // 
+            // gsrValueLabel
+            // 
+            this.gsrValueLabel.AutoSize = true;
+            this.gsrValueLabel.Location = new System.Drawing.Point(174, 51);
+            this.gsrValueLabel.Name = "gsrValueLabel";
+            this.gsrValueLabel.Size = new System.Drawing.Size(25, 13);
+            this.gsrValueLabel.TabIndex = 20;
+            this.gsrValueLabel.Text = "999";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 51);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(162, 13);
+            this.label5.TabIndex = 19;
+            this.label5.Text = "Gemeten huidgeleiding (siemens)";
+            // 
+            // gsrTrackBar
+            // 
+            this.gsrTrackBar.LargeChange = 10;
+            this.gsrTrackBar.Location = new System.Drawing.Point(6, 19);
+            this.gsrTrackBar.Maximum = 100;
+            this.gsrTrackBar.Name = "gsrTrackBar";
+            this.gsrTrackBar.Size = new System.Drawing.Size(266, 45);
+            this.gsrTrackBar.TabIndex = 16;
+            this.gsrTrackBar.TickFrequency = 10;
+            this.gsrTrackBar.Value = 50;
+            this.gsrTrackBar.Scroll += new System.EventHandler(this.gsrTrackBar_Scroll);
+            // 
+            // gsrMinusButton
+            // 
+            this.gsrMinusButton.Location = new System.Drawing.Point(278, 19);
+            this.gsrMinusButton.Name = "gsrMinusButton";
+            this.gsrMinusButton.Size = new System.Drawing.Size(30, 30);
+            this.gsrMinusButton.TabIndex = 18;
+            this.gsrMinusButton.Text = "-";
+            this.gsrMinusButton.UseVisualStyleBackColor = true;
+            this.gsrMinusButton.Click += new System.EventHandler(this.gsrMinusButton_Click);
+            // 
+            // gsrPlusButton
+            // 
+            this.gsrPlusButton.Location = new System.Drawing.Point(314, 19);
+            this.gsrPlusButton.Name = "gsrPlusButton";
+            this.gsrPlusButton.Size = new System.Drawing.Size(30, 30);
+            this.gsrPlusButton.TabIndex = 17;
+            this.gsrPlusButton.Text = "+";
+            this.gsrPlusButton.UseVisualStyleBackColor = true;
+            this.gsrPlusButton.Click += new System.EventHandler(this.gsrPlusButton_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -342,72 +434,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(957, 228);
             this.tableLayoutPanel2.TabIndex = 21;
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox3.Controls.Add(this.gsrValueLabel);
-            this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Controls.Add(this.gsrTrackBar);
-            this.groupBox3.Controls.Add(this.gsrMinusButton);
-            this.groupBox3.Controls.Add(this.gsrPlusButton);
-            this.groupBox3.Location = new System.Drawing.Point(6, 103);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(461, 78);
-            this.groupBox3.TabIndex = 21;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Zweetmeter";
-            // 
-            // gsrValueLabel
-            // 
-            this.gsrValueLabel.AutoSize = true;
-            this.gsrValueLabel.Location = new System.Drawing.Point(315, 16);
-            this.gsrValueLabel.Name = "gsrValueLabel";
-            this.gsrValueLabel.Size = new System.Drawing.Size(25, 13);
-            this.gsrValueLabel.TabIndex = 20;
-            this.gsrValueLabel.Text = "999";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(162, 13);
-            this.label5.TabIndex = 19;
-            this.label5.Text = "Gemeten huidgeleiding (siemens)";
-            // 
-            // gsrTrackBar
-            // 
-            this.gsrTrackBar.LargeChange = 10;
-            this.gsrTrackBar.Location = new System.Drawing.Point(6, 32);
-            this.gsrTrackBar.Maximum = 100;
-            this.gsrTrackBar.Name = "gsrTrackBar";
-            this.gsrTrackBar.Size = new System.Drawing.Size(266, 45);
-            this.gsrTrackBar.TabIndex = 16;
-            this.gsrTrackBar.TickFrequency = 10;
-            this.gsrTrackBar.Value = 50;
-            this.gsrTrackBar.Scroll += new System.EventHandler(this.gsrTrackBar_Scroll);
-            // 
-            // gsrMinusButton
-            // 
-            this.gsrMinusButton.Location = new System.Drawing.Point(278, 32);
-            this.gsrMinusButton.Name = "gsrMinusButton";
-            this.gsrMinusButton.Size = new System.Drawing.Size(30, 30);
-            this.gsrMinusButton.TabIndex = 18;
-            this.gsrMinusButton.Text = "-";
-            this.gsrMinusButton.UseVisualStyleBackColor = true;
-            this.gsrMinusButton.Click += new System.EventHandler(this.gsrMinusButton_Click);
-            // 
-            // gsrPlusButton
-            // 
-            this.gsrPlusButton.Location = new System.Drawing.Point(314, 32);
-            this.gsrPlusButton.Name = "gsrPlusButton";
-            this.gsrPlusButton.Size = new System.Drawing.Size(30, 30);
-            this.gsrPlusButton.TabIndex = 17;
-            this.gsrPlusButton.Text = "+";
-            this.gsrPlusButton.UseVisualStyleBackColor = true;
-            this.gsrPlusButton.Click += new System.EventHandler(this.gsrPlusButton_Click);
             // 
             // CLESMonitorViewForm
             // 
@@ -437,10 +463,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,6 +502,8 @@
         public System.Windows.Forms.TrackBar gsrTrackBar;
         private System.Windows.Forms.Button gsrMinusButton;
         private System.Windows.Forms.Button gsrPlusButton;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
 
     }
 }
