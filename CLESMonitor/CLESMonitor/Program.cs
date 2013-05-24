@@ -21,7 +21,14 @@ namespace CLESMonitor
 
             var controller = new ViewController();
             controller.clModel = new CTLModel();
-            
+
+            HRSensor hrSensor = new HRSensor();
+            GSRSensor gsrSensor = new GSRSensor();
+            controller.esModel = new FuzzyModel(hrSensor, gsrSensor);
+
+            controller.hrSensor = hrSensor;
+            controller.gsrSensor = gsrSensor;
+
             Application.Run(controller.View);
         }
     }

@@ -12,6 +12,8 @@ namespace CLESMonitor.Model
         /// Bereken opnieuw de model-waarde
         /// </summary>
         /// <returns>De model-waarde</returns>
-        public abstract int calculateModelValue();
+        public abstract double calculateModelValue();
+
+        public abstract void startSession();
     }
 }
