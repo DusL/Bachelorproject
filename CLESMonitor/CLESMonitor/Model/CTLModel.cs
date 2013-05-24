@@ -17,7 +17,7 @@ namespace CLESMonitor.Model
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
-            parser = new XMLFileTaskParser(@"D:\vvandertas\Dropbox\Bachelorproject\XMLFile1.xml");
+            parser = new XMLFileTaskParser(@"C:\Users\dlim1\Dropbox\Studie\Bachelorproject\XMLFile1.xml");
         }
 
         public override double calculateModelValue(DateTime time)

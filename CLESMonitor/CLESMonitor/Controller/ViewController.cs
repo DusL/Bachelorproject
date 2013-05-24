@@ -56,6 +56,7 @@ namespace CLESMonitor.Controller
         Button stopButton;
         Button pauseButton;
         Button calibrateButton;
+        OpenFileDialog openFileDialog;
         // Sensoren
         TrackBar hrTrackbar;
         Label hrValueLabel;
@@ -137,6 +138,7 @@ namespace CLESMonitor.Controller
             hrValueLabel = this.View.hrValueLabel;
             gsrTrackbar = this.View.gsrTrackBar;
             gsrValueLabel = this.View.gsrValueLabel;
+            openFileDialog = this.View.openFileDialog1;
         }
 
         /// <summary>
@@ -333,6 +335,14 @@ namespace CLESMonitor.Controller
         public void resetTimer() 
         {
            sessionTimeBox.Text = emptyTimer.ToString();
+        }
+
+        public void openScenarioFileDialog()
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
+            }            
         }
     }
 }
