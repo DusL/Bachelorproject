@@ -55,25 +55,29 @@
             this.hrPlusButton = new System.Windows.Forms.Button();
             this.hrMinusButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.hrValueLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.gsrValueLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.gsrTrackBar = new System.Windows.Forms.TrackBar();
             this.gsrMinusButton = new System.Windows.Forms.Button();
             this.gsrPlusButton = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hrTrackBar)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CLChart
@@ -184,10 +188,10 @@
             // richTextBox1
             // 
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
+            this.richTextBox1.Location = new System.Drawing.Point(3, 117);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(472, 222);
+            this.richTextBox1.Size = new System.Drawing.Size(472, 108);
             this.richTextBox1.TabIndex = 10;
             this.richTextBox1.Text = "";
             // 
@@ -251,7 +255,7 @@
             // hrTrackBar
             // 
             this.hrTrackBar.LargeChange = 10;
-            this.hrTrackBar.Location = new System.Drawing.Point(6, 32);
+            this.hrTrackBar.Location = new System.Drawing.Point(6, 43);
             this.hrTrackBar.Maximum = 150;
             this.hrTrackBar.Minimum = 30;
             this.hrTrackBar.Name = "hrTrackBar";
@@ -263,7 +267,7 @@
             // 
             // hrPlusButton
             // 
-            this.hrPlusButton.Location = new System.Drawing.Point(314, 32);
+            this.hrPlusButton.Location = new System.Drawing.Point(314, 43);
             this.hrPlusButton.Name = "hrPlusButton";
             this.hrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.hrPlusButton.TabIndex = 17;
@@ -273,7 +277,7 @@
             // 
             // hrMinusButton
             // 
-            this.hrMinusButton.Location = new System.Drawing.Point(278, 32);
+            this.hrMinusButton.Location = new System.Drawing.Point(278, 43);
             this.hrMinusButton.Name = "hrMinusButton";
             this.hrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.hrMinusButton.TabIndex = 18;
@@ -285,6 +289,8 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.radioButton2);
+            this.groupBox1.Controls.Add(this.radioButton1);
             this.groupBox1.Controls.Add(this.hrValueLabel);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.hrTrackBar);
@@ -292,15 +298,37 @@
             this.groupBox1.Controls.Add(this.hrPlusButton);
             this.groupBox1.Location = new System.Drawing.Point(6, 19);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(461, 78);
+            this.groupBox1.Size = new System.Drawing.Size(461, 113);
             this.groupBox1.TabIndex = 19;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hartslagmeter";
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Checked = true;
+            this.radioButton2.Location = new System.Drawing.Point(6, 20);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(76, 17);
+            this.radioButton2.TabIndex = 22;
+            this.radioButton2.TabStop = true;
+            this.radioButton2.Text = "Handmatig";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            // 
+            // radioButton1
+            // 
+            this.radioButton1.AutoSize = true;
+            this.radioButton1.Location = new System.Drawing.Point(88, 20);
+            this.radioButton1.Name = "radioButton1";
+            this.radioButton1.Size = new System.Drawing.Size(109, 17);
+            this.radioButton1.TabIndex = 21;
+            this.radioButton1.Text = "Zephyr BT sensor";
+            this.radioButton1.UseVisualStyleBackColor = true;
+            // 
             // hrValueLabel
             // 
             this.hrValueLabel.AutoSize = true;
-            this.hrValueLabel.Location = new System.Drawing.Point(315, 16);
+            this.hrValueLabel.Location = new System.Drawing.Point(178, 91);
             this.hrValueLabel.Name = "hrValueLabel";
             this.hrValueLabel.Size = new System.Drawing.Size(25, 13);
             this.hrValueLabel.TabIndex = 20;
@@ -309,7 +337,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(142, 16);
+            this.label3.Location = new System.Drawing.Point(6, 91);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(166, 13);
             this.label3.TabIndex = 19;
@@ -322,26 +350,11 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(481, 3);
             this.groupBox2.Name = "groupBox2";
+            this.tableLayoutPanel2.SetRowSpan(this.groupBox2, 2);
             this.groupBox2.Size = new System.Drawing.Size(473, 222);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sensoren";
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 1, 0);
-            this.tableLayoutPanel2.Controls.Add(this.richTextBox1, 0, 0);
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 426);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(957, 228);
-            this.tableLayoutPanel2.TabIndex = 21;
             // 
             // groupBox3
             // 
@@ -352,7 +365,7 @@
             this.groupBox3.Controls.Add(this.gsrTrackBar);
             this.groupBox3.Controls.Add(this.gsrMinusButton);
             this.groupBox3.Controls.Add(this.gsrPlusButton);
-            this.groupBox3.Location = new System.Drawing.Point(6, 103);
+            this.groupBox3.Location = new System.Drawing.Point(6, 138);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(461, 78);
             this.groupBox3.TabIndex = 21;
@@ -362,7 +375,7 @@
             // gsrValueLabel
             // 
             this.gsrValueLabel.AutoSize = true;
-            this.gsrValueLabel.Location = new System.Drawing.Point(315, 16);
+            this.gsrValueLabel.Location = new System.Drawing.Point(174, 51);
             this.gsrValueLabel.Name = "gsrValueLabel";
             this.gsrValueLabel.Size = new System.Drawing.Size(25, 13);
             this.gsrValueLabel.TabIndex = 20;
@@ -371,7 +384,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(142, 16);
+            this.label5.Location = new System.Drawing.Point(6, 51);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(162, 13);
             this.label5.TabIndex = 19;
@@ -380,7 +393,7 @@
             // gsrTrackBar
             // 
             this.gsrTrackBar.LargeChange = 10;
-            this.gsrTrackBar.Location = new System.Drawing.Point(6, 32);
+            this.gsrTrackBar.Location = new System.Drawing.Point(6, 19);
             this.gsrTrackBar.Maximum = 100;
             this.gsrTrackBar.Name = "gsrTrackBar";
             this.gsrTrackBar.Size = new System.Drawing.Size(266, 45);
@@ -391,7 +404,7 @@
             // 
             // gsrMinusButton
             // 
-            this.gsrMinusButton.Location = new System.Drawing.Point(278, 32);
+            this.gsrMinusButton.Location = new System.Drawing.Point(278, 19);
             this.gsrMinusButton.Name = "gsrMinusButton";
             this.gsrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.gsrMinusButton.TabIndex = 18;
@@ -401,13 +414,46 @@
             // 
             // gsrPlusButton
             // 
-            this.gsrPlusButton.Location = new System.Drawing.Point(314, 32);
+            this.gsrPlusButton.Location = new System.Drawing.Point(314, 19);
             this.gsrPlusButton.Name = "gsrPlusButton";
             this.gsrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.gsrPlusButton.TabIndex = 17;
             this.gsrPlusButton.Text = "+";
             this.gsrPlusButton.UseVisualStyleBackColor = true;
             this.gsrPlusButton.Click += new System.EventHandler(this.gsrPlusButton_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.ColumnCount = 2;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.groupBox2, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.richTextBox1, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.button1, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 426);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(957, 228);
+            this.tableLayoutPanel2.TabIndex = 21;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Filter = "XML files (*.xml)|*.xml";
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(143, 39);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "Open Scenario File";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // CLESMonitorViewForm
             // 
@@ -437,10 +483,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -476,6 +522,10 @@
         public System.Windows.Forms.TrackBar gsrTrackBar;
         private System.Windows.Forms.Button gsrMinusButton;
         private System.Windows.Forms.Button gsrPlusButton;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton radioButton1;
+        private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.OpenFileDialog openFileDialog1;
 
     }
 }
