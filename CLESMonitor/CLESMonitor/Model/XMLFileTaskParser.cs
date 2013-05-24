@@ -21,7 +21,7 @@ namespace CLESMonitor.Model
 {
     public class XMLFileTaskParser
     {
-        private ArrayList taskActionsOccured;
+        private ArrayList taskActionsOccured; //Een lijst van taken waar in een seconde iets mee gebeurt is.
         private XmlNodeList seconds;
         private bool endOfFileReached;
         /// <summary>
@@ -33,6 +33,10 @@ namespace CLESMonitor.Model
 
         }
 
+        /// <summary>
+        /// Laad het gekozen Xml-bestand in en slaat direct een lijst van alle seconden op.
+        /// </summary>
+        /// <param name="path"></param>
         public void readPath(String path)
         {
             // Laad het gewenste Xml document in via het gespecificeerde pad.
@@ -47,7 +51,11 @@ namespace CLESMonitor.Model
 
             endOfFileReached = false;
         }
-
+        /// <summary>
+        /// Haalt voor de huidige seconde alle acties (alle childnodes) op.
+        /// </summary>
+        /// <param name="currentSecond"></param>
+        /// <returns>Een ArrayList die alle tasks en events bevat die in deze seconde gestart of gestopt zijn.</returns>
         public ArrayList getActionsForSecond(int currentSecond)
         {
             
@@ -100,12 +108,16 @@ namespace CLESMonitor.Model
                 if (node.Name.Equals("task"))
                 {   
                     Console.WriteLine("taakjes");
-                    //Array.Resize(ref tasks, tasks.Length + 1);
                     tasks.Add(node);
                 }
             }
             return tasks;
         }
+        /// <summary>
+        /// Haalt alle actions binnen die op een bepaalde seconden voorkomen 
+        /// en filert alle taken eruit en zet deze in taskActionsOccured.
+        /// </summary>
+        /// <param name="timeSpan"></param>
         private void findTasks(TimeSpan timeSpan)
         {
             ArrayList actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
@@ -113,7 +125,8 @@ namespace CLESMonitor.Model
            
         }
         /// <summary>
-        /// 
+        /// Voor iedere taak in taskActionsOccured wordt de child opgezocht waarind de actie gedefinieerd staat.
+        /// Wanneer deze actie "started" is wordt deze aan de ArrayList toegevoegd.        
         /// </summary>
         /// <returns>Een arraylist met strings, de identifiers van tasks</returns>
         public ArrayList tasksBegan(TimeSpan time)
@@ -136,7 +149,12 @@ namespace CLESMonitor.Model
 
             return tasksBegan;     
         }
-
+        /// <summary>
+        /// Voor iedere taak in taskActionsOccured wordt de child opgezocht waarind de actie gedefinieerd staat.
+        /// Wanneer deze actie "stopped" is wordt deze aan de ArrayList toegevoegd.
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns>Een ArrayList met alle taken die deze seconde geeindigd zijn</returns>
         public ArrayList tasksEnded(TimeSpan time)
         {
            findTasks(time);
@@ -157,7 +175,6 @@ namespace CLESMonitor.Model
 
             return tasksEnded;
         }
-
         
         /// <summary>
         /// Bepaald bij welk event een task hoort.
@@ -168,26 +185,6 @@ namespace CLESMonitor.Model
         {
            return task.Attributes["partOfEvent"].Value;
         }
-
-        /// <summary>
-        /// Bepaald van een XmlNode task de identifier in de vorm van een string
-        /// </summary>
-        /// <param name="task"></param>
-        /// <returns>string identifier</returns>
-        public string taskIdentifier(XmlNode task)
-        {
-            XmlNodeList childNodes = task.ChildNodes;
-            string identifier = ""; 
-            foreach (XmlNode node in childNodes)
-            {
-                if (node.Name.Equals("name"))
-                {
-                    identifier = node.InnerText;
-                }
-            }
-            return identifier;
-        }
-
-        
+   
     }
 }

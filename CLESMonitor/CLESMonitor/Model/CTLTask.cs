@@ -17,6 +17,7 @@ namespace CLESMonitor.Model
         public DateTime startTime;
         public DateTime endTime;
         public string description;
+        public bool isStopped;
 
         private string name;
 
@@ -27,9 +28,8 @@ namespace CLESMonitor.Model
         public CTLTask(string _name)
         {
             name = _name;
+            isStopped = false;
         }
-
-       
 
         /// <summary>
         /// ToString methode
@@ -57,6 +57,18 @@ namespace CLESMonitor.Model
         {
             return this.duration;
         }
+        public DateTime getStartTime()
+        {
+            return this.startTime;
+        }
+        public DateTime getEndTime()
+        {
+            return this.endTime;
+        }
+        public bool getIsStopped() 
+        {
+            return this.isStopped;
+        }
 
         public void setDuration(double d)
         {
@@ -81,6 +93,10 @@ namespace CLESMonitor.Model
         public void setEndTime(DateTime time)
         {
             this.endTime = time;
+        }
+        public void setIsStopped(bool b)
+        {
+            this.isStopped = b;
         }
 
     }
