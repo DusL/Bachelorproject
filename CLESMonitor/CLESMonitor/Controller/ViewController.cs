@@ -190,8 +190,12 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void UpdateCLChartData()
         {
+            //Haal de sessieduur op
+            String sessionTime = sessionTimeBox.Text;
+            DateTime time = Convert.ToDateTime(sessionTime);
+
             // Bereken de nieuwste waarde
-            double newDataPoint = this.clModel.calculateModelValue();
+            double newDataPoint = this.clModel.calculateModelValue(time);
 
             // Update de grafiek en TextBox
             this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);
