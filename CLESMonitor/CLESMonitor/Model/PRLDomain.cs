@@ -147,8 +147,8 @@ namespace CLESMonitor.Model
             }
             else
             {
-                //throw new Exception("Identifier niet gevonden");
-                task = null;
+                throw new Exception("Er is een identifier gevonden die niet bestaat. Controleer het XML bestand en probeer opnieuw");
+                //task = null;
             }
             return task;
         }
