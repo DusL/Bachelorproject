@@ -7,19 +7,17 @@ using CLESMonitor.Model;
 
 namespace CLESMonitor.Model
 {
-
     public class CTLTask
     {
-        public double moValue; //mental occupancy
-        public int lipValue; //level of information processing
-        public InformationDomain[] domains; //een array van enum representaties van domeinen
-        public double duration; //in seconden
-        public DateTime startTime;
-        public DateTime endTime;
-        public string description;
-        public bool isStopped;
-
         private string name;
+        public int lipValue { get; set; } //level of information processing
+        public double moValue { get; set; } //mental occupancy
+        public InformationDomain[] informationDomains { get; set; } //een array van enum representaties van domeinen
+        public double duration { get; set; } //in seconden
+        public DateTime startTime { get; set; }
+        public DateTime endTime { get; set; }
+        public string description { get; set; }
+        public bool isStopped { get; set; }
 
         /// <summary>
         /// Constructor methode
@@ -31,6 +29,11 @@ namespace CLESMonitor.Model
             isStopped = false;
         }
 
+        public string getName()
+        {
+            return this.name;
+        }
+
         /// <summary>
         /// ToString methode
         /// </summary>
@@ -39,65 +42,5 @@ namespace CLESMonitor.Model
         {
             return String.Format("Name = {0}", name);
         }
-
-        public int getLip()
-        {
-            return this.lipValue;
-        }
-
-        public double getMO()
-        {
-            return this.moValue;
-        }
-        public InformationDomain[] getInfoDomain()
-        {
-            return this.domains;
-        }
-        public double getDuration()
-        {
-            return this.duration;
-        }
-        public DateTime getStartTime()
-        {
-            return this.startTime;
-        }
-        public DateTime getEndTime()
-        {
-            return this.endTime;
-        }
-        public bool getIsStopped() 
-        {
-            return this.isStopped;
-        }
-
-        public void setDuration(double d)
-        {
-            this.duration = d;
-        }
-        public void setInformationDomain(InformationDomain[] dom)
-        {
-            this.domains = dom;
-        }
-        public void setMO(double m)
-        {
-            this.moValue = m;
-        }
-        public void setLip(int lip)
-        {
-            this.lipValue = lip;
-        }
-        public void setStartTime(DateTime time)
-        {
-            this.startTime = time;
-        }
-        public void setEndTime(DateTime time)
-        {
-            this.endTime = time;
-        }
-        public void setIsStopped(bool b)
-        {
-            this.isStopped = b;
-        }
-
     }
 }

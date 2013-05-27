@@ -37,7 +37,7 @@ namespace CLESMonitor.Model
             //Stel voor iedere niew binnengekomen taak de huidige tijd in als start tijd
             foreach (CTLTask t in CTLtasksStartedThisSecond)
             {
-                t.setStartTime(DateTime.Now);
+                t.startTime = DateTime.Now;
             }
 
             //TODO: Je wilt eerst de taken aanpassen die er nog in staan. Dan pas dingen toevoegen.
@@ -79,7 +79,7 @@ namespace CLESMonitor.Model
             {
                 if (!task.isStopped)
                 {
-                    task.setEndTime(DateTime.Now);
+                    task.endTime = DateTime.Now;
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace CLESMonitor.Model
             {
                 if (task.startTime < startTimeFrame)
                 {
-                    task.setStartTime(startTimeFrame);
+                    task.startTime = startTimeFrame;
                 }
 
             }
@@ -123,14 +123,14 @@ namespace CLESMonitor.Model
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Maak een nieuwe CTLTask
-            CTLTask newTask = new CTLTask(task1.toString()+ task2.toString());
+            CTLTask newTask = new CTLTask(task1.getName() + task2.getName());
             //En set zijn waarden
-            newTask.setMO(multitaskMO(task1, task2));
-            newTask.setLip(multitaskLip(task1, task2));
-            newTask.setInformationDomain(multitaskDomain(task1, task2));
-            newTask.setDuration(multitaskDuration(task1, task2));
-            newTask.setEndTime(findEndTimeMultitask(task1, task2));
-            newTask.setStartTime(findStartTimeMultitask(task1,task2));
+            newTask.moValue = multitaskMO(task1, task2);
+            newTask.lipValue = multitaskLip(task1, task2);
+            newTask.informationDomains = multitaskDomain(task1, task2);
+            newTask.duration = multitaskDuration(task1, task2);
+            newTask.startTime = findStartTimeMultitask(task1, task2);
+            newTask.endTime = findEndTimeMultitask(task1, task2);
             return newTask;
         }
         /// <summary>
@@ -142,8 +142,8 @@ namespace CLESMonitor.Model
         /// <returns>Een array van informationDomains</returns>
         private InformationDomain[] multitaskDomain(CTLTask task1, CTLTask task2)
         {
-            InformationDomain[] newDomain = task1.getInfoDomain();
-            InformationDomain[] tempDomain = task2.getInfoDomain();
+            InformationDomain[] newDomain = task1.informationDomains;
+            InformationDomain[] tempDomain = task2.informationDomains;
             for (int i = 0; i <= tempDomain.Length - 1; i++)
             {
                 if (Array.IndexOf(newDomain, tempDomain[i]) == -1)
@@ -163,8 +163,8 @@ namespace CLESMonitor.Model
         /// <returns>Een double die de MO waarde van de nieuwe multitaks taak representeert</returns>
         private double multitaskMO(CTLTask task1, CTLTask task2)
         {
-            double MO1 = task1.getMO();
-            double MO2 = task2.getMO();
+            double MO1 = task1.moValue;
+            double MO2 = task2.moValue;
             return Math.Max(MO1 + MO2, 1); ;
         }
         /// <summary>
@@ -176,8 +176,8 @@ namespace CLESMonitor.Model
         /// <returns>Een nieuwe Lip waarde voor een nieuwe taak</returns>
         private int multitaskLip(CTLTask task1, CTLTask task2)
         {
-            int Lip1 = task1.getLip();
-            int Lip2 = task2.getLip();
+            int Lip1 = task1.lipValue;
+            int Lip2 = task2.lipValue;
             return Math.Max(Lip1,Lip2);
         }
         
@@ -238,7 +238,7 @@ namespace CLESMonitor.Model
             while (i != tasks.Count)
             {
                 CTLTask t = (CTLTask)tasks[i];
-                lipTimesDuration= t.getLip() * t.getDuration();
+                lipTimesDuration= t.lipValue * t.duration;
                 sum += lipTimesDuration;
                 i++;
             }
@@ -259,7 +259,7 @@ namespace CLESMonitor.Model
             while (i != tasks.Count)
             {
                 CTLTask t = (CTLTask)tasks[i];
-                moTimesDuration = t.getMO() * t.getDuration();
+                moTimesDuration = t.moValue * t.duration;
                 sum += moTimesDuration;
                 i++;
             }
