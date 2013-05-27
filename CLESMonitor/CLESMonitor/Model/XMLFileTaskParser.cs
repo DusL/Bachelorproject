@@ -129,10 +129,10 @@ namespace CLESMonitor.Model
         /// Wanneer deze actie "started" is wordt deze aan de ArrayList toegevoegd.        
         /// </summary>
         /// <returns>Een arraylist met strings, de identifiers van tasks</returns>
-        public ArrayList tasksBegan(TimeSpan time)
+        public List<string> tasksBegan(TimeSpan time)
         {
             findTasks(time);
-            ArrayList tasksBegan = new ArrayList();
+            List<string> tasksBegan = new List<string>();
             foreach (XmlNode node in taskActionsOccured)
             {
                 XmlNodeList children = node.ChildNodes;
@@ -141,7 +141,8 @@ namespace CLESMonitor.Model
                     Console.WriteLine(c.Name + " " + c.InnerText);
                     if (c.Name.Equals("action") & c.InnerText.Equals("started"))
                     {
-                        tasksBegan.Add(node.InnerText);
+                        tasksBegan.Add(node.FirstChild.InnerText);//c.InnerText);
+
                     }
                 }
             }
@@ -155,10 +156,10 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="time"></param>
         /// <returns>Een ArrayList met alle taken die deze seconde geeindigd zijn</returns>
-        public ArrayList tasksEnded(TimeSpan time)
+        public List<string> tasksEnded(TimeSpan time)
         {
            findTasks(time);
-           ArrayList tasksEnded = new ArrayList();
+           List<string> tasksEnded = new List<string>();
             foreach (XmlNode node in taskActionsOccured)
             {
                 XmlNodeList children = node.ChildNodes;
@@ -168,7 +169,7 @@ namespace CLESMonitor.Model
                     {
                         Console.WriteLine("Hoppa");
                         
-                        tasksEnded.Add(node.InnerText);
+                        tasksEnded.Add(c.InnerText);
                     }
                 }
             }

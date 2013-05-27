@@ -147,6 +147,7 @@ namespace CLESMonitor.Model
             }
             else
             {
+                //throw new Exception("Identifier niet gevonden");
                 task = null;
             }
             return task;

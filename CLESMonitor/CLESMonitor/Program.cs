@@ -19,18 +19,16 @@ namespace CLESMonitor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            var controller = new ViewController();
-            controller.clModel = new CTLModel();
+            XMLFileTaskParser parser = new XMLFileTaskParser();
+            CTLModel ctlModel = new CTLModel(parser);
 
             HRSensor hrSensor = new HRSensor();
             GSRSensor gsrSensor = new GSRSensor();
-            XMLFileTaskParser parser = new XMLFileTaskParser();
-  
-            controller.parser = parser;
-            CTLModel ctlModel = (CTLModel)controller.clModel;
-            ctlModel.parser = parser;
+            FuzzyModel fuzzyModel = new FuzzyModel(hrSensor, gsrSensor);
 
-            controller.esModel = new FuzzyModel(hrSensor, gsrSensor);
+            var controller = new ViewController(ctlModel,fuzzyModel);
+
+            controller.parser = parser;
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;
 

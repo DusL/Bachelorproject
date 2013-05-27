@@ -17,21 +17,22 @@ namespace CLESMonitor.Model
         private ArrayList currentActiveTasks;
        // private 
 
-        public CTLModel()
+        public CTLModel(XMLFileTaskParser parser)
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
             currentActiveTasks = new ArrayList();
+            this.parser = parser;
         }
 
         public override double calculateModelValue(TimeSpan time)
         {
             //Vraagt een lijst van taken die begonnen en een lijst van taken die gestopt zijn op.
-            ArrayList tasksBegan = parser.tasksBegan(time);
-            ArrayList tasksEnded = parser.tasksEnded(time);
+            List<string> tasksBegan = parser.tasksBegan(time);
+            List<string> tasksEnded = parser.tasksEnded(time);
 
-            ArrayList CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
-            ArrayList CTLtasksEndedThisSecond = getCTLTasksPerSecond(tasksEnded);
+            List<CTLTask> CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
+            List<CTLTask> CTLtasksEndedThisSecond = getCTLTasksPerSecond(tasksEnded);
 
             //Stel voor iedere niew binnengekomen taak de huidige tijd in als start tijd
             foreach (CTLTask t in CTLtasksStartedThisSecond)
@@ -67,15 +68,7 @@ namespace CLESMonitor.Model
 
 
         }
-        /// <summary>
-        /// Haalt voor de huidige seconde alle gebeurtenissen binnen
-        /// </summary>
-        /// <param name="time"></param>
-        /// <returns>Een ArrayList met alle actions voor een bepaalde seconde</returns>
-        private ArrayList getActions(TimeSpan time) 
-        {          
-            return parser.getActionsForSecond((int)Math.Floor(time.TotalSeconds));
-        }
+
         /// <summary>
         /// Stel de eindtijden van de taken gelijk aan de starttijd van de taken.
         /// </summary>
@@ -110,14 +103,15 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns>Een arrayList van CTLTasks</returns>
-        private ArrayList getCTLTasksPerSecond(ArrayList tasks)
+        private List<CTLTask> getCTLTasksPerSecond(List<string> tasks)
         { 
             //Zet alle CTLTask objecten in een array
-            ArrayList CTLtasks = new ArrayList();
+            List<CTLTask> CTLtasks = new List<CTLTask>();
             if (tasks.Count != 0)
             {
-                for (int i = 0; i <= tasks.Count-1; i++)
+                for (int i = 0; i < tasks.Count; i++)
                 {
+                    Console.WriteLine();
                     CTLtasks.Add(modelDomain.getTaskByIdentifier((string)tasks[i]));
                 }
             }
