@@ -19,7 +19,8 @@ namespace CLESMonitor.Model
         SerialPort serialPort;
         Thread thread;
 
-        int[] dataMessage;
+        int[] dataMessage; //Representatie van de message bytes in int(32) per byte
+
 
         public HRSensor()
         {
@@ -28,6 +29,11 @@ namespace CLESMonitor.Model
             thread.IsBackground = true;
         }
 
+        //TODO: Dynamische instelling van ComPort
+
+        /// <summary>
+        /// Een verbinding maken met de opgeven comport, anders een serialPort exeption gooien.
+        /// </summary>
         public void setUpSerialPort()
         {
             try
@@ -44,9 +50,16 @@ namespace CLESMonitor.Model
             }
         }
 
+        //TODO: Lees uit je pakketje uit hoelan je message is. Geen fixed message size.
+
+        /// <summary>
+        /// De runloop van HRSensor. Blijft lopen totdat het programma gesloten wordt.
+        /// Cashe reset na 60 Bytes
+        /// </summary>
         public void Read()
         {
-            int[] incomingDataMessage = new int[DATA_MESSAGE_BYTE_COUNT];
+            //Maak een array met de lengte = aantal bytes van een message.
+            int[] incomingDataMessage = new int[DATA_MESSAGE_BYTE_COUNT]; 
             int byteNumber = 0;
 
             while (true)

@@ -26,7 +26,7 @@ namespace CLESMonitor.Model
         private double currentGSR;
 
         /// <summary>
-        /// Constructor methode
+        /// Constructor methode waarin direct de sensoren geset worden
         /// </summary>
         /// <param name="hrSensor"></param>
         /// <param name="gsrSensor"></param>
@@ -36,7 +36,13 @@ namespace CLESMonitor.Model
             this.gsrSensor = gsrSensor;
         }
 
-        public void setupWithCalibrationData(int[] HRValues, int[] GSRValues)
+        /// <summary>
+        /// Krijgt de waarden uit de calibratie periode binnen en set op basis daarvan 
+        /// de minimum en maximum waarden per sensor.
+        /// </summary>
+        /// <param name="HRValues"></param>
+        /// <param name="GSRValues"></param>
+        private void setupWithCalibrationData(int[] HRValues, int[] GSRValues)
         {
             // Neem de calibratie waarden over
             calibrationHR = HRValues;
@@ -49,11 +55,18 @@ namespace CLESMonitor.Model
             GSRMax = calibrationGSR.Max();
         }
 
+        /// <summary>
+        /// Maakt verbinding met ComPort
+        /// </summary>
         public override void startSession()
         {
             hrSensor.setUpSerialPort();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public override double calculateModelValue()
         {
             // Pak de waarden uit de sensoren
@@ -63,11 +76,21 @@ namespace CLESMonitor.Model
             return currentHR;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="HRValue"></param>
+        /// <returns>De genormaliseerde hartrate (double)</returns>
         private double calculateNormalisedHR(double HRValue)
         {
             return ((HRValue - HRMin)/(HRMax - HRMin))*100;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="GSRValue"></param>
+        /// <returns>De genormaliseerde skikn conductance (double)</returns>
         private double calculateNormalisedGSR(double GSRValue)
         {
             return ((GSRValue - GSRMin) / (GSRMax - GSRMin)) * 100;
