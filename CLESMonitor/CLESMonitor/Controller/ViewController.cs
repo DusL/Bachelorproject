@@ -27,8 +27,8 @@ namespace CLESMonitor.Controller
         private const double TIME_WINDOW = 0.5; //in minuten
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconden
 
-        public CLModel clModel;
-        public ESModel esModel;
+        private CLModel clModel;
+        private ESModel esModel;
         public XMLFileTaskParser parser;
         private CLESMonitorViewForm _view;
         private Thread updateChartDataThread;
@@ -77,9 +77,11 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public ViewController()
+        public ViewController(CLModel clModel, ESModel esModel)
         {
             _view = new CLESMonitorViewForm(this);
+            this.clModel = clModel;
+            this.esModel = esModel;
 
             // Stel outlets in
             this.setupOutlets();

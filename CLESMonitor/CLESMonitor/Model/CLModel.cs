@@ -10,12 +10,15 @@ namespace CLESMonitor.Model
     {
         //Time frame in seconden
         public int lengthTimeFrame;
+        public DateTime startTimeFrame;
+        public DateTime endTimeFrame;
 
         /// <summary>
         /// Bereken opnieuw de model-waarde
         /// </summary>
         /// <returns>De model-waarde</returns>
         public abstract double calculateModelValue(TimeSpan time);
+        //public abstract string getLog();
         
     }
 }
