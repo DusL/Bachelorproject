@@ -22,7 +22,7 @@ namespace XMLScenarioGenerator
 
         private void button1_Click(object sender, EventArgs e)
         {
-            _controller.generateXMLFile();
+            _controller.openScenarioFileDialog();
         }
     }
 }

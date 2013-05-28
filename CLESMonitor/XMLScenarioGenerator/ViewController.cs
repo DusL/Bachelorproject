@@ -45,10 +45,16 @@ namespace XMLScenarioGenerator
             }
         }
 
+        // Outlets
+        SaveFileDialog saveFileDialog;
+
         public ViewController()
         {
             elements = new List<Element>();
             _view = new Form1(this);
+
+            // Set outlets
+            saveFileDialog = this.view.saveFileDialog;
 
             // Add the (hardcoded) data to be generated here
             scenarioLength = 35;
@@ -61,7 +67,7 @@ namespace XMLScenarioGenerator
         /// This methods is called when the button in the GUI is pressed
         /// and will generate and save the XML file.
         /// </summary>
-        public void generateXMLFile()
+        public void generateXMLFile(String savePath)
         {
             XmlTextWriter writer = new XmlTextWriter("GeneratedScenario.xml", null);
             writer.Formatting = Formatting.Indented;
@@ -122,5 +128,15 @@ namespace XMLScenarioGenerator
 
             writer.Close();
         }
+
+        public void openScenarioFileDialog()
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                Console.Write("Gekozen file: " + saveFileDialog.FileName);
+                this.generateXMLFile(saveFileDialog.FileName);
+            }
+        }
+
     }
 }

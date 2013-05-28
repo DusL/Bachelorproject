@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.button1 = new System.Windows.Forms.Button();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.SuspendLayout();
             // 
             // button1
@@ -56,6 +57,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
+        public System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }
 
