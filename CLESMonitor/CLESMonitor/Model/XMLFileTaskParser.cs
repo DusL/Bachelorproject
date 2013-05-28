@@ -18,6 +18,18 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.Model
 {
+    public struct ParsedTask
+    {
+        public string identifier;
+        public string type;
+
+        public ParsedTask(string _identifier, string _type)
+        {
+            identifier = _identifier;
+            type = _type;
+        }
+    }
+
     public class XMLFileTaskParser
     {
         private List<XmlNode> taskActionsOccured; //A list of tasks with which something happens during a specific second.
@@ -59,7 +71,7 @@ namespace CLESMonitor.Model
         {
             
             List<XmlNode> newList = new List<XmlNode>();
-            if (currentSecond < seconds.Count )
+            if (currentSecond < seconds.Count)
             {
                 foreach (XmlNode node in this.seconds[currentSecond].ChildNodes)
                 {
@@ -103,7 +115,6 @@ namespace CLESMonitor.Model
             {
                 if (node.Name.Equals("task"))
                 {   
-                    Console.WriteLine("taakjes");
                     tasks.Add(node);
                 }
             }
@@ -124,24 +135,20 @@ namespace CLESMonitor.Model
         /// When this action equals "started", add the task to the list.        
         /// </summary>
         /// <returns>A list containing the string identifiers of tasks that have started this second</returns>
-        public List<string> tasksBegan(TimeSpan time)
+        public List<ParsedTask> tasksBegan(TimeSpan time)
         {
             findTasks(time);
-            List<string> tasksBegan = new List<string>();
-            foreach (XmlNode node in taskActionsOccured)
+            List<ParsedTask> tasksBegan = new List<ParsedTask>();
+            foreach (XmlNode node in taskActionsOccured) //<task>
             {
-                XmlNodeList children = node.ChildNodes;
                 foreach (XmlNode c in node.ChildNodes)
                 {
-                    Console.WriteLine(c.Name + " " + c.InnerText);
                     if (c.Name.Equals("action") & c.InnerText.Equals("started"))
                     {
-                        tasksBegan.Add(node.FirstChild.InnerText);//c.InnerText);
-
+                        tasksBegan.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                 }
             }
-            Console.WriteLine(taskActionsOccured.Count);
 
             return tasksBegan;     
         }
@@ -151,20 +158,17 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="time"></param>
         /// <returns>A list containing the string identifiers of tasks that have ended this second</returns>
-        public List<string> tasksEnded(TimeSpan time)
+        public List<ParsedTask> tasksEnded(TimeSpan time)
         {
-           findTasks(time);
-           List<string> tasksEnded = new List<string>();
+            findTasks(time);
+            List<ParsedTask> tasksEnded = new List<ParsedTask>();
             foreach (XmlNode node in taskActionsOccured)
             {
-                XmlNodeList children = node.ChildNodes;
                 foreach (XmlNode c in node.ChildNodes)
                 {
                     if (c.Name.Equals("action") & c.InnerText.Equals("stopped"))
                     {
-                        Console.WriteLine("Hoppa");
-                        
-                        tasksEnded.Add(c.InnerText);
+                        tasksEnded.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                 }
             }

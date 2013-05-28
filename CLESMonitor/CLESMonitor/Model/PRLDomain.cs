@@ -21,135 +21,135 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Gets the task by means of its string identifier
         /// </summary>
-        /// <param name="identifier"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
-       public CTLTask getTaskByIdentifier(string identifier)
+       public CTLTask getCTLTaskFromParsedTask(ParsedTask parsedTask)
         {
              CTLTask task;
 
-            if (identifier.Equals("ARI_UIT"))
+            if (parsedTask.type.Equals("ARI_UIT"))
             {
-                task = new CTLTask("ARI_UIT");
+                task = new CTLTask(parsedTask.identifier, "ARI_UIT");
                 task.description = "ARI uitschakelen voor geselecteerde planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("ARI_IN"))
+            else if (parsedTask.type.Equals("ARI_IN"))
             {
-                task = new CTLTask("ARI_IN");
+                task = new CTLTask(parsedTask.identifier, "ARI_IN");
                 task.description = "ARI inschakelen voor geselecteerde planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("VIND_TREIN"))
+            else if (parsedTask.type.Equals("VIND_TREIN"))
             {
-                task = new CTLTask("VIND_TREIN");
+                task = new CTLTask(parsedTask.identifier, "VIND_TREIN");
                 task.description = "Vind planregel met specifiek treinnummer";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("SELECTEER_REGEL"))
+            else if (parsedTask.type.Equals("SELECTEER_REGEL"))
             {
-                task = new CTLTask("SELECTEER_REGEL");
+                task = new CTLTask(parsedTask.identifier, "SELECTEER_REGEL");
                 task.description = "Selecteer planregel";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("DESELECTEER_REGEL"))
+            else if (parsedTask.type.Equals("DESELECTEER_REGEL"))
             {
-                task = new CTLTask("DESELECTEER_REGEL");
+                task = new CTLTask(parsedTask.identifier, "DESELECTEER_REGEL");
                 task.description = "De-selecteer planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("REGEL_IN_MUTATIESCHERM"))
+            else if (parsedTask.type.Equals("REGEL_IN_MUTATIESCHERM"))
             {
-                task = new CTLTask("REGEL_IN_MUTATIESCHERM");
+                task = new CTLTask(parsedTask.identifier, "REGEL_IN_MUTATIESCHERM");
                 task.description = "Planregel in mutatiescherm plaatsen";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("MUTEER_REGEL"))
+            else if (parsedTask.type.Equals("MUTEER_REGEL"))
             {
-                task = new CTLTask("MUTEER_REGEL");
+                task = new CTLTask(parsedTask.identifier, "MUTEER_REGEL");
                 task.description = "Planregel muteren";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("REGEL_TERUG"))
+            else if (parsedTask.type.Equals("REGEL_TERUG"))
             {
-                task = new CTLTask("REGEL_TERUG");
+                task = new CTLTask(parsedTask.identifier, "REGEL_TERUG");
                 task.description = "Planregel terug plaatsen";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("HAND_VERWERK_REGEL"))
+            else if (parsedTask.type.Equals("HAND_VERWERK_REGEL"))
             {
-                task = new CTLTask("HAND_VERWERK_REGEL");
+                task = new CTLTask(parsedTask.identifier, "HAND_VERWERK_REGEL");
                 task.description = "planregel handmatig verwerken";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("VERWERK_VERT_REGELS"))
+            else if (parsedTask.type.Equals("VERWERK_VERT_REGELS"))
             {
-                task = new CTLTask("VERWERK_VERT_REGELS");
+                task = new CTLTask(parsedTask.identifier, "VERWERK_VERT_REGELS");
                 task.description = "Vertraging verwerken voor geselecteerde planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("KWIT_VERT_REGELS"))
+            else if (parsedTask.type.Equals("KWIT_VERT_REGELS"))
             {
-                task = new CTLTask("KWIT_VERT_REGELS");
+                task = new CTLTask(parsedTask.identifier, "KWIT_VERT_REGELS");
                 task.description = "Vertraging kwiteren voor geselecteerde planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("VERWERK_VERT_TREIN"))
+            else if (parsedTask.type.Equals("VERWERK_VERT_TREIN"))
             {
-                task = new CTLTask("VERWERK_VERT_TREIN");
+                task = new CTLTask(parsedTask.identifier, "VERWERK_VERT_TREIN");
                 task.description = "Vertraging verwerken voor trein";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("VERWERK_VERT_REGELS"))
+            else if (parsedTask.type.Equals("VERWERK_VERT_REGELS"))
             {
-                task = new CTLTask("VERWERK_VERT_REGELS");
+                task = new CTLTask(parsedTask.identifier, "VERWERK_VERT_REGELS");
                 task.description = "Vertraging verwerken voor geselecteerde planregels";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("LASTGEVING"))
+            else if (parsedTask.type.Equals("LASTGEVING"))
             {
-                task = new CTLTask("LASTGEVING");
+                task = new CTLTask(parsedTask.identifier, "LASTGEVING");
                 task.description = "Lastgeving";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("HERROEP_SEIN"))
+            else if (parsedTask.type.Equals("HERROEP_SEIN"))
             {
-                task = new CTLTask("HERROEP_SEIN");
+                task = new CTLTask(parsedTask.identifier, "HERROEP_SEIN");
                 task.description = "Sein herroepen";
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
-            else if (identifier.Equals("COMMUNICATIE"))
+            else if (parsedTask.type.Equals("COMMUNICATIE"))
             {
-                task = new CTLTask("COMMUNICATIE");
+                task = new CTLTask(parsedTask.identifier, "COMMUNICATIE");
                 task.description = "Communicatie met andere processleiders en externe partijen";
                 task.moValue = 0;
                 task.lipValue = 0;
