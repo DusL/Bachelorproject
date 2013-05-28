@@ -31,8 +31,8 @@ namespace CLESMonitor.Controller
 
     public class ViewController
     {
-        private const double TIME_WINDOW = 0.5; //in minuten
-        private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconden
+        private const double TIME_WINDOW = 0.5; //in minutes
+        private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
 
         private CLModel clModel;
         private ESModel esModel;
@@ -44,7 +44,7 @@ namespace CLESMonitor.Controller
         private TimeSpan emptyTimer;
         private TimeSpan currentSessionTime;
 
-        // Verwijzing naar sensoren voor handmatige input
+        // References to sensors for manual input
         public HRSensor hrSensor;
         private HRSensorType hrSensorType;
         public GSRSensor gsrSensor;
@@ -73,7 +73,7 @@ namespace CLESMonitor.Controller
         OpenFileDialog openFileDialog;
         Button hrMinusButton;
         Button hrPlusButton;
-        // Sensoren
+        // Sensors
         TrackBar hrTrackbar;
         Label hrValueLabel;
         TrackBar gsrTrackbar;
@@ -93,10 +93,10 @@ namespace CLESMonitor.Controller
             this.clModel = clModel;
             this.esModel = esModel;
 
-            // Stel outlets in
+            // Set outlets 
             this.setupOutlets();
 
-            // Setup van chart1
+            // Setup of chart1
             CLChart.Series.Clear();
             Series newSeries = new Series("Series1");
             newSeries.ChartType = SeriesChartType.Spline;
@@ -105,7 +105,7 @@ namespace CLESMonitor.Controller
             newSeries.XValueType = ChartValueType.DateTime;
             CLChart.Series.Add(newSeries);
 
-            // Setup van chart2
+            // Setup of chart2
             ESChart.Series.Clear();
             Series newSeries2 = new Series("Series1");
             newSeries2.ChartType = SeriesChartType.Spline;
@@ -114,19 +114,19 @@ namespace CLESMonitor.Controller
             newSeries2.XValueType = ChartValueType.DateTime;
             ESChart.Series.Add(newSeries2);
 
-            // Creëer een thread voor de real-time grafiek - nog niet starten
+            //Create a thread for the real-time graph - not yet starting
             ThreadStart updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
             updateChartDataThread = new Thread(updateChartDataThreadStart);
-            // Een background thread zal automatisch stoppen voordat het programma sluit
+            // A background thread will automatically stop before the program closes
             updateChartDataThread.IsBackground = true;
 
-            // Wijs delegates toe
+            // Appoint delegates
             updateCLChartDataDelegate += new UpdateChartDataDelegate(UpdateCLChartData);
             updateESChartDataDelegate += new UpdateChartDataDelegate(UpdateESChartData);
             updateConsoleDelegate += new UpdateConsoleDelegate(UpdateConsole);
             updateSessionTimeDelegate += new UpdateSessionTimeDelegate(UpdateSessionTime);
             
-            // Stelt de timer initeel in op 0 seconden verstreken 
+            // Set timer initially to 0 seconds elapsed seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
 
@@ -139,7 +139,7 @@ namespace CLESMonitor.Controller
         }
 
         /// <summary>
-        /// Stelt de outlets van de controller in
+        /// Sets the controller outlets
         /// </summary>
         private void setupOutlets()
         {
@@ -163,7 +163,7 @@ namespace CLESMonitor.Controller
         }
 
         /// <summary>
-        /// De loop waarmee iedere seconde alles geupdate wordt
+        /// The loop that updates everything each second
         /// </summary>
         private void UpdateChartDataLoop()
         {
@@ -183,7 +183,7 @@ namespace CLESMonitor.Controller
             }
         }
         /// <summary>
-        /// Hiermee wordt de tijdsduur van de sessie up-to-date gehouden
+        /// Keeps the session time up-to-date
         /// </summary>
         private void UpdateSessionTime()
         {
@@ -192,14 +192,14 @@ namespace CLESMonitor.Controller
         }
 
         ///<summary>
-        /// Schrijft als onderdeel van de loop console-berichten. 
+        /// Writes console messages (as part of the runloop) 
         ///</summary>
         private void UpdateConsole()
         {
         }
 
         /// <summary>
-        /// Schrijft een string naar de console op het scherm
+        /// Writes a string to the console in the GUI
         /// </summary>
         /// <param name="stringToWrite"></param>
         private void writeStringToConsole(String stringToWrite)
@@ -209,54 +209,53 @@ namespace CLESMonitor.Controller
         }
 
         /// <summary>
-        /// Hiermee wordt de CL-grafiek bijgewerkt
+        /// Adjusts the CL-graph
         /// </summary>
-        public void UpdateCLChartData()
+        private void UpdateCLChartData()
         {
            
-            // Bereken de nieuwste waarde
-            
+            // Calculate the most recent value
             double newDataPoint = this.clModel.calculateModelValue(currentSessionTime);
 
-            // Update de grafiek en TextBox
+            // Update the graph and TextBox
             this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);
             clTextBox.Text = newDataPoint.ToString();
         }
         /// <summary>
-        /// Hiermee wordt de ES grafiek bijgewerkt
+        ///Adjusts the ES graph
         /// </summary>
-        public void UpdateESChartData()
+        private void UpdateESChartData()
         {
-            // Gesimuleerde sensor-data doorgeven
+            // Pass along simulated sensor-data
             if (hrSensorType == HRSensorType.ManualInput) {
                 hrSensor.sensorValue = hrTrackbar.Value;
             }
             gsrSensor.sensorValue = gsrTrackbar.Value;
 
-            // Bereken de nieuwste waarde
+            // Calculate the most recent de nieuwste waarde
             double newDataPoint = this.esModel.calculateModelValue();
 
-            // Update de grafiek en TextBox
+            // Update the graph and TextBox
             this.UpdateChartData(ESChart, newDataPoint, DateTime.Now);
             esTextBox.Text = newDataPoint.ToString();
         }
 
         /// <summary>
-        /// Pre: grafiek bevat een series genaamd "Series1"
-        /// Werkt "Series1" van een grafiek bij
+        /// Pre: graph contains a series named "Series1"
+        /// Adjusts "Series1" 
         /// </summary>
         /// <param name="chart"></param>
         /// <param name="newDataPoint"></param>
         private void UpdateChartData(Chart chart, double newDataPoint, DateTime timeStamp)
         {
-            // Update de chart
+            // Update chart
             Series series = chart.Series["Series1"];
             series.Points.AddXY(timeStamp.ToOADate(), newDataPoint);
             chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
             chart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
             chart.Invalidate(); //redraw
 
-            // Verwijder oude datapunten
+            // Remove old datapoints
             double removeBefore = timeStamp.AddSeconds((double)(60) * (-TIME_WINDOW)).ToOADate();
             while (series.Points[0].XValue < removeBefore)
             {
@@ -279,7 +278,7 @@ namespace CLESMonitor.Controller
             {
                 esModel.startSession();
 
-                // Controleer of de thread al actief is
+                // Check if thread is already active
                 if (updateChartDataThread.IsAlive) {
                     updateChartDataThread.Resume();
                 }
@@ -289,7 +288,7 @@ namespace CLESMonitor.Controller
                 }
             }
 
-            // Pas knoppen aan
+            // Adjust buttons
             startButton.Enabled = false;
             pauseButton.Enabled = true;
             stopButton.Enabled = true;
@@ -368,7 +367,6 @@ namespace CLESMonitor.Controller
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                //parser.readPath(openFileDialog.FileName);
                 clModel.setPathForParser(openFileDialog.FileName);
                 writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
                 startButton.Enabled = true;

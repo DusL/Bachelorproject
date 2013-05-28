@@ -28,7 +28,6 @@ namespace CLESMonitor
 
             var controller = new ViewController(ctlModel,fuzzyModel);
 
-            //controller.parser = parser;
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;
 
