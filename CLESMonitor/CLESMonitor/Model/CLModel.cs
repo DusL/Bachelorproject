@@ -18,6 +18,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <returns>De model-waarde</returns>
         public abstract double calculateModelValue(TimeSpan time);
+        public abstract void setPathForParser(string filePath);
         //public abstract string getLog();
         
     }

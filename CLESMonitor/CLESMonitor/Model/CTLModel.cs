@@ -14,8 +14,7 @@ namespace CLESMonitor.Model
     {
         private PRLDomain modelDomain;
         public XMLFileTaskParser parser;
-        private ArrayList currentActiveTasks;
-       // private 
+        private ArrayList currentActiveTasks; 
 
         public CTLModel(XMLFileTaskParser parser)
         {
@@ -270,6 +269,11 @@ namespace CLESMonitor.Model
         private double calculateTSS(ArrayList tasks)
         { 
             return 0;
+        }
+
+        public override void setPathForParser(string filePath)
+        {
+            parser.readPath(filePath);
         }
     }
 }

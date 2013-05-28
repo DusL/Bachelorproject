@@ -17,9 +17,7 @@ namespace CLESMonitor.Model
         InformationDomainExternalContact
     }
     public class PRLDomain
-    {
-        public ArrayList taskArray;
-        
+    {        
        public CTLTask getTaskByIdentifier(string identifier)
         {
              CTLTask task;
@@ -111,7 +109,6 @@ namespace CLESMonitor.Model
                 task.moValue = 0;
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
-                taskArray.Add(task);
             }
             else if (identifier.Equals("VERWERK_VERT_TREIN"))
             {
@@ -159,12 +156,6 @@ namespace CLESMonitor.Model
                 //task = null;
             }
             return task;
-        }
-
-        public void addNewTask(CTLTask task)
-        {
-            this.taskArray.Add(task);
-        }
-       
+        }       
     }
 }
