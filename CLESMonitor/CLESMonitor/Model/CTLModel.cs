@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-//using System.
 
 namespace CLESMonitor.Model
 {
@@ -26,14 +25,14 @@ namespace CLESMonitor.Model
 
         public override double calculateModelValue(TimeSpan time)
         {
-            //Vraagt een lijst van taken die begonnen en een lijst van taken die gestopt zijn op.
+            //Requests a list of tasks that have started as well as a list of tasks that have stopped
             List<string> tasksBegan = parser.tasksBegan(time);
             List<string> tasksEnded = parser.tasksEnded(time);
 
             List<CTLTask> CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
             List<CTLTask> CTLtasksEndedThisSecond = getCTLTasksPerSecond(tasksEnded);
 
-            //Stel voor iedere niew binnengekomen taak de huidige tijd in als start tijd
+            //Set the current time as start time for every new task
             foreach (CTLTask t in CTLtasksStartedThisSecond)
             {
                 t.startTime = DateTime.Now;
@@ -42,7 +41,7 @@ namespace CLESMonitor.Model
             //TODO: Je wilt eerst de taken aanpassen die er nog in staan. Dan pas dingen toevoegen.
 
 
-            //Voegt alle gestarte taken toe aan de currentActiveTasks lijst en stelt de eindtijden van deze taken in
+            //Adds all newly started tasks to currentActiveTasks and sets the endtimes of these tasks
             
             currentActiveTasks.AddRange(CTLtasksStartedThisSecond);
             
@@ -51,17 +50,17 @@ namespace CLESMonitor.Model
 
             foreach (CTLTask task in CTLtasksEndedThisSecond)
             {
-                //Vind de taks in de currentActiveTask lijst en set isStopped=true;
+                //TODO: Vind de taks in de currentActiveTask lijst en set isStopped=true;
             }             
 
 
-            //Bereken alle benodigde waarden
+            //Calculate all necessary values
             double lip = calculateOverallLip(currentActiveTasks);
             double mo = calculateOverallMo(currentActiveTasks);
             double tss = calculateTSS(currentActiveTasks);
 
 
-            // We genereren op dit moment nog random waarden
+            //For now, we generate random values
             Random random = new Random();
             return random.Next(0, 5);
 
@@ -69,7 +68,7 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Stel de eindtijden van de taken gelijk aan de starttijd van de taken.
+        /// Set endtimes of tasks to be the same as their start time
         /// </summary>
         /// <param name="startedTasks"></param>
         private void adjustEndTimes()
@@ -84,7 +83,7 @@ namespace CLESMonitor.Model
         }
 
 
-        //Past de starttijden aan op het begin van het timeframe
+        //Adjusts the starting times to be equal to the start of the timeframe
         private void adjustStartTimes()
         {
             foreach (CTLTask task in currentActiveTasks)
@@ -98,13 +97,13 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Maak van een array van string identifiers een ArrayList van CTLtasks
+        /// Create a list of CTLTasks based on a list of string identifiers
         /// </summary>
         /// <param name="tasks"></param>
-        /// <returns>Een arrayList van CTLTasks</returns>
+        /// <returns>A list of CTLTasks</returns>
         private List<CTLTask> getCTLTasksPerSecond(List<string> tasks)
         { 
-            //Zet alle CTLTask objecten in een array
+            //Add all CTLTask objects to a list
             List<CTLTask> CTLtasks = new List<CTLTask>();
             if (tasks.Count != 0)
             {
@@ -121,9 +120,9 @@ namespace CLESMonitor.Model
         //TODO: Opsplitsen task1,task2.
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
-            //Maak een nieuwe CTLTask
+            //Creat a new CTLTask
             CTLTask newTask = new CTLTask(task1.getName() + task2.getName());
-            //En set zijn waarden
+            //and set its values
             newTask.moValue = multitaskMO(task1, task2);
             newTask.lipValue = multitaskLip(task1, task2);
             newTask.informationDomains = multitaskDomain(task1, task2);
@@ -133,12 +132,12 @@ namespace CLESMonitor.Model
             return newTask;
         }
         /// <summary>
-        /// Stelt de array van domeinen van een nieuwe taak gelijk aan de domeinen van task1, task2 gecombineerd.
-        /// Hierbij worden overlappende domeinen slechts 1 maal in de nieuwe array opgenomen
+        /// Sets the array of domains of the new tasks to be the combined domains of both task1 and task2
+        /// Domains that occur in both tasks are only added once.
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>Een array van informationDomains</returns>
+        /// <returns>An array of informationDomains</returns>
         private InformationDomain[] multitaskDomain(CTLTask task1, CTLTask task2)
         {
             InformationDomain[] newDomain = task1.informationDomains;
@@ -154,12 +153,11 @@ namespace CLESMonitor.Model
             return newDomain;
         }
         /// <summary>
-        /// Stelt de MO-waarde voor een multitask taak gelijk aan het de som van de MO-waarden van de oorspronkelijke taken
-        /// als deze groter is dan 1.
+        /// Sets the MO-value of a multitaks to be the sum of the MO-values of the original tasks when this sum is greater than 1.
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>Een double die de MO waarde van de nieuwe multitaks taak representeert</returns>
+        /// <returns>A double representing the MO value of the new multitask</returns>
         private double multitaskMO(CTLTask task1, CTLTask task2)
         {
             double MO1 = task1.moValue;
@@ -167,12 +165,11 @@ namespace CLESMonitor.Model
             return Math.Max(MO1 + MO2, 1); ;
         }
         /// <summary>
-        /// Stelt de Lip-waarde van een multitask taak gelijk aan de grootste van de twee lip-waarden van 
-        /// de oorspronkelijke taken.
+        /// Sets the Lip-value of a multitask: the largest of the two lip-values of the original tasks
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>Een nieuwe Lip waarde voor een nieuwe taak</returns>
+        /// <returns>The Lip value for a new task</returns>
         private int multitaskLip(CTLTask task1, CTLTask task2)
         {
             int Lip1 = task1.lipValue;
@@ -185,19 +182,18 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>De duration van de nieuwe multitask in de vorm van een TimeSpan</returns>
+        /// <returns>The duration of the multitask represented by a TimeSpan</returns>
         private double multitaskDuration(CTLTask task1, CTLTask task2)
         {
             TimeSpan duration = findEndTimeMultitask(task1, task2) - findStartTimeMultitask(task1, task2);
             return duration.TotalSeconds; 
         }
         /// <summary>
-        /// Bepaald aan de hand van de start en eindtijden van twee taken vanaf welk moment
-        /// ze overlappen. Dat punt is de start tijd van de multitask
+        /// Determines the starting time of a multitask by means of the start- and endtimes of two tasks.
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>DateTime: starttijd multitask</returns>
+        /// <returns>DateTime: starttime multitask</returns>
         private DateTime findStartTimeMultitask(CTLTask task1, CTLTask task2)
         {
             if (task1.startTime < task2.startTime)
@@ -207,12 +203,11 @@ namespace CLESMonitor.Model
             return task1.startTime;
         }
         /// <summary>
-        /// Bepaald aan de hand van de start en eindtijden van twee taken vanaf welk moment
-        /// ze niet meer overlappen. Dat punt is de eindtijd van de multitask
+        /// Determines the end time of a multitask by means of the start- and endtimes of two tasks.
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>DateTime: eindtijd multitask</returns>
+        /// <returns>DateTime: endtime multitask</returns>
         private DateTime findEndTimeMultitask(CTLTask task1, CTLTask task2)
         {
             if (task1.endTime < task2.endTime)
@@ -223,12 +218,10 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Berekent de gemiddelde genormaliseerde lip-waarde over het huidige time frame.
-        /// Hiervoor wordt eerst gemiddeld over duration en vervolgens het totaal gedeeld door 
-        /// de lengte van het huidige time frame.
+        /// Calculates the average normalized lip-values across the current time frame.
         /// </summary>
         /// <param name="tasks"></param>
-        /// <returns>Gemiddelde Lip waarde (onafgerond) </returns>
+        /// <returns>Average Lip-value (not rounded) </returns>
         private double calculateOverallLip(ArrayList tasks)
         {
             int i = 0;
@@ -246,10 +239,10 @@ namespace CLESMonitor.Model
             return lipTimesDuration/lengthTimeFrame;
         }
         /// <summary>
-        /// Berekent de gemiddelde genormaliseerde mental occupancy waarde.
+        /// Calculates the average normalized mental occupancy waarde.
         /// </summary>
         /// <param name="tasks"></param>
-        /// <returns>De genormaliseerde MO-waarde over 1 time frame </returns>
+        /// <returns>The normalized MO-value across 1 time frame </returns>
         private double calculateOverallMo(ArrayList tasks)
         {
             int i = 0;

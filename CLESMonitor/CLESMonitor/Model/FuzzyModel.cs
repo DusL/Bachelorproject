@@ -11,22 +11,22 @@ namespace CLESMonitor.Model
         // HR = heart rate
         // GSR = skin conductance
 
-        // Sensoren
+        // Sensors
         private HRSensor hrSensor;
         private GSRSensor gsrSensor;
 
-        // Data uit de calibratieperiode
-        private int[] calibrationHR; //in slagen/minuut
+        // Data from the calibration period
+        private int[] calibrationHR; //in beats/minute
         private int[] calibrationGSR; //in siemens
         private int HRMax, HRMin;
         private int GSRMax, GSRMin;
 
-        // Huidige gemeten waardes
+        // Currently measured values
         private double currentHR;
         private double currentGSR;
 
         /// <summary>
-        /// Constructor methode
+        /// Constructor method
         /// </summary>
         /// <param name="hrSensor"></param>
         /// <param name="gsrSensor"></param>
@@ -38,11 +38,11 @@ namespace CLESMonitor.Model
 
         public void setupWithCalibrationData(int[] HRValues, int[] GSRValues)
         {
-            // Neem de calibratie waarden over
+            //Adopt the calibration values
             calibrationHR = HRValues;
             calibrationGSR = GSRValues;
 
-            // Herleid nieuwe waarden
+            //Set the min and max values
             HRMin = calibrationHR.Min();
             HRMax = calibrationHR.Max();
             GSRMax = calibrationGSR.Max();
@@ -56,7 +56,7 @@ namespace CLESMonitor.Model
 
         public override double calculateModelValue()
         {
-            // Pak de waarden uit de sensoren
+            //Retrieve the values from the sensors
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 

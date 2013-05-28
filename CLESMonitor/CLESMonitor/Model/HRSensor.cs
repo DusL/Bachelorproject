@@ -15,7 +15,7 @@ namespace CLESMonitor.Model
         private const int DATA_MESSAGE_BYTE_COUNT = 60;
         private const int HEART_RATE_BYTE_INDEX = 12;
 
-        public double sensorValue; //heart rate, in slagen/minuut
+        public double sensorValue; //heart rate, in beats/minute
         SerialPort serialPort;
         Thread thread;
 
@@ -56,7 +56,7 @@ namespace CLESMonitor.Model
                     int byteInt = serialPort.ReadByte();
                     incomingDataMessage[byteNumber] = byteInt;
 
-                    // Controleer of het bericht nu volledig is aangekomen
+                    //Check whether the entire message has been received 
                     if (byteNumber == DATA_MESSAGE_BYTE_COUNT-1)
                     {
                         dataMessage = incomingDataMessage;

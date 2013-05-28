@@ -12,15 +12,15 @@ namespace CLESMonitor.Model
         private string name;
         public int lipValue { get; set; } //level of information processing
         public double moValue { get; set; } //mental occupancy
-        public InformationDomain[] informationDomains { get; set; } //een array van enum representaties van domeinen
-        public double duration { get; set; } //in seconden
+        public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
+        public double duration { get; set; } //in seconds
         public DateTime startTime { get; set; }
         public DateTime endTime { get; set; }
         public string description { get; set; }
         public bool isStopped { get; set; }
 
         /// <summary>
-        /// Constructor methode
+        /// Constructor method
         /// </summary>
         /// <param name="_name"></param>
         public CTLTask(string _name)
@@ -35,9 +35,9 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// ToString methode
+        /// ToString method
         /// </summary>
-        /// <returns>Een string-representatie van het CTLTask object</returns>
+        /// <returns>A string-representation of the CTLTask object</returns>
         public string toString()
         {
             return String.Format("Name = {0}", name);

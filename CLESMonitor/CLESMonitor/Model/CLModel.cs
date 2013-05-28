@@ -8,15 +8,15 @@ namespace CLESMonitor.Model
 {
     public abstract class CLModel
     {
-        //Time frame in seconden
+        //Time frame in seconds
         public int lengthTimeFrame;
         public DateTime startTimeFrame;
         public DateTime endTimeFrame;
 
         /// <summary>
-        /// Bereken opnieuw de model-waarde
+        /// Recalculate model-value
         /// </summary>
-        /// <returns>De model-waarde</returns>
+        /// <returns>The model-waarde</returns>
         public abstract double calculateModelValue(TimeSpan time);
         public abstract void setPathForParser(string filePath);
         //public abstract string getLog();
