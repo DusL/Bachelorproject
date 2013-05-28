@@ -70,5 +70,15 @@ namespace CLESMonitor.View
         {
             _controller.openScenarioFileDialog();
         }
+
+        private void hrSensorTypeRadioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            _controller.hrSensorTypeChanged(sender);
+        }
+
+        private void hrSensorTypeRadioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            _controller.hrSensorTypeChanged(sender);
+        }
     }
 }
