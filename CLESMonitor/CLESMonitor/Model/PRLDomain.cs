@@ -18,6 +18,11 @@ namespace CLESMonitor.Model
     }
     public class PRLDomain
     {        
+        /// <summary>
+        /// Gets the task by means of its string identifier
+        /// </summary>
+        /// <param name="identifier"></param>
+        /// <returns></returns>
        public CTLTask getTaskByIdentifier(string identifier)
         {
              CTLTask task;

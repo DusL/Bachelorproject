@@ -259,11 +259,14 @@ namespace CLESMonitor.Model
         }
 
         //TODO
-        private double calculateTSS(ArrayList tasks)
+        private double calculateTSS(List<CTLTask> tasks)
         { 
             return 0;
         }
-
+        /// <summary>
+        /// Gets the selected path from ViewController and sets that path for the XMLTaskParser
+        /// </summary>
+        /// <param name="filePath"></param>
         public override void setPathForParser(string filePath)
         {
             parser.readPath(filePath);

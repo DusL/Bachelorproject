@@ -36,7 +36,6 @@ namespace CLESMonitor.Controller
 
         private CLModel clModel;
         private ESModel esModel;
-       // public XMLFileTaskParser parser;
         private CLESMonitorViewForm _view;
         private Thread updateChartDataThread;
         private Random random = new Random();
