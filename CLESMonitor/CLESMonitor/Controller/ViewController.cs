@@ -22,6 +22,13 @@ namespace CLESMonitor.Controller
         Calibrating
     }
 
+    enum HRSensorType
+    {
+        Unknown,
+        ManualInput,
+        BluetoothZephyr
+    }
+
     public class ViewController
     {
         private const double TIME_WINDOW = 0.5; //in minuten
@@ -39,6 +46,7 @@ namespace CLESMonitor.Controller
 
         // Verwijzing naar sensoren voor handmatige input
         public HRSensor hrSensor;
+        private HRSensorType hrSensorType;
         public GSRSensor gsrSensor;
 
         public delegate void UpdateChartDataDelegate();
@@ -63,6 +71,8 @@ namespace CLESMonitor.Controller
         Button pauseButton;
         Button calibrateButton;
         OpenFileDialog openFileDialog;
+        Button hrMinusButton;
+        Button hrPlusButton;
         // Sensoren
         TrackBar hrTrackbar;
         Label hrValueLabel;
@@ -125,6 +135,7 @@ namespace CLESMonitor.Controller
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
+            this.hrSensorType = HRSensorType.ManualInput; //TODO: zowel in Controller als in View nu..
         }
 
         /// <summary>
@@ -147,6 +158,8 @@ namespace CLESMonitor.Controller
             gsrTrackbar = this.View.gsrTrackBar;
             gsrValueLabel = this.View.gsrValueLabel;
             openFileDialog = this.View.openFileDialog1;
+            hrMinusButton = this.View.hrMinusButton;
+            hrPlusButton = this.View.hrPlusButton;
         }
 
         /// <summary>
@@ -215,7 +228,9 @@ namespace CLESMonitor.Controller
         public void UpdateESChartData()
         {
             // Gesimuleerde sensor-data doorgeven
-            //hrSensor.sensorValue = hrTrackbar.Value;
+            if (hrSensorType == HRSensorType.ManualInput) {
+                hrSensor.sensorValue = hrTrackbar.Value;
+            }
             gsrSensor.sensorValue = gsrTrackbar.Value;
 
             // Bereken de nieuwste waarde
@@ -356,7 +371,31 @@ namespace CLESMonitor.Controller
                 //parser.readPath(openFileDialog.FileName);
                 clModel.setPathForParser(openFileDialog.FileName);
                 writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
+                startButton.Enabled = true;
             }            
+        }
+
+        public void hrSensorTypeChanged(object sender)
+        {
+            RadioButton radioButton = (RadioButton)sender;
+            if (radioButton.Checked)
+            {
+                //TODO: is dit vies?
+                if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
+                {
+                    hrSensorType = HRSensorType.ManualInput;
+                    hrTrackbar.Enabled = true;
+                    hrMinusButton.Enabled = true;
+                    hrPlusButton.Enabled = true;
+                }
+                else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
+                {
+                    hrSensorType = HRSensorType.BluetoothZephyr;
+                    hrTrackbar.Enabled = false;
+                    hrMinusButton.Enabled = false;
+                    hrPlusButton.Enabled = false;
+                }
+            }
         }
     }
 }
