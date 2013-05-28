@@ -56,6 +56,14 @@ namespace CLESMonitor.Model
                 task.lipValue = 0;
                 task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
             }
+            else if (identifier.Equals("DESELECTEER_REGEL"))
+            {
+                task = new CTLTask("DESELECTEER_REGEL");
+                task.description = "De-selecteer planregels";
+                task.moValue = 0;
+                task.lipValue = 0;
+                task.informationDomains = new InformationDomain[] { InformationDomain.InformationDomainUnknown };
+            }
             else if (identifier.Equals("REGEL_IN_MUTATIESCHERM"))
             {
                 task = new CTLTask("REGEL_IN_MUTATIESCHERM");
