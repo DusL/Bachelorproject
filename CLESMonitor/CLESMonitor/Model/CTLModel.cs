@@ -13,13 +13,13 @@ namespace CLESMonitor.Model
     {
         private PRLDomain modelDomain;
         public XMLFileTaskParser parser;
-        private ArrayList currentActiveTasks; 
+        private List<CTLTask> currentActiveTasks; 
 
         public CTLModel(XMLFileTaskParser parser)
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = 1;
-            currentActiveTasks = new ArrayList();
+            currentActiveTasks = new List<CTLTask>();
             this.parser = parser;
         }
 
@@ -222,7 +222,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns>Average Lip-value (not rounded) </returns>
-        private double calculateOverallLip(ArrayList tasks)
+        private double calculateOverallLip(List<CTLTask> tasks)
         {
             int i = 0;
             double lipTimesDuration = 0;
@@ -243,7 +243,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns>The normalized MO-value across 1 time frame </returns>
-        private double calculateOverallMo(ArrayList tasks)
+        private double calculateOverallMo(List<CTLTask> tasks)
         {
             int i = 0;
             double moTimesDuration = 0;
