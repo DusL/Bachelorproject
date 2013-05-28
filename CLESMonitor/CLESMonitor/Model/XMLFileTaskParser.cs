@@ -56,7 +56,7 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="currentSecond"></param>
         /// <returns>Een ArrayList die alle tasks en events bevat die in deze seconde gestart of gestopt zijn.</returns>
-        public ArrayList getActionsForSecond(int currentSecond)
+        private ArrayList getActionsForSecond(int currentSecond)
         {
             
             ArrayList newList = new ArrayList();
