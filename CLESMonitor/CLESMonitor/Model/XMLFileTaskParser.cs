@@ -18,6 +18,18 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.Model
 {
+    public struct ParsedEvent
+    {
+        public string identifier;
+        public string type;
+
+        public ParsedEvent(string _identifier, string _type)
+        {
+            identifier = _identifier;
+            type = _type;
+        }
+    }
+
     public struct ParsedTask
     {
         public string identifier;
@@ -109,20 +121,20 @@ namespace CLESMonitor.Model
             return actionList; 
         }
 
-        public List<ParsedTask> eventsStarted(TimeSpan timeSpan)
+        public List<ParsedEvent> eventsStarted(TimeSpan timeSpan)
         {
             return eventsForTime(timeSpan, ActionType.EventStarted);
         }
 
-        public List<ParsedTask> eventsStopped(TimeSpan timeSpan)
+        public List<ParsedEvent> eventsStopped(TimeSpan timeSpan)
         {
             return eventsForTime(timeSpan, ActionType.EventStopped);
         }
 
-        private List<ParsedTask> eventsForTime(TimeSpan timeSpan, ActionType actionType)
+        private List<ParsedEvent> eventsForTime(TimeSpan timeSpan, ActionType actionType)
         {
             List<XmlNode> eventNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Event);
-            List<ParsedTask> events = new List<ParsedTask>();
+            List<ParsedEvent> events = new List<ParsedEvent>();
 
             foreach (XmlNode node in eventNodeList) //<event>
             {
@@ -130,12 +142,11 @@ namespace CLESMonitor.Model
                 {
                     if (actionType == ActionType.EventStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
                     {
-                        //FIXME: ParsedTask moet iets anders zijn!
-                        events.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                     else if (actionType == ActionType.EventStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
                     {
-                        events.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                 }
             }

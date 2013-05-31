@@ -8,22 +8,46 @@ using System.Xml;
 
 
 namespace CLESMonitor.Model
-{
-    
+{    
     public enum InformationDomain
     {
         InformationDomainUnknown,
         InformationDomainUsingInterface,
         InformationDomainExternalContact
     }
+
     public class PRLDomain
-    {        
+    {
+        public CTLEvent generateEvent(ParsedEvent parsedEvent)
+        {
+            CTLEvent ctlEvent;
+
+            if (parsedEvent.type.Equals("GESTRANDE_TREIN"))
+            {
+                ctlEvent = new CTLEvent(parsedEvent.identifier, parsedEvent.type);
+            }
+            else if (parsedEvent.type.Equals("GESTOORDE_WISSEL"))
+            {
+                ctlEvent = new CTLEvent(parsedEvent.identifier, parsedEvent.type);
+            }
+            else if (parsedEvent.type.Equals("VERTRAAGDE_TREIN"))
+            {
+                ctlEvent = new CTLEvent(parsedEvent.identifier, parsedEvent.type);
+            }
+            else
+            {
+                throw new Exception("Er is een identifier gevonden die niet bestaat. Controleer het XML bestand en probeer opnieuw.");
+            }
+
+            return ctlEvent;
+        }
+
         /// <summary>
         /// Gets the task by means of its string identifier
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-       public CTLTask getCTLTaskFromParsedTask(ParsedTask parsedTask)
+        public CTLTask generateTask(ParsedTask parsedTask)
         {
              CTLTask task;
 
@@ -157,7 +181,7 @@ namespace CLESMonitor.Model
             }
             else
             {
-                throw new Exception("Er is een identifier gevonden die niet bestaat. Controleer het XML bestand en probeer opnieuw");
+                throw new Exception("Er is een identifier gevonden die niet bestaat. Controleer het XML bestand en probeer opnieuw.");
                 //task = null;
             }
             return task;
