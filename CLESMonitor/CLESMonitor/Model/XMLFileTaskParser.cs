@@ -15,15 +15,54 @@ using System.Threading;
 using System.Reflection;
 using CLESMonitor.Controller;
 
-//using System.IO.Packaging;
 
 namespace CLESMonitor.Model
 {
+    public struct ParsedEvent
+    {
+        public string identifier;
+        public string type;
+
+        public ParsedEvent(string _identifier, string _type)
+        {
+            identifier = _identifier;
+            type = _type;
+        }
+    }
+
+    public struct ParsedTask
+    {
+        public string identifier;
+        public string type;
+
+        public ParsedTask(string _identifier, string _type)
+        {
+            identifier = _identifier;
+            type = _type;
+        }
+    }
+
+    public enum Action
+    {
+        Unknown,
+        Event,
+        Task,
+    }
+
+    public enum ActionType
+    {
+        Unknown,
+        EventStarted,
+        EventStopped,
+        TaskStarted,
+        TaskStopped
+    }
+
     public class XMLFileTaskParser
     {
-        private ArrayList taskActionsOccured; //Een lijst van taken waar in een seconde iets mee gebeurt is.
         private XmlNodeList seconds;
         private bool endOfFileReached;
+
         /// <summary>
         /// 1 scenario is 1 file
         /// 
@@ -34,154 +73,136 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Laad het gekozen Xml-bestand in en slaat direct een lijst van alle seconden op.
+        /// Load the chosen Xml-file and create a list containing every second in the file
         /// </summary>
         /// <param name="path"></param>
         public void readPath(String path)
         {
-            // Laad het gewenste Xml document in via het gespecificeerde pad.
+            //Load the Xml file through teh specified path.
             XmlDocument xmlDoc = new XmlDocument(); 
             xmlDoc.Load(path); 
 
-            // Haal iedere scenarion in de file binnen.
+            //Retrieve every scenario from file.
             XmlNodeList scenario = xmlDoc.GetElementsByTagName("scenario");
 
-            //Haal iedere sconde die in het scenario gedefinieerd is binnen
+            //Retrieve every second defiened in the scenario
             seconds = xmlDoc.GetElementsByTagName("second");
 
             endOfFileReached = false;
         }
+
         /// <summary>
-        /// Haalt voor de huidige seconde alle acties (alle childnodes) op.
+        /// Get every action (childnode) of the current second.
         /// </summary>
         /// <param name="currentSecond"></param>
         /// <returns>Een ArrayList die alle tasks en events bevat die in deze seconde gestart of gestopt zijn.</returns>
-        private ArrayList getActionsForSecond(int currentSecond)
-        {
-            
-            ArrayList newList = new ArrayList();
-            if (currentSecond < seconds.Count )
+        private List<XmlNode> getActionsForSecond(int currentSecond, Action action)
+        {            
+            List<XmlNode> actionList = new List<XmlNode>();
+            if (currentSecond < seconds.Count)
             {
                 foreach (XmlNode node in this.seconds[currentSecond].ChildNodes)
                 {
-                    newList.Add(node);
+                    if (action == Action.Event && node.Name.Equals("event"))
+                    {
+                        actionList.Add(node);
+                    }
+                    else if (action == Action.Task && node.Name.Equals("task"))
+                    {
+                        actionList.Add(node);
+                    }
                 }
             }
             else 
             {
                 endOfFileReached = true;
             }
-            
-            return newList; 
+
+            return actionList; 
         }
-        /// <summary>
-        /// Bepaald welke events voorkomen in een XmlNodeList. 
-        /// Hiermee kan bepaald worden met welke events iets aan de hand is 
-        /// in een bepaalde seconde.
-        /// </summary>
-        /// <param name="actions"></param>
-        /// <returns>Een XmlNode array van events</returns>
-        private ArrayList getEvents(XmlNodeList actions)
+
+        public List<ParsedEvent> eventsStarted(TimeSpan timeSpan)
         {
-            ArrayList events = new ArrayList();
-            foreach (XmlNode node in actions)
+            return eventsForTime(timeSpan, ActionType.EventStarted);
+        }
+
+        public List<ParsedEvent> eventsStopped(TimeSpan timeSpan)
+        {
+            return eventsForTime(timeSpan, ActionType.EventStopped);
+        }
+
+        private List<ParsedEvent> eventsForTime(TimeSpan timeSpan, ActionType actionType)
+        {
+            List<XmlNode> eventNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Event);
+            List<ParsedEvent> events = new List<ParsedEvent>();
+
+            foreach (XmlNode node in eventNodeList) //<event>
             {
-                if (node.Name.Equals("event"))
+                foreach (XmlNode c in node.ChildNodes)
                 {
-                    
-                    events.Add(node);
+                    if (actionType == ActionType.EventStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                    {
+                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
+                    else if (actionType == ActionType.EventStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                    {
+                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
                 }
             }
+
             return events;
         }
-        /// <summary>
-        /// Bepaald welke tasks voorkomen in een XmlNodeList.
-        /// Hiermee kan bepaald worden in welke seconde een task stopt en start.
-        /// </summary>
-        /// <param name="actions"></param>
-        /// <returns>Een XmlNode array met taken</returns>
-        private ArrayList getTasks(ArrayList actions)
-        {
-            ArrayList tasks = new ArrayList();
-            foreach (XmlNode node in actions)
-            {
-                if (node.Name.Equals("task"))
-                {   
-                    Console.WriteLine("taakjes");
-                    tasks.Add(node);
-                }
-            }
-            return tasks;
-        }
-        /// <summary>
-        /// Haalt alle actions binnen die op een bepaalde seconden voorkomen 
-        /// en filert alle taken eruit en zet deze in taskActionsOccured.
-        /// </summary>
-        /// <param name="timeSpan"></param>
-        private void findTasks(TimeSpan timeSpan)
-        {
-            ArrayList actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
-            taskActionsOccured = getTasks(actions);
-           
-        }
-        /// <summary>
-        /// Voor iedere taak in taskActionsOccured wordt de child opgezocht waarind de actie gedefinieerd staat.
-        /// Wanneer deze actie "started" is wordt deze aan de ArrayList toegevoegd.        
-        /// </summary>
-        /// <returns>Een arraylist met strings, de identifiers van tasks</returns>
-        public List<string> tasksBegan(TimeSpan time)
-        {
-            findTasks(time);
-            List<string> tasksBegan = new List<string>();
-            foreach (XmlNode node in taskActionsOccured)
-            {
-                XmlNodeList children = node.ChildNodes;
-                foreach (XmlNode c in node.ChildNodes)
-                {
-                    Console.WriteLine(c.Name + " " + c.InnerText);
-                    if (c.Name.Equals("action") & c.InnerText.Equals("started"))
-                    {
-                        tasksBegan.Add(node.FirstChild.InnerText);//c.InnerText);
 
-                    }
-                }
-            }
-            Console.WriteLine(taskActionsOccured.Count);
-
-            return tasksBegan;     
-        }
         /// <summary>
-        /// Voor iedere taak in taskActionsOccured wordt de child opgezocht waarind de actie gedefinieerd staat.
-        /// Wanneer deze actie "stopped" is wordt deze aan de ArrayList toegevoegd.
+        /// Retrieve the childnodes of each task in taskActionOccured, find the one defining the current action.
+        /// When this action equals "started", add the task to the list.        
+        /// </summary>
+        /// <returns>A list containing the string identifiers of tasks that have started this second</returns>
+        public List<ParsedTask> tasksStarted(TimeSpan timeSpan)
+        {
+            return tasksForTime(timeSpan, ActionType.TaskStarted);
+        }
+
+        /// <summary>
+        /// Retrieve the childnodes of each task in taskActionOccured, find the one defining the current action.
+        /// When this action equals "stopped", add the task to the list.
         /// </summary>
         /// <param name="time"></param>
-        /// <returns>Een ArrayList met alle taken die deze seconde geeindigd zijn</returns>
-        public List<string> tasksEnded(TimeSpan time)
+        /// <returns>A list containing the string identifiers of tasks that have ended this second</returns>
+        public List<ParsedTask> tasksStopped(TimeSpan timeSpan)
         {
-           findTasks(time);
-           List<string> tasksEnded = new List<string>();
-            foreach (XmlNode node in taskActionsOccured)
+            return tasksForTime(timeSpan, ActionType.TaskStopped);
+        }
+
+        private List<ParsedTask> tasksForTime(TimeSpan timeSpan, ActionType actionType)
+        {
+            List<XmlNode> taskNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Task);
+            List<ParsedTask> tasks = new List<ParsedTask>();
+
+            foreach (XmlNode node in taskNodeList) //<task>
             {
-                XmlNodeList children = node.ChildNodes;
                 foreach (XmlNode c in node.ChildNodes)
                 {
-                    if (c.Name.Equals("action") & c.InnerText.Equals("stopped"))
+                    if (actionType == ActionType.TaskStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
                     {
-                        Console.WriteLine("Hoppa");
-                        
-                        tasksEnded.Add(c.InnerText);
+                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
+                    else if (actionType == ActionType.TaskStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                    {
+                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                 }
             }
 
-            return tasksEnded;
+            return tasks;
         }
-        
+
         /// <summary>
-        /// Bepaald bij welk event een task hoort.
+        /// Determine the event a task belongs to.
         /// </summary>
         /// <param name="task"></param>
-        /// <returns>Een string met een event name</returns>
+        /// <returns>A string: an event name</returns>
         public string getPartOfEvent(XmlNode task) 
         {
            return task.Attributes["partOfEvent"].Value;

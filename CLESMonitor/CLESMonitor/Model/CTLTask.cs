@@ -9,38 +9,51 @@ namespace CLESMonitor.Model
 {
     public class CTLTask
     {
-        private string name;
+        private string identifier;
+        private string type;
+
+        private string eventIdentifier;
         public int lipValue { get; set; } //level of information processing
         public double moValue { get; set; } //mental occupancy
-        public InformationDomain[] informationDomains { get; set; } //een array van enum representaties van domeinen
-        public double duration { get; set; } //in seconden
-        public DateTime startTime { get; set; }
-        public DateTime endTime { get; set; }
+        public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
+        public TimeSpan startTime { get; set; }
+        public TimeSpan endTime { get; set; }
         public string description { get; set; }
-        public bool isStopped { get; set; }
+        public bool isStarted { get; set; }
 
         /// <summary>
-        /// Constructor methode
+        /// Constructor method
         /// </summary>
-        /// <param name="_name"></param>
-        public CTLTask(string _name)
+        /// <param name="_type"></param>
+        public CTLTask(string _identifier, string _type)
         {
-            name = _name;
-            isStopped = false;
+            identifier = _identifier;
+            type = _type;
+            isStarted = true;
         }
 
-        public string getName()
+        public string getIdentifier()
         {
-            return this.name;
+            return this.identifier;
+        }
+
+        public string getType()
+        {
+            return this.type;
+        }
+
+        public TimeSpan getDuration()
+        {
+            return endTime - startTime;
         }
 
         /// <summary>
-        /// ToString methode
+        /// ToString method
         /// </summary>
-        /// <returns>Een string-representatie van het CTLTask object</returns>
-        public string toString()
+        /// <returns>A string-representation of the CTLTask object</returns>
+        public override string ToString()
         {
-            return String.Format("Name = {0}", name);
+            return String.Format("Task: Identifier = {0}, Type = {1}, startTime = {2}, endTime = {3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
         }
     }
 }
