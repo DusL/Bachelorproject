@@ -9,9 +9,7 @@ namespace CLESMonitor.Model
     public abstract class CLModel
     {
         //Time frame in seconds
-        public int lengthTimeFrame;
-        public DateTime startTimeFrame;
-        public DateTime endTimeFrame;
+        public TimeSpan lengthTimeframe;
 
         /// <summary>
         /// Recalculate model-value
