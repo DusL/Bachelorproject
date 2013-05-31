@@ -11,7 +11,7 @@ namespace CLESMonitor.Model
     class CTLModel : CLModel
     {
         private PRLDomain modelDomain;
-        public XMLFileTaskParser parser;
+        private XMLFileTaskParser parser;
         private List<CTLTask> currentActiveTasks; 
 
         public CTLModel(XMLFileTaskParser parser)
@@ -25,8 +25,8 @@ namespace CLESMonitor.Model
         public override double calculateModelValue(TimeSpan timeSpan)
         {
             // Request parsed data with tasks that have started as well as stopped
-            List<ParsedTask> tasksBegan = parser.tasksBegan(timeSpan);
-            List<ParsedTask> tasksEnded = parser.tasksEnded(timeSpan);
+            List<ParsedTask> tasksBegan = parser.tasksStarted(timeSpan);
+            List<ParsedTask> tasksEnded = parser.tasksStopped(timeSpan);
             // Use the domain to turn this into CTLTasks
             List<CTLTask> CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
             List<CTLTask> CTLtasksEndedThisSecond = getCTLTasksPerSecond(tasksEnded);

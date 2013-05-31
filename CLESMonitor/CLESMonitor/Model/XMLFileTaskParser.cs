@@ -30,11 +30,27 @@ namespace CLESMonitor.Model
         }
     }
 
+    public enum Action
+    {
+        Unknown,
+        Event,
+        Task,
+    }
+
+    public enum ActionType
+    {
+        Unknown,
+        EventStarted,
+        EventStopped,
+        TaskStarted,
+        TaskStopped
+    }
+
     public class XMLFileTaskParser
     {
-        private List<XmlNode> taskActionsOccured; //A list of tasks with which something happens during a specific second.
         private XmlNodeList seconds;
         private bool endOfFileReached;
+
         /// <summary>
         /// 1 scenario is 1 file
         /// 
@@ -62,120 +78,115 @@ namespace CLESMonitor.Model
 
             endOfFileReached = false;
         }
+
         /// <summary>
         /// Get every action (childnode) of the current second.
         /// </summary>
         /// <param name="currentSecond"></param>
         /// <returns>Een ArrayList die alle tasks en events bevat die in deze seconde gestart of gestopt zijn.</returns>
-        private List<XmlNode> getActionsForSecond(int currentSecond)
-        {
-            
-            List<XmlNode> newList = new List<XmlNode>();
+        private List<XmlNode> getActionsForSecond(int currentSecond, Action action)
+        {            
+            List<XmlNode> actionList = new List<XmlNode>();
             if (currentSecond < seconds.Count)
             {
                 foreach (XmlNode node in this.seconds[currentSecond].ChildNodes)
                 {
-                    newList.Add(node);
+                    if (action == Action.Event && node.Name.Equals("event"))
+                    {
+                        actionList.Add(node);
+                    }
+                    else if (action == Action.Task && node.Name.Equals("task"))
+                    {
+                        actionList.Add(node);
+                    }
                 }
             }
             else 
             {
                 endOfFileReached = true;
             }
-            
-            return newList; 
+
+            return actionList; 
         }
-        /// <summary>
-        /// Determine which events are present in a list of XmlNodes.
-        /// </summary>
-        /// <param name="actions"></param>
-        /// <returns>A lsit containing XmlNode representations of events</returns>
-        private List<XmlNode> getEvents(XmlNodeList actions)
+
+        public List<ParsedTask> eventsStarted(TimeSpan timeSpan)
         {
-            List<XmlNode> events = new List<XmlNode>();
-            foreach (XmlNode node in actions)
+            return eventsForTime(timeSpan, ActionType.EventStarted);
+        }
+
+        public List<ParsedTask> eventsStopped(TimeSpan timeSpan)
+        {
+            return eventsForTime(timeSpan, ActionType.EventStopped);
+        }
+
+        private List<ParsedTask> eventsForTime(TimeSpan timeSpan, ActionType actionType)
+        {
+            List<XmlNode> eventNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Event);
+            List<ParsedTask> events = new List<ParsedTask>();
+
+            foreach (XmlNode node in eventNodeList) //<event>
             {
-                if (node.Name.Equals("event"))
+                foreach (XmlNode c in node.ChildNodes)
                 {
-                    
-                    events.Add(node);
+                    if (actionType == ActionType.EventStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                    {
+                        //FIXME: ParsedTask moet iets anders zijn!
+                        events.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
+                    else if (actionType == ActionType.EventStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                    {
+                        events.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
                 }
             }
+
             return events;
         }
-        /// <summary>
-        /// Determine which tasks are present in a list of XmlNodes
-        /// </summary>
-        /// <param name="actions"></param>
-        /// <returns>A List containing tasks represented by XmlNodes</returns>
-        private List<XmlNode> getTasks(List<XmlNode> actions)
-        {
-            List<XmlNode> tasks = new List<XmlNode>();
-            foreach (XmlNode node in actions)
-            {
-                if (node.Name.Equals("task"))
-                {   
-                    tasks.Add(node);
-                }
-            }
-            return tasks;
-        }
-        /// <summary>
-        /// Retrieves all actions occuring during a specific second and adds all tasks to taskActionsOccurd
-        /// </summary>
-        /// <param name="timeSpan"></param>
-        private void findTasks(TimeSpan timeSpan)
-        {
-            List<XmlNode> actions = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds));
-            taskActionsOccured = getTasks(actions);
-           
-        }
+
         /// <summary>
         /// Retrieve the childnodes of each task in taskActionOccured, find the one defining the current action.
         /// When this action equals "started", add the task to the list.        
         /// </summary>
         /// <returns>A list containing the string identifiers of tasks that have started this second</returns>
-        public List<ParsedTask> tasksBegan(TimeSpan time)
+        public List<ParsedTask> tasksStarted(TimeSpan timeSpan)
         {
-            findTasks(time);
-            List<ParsedTask> tasksBegan = new List<ParsedTask>();
-            foreach (XmlNode node in taskActionsOccured) //<task>
-            {
-                foreach (XmlNode c in node.ChildNodes)
-                {
-                    if (c.Name.Equals("action") & c.InnerText.Equals("started"))
-                    {
-                        tasksBegan.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
-                    }
-                }
-            }
-
-            return tasksBegan;     
+            return tasksForTime(timeSpan, ActionType.TaskStarted);
         }
+
         /// <summary>
         /// Retrieve the childnodes of each task in taskActionOccured, find the one defining the current action.
         /// When this action equals "stopped", add the task to the list.
         /// </summary>
         /// <param name="time"></param>
         /// <returns>A list containing the string identifiers of tasks that have ended this second</returns>
-        public List<ParsedTask> tasksEnded(TimeSpan time)
+        public List<ParsedTask> tasksStopped(TimeSpan timeSpan)
         {
-            findTasks(time);
-            List<ParsedTask> tasksEnded = new List<ParsedTask>();
-            foreach (XmlNode node in taskActionsOccured)
+            return tasksForTime(timeSpan, ActionType.TaskStopped);
+        }
+
+        private List<ParsedTask> tasksForTime(TimeSpan timeSpan, ActionType actionType)
+        {
+            List<XmlNode> taskNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Task);
+            List<ParsedTask> tasks = new List<ParsedTask>();
+
+            foreach (XmlNode node in taskNodeList) //<task>
             {
                 foreach (XmlNode c in node.ChildNodes)
                 {
-                    if (c.Name.Equals("action") & c.InnerText.Equals("stopped"))
+                    if (actionType == ActionType.TaskStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
                     {
-                        tasksEnded.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                    }
+                    else if (actionType == ActionType.TaskStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                    {
+                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
                     }
                 }
             }
 
-            return tasksEnded;
+            return tasks;
         }
-        
+
         /// <summary>
         /// Determine the event a task belongs to.
         /// </summary>
