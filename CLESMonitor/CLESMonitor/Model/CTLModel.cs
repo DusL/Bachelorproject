@@ -12,40 +12,53 @@ namespace CLESMonitor.Model
     {
         private PRLDomain modelDomain;
         private XMLFileTaskParser parser;
-        private List<CTLTask> currentActiveTasks; 
+        private List<CTLTask> currentActiveTasks;
+        private List<CTLEvent> currentActiveEvents; 
 
         public CTLModel(XMLFileTaskParser parser)
         {
             modelDomain = new PRLDomain();
             lengthTimeFrame = new TimeSpan(0, 0, 10); //uur, minuten, seconden
             currentActiveTasks = new List<CTLTask>();
+            currentActiveEvents = new List<CTLEvent>();
             this.parser = parser;
         }
 
         public override double calculateModelValue(TimeSpan timeSpan)
         {
+            List<ParsedEvent> eventsBegan = parser.eventsStarted(timeSpan);
+            List<ParsedEvent> eventsEnded = parser.eventsStopped(timeSpan);
             // Request parsed data with tasks that have started as well as stopped
             List<ParsedTask> tasksBegan = parser.tasksStarted(timeSpan);
             List<ParsedTask> tasksEnded = parser.tasksStopped(timeSpan);
             // Use the domain to turn this into CTLTasks
-            List<CTLTask> CTLtasksStartedThisSecond = getCTLTasksPerSecond(tasksBegan);
-            List<CTLTask> CTLtasksEndedThisSecond = getCTLTasksPerSecond(tasksEnded);
+            List<CTLTask> tasksStartedThisSecond = generateTasks(tasksBegan);
+            List<CTLTask> tasksEndedThisSecond = generateTasks(tasksEnded);
+
+            List<CTLEvent> eventsStartedThisSecond = generateEvents(eventsBegan);
+            List<CTLEvent> eventsStoppedThisSecond = generateEvents(eventsEnded);
 
             // Set the current time as start time for every new task and add it
-            foreach (CTLTask t in CTLtasksStartedThisSecond)
+            foreach (CTLTask t in tasksStartedThisSecond)
             {
                 t.startTime = timeSpan;
             }
-            currentActiveTasks.AddRange(CTLtasksStartedThisSecond);
+            currentActiveTasks.AddRange(tasksStartedThisSecond);
+
+            foreach (CTLEvent ctlEvent in eventsStartedThisSecond)
+            {
+                ctlEvent.startTime = timeSpan;
+            }
+            currentActiveEvents.AddRange(eventsStartedThisSecond);
 
             // Proces the tasks that have ended
             // TODO: code werkt nog niet voor meerdere events
-            foreach (CTLTask task1 in CTLtasksEndedThisSecond)
+            foreach (CTLTask task1 in tasksEndedThisSecond)
             {
                 foreach (CTLTask task2 in currentActiveTasks)
                 {
                     //TODO: werkt dit nu correct?
-                    if (task1.identifier.Equals(task2.identifier))
+                    if (task1.getIdentifier().Equals(task2.getIdentifier()))
                     {
                         task2.isStopped = true;
                     }
@@ -66,6 +79,11 @@ namespace CLESMonitor.Model
             {
                 Console.WriteLine("Nieuwe seconde");
                 Console.WriteLine(task.ToString());
+            }
+            // TODO: dit staat hier slechts voor debug
+            foreach (CTLEvent ctlEvent in currentActiveEvents)
+            {
+                Console.WriteLine(ctlEvent.ToString());
             }
 
             // For now, we generate random values
@@ -124,29 +142,46 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Create a list of CTLTasks based on a list of string identifiers
+        /// Create a list of CTLEvent based on a list of string identifiers
         /// </summary>
         /// <param name="tasks"></param>
-        /// <returns>A list of CTLTasks</returns>
-        private List<CTLTask> getCTLTasksPerSecond(List<ParsedTask> tasks)
-        { 
-            //Add all CTLTask objects to a list
-            List<CTLTask> CTLtasks = new List<CTLTask>();
-            if (tasks.Count != 0)
+        /// <returns>A list of CTLEvent</returns>
+        private List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents)
+        {
+            // Add all CTLEvent objects to a list
+            List<CTLEvent> events = new List<CTLEvent>();
+
+            foreach (ParsedEvent parsedEvent in parsedEvents)
             {
-                for (int i = 0; i < tasks.Count; i++)
-                {
-                    CTLtasks.Add(modelDomain.getCTLTaskFromParsedTask(tasks[i]));
-                }
+                events.Add(modelDomain.generateEvent(parsedEvent));
             }
-            return CTLtasks;
+
+            return events;
+        }
+
+        /// <summary>
+        /// Create a list of CTLTasks based on a list of string identifiers
+        /// </summary>
+        /// <param name="parsedTasks"></param>
+        /// <returns>A list of CTLTasks</returns>
+        private List<CTLTask> generateTasks(List<ParsedTask> parsedTasks)
+        { 
+            // Add all CTLTask objects to a list
+            List<CTLTask> tasks = new List<CTLTask>();
+
+            foreach (ParsedTask parsedTask in parsedTasks)
+            {
+                tasks.Add(modelDomain.generateTask(parsedTask));
+            }
+
+            return tasks;
         }
 
         //TODO: Opsplitsen task1,task2.
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
-            CTLTask newTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.getType() + task2.getType());
+            CTLTask newTask = new CTLTask(task1.getIdentifier() + "+" + task2.getIdentifier() , task1.getType() + task2.getType());
             //and set its values
             newTask.moValue = multitaskMO(task1, task2);
             newTask.lipValue = multitaskLip(task1, task2);
