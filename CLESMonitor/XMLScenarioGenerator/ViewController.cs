@@ -8,27 +8,42 @@ using System.Xml;
 
 namespace XMLScenarioGenerator
 {
-    public struct Element
+    public class Element
     {
-        public ElementType type;
         public string name;
         public int startSecond;
         public int duration;
+        public string identifier;
+        private static int counter = 1;
 
-        public Element(ElementType _type, string _name, int _startSecond, int _duration)
+        public Element(string _name, int _startSecond, int _duration)
         {
-            type = _type;
             name = _name;
+            identifier = null;
             startSecond = _startSecond;
             duration = _duration;
+            identifier = counter.ToString();
+            counter++;
         }
     }
 
-    public enum ElementType
+    public class Event : Element
     {
-        Unknown,
-        Event,
-        Task
+        public Event(string _name, int _startSecond, int _duration)
+            : base(_name, _startSecond, _duration)
+        { 
+        }
+    }
+
+    public class Task : Element
+    {
+        public string eventIdentifier;
+
+        public Task(string _name, int _startSecond, int _duration, Event _event) 
+            : base(_name, _startSecond, _duration)
+        {
+            eventIdentifier = _event.identifier;
+        }
     }
 
     public class ViewController
@@ -56,11 +71,18 @@ namespace XMLScenarioGenerator
             // Set outlets
             saveFileDialog = this.view.saveFileDialog;
 
-            // Add the (hardcoded) data to be generated here
-            scenarioLength = 35;
-            elements.Add(new Element(ElementType.Event, "EVENT_IDENTIFIER_1", 2, 30));
-            elements.Add(new Element(ElementType.Task, "TASK_IDENTIFIER_2", 15, 5));
-            elements.Add(new Element(ElementType.Task, "TASK_IDENTIFIER_3", 20, 0));
+            // Add the (hardcoded) data to be generated here //
+            scenarioLength = 60;
+            Event event1 = new Event("EVENT_IDENTIFIER_1", 5, 30);
+            elements.Add(event1);
+            elements.Add(new Task("TASK_IDENTIFIER_1", 15, 2, event1));
+            elements.Add(new Task("TASK_IDENTIFIER_2", 20, 3, event1));
+            Event event2 = new Event("EVENT_IDENTIFIER_2", 30, 6);
+            elements.Add(event2);
+            elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
+            // Add the (hardcoded) data to be generated here //
+
+            
         }
 
         /// <summary>
@@ -69,7 +91,7 @@ namespace XMLScenarioGenerator
         /// </summary>
         public void generateXMLFile(String savePath)
         {
-            XmlTextWriter writer = new XmlTextWriter("GeneratedScenario.xml", null);
+            XmlTextWriter writer = new XmlTextWriter(savePath, null);
             writer.Formatting = Formatting.Indented;
 
             writer.WriteStartElement("scenario");
@@ -82,14 +104,19 @@ namespace XMLScenarioGenerator
 
                 foreach (Element element in elements)
                 {
+                    
                     // Check whether an element starts now
                     if (element.startSecond == i)
                     {
-                        if (element.type == ElementType.Event) {
+                        if (element.GetType() == typeof(Event)) {
                             writer.WriteStartElement("event", null);
+                            writer.WriteAttributeString("id", element.identifier);
                         }
-                        else if (element.type == ElementType.Task) {
+                        if (element.GetType() == typeof(Task)) {
+                            Task task = (Task)element;
                             writer.WriteStartElement("task", null);
+                            writer.WriteAttributeString("id", element.identifier);
+                            writer.WriteAttributeString("eventID", task.eventIdentifier);
                         }
                         writer.WriteStartElement("name", null);
                         writer.WriteString(element.name);
@@ -103,14 +130,17 @@ namespace XMLScenarioGenerator
                     // Check whether an element ends now
                     if (element.startSecond + element.duration == i)
                     {
-                        if (element.type == ElementType.Event)
-                        {
+                        if (element.GetType() == typeof(Event)) {
                             writer.WriteStartElement("event", null);
+                            writer.WriteAttributeString("id", element.identifier);
                         }
-                        else if (element.type == ElementType.Task)
-                        {
+                        if (element.GetType() == typeof(Task)) {
+                            Task task = (Task)element;
                             writer.WriteStartElement("task", null);
+                            writer.WriteAttributeString("id", element.identifier);
+                            writer.WriteAttributeString("eventID", task.eventIdentifier);
                         }
+                        
                         writer.WriteStartElement("name", null);
                         writer.WriteString(element.name);
                         writer.WriteEndElement();

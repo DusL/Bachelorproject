@@ -42,6 +42,10 @@
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "xml files (*.xml)|*.xml";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
