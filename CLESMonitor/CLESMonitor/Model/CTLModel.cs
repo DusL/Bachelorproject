@@ -23,6 +23,7 @@ namespace CLESMonitor.Model
             modelDomain = new PRLDomain();
             lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
             tasksInTimeframe = new List<CTLTask>();
+            currentStartedTasks = new List<CTLTask>();
             currentEvents = new List<CTLEvent>();
             this.parser = parser;
         }
@@ -38,30 +39,32 @@ namespace CLESMonitor.Model
             // Proces the tasks that have started
             List<ParsedTask> tasksBegan = parser.tasksStarted(currentSessionTime);
             List<CTLTask> tasksStartedThisSecond = generateTasks(tasksBegan, currentSessionTime);
-            tasksInTimeframe.AddRange(tasksStartedThisSecond);
+            currentStartedTasks.AddRange(tasksStartedThisSecond);
+            //TODO: verwerken naar tasksInTimeframe!
 
             // Update all task times
             updateTaskTimes(currentSessionTime);
 
             // Proces the tasks that have ended
             List<ParsedTask> tasksEnded = parser.tasksStopped(currentSessionTime);
-            List<CTLTask> tasksEndedThisSecond = generateTasks(tasksEnded, currentSessionTime);
-            foreach (CTLTask task1 in tasksEndedThisSecond)
+            List<CTLTask> tasksEndedThisSecond = new List<CTLTask>();
+            foreach (ParsedTask parsedTask in tasksEnded)
             {
-                foreach (CTLTask task2 in tasksInTimeframe)
-                {
-                    //TODO: werkt dit nu correct?
-                    if (task1.getIdentifier().Equals(task2.getIdentifier()))
-                    {
-                        task2.isStarted = false;
-                    }
-                }
+                tasksEndedThisSecond.Add(getTaskFromIdentifier(parsedTask.identifier));
+            }
+            foreach (CTLTask task in tasksEndedThisSecond)
+            {
+                task.isStarted = false;
             }
             clearOldTasks();
 
             // Proces the events that have ended
             List<ParsedEvent> eventsEnded = parser.eventsStopped(currentSessionTime);
-            List<CTLEvent> eventsStoppedThisSecond = generateEvents(eventsEnded, currentSessionTime);
+            List<CTLEvent> eventsStoppedThisSecond = new List<CTLEvent>();
+            foreach (ParsedEvent parsedEvent in eventsEnded)
+            {
+                eventsStoppedThisSecond.Add(getEventFromIdentifier(parsedEvent.identifier));
+            }
             foreach (CTLEvent ctlEvent in eventsStoppedThisSecond)
             {
                 currentEvents.Remove(ctlEvent);
@@ -75,7 +78,7 @@ namespace CLESMonitor.Model
             double tss = calculateTSS(tasksInTimeframe);
 
             //TODO: dit staat hier slechts voor debug
-            foreach (CTLTask task in tasksInTimeframe)
+            foreach (CTLTask task in currentStartedTasks)
             {
                 Console.WriteLine("Nieuwe seconde");
                 Console.WriteLine(task.ToString());
@@ -89,6 +92,32 @@ namespace CLESMonitor.Model
             Random random = new Random();
 
             return random.Next(0, 5);
+        }
+
+        private CTLTask getTaskFromIdentifier(string identifier)
+        {
+            CTLTask taskToReturn = null;
+            foreach (CTLTask task in currentStartedTasks)
+            {
+                if (task.getIdentifier().Equals(identifier))
+                {
+                    taskToReturn = task;
+                }
+            }
+            return taskToReturn;
+        }
+
+        private CTLEvent getEventFromIdentifier(string identifier)
+        {
+            CTLEvent eventToReturn = null;
+            foreach (CTLEvent ctlEvent in currentEvents)
+            {
+                if (ctlEvent.getIdentifier().Equals(identifier))
+                {
+                    eventToReturn = ctlEvent;
+                }
+            }
+            return eventToReturn;
         }
 
         /// <summary>
