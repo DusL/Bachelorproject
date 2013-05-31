@@ -12,76 +12,75 @@ namespace CLESMonitor.Model
     {
         private PRLDomain modelDomain;
         private XMLFileTaskParser parser;
-        private List<CTLTask> currentActiveTasks;
-        private List<CTLEvent> currentActiveEvents; 
+
+        private List<CTLTask> tasksInTimeframe;
+        private List<CTLTask> currentStartedTasks;
+
+        private List<CTLEvent> currentEvents;
 
         public CTLModel(XMLFileTaskParser parser)
         {
             modelDomain = new PRLDomain();
-            lengthTimeFrame = new TimeSpan(0, 0, 10); //uur, minuten, seconden
-            currentActiveTasks = new List<CTLTask>();
-            currentActiveEvents = new List<CTLEvent>();
+            lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
+            tasksInTimeframe = new List<CTLTask>();
+            currentEvents = new List<CTLEvent>();
             this.parser = parser;
         }
 
-        public override double calculateModelValue(TimeSpan timeSpan)
+        public override double calculateModelValue(TimeSpan currentSessionTime)
         {
-            List<ParsedEvent> eventsBegan = parser.eventsStarted(timeSpan);
-            List<ParsedEvent> eventsEnded = parser.eventsStopped(timeSpan);
-            // Request parsed data with tasks that have started as well as stopped
-            List<ParsedTask> tasksBegan = parser.tasksStarted(timeSpan);
-            List<ParsedTask> tasksEnded = parser.tasksStopped(timeSpan);
-            // Use the domain to turn this into CTLTasks
-            List<CTLTask> tasksStartedThisSecond = generateTasks(tasksBegan);
-            List<CTLTask> tasksEndedThisSecond = generateTasks(tasksEnded);
+            // TODO: code werkt nog niet voor meerdere events
+            // Proces the event that have started
+            List<ParsedEvent> eventsBegan = parser.eventsStarted(currentSessionTime);
+            List<CTLEvent> eventsStartedThisSecond = generateEvents(eventsBegan, currentSessionTime);
+            currentEvents.AddRange(eventsStartedThisSecond);
 
-            List<CTLEvent> eventsStartedThisSecond = generateEvents(eventsBegan);
-            List<CTLEvent> eventsStoppedThisSecond = generateEvents(eventsEnded);
+            // Proces the tasks that have started
+            List<ParsedTask> tasksBegan = parser.tasksStarted(currentSessionTime);
+            List<CTLTask> tasksStartedThisSecond = generateTasks(tasksBegan, currentSessionTime);
+            tasksInTimeframe.AddRange(tasksStartedThisSecond);
 
-            // Set the current time as start time for every new task and add it
-            foreach (CTLTask t in tasksStartedThisSecond)
-            {
-                t.startTime = timeSpan;
-            }
-            currentActiveTasks.AddRange(tasksStartedThisSecond);
-
-            foreach (CTLEvent ctlEvent in eventsStartedThisSecond)
-            {
-                ctlEvent.startTime = timeSpan;
-            }
-            currentActiveEvents.AddRange(eventsStartedThisSecond);
+            // Update all task times
+            updateTaskTimes(currentSessionTime);
 
             // Proces the tasks that have ended
-            // TODO: code werkt nog niet voor meerdere events
+            List<ParsedTask> tasksEnded = parser.tasksStopped(currentSessionTime);
+            List<CTLTask> tasksEndedThisSecond = generateTasks(tasksEnded, currentSessionTime);
             foreach (CTLTask task1 in tasksEndedThisSecond)
             {
-                foreach (CTLTask task2 in currentActiveTasks)
+                foreach (CTLTask task2 in tasksInTimeframe)
                 {
                     //TODO: werkt dit nu correct?
                     if (task1.getIdentifier().Equals(task2.getIdentifier()))
                     {
-                        task2.isStopped = true;
+                        task2.isStarted = false;
                     }
                 }
             }
+            clearOldTasks();
 
-            adjustStartTimes(timeSpan);
-            adjustEndTimes(timeSpan);
-            this.clearOldTasks();
+            // Proces the events that have ended
+            List<ParsedEvent> eventsEnded = parser.eventsStopped(currentSessionTime);
+            List<CTLEvent> eventsStoppedThisSecond = generateEvents(eventsEnded, currentSessionTime);
+            foreach (CTLEvent ctlEvent in eventsStoppedThisSecond)
+            {
+                currentEvents.Remove(ctlEvent);
+            }
+
+            //TODO: multitasking implementeren
 
             // Calculate all necessary values
-            double lip = calculateOverallLip(currentActiveTasks);
-            double mo = calculateOverallMo(currentActiveTasks);
-            double tss = calculateTSS(currentActiveTasks);
+            double lip = calculateOverallLip(tasksInTimeframe);
+            double mo = calculateOverallMo(tasksInTimeframe);
+            double tss = calculateTSS(tasksInTimeframe);
 
-            // TODO: dit staat hier slechts voor debug
-            foreach (CTLTask task in currentActiveTasks)
+            //TODO: dit staat hier slechts voor debug
+            foreach (CTLTask task in tasksInTimeframe)
             {
                 Console.WriteLine("Nieuwe seconde");
                 Console.WriteLine(task.ToString());
             }
-            // TODO: dit staat hier slechts voor debug
-            foreach (CTLEvent ctlEvent in currentActiveEvents)
+            foreach (CTLEvent ctlEvent in currentEvents)
             {
                 Console.WriteLine(ctlEvent.ToString());
             }
@@ -93,31 +92,23 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Set endtimes of tasks to be the same as their start time
+        /// Updates start- and endtimes of tasks
         /// </summary>
         /// <param name="startedTasks"></param>
-        private void adjustEndTimes(TimeSpan timeSpan)
+        private void updateTaskTimes(TimeSpan timeSpan)
         {
-            foreach (CTLTask task in currentActiveTasks)
+            foreach (CTLTask task in tasksInTimeframe)
             {
-                if (!task.isStopped)
+                // As long as a task is still active, update the endTime
+                if (task.isStarted)
                 {
                     task.endTime = timeSpan;
                 }
-            }
-        }
 
-        /// <summary>
-        /// Adjusts the starting times to be equal to the start of the timeframe
-        /// </summary>
-        /// <param name="timeSpan"></param>
-        private void adjustStartTimes(TimeSpan timeSpan)
-        {
-            foreach (CTLTask task in currentActiveTasks)
-            {
-                if (task.startTime < (timeSpan - lengthTimeFrame))
+                // When the startTime of a task moves outside of the timeframe, crop it
+                if (task.startTime < (timeSpan - lengthTimeframe))
                 {
-                    task.startTime = (timeSpan - lengthTimeFrame);
+                    task.startTime = (timeSpan - lengthTimeframe);
                 }
             }
         }
@@ -128,7 +119,7 @@ namespace CLESMonitor.Model
         private void clearOldTasks()
         {
             List<CTLTask> tasksToRemove = new List<CTLTask>();
-            foreach (CTLTask task in currentActiveTasks)
+            foreach (CTLTask task in tasksInTimeframe)
             {
                 if (task.startTime > task.endTime)
                 {
@@ -137,7 +128,7 @@ namespace CLESMonitor.Model
             }
             foreach (CTLTask task in tasksToRemove)
             {
-                currentActiveTasks.Remove(task);
+                tasksInTimeframe.Remove(task);
             }
         }
 
@@ -146,14 +137,16 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="tasks"></param>
         /// <returns>A list of CTLEvent</returns>
-        private List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents)
+        private List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents, TimeSpan currentSessionTime)
         {
             // Add all CTLEvent objects to a list
             List<CTLEvent> events = new List<CTLEvent>();
 
             foreach (ParsedEvent parsedEvent in parsedEvents)
             {
-                events.Add(modelDomain.generateEvent(parsedEvent));
+                CTLEvent ctlEvent = modelDomain.generateEvent(parsedEvent);
+                ctlEvent.startTime = currentSessionTime;
+                events.Add(ctlEvent);
             }
 
             return events;
@@ -164,14 +157,16 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="parsedTasks"></param>
         /// <returns>A list of CTLTasks</returns>
-        private List<CTLTask> generateTasks(List<ParsedTask> parsedTasks)
+        private List<CTLTask> generateTasks(List<ParsedTask> parsedTasks, TimeSpan currentSessionTime)
         { 
             // Add all CTLTask objects to a list
             List<CTLTask> tasks = new List<CTLTask>();
 
             foreach (ParsedTask parsedTask in parsedTasks)
             {
-                tasks.Add(modelDomain.generateTask(parsedTask));
+                CTLTask task = modelDomain.generateTask(parsedTask);
+                task.startTime = currentSessionTime;
+                tasks.Add(task);
             }
 
             return tasks;
@@ -181,15 +176,13 @@ namespace CLESMonitor.Model
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
-            CTLTask newTask = new CTLTask(task1.getIdentifier() + "+" + task2.getIdentifier() , task1.getType() + task2.getType());
+            CTLTask multiTask = new CTLTask(task1.getIdentifier() + "+" + task2.getIdentifier(), task1.getType() + task2.getType());
             //and set its values
-            newTask.moValue = multitaskMO(task1, task2);
-            newTask.lipValue = multitaskLip(task1, task2);
-            newTask.informationDomains = multitaskDomain(task1, task2);
-            newTask.duration = multitaskDuration(task1, task2);
-            newTask.startTime = findStartTimeMultitask(task1, task2);
-            newTask.endTime = findEndTimeMultitask(task1, task2);
-            return newTask;
+            multiTask.moValue = multitaskMO(task1, task2);
+            multiTask.lipValue = multitaskLip(task1, task2);
+            multiTask.informationDomains = multitaskDomain(task1, task2);
+            setTimesForMultitask(task1, task2, multiTask);
+            return multiTask;
         }
 
         /// <summary>
@@ -241,45 +234,31 @@ namespace CLESMonitor.Model
         }
         
         /// <summary>
-        /// 
+        /// Determines the start- and endtime of a multitask by means of the start- and endtimes of two tasks.
         /// </summary>
         /// <param name="task1"></param>
         /// <param name="task2"></param>
-        /// <returns>The duration of the multitask represented by a TimeSpan</returns>
-        private double multitaskDuration(CTLTask task1, CTLTask task2)
+        private void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
         {
-            TimeSpan duration = findEndTimeMultitask(task1, task2) - findStartTimeMultitask(task1, task2);
-            return duration.TotalSeconds; 
-        }
-
-        /// <summary>
-        /// Determines the starting time of a multitask by means of the start- and endtimes of two tasks.
-        /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
-        /// <returns>DateTime: starttime multitask</returns>
-        private TimeSpan findStartTimeMultitask(CTLTask task1, CTLTask task2)
-        {
+            // When task1 begins first, the overlap starts when task2 starts
             if (task1.startTime < task2.startTime)
             {
-                return task2.startTime;
+                multiTask.startTime = task2.startTime;
+                multiTask.endTime = task1.startTime;
             }
-            return task1.startTime;
-        }
-
-        /// <summary>
-        /// Determines the end time of a multitask by means of the start- and endtimes of two tasks.
-        /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
-        /// <returns>DateTime: endtime multitask</returns>
-        private TimeSpan findEndTimeMultitask(CTLTask task1, CTLTask task2)
-        {
-            if (task1.endTime < task2.endTime)
+            // When task2 begins first, or when they begin at the same time
+            else
             {
-                return task1.endTime;
+                multiTask.startTime = task1.startTime;
+
+                // Endtime is set to be the moment one of both tasks ends
+                if (task1.endTime < task2.endTime) {
+                    multiTask.endTime = task1.endTime;
+                }
+                else {
+                    multiTask.endTime = task2.startTime;
+                }
             }
-            return task2.endTime;
         }
 
         /// <summary>
@@ -295,13 +274,13 @@ namespace CLESMonitor.Model
             while (i != tasks.Count)
             {
                 CTLTask t = (CTLTask)tasks[i];
-                lipTimesDuration= t.lipValue * t.duration;
+                lipTimesDuration= t.lipValue * t.getDuration().TotalSeconds;
                 sum += lipTimesDuration;
                 i++;
             }
 
             //TODO: Afronden of niet?
-            return lipTimesDuration/lengthTimeFrame.TotalSeconds;
+            return lipTimesDuration/lengthTimeframe.TotalSeconds;
         }
 
         /// <summary>
@@ -317,11 +296,11 @@ namespace CLESMonitor.Model
             while (i != tasks.Count)
             {
                 CTLTask t = (CTLTask)tasks[i];
-                moTimesDuration = t.moValue * t.duration;
+                moTimesDuration = t.moValue * t.getDuration().TotalSeconds;
                 sum += moTimesDuration;
                 i++;
             }
-            return moTimesDuration / lengthTimeFrame.TotalSeconds;
+            return moTimesDuration / lengthTimeframe.TotalSeconds;
         }
 
         //TODO: methode implementeren

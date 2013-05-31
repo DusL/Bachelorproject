@@ -49,7 +49,7 @@ namespace CLESMonitor.Model
         /// <returns></returns>
         public CTLTask generateTask(ParsedTask parsedTask)
         {
-             CTLTask task;
+            CTLTask task;
 
             if (parsedTask.type.Equals("ARI_UIT"))
             {

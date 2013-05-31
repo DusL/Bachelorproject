@@ -16,11 +16,10 @@ namespace CLESMonitor.Model
         public int lipValue { get; set; } //level of information processing
         public double moValue { get; set; } //mental occupancy
         public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
-        public double duration { get; set; } //in seconds
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
         public string description { get; set; }
-        public bool isStopped { get; set; }
+        public bool isStarted { get; set; }
 
         /// <summary>
         /// Constructor method
@@ -30,7 +29,7 @@ namespace CLESMonitor.Model
         {
             identifier = _identifier;
             type = _type;
-            isStopped = false;
+            isStarted = true;
         }
 
         public string getIdentifier()
@@ -41,6 +40,11 @@ namespace CLESMonitor.Model
         public string getType()
         {
             return this.type;
+        }
+
+        public TimeSpan getDuration()
+        {
+            return endTime - startTime;
         }
 
         /// <summary>
