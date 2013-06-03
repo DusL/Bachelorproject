@@ -8,8 +8,8 @@ namespace CLESMonitor.Model
 {
     public class CTLEvent
     {
-        private string identifier;
-        public string type;
+        public string identifier {get; private set;}
+        public string type { get; private set; }
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
 
@@ -19,10 +19,6 @@ namespace CLESMonitor.Model
             type = _type;
         }
 
-        public string getIdentifier()
-        {
-            return identifier;
-        }
 
         /// <summary>
         /// ToString method

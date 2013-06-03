@@ -18,28 +18,30 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.Model
 {
-    public struct ParsedEvent
+    public class ParsedEvent
     {
-        public string identifier;
-        public string type;
+        public string identifier { get; private set; }
+        public string type { get; private set; }
 
         public ParsedEvent(string _identifier, string _type)
         {
             identifier = _identifier;
             type = _type;
         }
+
     }
 
-    public struct ParsedTask
+    public class ParsedTask
     {
-        public string identifier;
-        public string type;
+        public string identifier {get; private set;}
+        public string type { get; private set; }
 
         public ParsedTask(string _identifier, string _type)
         {
             identifier = _identifier;
             type = _type;
         }
+
     }
 
     public enum Action

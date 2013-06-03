@@ -12,7 +12,6 @@ namespace UnitTest
         public void TestMethod1()
         {
             NUnit.Framework.Assert.AreEqual(2, 2);
-            NUnit.Framework.Assert.AreEqual(3, 2);
         }
     }
 }

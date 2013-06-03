@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Model\CTLModelTest.cs" />
     <Compile Include="Model\CTLTaskTest.cs" />
+    <Compile Include="Model\PRLDomainTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,8 +9,8 @@ namespace CLESMonitor.Model
 {
     public class CTLTask
     {
-        private string identifier;
-        private string type;
+        public string identifier {get; private set;}
+        public string type { get; private set; }
 
         private string eventIdentifier;
         public int lipValue { get; set; } //level of information processing
@@ -32,15 +32,7 @@ namespace CLESMonitor.Model
             isStarted = true;
         }
 
-        public string getIdentifier()
-        {
-            return this.identifier;
-        }
 
-        public string getType()
-        {
-            return this.type;
-        }
 
         public TimeSpan getDuration()
         {
