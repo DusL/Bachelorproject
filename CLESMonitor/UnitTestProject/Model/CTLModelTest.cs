@@ -1,15 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
+using CLESMonitor.Model;
 
 namespace UnitTest.Model
 {
-    [TestClass]
+    [TestFixture]
     public class CTLModelTest
     {
-        [TestMethod]
-        public void TestMethod1()
+        [Test]
+        public void Test()
         {
+            Assert.AreEqual(1, 1);        
+   
         }
     }
 }
