@@ -6,7 +6,7 @@
     <ProjectGuid>{7E8ABF4F-6511-4C0F-B4A0-DAA75C67DE84}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTestProject</RootNamespace>
+    <RootNamespace>UnitTest</RootNamespace>
     <AssemblyName>UnitTestProject</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -53,8 +53,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Model\CTLModelTest.cs" />
+    <Compile Include="Model\CTLTaskTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Controller\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
