@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 
 namespace CLESMonitor.Model
 {
@@ -56,11 +52,11 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Maakt verbinding met ComPort
+        /// Start a model session
         /// </summary>
         public override void startSession()
         {
-            hrSensor.setUpSerialPort();
+            hrSensor.startMeasuring();
         }
 
         /// <summary>

@@ -1,26 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
 
 namespace CLESMonitor.Model
 {
+    public enum HRSensorType
+    {
+        Unknown,
+        ManualInput,
+        BluetoothZephyr
+    }
+
     public class HRSensor
     {
         private const int DATA_MESSAGE_BYTE_COUNT = 60;
         private const int HEART_RATE_BYTE_INDEX = 12;
 
+        public HRSensorType sensorType { get; set; }
         public double sensorValue; //heart rate, in beats/minute
         SerialPort serialPort;
         Thread thread;
 
         int[] dataMessage; //Representatie van de message bytes in int(32) per byte
-
 
         public HRSensor()
         {
@@ -29,32 +31,40 @@ namespace CLESMonitor.Model
             thread.IsBackground = true;
         }
 
-        //TODO: Dynamische instelling van ComPort
-
         /// <summary>
-        /// Een verbinding maken met de opgeven comport, anders een serialPort exeption gooien.
+        /// Indicate to start measuring values into sensorValue
         /// </summary>
-        public void setUpSerialPort()
+        public void startMeasuring()
         {
-            try
+            if (sensorType == HRSensorType.BluetoothZephyr)
             {
-                String serialPortName = "COM3";
-                Console.WriteLine("Bezig met openen serialport {0}", serialPortName);
-                serialPort = new SerialPort(serialPortName);
-                Console.WriteLine("Serialport {0} geopend", serialPortName);
-                serialPort.Open();
-                thread.Start();
-            }
-            catch (IOException) {
-                Console.WriteLine("SerialPort IOException");
+                // Setup the COM connection
+                try
+                {
+                    String serialPortName = "COM3"; //FIXME: hardcoded!
+                    Console.WriteLine("Bezig met openen serialport {0}", serialPortName);
+                    serialPort = new SerialPort(serialPortName);
+                    Console.WriteLine("Serialport {0} geopend", serialPortName);
+                    serialPort.Open();
+                    thread.Start();
+                }
+                catch (IOException)
+                {
+                    Console.WriteLine("SerialPort IOException");
+                }
             }
         }
 
-        //TODO: Lees uit je pakketje uit hoelan je message is. Geen fixed message size.
+        /// <summary>
+        /// Indicate to stop measuring values into sensorValue
+        /// </summary>
+        public void endMeasuring()
+        {
+        }
 
         /// <summary>
-        /// De runloop van HRSensor. Blijft lopen totdat het programma gesloten wordt.
-        /// Cashe reset na 60 Bytes
+        /// The HRSensor run-loop. Blijft lopen totdat het programma gesloten wordt.
+        /// Cache reset after 60 bytes - FIXME: hardcoded!
         /// </summary>
         public void Read()
         {

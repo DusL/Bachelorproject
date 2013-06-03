@@ -22,13 +22,6 @@ namespace CLESMonitor.Controller
         Calibrating
     }
 
-    enum HRSensorType
-    {
-        Unknown,
-        ManualInput,
-        BluetoothZephyr
-    }
-
     public class ViewController
     {
         private const double TIME_WINDOW = 0.5; //in minutes
@@ -36,7 +29,6 @@ namespace CLESMonitor.Controller
 
         private CLModel clModel;
         private ESModel esModel;
-        private CLESMonitorViewForm _view;
         private Thread updateChartDataThread;
         private Random random = new Random();
         private DateTime startTime;
@@ -44,8 +36,16 @@ namespace CLESMonitor.Controller
         private TimeSpan currentSessionTime;
 
         // References to sensors for manual input
-        public HRSensor hrSensor;
-        private HRSensorType hrSensorType;
+        private HRSensor _hrSensor;
+        public HRSensor hrSensor
+        {
+            get { return _hrSensor; }
+            set
+            {
+                _hrSensor = value;
+                _hrSensor.sensorType = HRSensorType.ManualInput;
+            }
+        }
         public GSRSensor gsrSensor;
 
         public delegate void UpdateChartDataDelegate();
@@ -78,17 +78,14 @@ namespace CLESMonitor.Controller
         TrackBar gsrTrackbar;
         Label gsrValueLabel;
        
-        public CLESMonitorViewForm View
-        {
-            get
-            {
-                return _view;
-            }
-        }
+        /// <summary>
+        /// The View this Controller manages
+        /// </summary>
+        public CLESMonitorViewForm View { get; private set; }
 
         public ViewController(CLModel clModel, ESModel esModel)
         {
-            _view = new CLESMonitorViewForm(this);
+            View = new CLESMonitorViewForm(this);
             this.clModel = clModel;
             this.esModel = esModel;
 
@@ -134,7 +131,6 @@ namespace CLESMonitor.Controller
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
-            this.hrSensorType = HRSensorType.ManualInput; //TODO: zowel in Controller als in View nu..
         }
 
         /// <summary>
@@ -226,7 +222,7 @@ namespace CLESMonitor.Controller
         private void UpdateESChartData()
         {
             // Pass along simulated sensor-data
-            if (hrSensorType == HRSensorType.ManualInput) {
+            if (hrSensor.sensorType == HRSensorType.ManualInput) {
                 hrSensor.sensorValue = hrTrackbar.Value;
             }
             gsrSensor.sensorValue = gsrTrackbar.Value;
@@ -372,6 +368,10 @@ namespace CLESMonitor.Controller
             }            
         }
 
+        /// <summary>
+        /// Action when the heart rate sensor type is being changed
+        /// </summary>
+        /// <param name="sender">Radio buttons for the available types</param>
         public void hrSensorTypeChanged(object sender)
         {
             RadioButton radioButton = (RadioButton)sender;
@@ -380,14 +380,14 @@ namespace CLESMonitor.Controller
                 //TODO: is dit vies?
                 if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
                 {
-                    hrSensorType = HRSensorType.ManualInput;
+                    hrSensor.sensorType = HRSensorType.ManualInput;
                     hrTrackbar.Enabled = true;
                     hrMinusButton.Enabled = true;
                     hrPlusButton.Enabled = true;
                 }
                 else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
                 {
-                    hrSensorType = HRSensorType.BluetoothZephyr;
+                    hrSensor.sensorType = HRSensorType.BluetoothZephyr;
                     hrTrackbar.Enabled = false;
                     hrMinusButton.Enabled = false;
                     hrPlusButton.Enabled = false;
