@@ -8,6 +8,10 @@ using System.Xml;
 
 namespace XMLScenarioGenerator
 {
+    /// <summary>
+    /// An Element represents two XML-nodes to be generated,
+    /// one when the element starts and one when it stops
+    /// </summary>
     public class Element
     {
         public string name;
@@ -27,6 +31,9 @@ namespace XMLScenarioGenerator
         }
     }
 
+    /// <summary>
+    /// Represents an event
+    /// </summary>
     public class Event : Element
     {
         public Event(string _name, int _startSecond, int _duration)
@@ -35,6 +42,9 @@ namespace XMLScenarioGenerator
         }
     }
 
+    /// <summary>
+    /// Represents a task, it has a pointer to the event it belongs to
+    /// </summary>
     public class Task : Element
     {
         public string eventIdentifier;
@@ -46,6 +56,9 @@ namespace XMLScenarioGenerator
         }
     }
 
+    /// <summary>
+    /// ViewController class
+    /// </summary>
     public class ViewController
     {
         List<Element> elements;
@@ -63,6 +76,9 @@ namespace XMLScenarioGenerator
         // Outlets
         SaveFileDialog saveFileDialog;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
         public ViewController()
         {
             elements = new List<Element>();
@@ -81,13 +97,11 @@ namespace XMLScenarioGenerator
             elements.Add(event2);
             elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
             // Add the (hardcoded) data to be generated here //
-
-            
         }
 
         /// <summary>
         /// This methods is called when the button in the GUI is pressed
-        /// and will generate and save the XML file.
+        /// and will generate and save the XML file using the (hardcoded) data.
         /// </summary>
         public void generateXMLFile(String savePath)
         {
@@ -96,7 +110,7 @@ namespace XMLScenarioGenerator
 
             writer.WriteStartElement("scenario");
 
-            // For each second in the generated scenario
+            // For each second in the scenario
             for (int i=1; i <= scenarioLength; i++)
             {
                 writer.WriteStartElement("second", null);
@@ -104,7 +118,6 @@ namespace XMLScenarioGenerator
 
                 foreach (Element element in elements)
                 {
-                    
                     // Check whether an element starts now
                     if (element.startSecond == i)
                     {
@@ -151,14 +164,17 @@ namespace XMLScenarioGenerator
                     }
                 }
 
-                writer.WriteEndElement();
+                writer.WriteEndElement(); //end of "second"
             }
 
-            writer.WriteEndElement();
+            writer.WriteEndElement(); //end of "scenario"
 
             writer.Close();
         }
 
+        /// <summary>
+        /// This action is called when the button in the GUI is pressed
+        /// </summary>
         public void openScenarioFileDialog()
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
@@ -167,6 +183,5 @@ namespace XMLScenarioGenerator
                 this.generateXMLFile(saveFileDialog.FileName);
             }
         }
-
     }
 }
