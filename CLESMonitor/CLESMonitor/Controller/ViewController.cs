@@ -34,6 +34,7 @@ namespace CLESMonitor.Controller
         private DateTime startTime;
         private TimeSpan emptyTimer;
         private TimeSpan currentSessionTime;
+        private System.Threading.Timer manualSensorInputTimer;
 
         // References to sensors for manual input
         private HRSensor _hrSensor;
@@ -55,6 +56,7 @@ namespace CLESMonitor.Controller
         public UpdateConsoleDelegate updateConsoleDelegate;
         public delegate void UpdateSessionTimeDelegate();
         public UpdateSessionTimeDelegate updateSessionTimeDelegate;
+        public delegate void UpdateDelegate();
 
         private ViewControllerState currentState;
 
@@ -393,6 +395,49 @@ namespace CLESMonitor.Controller
                     hrPlusButton.Enabled = false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Action method when the calibrate button is clicked.
+        /// </summary>
+        public void calibrateButtonClicked()
+        {
+            if (currentState == ViewControllerState.Stopped)
+            {
+                // When manual input is enabled, create a Timer to pass data
+                if (hrSensor.sensorType == HRSensorType.ManualInput)
+                {
+                    TimerCallback timerCallback = manualSensorInputTimerCallback;
+                    manualSensorInputTimer = new System.Threading.Timer(timerCallback, null, 0, 100);
+                }
+
+                esModel.startCalibration();
+                currentState = ViewControllerState.Calibrating;
+                writeStringToConsole("Calibratie gestart");
+            }
+            else if (currentState == ViewControllerState.Calibrating)
+            {
+                // When manual input is enabled, clean up the Timer
+                if (hrSensor.sensorType == HRSensorType.ManualInput)
+                {
+                    manualSensorInputTimer.Dispose();
+                }
+
+                esModel.stopCalibration();
+                currentState = ViewControllerState.Stopped;
+                writeStringToConsole("Calibratie gestopt");
+            }
+        }
+
+        private void manualSensorInputTimerCallback(Object stateInfo)
+        {
+            this.View.Invoke(new UpdateDelegate(updateManualSensorInput));
+        }
+
+        private void updateManualSensorInput()
+        {
+            hrSensor.sensorValue = hrTrackbar.Value;
+            gsrSensor.sensorValue = gsrTrackbar.Value;
         }
     }
 }

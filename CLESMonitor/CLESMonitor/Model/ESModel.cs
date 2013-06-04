@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
+    /// <summary>
+    /// This abstract class represents an Emotional State model.
+    /// The method calculateModelValue() is the core method that will return
+    /// calculated values from the model.
+    /// </summary>
     public abstract class ESModel
     {
         /// <summary>
