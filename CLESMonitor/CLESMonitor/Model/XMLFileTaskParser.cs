@@ -18,28 +18,30 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.Model
 {
-    public struct ParsedEvent
+    public class ParsedEvent
     {
-        public string identifier;
-        public string type;
+        public string identifier { get; private set; }
+        public string type { get; private set; }
 
         public ParsedEvent(string _identifier, string _type)
         {
             identifier = _identifier;
             type = _type;
         }
+
     }
 
-    public struct ParsedTask
+    public class ParsedTask
     {
-        public string identifier;
-        public string type;
+        public string identifier {get; private set;}
+        public string type { get; private set; }
 
         public ParsedTask(string _identifier, string _type)
         {
             identifier = _identifier;
             type = _type;
         }
+
     }
 
     public enum Action
@@ -133,20 +135,25 @@ namespace CLESMonitor.Model
 
         private List<ParsedEvent> eventsForTime(TimeSpan timeSpan, ActionType actionType)
         {
-            List<XmlNode> eventNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Event);
+            int timeInSeconds = (int)Math.Floor(timeSpan.TotalSeconds);
             List<ParsedEvent> events = new List<ParsedEvent>();
 
-            foreach (XmlNode node in eventNodeList) //<event>
+            if (timeInSeconds >= 0)
             {
-                foreach (XmlNode c in node.ChildNodes)
+                List<XmlNode> eventNodeList = getActionsForSecond(timeInSeconds, Action.Event);
+
+                foreach (XmlNode node in eventNodeList) //<event>
                 {
-                    if (actionType == ActionType.EventStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                    foreach (XmlNode c in node.ChildNodes)
                     {
-                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
-                    }
-                    else if (actionType == ActionType.EventStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
-                    {
-                        events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        if (actionType == ActionType.EventStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                        {
+                            events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        }
+                        else if (actionType == ActionType.EventStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                        {
+                            events.Add(new ParsedEvent(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        }
                     }
                 }
             }
@@ -177,24 +184,28 @@ namespace CLESMonitor.Model
 
         private List<ParsedTask> tasksForTime(TimeSpan timeSpan, ActionType actionType)
         {
-            List<XmlNode> taskNodeList = getActionsForSecond((int)Math.Floor(timeSpan.TotalSeconds), Action.Task);
+            int timeInSeconds = (int)Math.Floor(timeSpan.TotalSeconds);
             List<ParsedTask> tasks = new List<ParsedTask>();
 
-            foreach (XmlNode node in taskNodeList) //<task>
+            if (timeInSeconds >= 0)
             {
-                foreach (XmlNode c in node.ChildNodes)
+                List<XmlNode> taskNodeList = getActionsForSecond(timeInSeconds, Action.Task);
+
+                foreach (XmlNode node in taskNodeList) //<task>
                 {
-                    if (actionType == ActionType.TaskStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                    foreach (XmlNode c in node.ChildNodes)
                     {
-                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
-                    }
-                    else if (actionType == ActionType.TaskStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
-                    {
-                        tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        if (actionType == ActionType.TaskStarted && c.Name.Equals("action") && c.InnerText.Equals("started"))
+                        {
+                            tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        }
+                        else if (actionType == ActionType.TaskStopped && c.Name.Equals("action") && c.InnerText.Equals("stopped"))
+                        {
+                            tasks.Add(new ParsedTask(node.Attributes["id"].Value, node.FirstChild.InnerText));
+                        }
                     }
                 }
             }
-
             return tasks;
         }
 

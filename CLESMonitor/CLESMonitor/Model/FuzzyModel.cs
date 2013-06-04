@@ -7,22 +7,32 @@ namespace CLESMonitor.Model
         // HR = heart rate
         // GSR = skin conductance
 
-        // Sensoren
+        // Sensors
         private HRSensor hrSensor;
         private GSRSensor gsrSensor;
 
-        // Data uit de calibratieperiode
-        private int[] calibrationHR; //in slagen/minuut
+        // Data from calibration periode
+        private int[] calibrationHR; //in beats/minute
         private int[] calibrationGSR; //in siemens
         private int HRMax, HRMin;
         private int GSRMax, GSRMin;
+        private int GSRMean, HRMean;
+        private int GSRStandardDeviation, HRStandardDeviation;
 
-        // Huidige gemeten waardes
+        // Current values
         private double currentHR;
         private double currentGSR;
 
+        // Current normalised values
+        private double normalisedGSR;
+        private double normalisedHR;
+
+        // Current values in terms of high-mid-low 
+        private string GSR;
+        private string HR;
+
         /// <summary>
-        /// Constructor methode waarin direct de sensoren geset worden
+        /// Constructor method that sets the sensors immediately
         /// </summary>
         /// <param name="hrSensor"></param>
         /// <param name="gsrSensor"></param>
@@ -33,18 +43,17 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Krijgt de waarden uit de calibratie periode binnen en set op basis daarvan 
-        /// de minimum en maximum waarden per sensor.
+        /// Receives the calibration values and sets the minimum and maximum values per sensor
         /// </summary>
         /// <param name="HRValues"></param>
         /// <param name="GSRValues"></param>
         private void setupWithCalibrationData(int[] HRValues, int[] GSRValues)
         {
-            // Neem de calibratie waarden over
+            // Adopts the calibration values
             calibrationHR = HRValues;
             calibrationGSR = GSRValues;
 
-            // Herleid nieuwe waarden
+            // Set the wanted values
             HRMin = calibrationHR.Min();
             HRMax = calibrationHR.Max();
             GSRMax = calibrationGSR.Max();
@@ -77,18 +86,27 @@ namespace CLESMonitor.Model
         /// <returns></returns>
         public override double calculateModelValue()
         {
-            // Pak de waarden uit de sensoren
+            // Get the values from the sensors
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 
+            normalisedGSR = calculateNormalisedGSR(currentGSR);
+            normalisedHR = calculateNormalisedHR(currentHR);
+
             return currentHR;
+        }
+
+
+        public void fuzzyRules()
+        { 
+            //if(normalisedGSR GSR)
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="HRValue"></param>
-        /// <returns>De genormaliseerde hartrate (double)</returns>
+        /// <returns>The normalised hartrate (double)</returns>
         private double calculateNormalisedHR(double HRValue)
         {
             return ((HRValue - HRMin)/(HRMax - HRMin))*100;
@@ -98,7 +116,7 @@ namespace CLESMonitor.Model
         /// 
         /// </summary>
         /// <param name="GSRValue"></param>
-        /// <returns>De genormaliseerde skikn conductance (double)</returns>
+        /// <returns>The normalised skin conductance (double)</returns>
         private double calculateNormalisedGSR(double GSRValue)
         {
             return ((GSRValue - GSRMin) / (GSRMax - GSRMin)) * 100;
