@@ -1,8 +1,37 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Math;
+
 
 namespace CLESMonitor.Model
 {
+    public enum GSRLevel
+    {
+        Unknown,
+        Low,
+        MidLow,
+        MidHigh,
+        High
+    }
+
+    public enum HRLevel
+    { 
+        Unknown,
+        Low,
+        Mid,
+        High
+    }
+
+    public enum ArousalLevel
+    { 
+        Unknown,
+        Low,
+        MidLow,
+        MidHigh,
+        High
+    }
+
     public class FuzzyModel : ESModel
     {
         // HR = heart rate
@@ -28,9 +57,12 @@ namespace CLESMonitor.Model
         private double normalisedGSR;
         private double normalisedHR;
 
-        // Current values in terms of high-mid-low 
-        private string GSR;
-        private string HR;
+        // The current 'sensor' levels
+        private GSRLevel gsrLevel;
+        private HRLevel hrLevel;
+
+        // The current arousal level
+        private ArousalLevel arousalLevel;
 
         /// <summary>
         /// Constructor method that sets the sensors immediately
@@ -41,24 +73,6 @@ namespace CLESMonitor.Model
         {
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
-        }
-
-        /// <summary>
-        /// Receives the calibration values and sets the minimum and maximum values per sensor
-        /// </summary>
-        /// <param name="HRValues"></param>
-        /// <param name="GSRValues"></param>
-        private void setupWithCalibrationData(int[] HRValues, int[] GSRValues)
-        {
-            // Adopts the calibration values
-            calibrationHR = HRValues;
-            calibrationGSR = GSRValues;
-
-            // Set the wanted values
-            HRMin = calibrationHR.Min();
-            HRMax = calibrationHR.Max();
-            GSRMax = calibrationGSR.Max();
-            GSRMax = calibrationGSR.Max();
         }
 
         public override void startSession()
@@ -97,6 +111,63 @@ namespace CLESMonitor.Model
             return currentHR;
         }
 
+        /// <summary>
+        /// Sets the arousal level based on the fuzzy logic model
+        /// </summary>
+        public void fuzzyArousalRules()
+        {
+            if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
+            {
+                arousalLevel = ArousalLevel.MidHigh;
+            }
+            else if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Mid))
+            {
+                arousalLevel = ArousalLevel.High;
+            }
+            else if (gsrLevel.Equals(GSRLevel.MidHigh) && hrLevel.Equals(HRLevel.Mid))
+            {
+                arousalLevel = ArousalLevel.MidHigh;
+            }
+            else if (gsrLevel.Equals(GSRLevel.MidLow) && hrLevel.Equals(HRLevel.Mid))
+            {
+                arousalLevel = ArousalLevel.MidLow;
+            }
+            else if (gsrLevel.Equals(GSRLevel.Low) && hrLevel.Equals(HRLevel.High))
+            {
+                arousalLevel = ArousalLevel.MidLow;
+            }
+
+            else if (gsrLevel.Equals(GSRLevel.High))
+            {
+                arousalLevel = ArousalLevel.High;
+            }
+            else if (gsrLevel.Equals(GSRLevel.MidHigh))
+            {
+                arousalLevel = ArousalLevel.MidHigh;
+            }
+            else if (gsrLevel.Equals(GSRLevel.MidLow))
+            {
+                arousalLevel = ArousalLevel.MidLow;
+            }
+            else if (gsrLevel.Equals(GSRLevel.Low))
+            {
+                arousalLevel = ArousalLevel.Low;
+            }
+            else if (hrLevel.Equals(HRLevel.Low))
+            {
+                arousalLevel = ArousalLevel.Low;
+            }
+            else if (hrLevel.Equals(HRLevel.High))
+            {
+                arousalLevel = ArousalLevel.High;
+            }
+        }
+
+        /// <summary>
+        /// Based on the fuzzy values it receives, determines which 'level' GSR is at.
+        /// Sets the GSR enum
+        /// </summary>
+        /// <param name="GSRValueList"></param>
         public void findGSRLevel(List<double> GSRValueList)
         {
             double lowValue = GSRValueList[0];
@@ -104,7 +175,57 @@ namespace CLESMonitor.Model
             double midHighValue = GSRValueList[2];
             double highValue = GSRValueList[3];
 
-            
+            double maxTemp = lowValue;
+            GSRLevel tempLevel = GSRLevel.Low;
+
+            if (midLowValue > maxTemp)
+            {
+                maxTemp = midLowValue;
+                tempLevel = GSRLevel.MidLow;
+            }
+
+            if (midHighValue > maxTemp)
+            {
+                maxTemp = midHighValue;
+                tempLevel = GSRLevel.MidHigh;
+            }
+            if (highValue > maxTemp)
+            {
+                maxTemp = highValue;
+                tempLevel = GSRLevel.High;
+            }
+
+            gsrLevel = tempLevel;
+
+        }
+
+        /// <summary>
+        /// Based on the fuzzy values it receives, determines which 'level' HR is at.
+        /// Sets the HR enum
+        /// </summary>
+        /// <param name="HRValueList"></param>
+        public void findHRLevel(List<double> HRValueList) 
+        {
+            double lowValue = HRValueList[0];
+            double midValue = HRValueList[1];
+            double highValue = HRValueList[2];
+
+            double maxTemp = lowValue;
+            HRLevel tempLevel = HRLevel.Low;
+
+            if (midValue > maxTemp)
+            {
+                maxTemp = midValue;
+                tempLevel = HRLevel.Mid;
+            }
+
+            if (highValue > maxTemp)
+            {
+                maxTemp = highValue;
+                tempLevel = HRLevel.High;
+            }
+
+            hrLevel = tempLevel;
         }
 
         /// <summary>
@@ -118,10 +239,26 @@ namespace CLESMonitor.Model
             double midHighValue = calculateMidHighGSRValue();
             double highValue = calculateHighGSRValue();
 
-            List<double> GSRValueList = new List<double>(new double[] {lowValue, midLowValue, midHighValue, highValue});
+            List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
 
             return GSRValueList;
         }
+
+        /// <summary>
+        /// Based on the normalised HRValue, set the fuzzy values fir the 3 HR levels, low, mid and high
+        /// </summary>
+        /// <returns>>A list of the fuzzy values for each level of HR</returns>
+        public List<double> fuzzyHR()
+        {
+            double lowValue = calculateLowHRValue();
+            double midValue = calculateMidHRValue();
+            double highValue = calculateHighHRValue();
+
+            List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
+
+            return HRValueList;
+        }
+
         /// <summary>
         /// Calculate the Fuzzy value of GSRLow
         /// </summary>
@@ -129,12 +266,12 @@ namespace CLESMonitor.Model
         private double calculateLowGSRValue() 
         {
             double value = 0;
-            double rightLowBoudary = GSRMean - 1.5 * GSRStandardDeviation;
+            double rightBoudary = GSRMean - 1.5 * GSRStandardDeviation;
 
             // If the normalised value falls within the boundaries, calculate the value
-            if (normalisedGSR <= rightLowBoudary)
+            if (normalisedGSR <= rightBoudary)
             {
-                value = (rightLowBoudary - normalisedGSR) / rightLowBoudary;
+                value = (rightBoudary - normalisedGSR) / rightBoudary;
             }
 
             return value;
@@ -147,19 +284,21 @@ namespace CLESMonitor.Model
         private double calculateMidLowGSRValue()
         {
             double value = 0;
-            double leftMidLowBoundary = GSRMean - 2 * GSRStandardDeviation;
-            double rightMidLowBoundary = GSRMean;
+            double leftBoundary = GSRMean - 2 * GSRStandardDeviation;
+            double rightBoundary = GSRMean;
 
             // Since the midLow fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftMidLowBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
+            if (leftBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
             {
-                value = (normalisedGSR - leftMidLowBoundary) / ((GSRMean - GSRStandardDeviation) - leftMidLowBoundary);
+                //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
+                value = (normalisedGSR - leftBoundary) / ((GSRMean - GSRStandardDeviation) - leftBoundary);
             }
             // If the value falls on the right side
-            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightMidLowBoundary >= normalisedGSR)
+            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightBoundary >= normalisedGSR)
             {
-                value = (rightMidLowBoundary - normalisedGSR) / (rightMidLowBoundary - (GSRMean - GSRStandardDeviation));
+                // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
+                value = (rightBoundary - normalisedGSR) / (rightBoundary - (GSRMean - GSRStandardDeviation));
             }
 
             return value;
@@ -172,19 +311,19 @@ namespace CLESMonitor.Model
         private double calculateMidHighGSRValue()
         {
             double value = 0;
-            double leftMidHighBoundary = GSRMean - GSRStandardDeviation;
-            double rightMidHighBoundary = GSRMean + GSRStandardDeviation;
+            double leftBoundary = GSRMean - GSRStandardDeviation;
+            double rightBoundary = GSRMean + GSRStandardDeviation;
 
             // Since the midHigh fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftMidHighBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
+            if (leftBoundary <= normalisedGSR && normalisedGSR <= GSRMean )
             {
-                value = (normalisedGSR - leftMidHighBoundary) / (GSRMean - leftMidHighBoundary);
+                value = (normalisedGSR - leftBoundary) / (GSRMean - leftBoundary);
             }
             // If the value falls on the right side
-            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightMidHighBoundary >= normalisedGSR)
+            else if (normalisedGSR >= GSRMean && rightBoundary >= normalisedGSR)
             {
-                value = (rightMidHighBoundary - normalisedGSR) / (rightMidHighBoundary - GSRMean);
+                value = (rightBoundary - normalisedGSR) / (rightBoundary - GSRMean);
             }
 
             return value;
@@ -197,13 +336,12 @@ namespace CLESMonitor.Model
         private double calculateHighGSRValue()
         {
             double value = 0;
-            double leftHighBoundary = GSRMean;
-            double rightHighBoundary = GSRMax;
+            double leftBoundary = GSRMean;
             /* If the normalised value is not greater than the mean +1SD but within the boundaries of "high"
                calculate the value*/
-            if (normalisedGSR >= leftHighBoundary && normalisedGSR <= (GSRMean + GSRStandardDeviation))
+            if (normalisedGSR >= leftBoundary && normalisedGSR <= (GSRMean + GSRStandardDeviation))
             {
-                value = (normalisedGSR - GSRMean) / ((GSRMean + GSRStandardDeviation) - GSRMean);
+                value = (normalisedGSR - leftBoundary) / ((GSRMean + GSRStandardDeviation) - leftBoundary);
             }
             // If the value is greater the mean + 1SD, the value high = 1
             else if (normalisedGSR >= (GSRMean + GSRStandardDeviation))
@@ -213,7 +351,67 @@ namespace CLESMonitor.Model
 
             return value;
         }
+        /// <summary>
+        /// Calculates the fuzzy value for the 'low' level of HR
+        /// </summary>
+        /// <returns>The truth value of 'low' (double)</returns>
+        private double calculateLowHRValue()
+        {
+            double value = 0;
+            double rightBoudary = HRMean - HRStandardDeviation;
 
+            // If the normalised value falls within the boundaries, calculate the value
+            if (normalisedHR <= rightBoudary)
+            {
+                value = (rightBoudary - normalisedHR) / rightBoudary;
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Calculates the fuzzy value for the 'mid' level of HR
+        /// </summary>
+        /// <returns>The truth value of 'mid' (double)</returns>
+        private double calculateMidHRValue()
+        {
+            double value = 0;
+            double leftBoundary = HRMean - 2 * GSRStandardDeviation;
+            double rightBoundary = HRMean + 2 * GSRStandardDeviation;
+
+            // Since the midLow fuzzyArea is triangular, two different calculations are necessary
+            // If the normalised value falls on the left side of the triangle
+            if (leftBoundary <= normalisedHR && normalisedHR <= (HRMean - leftBoundary))
+            {
+                value = (normalisedHR - leftBoundary) / (HRMean - leftBoundary);
+            }
+            // If the value falls on the right side
+            else if (normalisedHR >= HRMean && rightBoundary >= normalisedHR)
+            {
+                value = (rightBoundary - normalisedHR) / (rightBoundary - HRMean);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Calculates the fuzzy value for the 'high' level of HR
+        /// </summary>
+        /// <returns>The truth value of 'high' (double)</returns>
+        private double calculateHighHRValue()
+        {
+            double value = 0;
+            double leftBoundary = HRMean;
+
+            // If the normalised value falls withing teh boundaries of high
+            if (normalisedHR >= leftBoundary)
+            {
+                //The maximum value HRNormalised can get = 100;
+                value = (normalisedHR - leftBoundary) / (100 - leftBoundary);
+            }
+            
+            return value;
+        }
 
         /// <summary>
         /// 
