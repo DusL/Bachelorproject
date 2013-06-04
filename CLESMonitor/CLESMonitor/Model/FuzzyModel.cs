@@ -51,12 +51,24 @@ namespace CLESMonitor.Model
             GSRMax = calibrationGSR.Max();
         }
 
-        /// <summary>
-        /// Start a model session
-        /// </summary>
         public override void startSession()
         {
             hrSensor.startMeasuring();
+        }
+
+        public override void stopSession()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void startCalibration()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void stopCalibration()
+        {
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
