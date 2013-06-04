@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Math;
 using System.Threading;
 
 
@@ -53,7 +52,7 @@ namespace CLESMonitor.Model
         private int HRMax, HRMin;
         private int GSRMax, GSRMin;
         private int GSRMean, HRMean;
-        private int GSRStandardDeviation, HRStandardDeviation;
+        private double GSRStandardDeviation, HRStandardDeviation;
 
         // Current values
         private double currentHR;
@@ -129,6 +128,11 @@ namespace CLESMonitor.Model
             GSRMin = (int)calibrationGSR.Min();
             GSRMax = (int)calibrationGSR.Max();
 
+            HRMean = (int)calibrationHR.Average();
+            GSRMean = (int)calibrationGSR.Average();
+            HRStandardDeviation = standardDeviationFromList(calibrationHR);
+            GSRStandardDeviation = standardDeviationFromList(calibrationGSR);
+
             foreach (double value in calibrationHR)
             {
                 Console.WriteLine("HR - " + value);
@@ -137,7 +141,17 @@ namespace CLESMonitor.Model
             {
                 Console.WriteLine("GSR - " + value);
             }
-            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3}", HRMin, HRMax, GSRMin, GSRMax);
+            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRStandardDeviation, GSRStandardDeviation);
+        }
+
+        private double standardDeviationFromList(List<double> list)
+        {
+            double sumOfSquares = 0;
+            foreach (double value in list)
+            {
+                sumOfSquares += Math.Pow(value - list.Average(), 2); 
+            }
+            return Math.Sqrt(sumOfSquares / list.Count-1);
         }
 
         private void calibrationTimerCallback(Object stateInfo)
