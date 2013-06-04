@@ -2,7 +2,7 @@
 
 namespace CLESMonitor.Model
 {
-    class FuzzyModel : ESModel
+    public class FuzzyModel : ESModel
     {
         // HR = heart rate
         // GSR = skin conductance
