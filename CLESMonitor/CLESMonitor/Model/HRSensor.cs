@@ -5,10 +5,22 @@ using System.Threading;
 
 namespace CLESMonitor.Model
 {
+    /// <summary>
+    /// The way in which the HRSensor will recieve its raw data
+    /// </summary>
     public enum HRSensorType
     {
+        /// <summary>
+        /// Initial value
+        /// </summary>
         Unknown,
+        /// <summary>
+        /// By manual input, sensorValue is set from the outside
+        /// </summary>
         ManualInput,
+        /// <summary>
+        /// Using a Zephyr Bluetooth monitor, linked to a SerialPort
+        /// </summary>
         BluetoothZephyr
     }
 

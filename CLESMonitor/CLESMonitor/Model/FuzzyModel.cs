@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Math;
+using System.Threading;
 
 
 namespace CLESMonitor.Model
@@ -32,6 +33,10 @@ namespace CLESMonitor.Model
         High
     }
 
+    /// <summary>
+    /// This class is an implementation of an Emotional State model
+    /// using Fuzzy Logic.
+    /// </summary>
     public class FuzzyModel : ESModel
     {
         // HR = heart rate
@@ -42,8 +47,9 @@ namespace CLESMonitor.Model
         private GSRSensor gsrSensor;
 
         // Data from calibration periode
-        private int[] calibrationHR; //in beats/minute
-        private int[] calibrationGSR; //in siemens
+        Timer calibrationTimer;
+        private List<double> calibrationHR; //in beats/minute
+        private List<double> calibrationGSR; //in siemens
         private int HRMax, HRMin;
         private int GSRMax, GSRMin;
         private int GSRMean, HRMean;
@@ -75,30 +81,76 @@ namespace CLESMonitor.Model
             this.gsrSensor = gsrSensor;
         }
 
+        /// <summary>
+        /// Starts a new session, calculateModelValue() will
+        /// now produce valid values.
+        /// </summary>
         public override void startSession()
         {
             hrSensor.startMeasuring();
         }
 
+        /// <summary>
+        /// Stops the current session.
+        /// </summary>
         public override void stopSession()
         {
             throw new System.NotImplementedException();
         }
 
+        /// <summary>
+        /// Start a calibration session. This will reset any data
+        /// from previous sessions.
+        /// </summary>
         public override void startCalibration()
         {
-            throw new System.NotImplementedException();
-        }
+            Console.WriteLine("FuzzyModel.startCalibration()");
 
-        public override void stopCalibration()
-        {
-            throw new System.NotImplementedException();
+            calibrationHR = new List<double>();
+            calibrationGSR = new List<double>();
+
+            // Create and start a timer to poll the sensors
+            TimerCallback timerCallback = calibrationTimerCallback;
+            calibrationTimer = new Timer(timerCallback, null, 0, 1000);
         }
 
         /// <summary>
-        /// 
+        /// Stops the current calibration session.
         /// </summary>
-        /// <returns></returns>
+        public override void stopCalibration()
+        {
+            Console.WriteLine("FuzzyModel.stopCalibration()");
+
+            calibrationTimer.Dispose();
+
+            // Set values derived from calibration
+            HRMin = (int)calibrationHR.Min();
+            HRMax = (int)calibrationHR.Max();
+            GSRMin = (int)calibrationGSR.Min();
+            GSRMax = (int)calibrationGSR.Max();
+
+            foreach (double value in calibrationHR)
+            {
+                Console.WriteLine("HR - " + value);
+            }
+            foreach (double value in calibrationGSR)
+            {
+                Console.WriteLine("GSR - " + value);
+            }
+            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3}", HRMin, HRMax, GSRMin, GSRMax);
+        }
+
+        private void calibrationTimerCallback(Object stateInfo)
+        {
+            Console.WriteLine("Calibratie: hrSensor={0} gsrSensor={1}", hrSensor.sensorValue, gsrSensor.sensorValue);
+            calibrationHR.Add(hrSensor.sensorValue);
+            calibrationGSR.Add(gsrSensor.sensorValue);
+        }
+
+        /// <summary>
+        /// (Re)calculates the model value
+        /// </summary>
+        /// <returns>The model value</returns>
         public override double calculateModelValue()
         {
             // Get the values from the sensors
