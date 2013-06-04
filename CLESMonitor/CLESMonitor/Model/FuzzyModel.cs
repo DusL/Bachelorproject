@@ -132,10 +132,123 @@ namespace CLESMonitor.Model
             return currentHR;
         }
 
-        public void fuzzyRules()
-        { 
-            //if(normalisedGSR GSR)
+        public void findGSRLevel(List<double> GSRValueList)
+        {
+            double lowValue = GSRValueList[0];
+            double midLowValue = GSRValueList[1];
+            double midHighValue = GSRValueList[2];
+            double highValue = GSRValueList[3];
+
+            
         }
+
+        /// <summary>
+        /// Based on the normalised GSRValue, set the fuzzy values for the 4 levels of GSR: low, midlow, midhigh and high.
+        /// </summary>
+        /// <returns>A list of the fuzzy values for each level of GSR</returns>
+        public List<double> fuzzyGSR()
+        {
+            double lowValue = calculateLowGSRValue();
+            double midLowValue = calculateLowGSRValue();
+            double midHighValue = calculateMidHighGSRValue();
+            double highValue = calculateHighGSRValue();
+
+            List<double> GSRValueList = new List<double>(new double[] {lowValue, midLowValue, midHighValue, highValue});
+
+            return GSRValueList;
+        }
+        /// <summary>
+        /// Calculate the Fuzzy value of GSRLow
+        /// </summary>
+        /// <returns></returns>
+        private double calculateLowGSRValue() 
+        {
+            double value = 0;
+            double rightLowBoudary = GSRMean - 1.5 * GSRStandardDeviation;
+
+            // If the normalised value falls within the boundaries, calculate the value
+            if (normalisedGSR <= rightLowBoudary)
+            {
+                value = (rightLowBoudary - normalisedGSR) / rightLowBoudary;
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Calculate the Fuzzy value of GSRMidLow
+        /// </summary>
+        /// <returns></returns>
+        private double calculateMidLowGSRValue()
+        {
+            double value = 0;
+            double leftMidLowBoundary = GSRMean - 2 * GSRStandardDeviation;
+            double rightMidLowBoundary = GSRMean;
+
+            // Since the midLow fuzzyArea is triangular, two different calculations are necessary
+            // If the normalised value falls on the left side of the triangle
+            if (leftMidLowBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
+            {
+                value = (normalisedGSR - leftMidLowBoundary) / ((GSRMean - GSRStandardDeviation) - leftMidLowBoundary);
+            }
+            // If the value falls on the right side
+            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightMidLowBoundary >= normalisedGSR)
+            {
+                value = (rightMidLowBoundary - normalisedGSR) / (rightMidLowBoundary - (GSRMean - GSRStandardDeviation));
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Calculate the Fuzzy value of GSRMidHigh
+        /// </summary>
+        /// <returns></returns>
+        private double calculateMidHighGSRValue()
+        {
+            double value = 0;
+            double leftMidHighBoundary = GSRMean - GSRStandardDeviation;
+            double rightMidHighBoundary = GSRMean + GSRStandardDeviation;
+
+            // Since the midHigh fuzzyArea is triangular, two different calculations are necessary
+            // If the normalised value falls on the left side of the triangle
+            if (leftMidHighBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
+            {
+                value = (normalisedGSR - leftMidHighBoundary) / (GSRMean - leftMidHighBoundary);
+            }
+            // If the value falls on the right side
+            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightMidHighBoundary >= normalisedGSR)
+            {
+                value = (rightMidHighBoundary - normalisedGSR) / (rightMidHighBoundary - GSRMean);
+            }
+
+            return value;
+        }
+
+        /// <summary>
+        /// Calculate the Fuzzy value of GSRHigh
+        /// </summary>
+        /// <returns></returns>
+        private double calculateHighGSRValue()
+        {
+            double value = 0;
+            double leftHighBoundary = GSRMean;
+            double rightHighBoundary = GSRMax;
+            /* If the normalised value is not greater than the mean +1SD but within the boundaries of "high"
+               calculate the value*/
+            if (normalisedGSR >= leftHighBoundary && normalisedGSR <= (GSRMean + GSRStandardDeviation))
+            {
+                value = (normalisedGSR - GSRMean) / ((GSRMean + GSRStandardDeviation) - GSRMean);
+            }
+            // If the value is greater the mean + 1SD, the value high = 1
+            else if (normalisedGSR >= (GSRMean + GSRStandardDeviation))
+            {
+                value = 1;
+            }
+
+            return value;
+        }
+
 
         /// <summary>
         /// 
