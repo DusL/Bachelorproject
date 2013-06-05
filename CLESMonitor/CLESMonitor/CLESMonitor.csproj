@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\ViewController.cs" />
+    <Compile Include="Model\FuzzyCalculate.cs" />
     <Compile Include="Model\CLModel.cs" />
     <Compile Include="Model\CTLEvent.cs" />
     <Compile Include="Model\CTLModel.cs" />

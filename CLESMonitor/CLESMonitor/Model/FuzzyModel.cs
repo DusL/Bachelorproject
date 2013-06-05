@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
+using CLESMonitor;
 
 namespace CLESMonitor.Model
 {
@@ -40,7 +41,8 @@ namespace CLESMonitor.Model
     {
         // HR = heart rate
         // GSR = skin conductance
-
+        //
+        private FuzzyCalculate calculate;
         // Sensors
         private HRSensor hrSensor;
         private GSRSensor gsrSensor;
@@ -49,10 +51,10 @@ namespace CLESMonitor.Model
         Timer calibrationTimer;
         private List<double> calibrationHR; //in beats/minute
         private List<double> calibrationGSR; //in siemens
-        private int HRMax, HRMin;
-        private int GSRMax, GSRMin;
-        private int GSRMean, HRMean;
-        private double GSRStandardDeviation, HRStandardDeviation;
+        private double HRMax, HRMin;
+        private double GSRMax, GSRMin;
+        private double GSRMean, HRMean;
+        private double GSRsd, HRsd;
 
         // Current values
         private double currentHR;
@@ -78,6 +80,7 @@ namespace CLESMonitor.Model
         {
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
+            calculate = new FuzzyCalculate();
         }
 
         /// <summary>
@@ -123,15 +126,15 @@ namespace CLESMonitor.Model
             calibrationTimer.Dispose();
 
             // Set values derived from calibration
-            HRMin = (int)calibrationHR.Min();
-            HRMax = (int)calibrationHR.Max();
-            GSRMin = (int)calibrationGSR.Min();
-            GSRMax = (int)calibrationGSR.Max();
+            HRMin = calibrationHR.Min();
+            HRMax = calibrationHR.Max();
+            GSRMin = calibrationGSR.Min();
+            GSRMax = calibrationGSR.Max();
 
-            HRMean = (int)calibrationHR.Average();
-            GSRMean = (int)calibrationGSR.Average();
-            HRStandardDeviation = standardDeviationFromList(calibrationHR);
-            GSRStandardDeviation = standardDeviationFromList(calibrationGSR);
+            HRMean = calibrationHR.Average();
+            GSRMean = calibrationGSR.Average();
+            HRsd = standardDeviationFromList(calibrationHR);
+            GSRsd = standardDeviationFromList(calibrationGSR);
 
             foreach (double value in calibrationHR)
             {
@@ -141,7 +144,7 @@ namespace CLESMonitor.Model
             {
                 Console.WriteLine("GSR - " + value);
             }
-            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRStandardDeviation, GSRStandardDeviation);
+            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
 
         private double standardDeviationFromList(List<double> list)
@@ -305,6 +308,8 @@ namespace CLESMonitor.Model
             double midHighValue = calculateMidHighGSRValue();
             double highValue = calculateHighGSRValue();
 
+           // double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
+
             List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
 
             return GSRValueList;
@@ -332,7 +337,7 @@ namespace CLESMonitor.Model
         private double calculateLowGSRValue() 
         {
             double value = 0;
-            double rightBoudary = GSRMean - 1.5 * GSRStandardDeviation;
+            double rightBoudary = GSRMean - 1.5 * GSRsd;
 
             // If the normalised value falls within the boundaries, calculate the value
             if (normalisedGSR <= rightBoudary)
@@ -350,21 +355,21 @@ namespace CLESMonitor.Model
         private double calculateMidLowGSRValue()
         {
             double value = 0;
-            double leftBoundary = GSRMean - 2 * GSRStandardDeviation;
+            double leftBoundary = GSRMean - 2 * GSRsd;
             double rightBoundary = GSRMean;
 
             // Since the midLow fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRStandardDeviation))
+            if (leftBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRsd))
             {
                 //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
-                value = (normalisedGSR - leftBoundary) / ((GSRMean - GSRStandardDeviation) - leftBoundary);
+                value = (normalisedGSR - leftBoundary) / ((GSRMean - GSRsd) - leftBoundary);
             }
             // If the value falls on the right side
-            else if (normalisedGSR >= (GSRMean - GSRStandardDeviation) && rightBoundary >= normalisedGSR)
+            else if (normalisedGSR >= (GSRMean - GSRsd) && rightBoundary >= normalisedGSR)
             {
                 // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
-                value = (rightBoundary - normalisedGSR) / (rightBoundary - (GSRMean - GSRStandardDeviation));
+                value = (rightBoundary - normalisedGSR) / (rightBoundary - (GSRMean - GSRsd));
             }
 
             return value;
@@ -377,8 +382,8 @@ namespace CLESMonitor.Model
         private double calculateMidHighGSRValue()
         {
             double value = 0;
-            double leftBoundary = GSRMean - GSRStandardDeviation;
-            double rightBoundary = GSRMean + GSRStandardDeviation;
+            double leftBoundary = GSRMean - GSRsd;
+            double rightBoundary = GSRMean + GSRsd;
 
             // Since the midHigh fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
@@ -405,18 +410,19 @@ namespace CLESMonitor.Model
             double leftBoundary = GSRMean;
             /* If the normalised value is not greater than the mean +1SD but within the boundaries of "high"
                calculate the value*/
-            if (normalisedGSR >= leftBoundary && normalisedGSR <= (GSRMean + GSRStandardDeviation))
+            if (normalisedGSR >= leftBoundary && normalisedGSR <= (GSRMean + GSRsd))
             {
-                value = (normalisedGSR - leftBoundary) / ((GSRMean + GSRStandardDeviation) - leftBoundary);
+                value = (normalisedGSR - leftBoundary) / ((GSRMean + GSRsd) - leftBoundary);
             }
             // If the value is greater the mean + 1SD, the value high = 1
-            else if (normalisedGSR >= (GSRMean + GSRStandardDeviation))
+            else if (normalisedGSR >= (GSRMean + GSRsd))
             {
                 value = 1;
             }
 
             return value;
         }
+
         /// <summary>
         /// Calculates the fuzzy value for the 'low' level of HR
         /// </summary>
@@ -424,7 +430,7 @@ namespace CLESMonitor.Model
         private double calculateLowHRValue()
         {
             double value = 0;
-            double rightBoudary = HRMean - HRStandardDeviation;
+            double rightBoudary = HRMean - HRsd;
 
             // If the normalised value falls within the boundaries, calculate the value
             if (normalisedHR <= rightBoudary)
@@ -442,8 +448,8 @@ namespace CLESMonitor.Model
         private double calculateMidHRValue()
         {
             double value = 0;
-            double leftBoundary = HRMean - 2 * GSRStandardDeviation;
-            double rightBoundary = HRMean + 2 * GSRStandardDeviation;
+            double leftBoundary = HRMean - 2 * GSRsd;
+            double rightBoundary = HRMean + 2 * GSRsd;
 
             // Since the midLow fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
