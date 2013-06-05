@@ -174,8 +174,8 @@ namespace CLESMonitor.Model
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 
-            normalisedGSR = calculateNormalisedGSR(currentGSR);
-            normalisedHR = calculateNormalisedHR(currentHR);
+            normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
+            normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
 
             return currentHR;
         }
@@ -303,11 +303,6 @@ namespace CLESMonitor.Model
         /// <returns>A list of the fuzzy values for each level of GSR</returns>
         public List<double> fuzzyGSR()
         {
-            //double lowValue = calculateLowGSRValue();
-            //double midLowValue = calculateLowGSRValue();
-           // double midHighValue = calculateMidHighGSRValue();
-            //double highValue = calculateHighGSRValue();
-
             double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
             double midLowValue = calculate.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
             double midHighValue = calculate.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
@@ -324,10 +319,6 @@ namespace CLESMonitor.Model
         /// <returns>>A list of the fuzzy values for each level of HR</returns>
         public List<double> fuzzyHR()
         {
-            /*double lowValue = calculateLowHRValue();
-            double midValue = calculateMidHRValue();
-            double highValue = calculateHighHRValue();*/
-
             double lowValue = calculate.lowHRValue(HRMean, HRsd, normalisedHR);
             double midValue = calculate.midHRValue(HRMean, HRsd, normalisedHR);
             double highValue = calculate.highHRValue(HRMean, normalisedHR);
@@ -337,179 +328,5 @@ namespace CLESMonitor.Model
             return HRValueList;
         }
 
-        /// <summary>
-        /// Calculate the Fuzzy value of GSRLow
-        /// </summary>
-        /// <returns></returns>
-        private double calculateLowGSRValue() 
-        {
-            double value = 0;
-            double rightBoudary = GSRMean - 1.5 * GSRsd;
-
-            // If the normalised value falls within the boundaries, calculate the value
-            if (normalisedGSR <= rightBoudary)
-            {
-                value = (rightBoudary - normalisedGSR) / rightBoudary;
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the Fuzzy value of GSRMidLow
-        /// </summary>
-        /// <returns></returns>
-        private double calculateMidLowGSRValue()
-        {
-            double value = 0;
-            double leftBoundary = GSRMean - 2 * GSRsd;
-            double rightBoundary = GSRMean;
-
-            // Since the midLow fuzzyArea is triangular, two different calculations are necessary
-            // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalisedGSR && normalisedGSR <= (GSRMean - GSRsd))
-            {
-                //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
-                value = (normalisedGSR - leftBoundary) / ((GSRMean - GSRsd) - leftBoundary);
-            }
-            // If the value falls on the right side
-            else if (normalisedGSR >= (GSRMean - GSRsd) && rightBoundary >= normalisedGSR)
-            {
-                // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
-                value = (rightBoundary - normalisedGSR) / (rightBoundary - (GSRMean - GSRsd));
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the Fuzzy value of GSRMidHigh
-        /// </summary>
-        /// <returns></returns>
-        private double calculateMidHighGSRValue()
-        {
-            double value = 0;
-            double leftBoundary = GSRMean - GSRsd;
-            double rightBoundary = GSRMean + GSRsd;
-
-            // Since the midHigh fuzzyArea is triangular, two different calculations are necessary
-            // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalisedGSR && normalisedGSR <= GSRMean )
-            {
-                value = (normalisedGSR - leftBoundary) / (GSRMean - leftBoundary);
-            }
-            // If the value falls on the right side
-            else if (normalisedGSR >= GSRMean && rightBoundary >= normalisedGSR)
-            {
-                value = (rightBoundary - normalisedGSR) / (rightBoundary - GSRMean);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculate the Fuzzy value of GSRHigh
-        /// </summary>
-        /// <returns></returns>
-        private double calculateHighGSRValue()
-        {
-            double value = 0;
-            double leftBoundary = GSRMean;
-            /* If the normalised value is not greater than the mean +1SD but within the boundaries of "high"
-               calculate the value*/
-            if (normalisedGSR >= leftBoundary && normalisedGSR <= (GSRMean + GSRsd))
-            {
-                value = (normalisedGSR - leftBoundary) / ((GSRMean + GSRsd) - leftBoundary);
-            }
-            // If the value is greater the mean + 1SD, the value high = 1
-            else if (normalisedGSR >= (GSRMean + GSRsd))
-            {
-                value = 1;
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculates the fuzzy value for the 'low' level of HR
-        /// </summary>
-        /// <returns>The truth value of 'low' (double)</returns>
-        private double calculateLowHRValue()
-        {
-            double value = 0;
-            double rightBoudary = HRMean - HRsd;
-
-            // If the normalised value falls within the boundaries, calculate the value
-            if (normalisedHR <= rightBoudary)
-            {
-                value = (rightBoudary - normalisedHR) / rightBoudary;
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculates the fuzzy value for the 'mid' level of HR
-        /// </summary>
-        /// <returns>The truth value of 'mid' (double)</returns>
-        private double calculateMidHRValue()
-        {
-            double value = 0;
-            double leftBoundary = HRMean - 2 * GSRsd;
-            double rightBoundary = HRMean + 2 * GSRsd;
-
-            // Since the midLow fuzzyArea is triangular, two different calculations are necessary
-            // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalisedHR && normalisedHR <= (HRMean - leftBoundary))
-            {
-                value = (normalisedHR - leftBoundary) / (HRMean - leftBoundary);
-            }
-            // If the value falls on the right side
-            else if (normalisedHR >= HRMean && rightBoundary >= normalisedHR)
-            {
-                value = (rightBoundary - normalisedHR) / (rightBoundary - HRMean);
-            }
-
-            return value;
-        }
-
-        /// <summary>
-        /// Calculates the fuzzy value for the 'high' level of HR
-        /// </summary>
-        /// <returns>The truth value of 'high' (double)</returns>
-        private double calculateHighHRValue()
-        {
-            double value = 0;
-            double leftBoundary = HRMean;
-
-            // If the normalised value falls withing teh boundaries of high
-            if (normalisedHR >= leftBoundary)
-            {
-                //The maximum value HRNormalised can get = 100;
-                value = (normalisedHR - leftBoundary) / (100 - leftBoundary);
-            }
-            
-            return value;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="HRValue"></param>
-        /// <returns>The normalised hartrate (double)</returns>
-        private double calculateNormalisedHR(double HRValue)
-        {
-            return ((HRValue - HRMin)/(HRMax - HRMin))*100;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="GSRValue"></param>
-        /// <returns>The normalised skin conductance (double)</returns>
-        private double calculateNormalisedGSR(double GSRValue)
-        {
-            return ((GSRValue - GSRMin) / (GSRMax - GSRMin)) * 100;
-        }
     }
 }

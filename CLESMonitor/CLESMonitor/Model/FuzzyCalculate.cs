@@ -7,21 +7,28 @@ using System.Threading.Tasks;
 using CLESMonitor;
 
 namespace CLESMonitor.Model
-{
+{   
+    /// <summary>
+    /// Handles all (fuzzy) calculations for fuzzyModel. It can be used as a private instance, 
+    /// keeping the MVC-structure intact and creating a testable environment for all calculations
+    /// </summary>
     public class FuzzyCalculate
     {
-        public FuzzyCalculate()
-        {
-           
-        }
-
+        
+        /// <summary>
+        /// Calculate the fuzzy 'truth-value' of the GSR-level 'low'.
+        /// </summary>
+        /// <param name="mean"></param>
+        /// <param name="SD"></param>
+        /// <param name="normalised"></param>
+        /// <returns></returns>
         public double lowGSRValue(double mean, double SD, double normalised)
         {
             double value = 0;
             double rightBoudary = mean - 1.5 * SD;
 
             // If the normalised value falls within the boundaries, calculate the value
-            if (normalised <= rightBoudary)
+            if (normalised >= 0 && normalised <= rightBoudary)
             {
                 value = (rightBoudary - normalised) / rightBoudary;
             }
@@ -29,6 +36,13 @@ namespace CLESMonitor.Model
             return value;
         }
 
+        /// <summary>
+        /// Calculate the fuzy 'truth-value' of the GSR-level 'midLow'
+        /// </summary>
+        /// <param name="mean"></param>
+        /// <param name="SD"></param>
+        /// <param name="normalised"></param>
+        /// <returns></returns>
         public double midLowGSRValue(double mean, double SD, double normalised)
         {
             double value = 0;
@@ -110,7 +124,7 @@ namespace CLESMonitor.Model
             double rightBoudary = mean - SD;
 
             // If the normalised value falls within the boundaries, calculate the value
-            if (normalised <= rightBoudary)
+            if (normalised >= 0 && normalised <= rightBoudary)
             {
                 value = (rightBoudary - normalised) / rightBoudary;
             }
@@ -130,7 +144,7 @@ namespace CLESMonitor.Model
 
             // Since the midLow fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalised && normalised <= (mean - leftBoundary))
+            if (leftBoundary <= normalised && normalised <= mean)
             {
                 value = (normalised - leftBoundary) / (mean - leftBoundary);
             }
@@ -166,6 +180,8 @@ namespace CLESMonitor.Model
         /// 
         /// </summary>
         /// <param name="HRValue"></param>
+        /// <param name="HRMin"></param>
+        /// <param name="HRMax"></param>
         /// <returns>The normalised hartrate (double)</returns>
         public double normalisedHR(double HRValue, double HRMin, double HRMax)
         {
