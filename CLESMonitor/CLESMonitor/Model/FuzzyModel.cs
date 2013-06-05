@@ -47,9 +47,8 @@ namespace CLESMonitor.Model
         private HRSensor hrSensor;
         private GSRSensor gsrSensor;
 
-        // Calibration
-        private const int CALIBRATION_LENGTH = 60; //in seconds
-        private Timer calibrationTimer;
+        // Data from calibration periode
+        Timer calibrationTimer;
         private List<double> calibrationHR; //in beats/minute
         private List<double> calibrationGSR; //in siemens
         private double HRMax, HRMin;
@@ -98,7 +97,7 @@ namespace CLESMonitor.Model
         /// </summary>
         public override void stopSession()
         {
-            hrSensor.stopMeasuring();
+            throw new System.NotImplementedException();
         }
 
         /// <summary>
@@ -168,7 +167,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// (Re)calculates the model value
         /// </summary>
-        /// <returns>The model value</returns>
+        /// <returns>The model value casted to a double</returns>
         public override double calculateModelValue()
         {
             // Get the values from the sensors
@@ -178,7 +177,7 @@ namespace CLESMonitor.Model
             normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
             normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
 
-            return currentHR;
+            return (double)arousalLevel;
         }
 
         /// <summary>
