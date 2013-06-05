@@ -303,12 +303,15 @@ namespace CLESMonitor.Model
         /// <returns>A list of the fuzzy values for each level of GSR</returns>
         public List<double> fuzzyGSR()
         {
-            double lowValue = calculateLowGSRValue();
-            double midLowValue = calculateLowGSRValue();
-            double midHighValue = calculateMidHighGSRValue();
-            double highValue = calculateHighGSRValue();
+            //double lowValue = calculateLowGSRValue();
+            //double midLowValue = calculateLowGSRValue();
+           // double midHighValue = calculateMidHighGSRValue();
+            //double highValue = calculateHighGSRValue();
 
-           // double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midLowValue = calculate.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midHighValue = calculate.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double highValue = calculate.highGSRValue(GSRMean, GSRsd, normalisedGSR);
 
             List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
 
@@ -321,9 +324,13 @@ namespace CLESMonitor.Model
         /// <returns>>A list of the fuzzy values for each level of HR</returns>
         public List<double> fuzzyHR()
         {
-            double lowValue = calculateLowHRValue();
+            /*double lowValue = calculateLowHRValue();
             double midValue = calculateMidHRValue();
-            double highValue = calculateHighHRValue();
+            double highValue = calculateHighHRValue();*/
+
+            double lowValue = calculate.lowHRValue(HRMean, HRsd, normalisedHR);
+            double midValue = calculate.midHRValue(HRMean, HRsd, normalisedHR);
+            double highValue = calculate.highHRValue(HRMean, normalisedHR);
 
             List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
 
