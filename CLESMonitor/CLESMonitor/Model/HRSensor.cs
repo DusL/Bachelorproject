@@ -70,8 +70,14 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Indicate to stop measuring values into sensorValue
         /// </summary>
-        public void endMeasuring()
+        public void stopMeasuring()
         {
+            // Close down the COM connection
+            if (sensorType == HRSensorType.BluetoothZephyr)
+            {
+                thread.Abort();
+                serialPort.Close();
+            }
         }
 
         /// <summary>
