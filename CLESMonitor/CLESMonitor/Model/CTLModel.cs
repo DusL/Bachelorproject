@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.IO;
 
 namespace CLESMonitor.Model
 {
@@ -344,7 +345,8 @@ namespace CLESMonitor.Model
         /// <param name="filePath"></param>
         public override void setPathForParser(string filePath)
         {
-            parser.readPath(filePath);
+            StreamReader streamReader = new StreamReader(File.Open(filePath, FileMode.Open));
+            parser.loadTextReader(streamReader);
         }
     }
 }
