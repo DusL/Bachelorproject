@@ -1,13 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Framework;
+using CLESMonitor;
 
 namespace UnitTest.Model
 {
-    [TestClass]
+    [TestFixture]
     public class CTLTaskTest
     {
-        [TestMethod]
+        [Test]
         public void TestMethod1()
         {
         }

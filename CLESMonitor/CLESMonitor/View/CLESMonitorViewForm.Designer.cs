@@ -223,6 +223,7 @@
             this.calibrateButton.TabIndex = 12;
             this.calibrateButton.Text = "Kalibreren";
             this.calibrateButton.UseVisualStyleBackColor = true;
+            this.calibrateButton.Click += new System.EventHandler(this.calibrateButton_Click);
             // 
             // timeLable
             // 

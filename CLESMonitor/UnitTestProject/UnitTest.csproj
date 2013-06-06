@@ -55,12 +55,21 @@
   <ItemGroup>
     <Compile Include="Model\CTLModelTest.cs" />
     <Compile Include="Model\CTLTaskTest.cs" />
+    <Compile Include="Model\PRLDomainTest.cs" />
+    <Compile Include="Model\FuzzyCalculateTest.cs" />
+    <Compile Include="Model\XMLFileTaskParserTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controller\" />
     <Folder Include="View\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CLESMonitor\CLESMonitor.csproj">
+      <Project>{d21790f2-80d9-4bec-a8ee-f9f8ca89e1d7}</Project>
+      <Name>CLESMonitor</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

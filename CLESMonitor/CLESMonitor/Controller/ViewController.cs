@@ -22,13 +22,6 @@ namespace CLESMonitor.Controller
         Calibrating
     }
 
-    enum HRSensorType
-    {
-        Unknown,
-        ManualInput,
-        BluetoothZephyr
-    }
-
     public class ViewController
     {
         private const double TIME_WINDOW = 0.5; //in minutes
@@ -36,25 +29,34 @@ namespace CLESMonitor.Controller
 
         private CLModel clModel;
         private ESModel esModel;
-        private CLESMonitorViewForm _view;
         private Thread updateChartDataThread;
-        private Random random = new Random();
         private DateTime startTime;
         private TimeSpan emptyTimer;
         private TimeSpan currentSessionTime;
 
         // References to sensors for manual input
-        public HRSensor hrSensor;
-        private HRSensorType hrSensorType;
-        public GSRSensor gsrSensor;
+        private HRSensor _hrSensor;
+        public HRSensor hrSensor
+        {
+            get { return _hrSensor; }
+            set
+            {
+                _hrSensor = value;
+                _hrSensor.sensorType = HRSensorType.ManualInput;
+            }
+        }
+        private GSRSensor _gsrSensor;
+        public GSRSensor gsrSensor
+        {
+            get { return _gsrSensor; }
+            set
+            {
+                _gsrSensor = value;
+                _gsrSensor.type = GSRSensorType.ManualInput;
+            }
+        }
 
-        public delegate void UpdateChartDataDelegate();
-        public UpdateChartDataDelegate updateCLChartDataDelegate;
-        public UpdateChartDataDelegate updateESChartDataDelegate;
-        public delegate void UpdateConsoleDelegate();
-        public UpdateConsoleDelegate updateConsoleDelegate;
-        public delegate void UpdateSessionTimeDelegate();
-        public UpdateSessionTimeDelegate updateSessionTimeDelegate;
+        public delegate void UpdateDelegate();
 
         private ViewControllerState currentState;
 
@@ -78,17 +80,14 @@ namespace CLESMonitor.Controller
         TrackBar gsrTrackbar;
         Label gsrValueLabel;
        
-        public CLESMonitorViewForm View
-        {
-            get
-            {
-                return _view;
-            }
-        }
+        /// <summary>
+        /// The View this Controller manages
+        /// </summary>
+        public CLESMonitorViewForm View { get; private set; }
 
         public ViewController(CLModel clModel, ESModel esModel)
         {
-            _view = new CLESMonitorViewForm(this);
+            View = new CLESMonitorViewForm(this);
             this.clModel = clModel;
             this.esModel = esModel;
 
@@ -113,18 +112,12 @@ namespace CLESMonitor.Controller
             newSeries2.XValueType = ChartValueType.DateTime;
             ESChart.Series.Add(newSeries2);
 
-            //Create a thread for the real-time graph - not yet starting
+            // Create a thread for the real-time graph - not yet starting
             ThreadStart updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
             updateChartDataThread = new Thread(updateChartDataThreadStart);
             // A background thread will automatically stop before the program closes
             updateChartDataThread.IsBackground = true;
 
-            // Appoint delegates
-            updateCLChartDataDelegate += new UpdateChartDataDelegate(UpdateCLChartData);
-            updateESChartDataDelegate += new UpdateChartDataDelegate(UpdateESChartData);
-            updateConsoleDelegate += new UpdateConsoleDelegate(UpdateConsole);
-            updateSessionTimeDelegate += new UpdateSessionTimeDelegate(UpdateSessionTime);
-            
             // Set timer initially to 0 seconds elapsed seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
@@ -134,7 +127,6 @@ namespace CLESMonitor.Controller
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
-            this.hrSensorType = HRSensorType.ManualInput; //TODO: zowel in Controller als in View nu..
         }
 
         /// <summary>
@@ -172,11 +164,11 @@ namespace CLESMonitor.Controller
                 // eigenlijk dat er tijdelijk geen metingen/calculaties meer plaatsvinden!
                 if (this.currentState == ViewControllerState.Started)
                 {
-                    CLChart.Invoke(updateCLChartDataDelegate);
-                    ESChart.Invoke(updateESChartDataDelegate);
+                    CLChart.Invoke(new UpdateDelegate(UpdateCLChartData));
+                    ESChart.Invoke(new UpdateDelegate(UpdateESChartData));
                 }
-                richTextBox1.Invoke(updateConsoleDelegate);
-                sessionTimeBox.Invoke(updateSessionTimeDelegate);
+                richTextBox1.Invoke(new UpdateDelegate(UpdateConsole));
+                sessionTimeBox.Invoke(new UpdateDelegate(UpdateSessionTime));
 
                 Thread.Sleep(LOOP_SLEEP_INTERVAL);
             }
@@ -225,12 +217,6 @@ namespace CLESMonitor.Controller
         /// </summary>
         private void UpdateESChartData()
         {
-            // Pass along simulated sensor-data
-            if (hrSensorType == HRSensorType.ManualInput) {
-                hrSensor.sensorValue = hrTrackbar.Value;
-            }
-            gsrSensor.sensorValue = gsrTrackbar.Value;
-
             // Calculate the most recent de nieuwste waarde
             double newDataPoint = this.esModel.calculateModelValue();
 
@@ -322,39 +308,73 @@ namespace CLESMonitor.Controller
         public void HRValueChangedInManualContext(object sender)
         {
             TrackBar trackBar = (TrackBar)sender;
-            int trackBarValue = trackBar.Value;
-            hrValueLabel.Text = trackBarValue.ToString();
+            hrValueLabel.Text = trackBar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (hrSensor.sensorType == HRSensorType.ManualInput) 
+            {
+                hrSensor.sensorValue = hrTrackbar.Value;
+            }
         }
 
         public void increaseHRValueInManualContext()
         {
             hrTrackbar.Value = hrTrackbar.Value + 10;
             hrValueLabel.Text = hrTrackbar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (hrSensor.sensorType == HRSensorType.ManualInput)
+            {
+                hrSensor.sensorValue = hrTrackbar.Value;
+            }
         }
 
         public void decreaseHRValueInManualContext()
         {
             hrTrackbar.Value = hrTrackbar.Value - 10;
             hrValueLabel.Text = hrTrackbar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (hrSensor.sensorType == HRSensorType.ManualInput)
+            {
+                hrSensor.sensorValue = hrTrackbar.Value;
+            }
         }
 
         public void GSRValueChangedInManualContext(object sender)
         {
             TrackBar trackBar = (TrackBar)sender;
-            int trackBarValue = trackBar.Value;
-            gsrValueLabel.Text = trackBarValue.ToString();
+            gsrValueLabel.Text = trackBar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (gsrSensor.type == GSRSensorType.ManualInput)
+            {
+                gsrSensor.sensorValue = gsrTrackbar.Value;
+            }
         }
 
         public void increaseGSRValueInManualContext()
         {
             gsrTrackbar.Value = gsrTrackbar.Value + 10;
             gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (gsrSensor.type == GSRSensorType.ManualInput)
+            {
+                gsrSensor.sensorValue = gsrTrackbar.Value;
+            }
         }
 
         public void decreaseGSRValueInManualContext()
         {
             gsrTrackbar.Value = gsrTrackbar.Value - 10;
             gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+
+            // Pass along simulated sensor-data
+            if (gsrSensor.type == GSRSensorType.ManualInput)
+            {
+                gsrSensor.sensorValue = gsrTrackbar.Value;
+            }
         }
 
         public void resetTimer() 
@@ -372,6 +392,10 @@ namespace CLESMonitor.Controller
             }            
         }
 
+        /// <summary>
+        /// Action when the heart rate sensor type is being changed
+        /// </summary>
+        /// <param name="sender">Radio buttons for the available types</param>
         public void hrSensorTypeChanged(object sender)
         {
             RadioButton radioButton = (RadioButton)sender;
@@ -380,18 +404,48 @@ namespace CLESMonitor.Controller
                 //TODO: is dit vies?
                 if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
                 {
-                    hrSensorType = HRSensorType.ManualInput;
+                    hrSensor.sensorType = HRSensorType.ManualInput;
                     hrTrackbar.Enabled = true;
                     hrMinusButton.Enabled = true;
                     hrPlusButton.Enabled = true;
                 }
                 else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
                 {
-                    hrSensorType = HRSensorType.BluetoothZephyr;
+                    hrSensor.sensorType = HRSensorType.BluetoothZephyr;
                     hrTrackbar.Enabled = false;
                     hrMinusButton.Enabled = false;
                     hrPlusButton.Enabled = false;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Action method when the calibrate button is clicked.
+        /// </summary>
+        public void calibrateButtonClicked()
+        {
+            if (currentState == ViewControllerState.Stopped)
+            {
+                // Pass any manual input values for the first time,
+                // they are passed on change.
+                if (hrSensor.sensorType == HRSensorType.ManualInput)
+                {
+                    hrSensor.sensorValue = hrTrackbar.Value;
+                }
+                if (gsrSensor.type == GSRSensorType.ManualInput)
+                {
+                    gsrSensor.sensorValue = gsrTrackbar.Value;
+                }
+
+                esModel.startCalibration();
+                currentState = ViewControllerState.Calibrating;
+                writeStringToConsole("Calibratie gestart");
+            }
+            else if (currentState == ViewControllerState.Calibrating)
+            {
+                esModel.stopCalibration();
+                currentState = ViewControllerState.Stopped;
+                writeStringToConsole("Calibratie gestopt");
             }
         }
     }

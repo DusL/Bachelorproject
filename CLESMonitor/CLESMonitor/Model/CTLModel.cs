@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace CLESMonitor.Model
 {
-    class CTLModel : CLModel
+    public class CTLModel : CLModel
     {
         private PRLDomain modelDomain;
         private XMLFileTaskParser parser;
@@ -99,7 +99,7 @@ namespace CLESMonitor.Model
             CTLTask taskToReturn = null;
             foreach (CTLTask task in currentStartedTasks)
             {
-                if (task.getIdentifier().Equals(identifier))
+                if (task.identifier.Equals(identifier))
                 {
                     taskToReturn = task;
                 }
@@ -112,7 +112,7 @@ namespace CLESMonitor.Model
             CTLEvent eventToReturn = null;
             foreach (CTLEvent ctlEvent in currentEvents)
             {
-                if (ctlEvent.getIdentifier().Equals(identifier))
+                if (ctlEvent.identifier.Equals(identifier))
                 {
                     eventToReturn = ctlEvent;
                 }
@@ -205,7 +205,7 @@ namespace CLESMonitor.Model
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
-            CTLTask multiTask = new CTLTask(task1.getIdentifier() + "+" + task2.getIdentifier(), task1.getType() + task2.getType());
+            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.type + task2.type);
             //and set its values
             multiTask.moValue = multitaskMO(task1, task2);
             multiTask.lipValue = multitaskLip(task1, task2);

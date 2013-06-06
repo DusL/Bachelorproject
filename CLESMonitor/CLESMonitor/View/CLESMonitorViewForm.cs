@@ -80,5 +80,10 @@ namespace CLESMonitor.View
         {
             _controller.hrSensorTypeChanged(sender);
         }
+
+        private void calibrateButton_Click(object sender, EventArgs e)
+        {
+            _controller.calibrateButtonClicked();
+        }
     }
 }
