@@ -7,21 +7,22 @@ using CLESMonitor.Model;
 
 namespace CLESMonitor.Model
 {
-    public class CTLTask
+    public class CTLTask : ICloneable
     {
         public string identifier {get; private set;}
         public string type { get; private set; }
-
         private string eventIdentifier;
-        public int lipValue { get; set; } //level of information processing
-        public double moValue { get; set; } //mental occupancy
-        public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
+        public double moValue { get; set; } //mental occupancy
+        public int lipValue { get; set; } //level of information processing
+        public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
         public string description { get; set; }
 
         //TODO: is deze property nog nodig?
         public bool isStarted { get; set; }
+
+        public bool inProgress { get; set; }
 
         /// <summary>
         /// Constructor method
@@ -34,7 +35,23 @@ namespace CLESMonitor.Model
             isStarted = true;
         }
 
+        public Object Clone()
+        {
+            CTLTask cloneTask = new CTLTask(this.identifier, this.type);
+            cloneTask.eventIdentifier = this.eventIdentifier;
+            // Structs are always copied on assignment
+            cloneTask.startTime = this.startTime;
+            cloneTask.endTime = this.endTime;
+            cloneTask.moValue = this.moValue;
+            cloneTask.lipValue = this.lipValue;
+            cloneTask.informationDomains = (InformationDomain[]) this.informationDomains.Clone();
 
+            cloneTask.description = this.description;
+            cloneTask.isStarted = this.isStarted;
+            cloneTask.inProgress = this.inProgress;
+
+            return cloneTask;
+        }
 
         public TimeSpan getDuration()
         {

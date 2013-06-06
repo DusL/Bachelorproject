@@ -53,7 +53,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Model\CTLModelTest.cs" />
+    <Compile Include="Model\CTLModel.cs" />
     <Compile Include="Model\CTLTaskTest.cs" />
     <Compile Include="Model\PRLDomainTest.cs" />
     <Compile Include="Model\FuzzyCalculateTest.cs" />
