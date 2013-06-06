@@ -27,6 +27,8 @@ namespace CLESMonitor.Controller
         private const double TIME_WINDOW = 0.5; //in minutes
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
 
+        private SensorViewController sensorController;
+
         private CLModel clModel;
         private ESModel esModel;
         private Thread updateChartDataThread;
@@ -203,8 +205,7 @@ namespace CLESMonitor.Controller
         /// Adjusts the CL-graph
         /// </summary>
         private void UpdateCLChartData()
-        {
-           
+        {          
             // Calculate the most recent value
             double newDataPoint = this.clModel.calculateModelValue(currentSessionTime);
 
@@ -382,6 +383,9 @@ namespace CLESMonitor.Controller
            sessionTimeBox.Text = emptyTimer.ToString();
         }
 
+        /// <summary>
+        /// Action method when the openScenarioFileButton is clicked.
+        /// </summary>
         public void openScenarioFileDialog()
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
@@ -424,8 +428,15 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void calibrateButtonClicked()
         {
+            // Setup sensorViewController
+            sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
+
+            //When the button isfirst pressed, show the sensorForm and start calabration.
             if (currentState == ViewControllerState.Stopped)
             {
+                // Show the form
+                sensorController.View.Show();
+
                 // Pass any manual input values for the first time,
                 // they are passed on change.
                 if (hrSensor.sensorType == HRSensorType.ManualInput)
@@ -441,12 +452,21 @@ namespace CLESMonitor.Controller
                 currentState = ViewControllerState.Calibrating;
                 writeStringToConsole("Calibratie gestart");
             }
+            //When the button is pressed for a second time, the calibration is stopped
             else if (currentState == ViewControllerState.Calibrating)
             {
                 esModel.stopCalibration();
                 currentState = ViewControllerState.Stopped;
                 writeStringToConsole("Calibratie gestopt");
             }
+        }
+        /// <summary>
+        /// Action Method: When the sensorButton is clicked, a SensorView is created and the from is shown
+        /// </summary>
+        public void sensorButtonClicked()
+        {
+            sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
+            sensorController.View.Show();
         }
     }
 }

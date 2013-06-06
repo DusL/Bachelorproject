@@ -69,6 +69,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.sensorButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -463,11 +464,23 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "XML files (*.xml)|*.xml";
             // 
+            // sensorButton
+            // 
+            this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sensorButton.Location = new System.Drawing.Point(642, 661);
+            this.sensorButton.Name = "sensorButton";
+            this.sensorButton.Size = new System.Drawing.Size(120, 40);
+            this.sensorButton.TabIndex = 22;
+            this.sensorButton.Text = "Bekijk sensor input";
+            this.sensorButton.UseVisualStyleBackColor = true;
+            this.sensorButton.Click += new System.EventHandler(this.sensorButton_Click);
+            // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 712);
+            this.Controls.Add(this.sensorButton);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.openScenarioFileButton);
@@ -535,6 +548,7 @@
         public System.Windows.Forms.OpenFileDialog openFileDialog1;
         public System.Windows.Forms.Button hrPlusButton;
         public System.Windows.Forms.Button hrMinusButton;
+        public System.Windows.Forms.Button sensorButton;
 
     }
 }

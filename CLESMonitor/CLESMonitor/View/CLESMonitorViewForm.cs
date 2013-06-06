@@ -14,6 +14,7 @@ namespace CLESMonitor.View
     public partial class CLESMonitorViewForm : Form
     {
         private ViewController _controller;
+        
 
         public CLESMonitorViewForm(ViewController controller)
         {
@@ -83,7 +84,12 @@ namespace CLESMonitor.View
 
         private void calibrateButton_Click(object sender, EventArgs e)
         {
-            _controller.calibrateButtonClicked();
+           _controller.calibrateButtonClicked();
+        }
+
+        private void sensorButton_Click(object sender, EventArgs e)
+        {
+            _controller.sensorButtonClicked();
         }
     }
 }
