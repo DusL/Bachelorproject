@@ -26,7 +26,7 @@ namespace CLESMonitor.Model
         /// <returns>A string-representation of the CTLEvent object</returns>
         public override string ToString()
         {
-            return String.Format("Event: Identifier = {0}, Type = {1}, startTime = {2}, endTime = {3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
+            return String.Format("Event: Identifier={0}, Type={1}, startTime={2}, endTime={3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
         }
     }
 }

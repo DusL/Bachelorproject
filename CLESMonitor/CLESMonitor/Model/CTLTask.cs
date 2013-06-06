@@ -19,6 +19,8 @@ namespace CLESMonitor.Model
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
         public string description { get; set; }
+
+        //TODO: is deze property nog nodig?
         public bool isStarted { get; set; }
 
         /// <summary>
@@ -45,7 +47,7 @@ namespace CLESMonitor.Model
         /// <returns>A string-representation of the CTLTask object</returns>
         public override string ToString()
         {
-            return String.Format("Task: Identifier = {0}, Type = {1}, startTime = {2}, endTime = {3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
+            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
         }
     }
 }
