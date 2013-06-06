@@ -205,9 +205,8 @@ namespace CLESMonitor.Controller
         /// </summary>
         private void UpdateCLChartData()
         {
-           
             // Calculate the most recent value
-            double newDataPoint = this.clModel.calculateModelValue(currentSessionTime);
+            double newDataPoint = clModel.calculateModelValue();
 
             // Update the graph and TextBox
             this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);
@@ -262,6 +261,7 @@ namespace CLESMonitor.Controller
 
             if (this.currentState == ViewControllerState.Stopped)
             {
+                clModel.startSession();
                 esModel.startSession();
 
                 // Check if thread is already active
@@ -294,13 +294,17 @@ namespace CLESMonitor.Controller
        
         public void stopButtonClicked()
         {
+            if (this.currentState == ViewControllerState.Started)
+            {
+                clModel.stopSession();
+                esModel.stopSession();
+            }
+
             updateChartDataThread.Suspend();
             stopButton.Enabled = false;
             View.calibrateButton.Enabled = false;
             pauseButton.Enabled = false;
             startButton.Enabled = true;
-           // updateChartDataThread.Interrupt();
-           // updateChartDataThread.
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;

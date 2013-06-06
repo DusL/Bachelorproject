@@ -48,7 +48,7 @@ namespace CLESMonitor.Model
         private GSRSensor gsrSensor;
 
         // Data from calibration periode
-        Timer calibrationTimer;
+        private Timer calibrationTimer;
         private List<double> calibrationHR; //in beats/minute
         private List<double> calibrationGSR; //in siemens
         private double HRMax, HRMin;
@@ -97,7 +97,7 @@ namespace CLESMonitor.Model
         /// </summary>
         public override void stopSession()
         {
-            throw new System.NotImplementedException();
+            hrSensor.stopMeasuring();
         }
 
         /// <summary>

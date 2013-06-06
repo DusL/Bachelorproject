@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using System.IO;
@@ -18,11 +19,17 @@ namespace CLESMonitor.Model
     {
         private XMLFileTaskParser parser;
         private PRLDomain modelDomain;
+        private Timer updateTimer;
+        private DateTime startSessionTime;
+        public TimeSpan sessionTime
+        {
+            get { return (DateTime.Now - startSessionTime); }
+        }
 
         // Lists of events and tasks that are active right now
-        private List<CTLEvent> activeEvents;
-        private List<CTLTask> activeTasks;
-        private bool activeTasksHaveChanged;
+        public List<CTLEvent> activeEvents { get; private set; }
+        public List<CTLTask> activeTasks { get; private set; }
+        private bool activeTasksHaveChanged; 
 
         // List of tasks that are used for model calculation
         private List<CTLTask> tasksInCalculationFrame;
@@ -41,30 +48,41 @@ namespace CLESMonitor.Model
             tasksInCalculationFrame = new List<CTLTask>();
         }
 
-        public override double calculateModelValue(TimeSpan sessionTime)
+        /// <summary>
+        /// Starts a new session, calculateModelValue() will
+        /// now produce valid values.
+        public override void startSession()
+        {
+            Console.WriteLine("CTLModel.startSession()");
+            startSessionTime = DateTime.Now;
+
+            // Create and start a timer to update the model input values
+            updateTimer = new Timer(updateTimerCallback, null, 0, 500);
+        }
+
+        /// <summary>
+        /// Stops the current session.
+        /// </summary>
+        public override void stopSession()
+        {
+            Console.WriteLine("CTLModel.stopSession()");
+
+            updateTimer.Dispose();
+        }
+
+        private void updateTimerCallback(Object stateInfo)
         {
             updateActiveEvents(sessionTime);
             updateActiveTasks(sessionTime);
             updateTasksInCalculationFrame(sessionTime);
+        }
 
+        public override double calculateModelValue()
+        {
             // Calculate all necessary values
             double lip = calculateOverallLip(tasksInCalculationFrame);
             double mo = calculateOverallMo(tasksInCalculationFrame);
             double tss = calculateTSS(tasksInCalculationFrame);
-
-            //TODO: debug code
-            foreach (CTLTask task in activeTasks)
-            {
-                Console.WriteLine(sessionTime.TotalSeconds + ": " + task.ToString());
-            }
-            foreach (CTLEvent ctlEvent in activeEvents)
-            {
-                Console.WriteLine(sessionTime.TotalSeconds + ": " + ctlEvent.ToString());
-            }
-            foreach (CTLTask ctlEvent in tasksInCalculationFrame)
-            {
-                Console.WriteLine(sessionTime.TotalSeconds + ":: " + ctlEvent.ToString());
-            }
 
             // TODO: For now, we generate random values
             Random random = new Random();
@@ -148,7 +166,7 @@ namespace CLESMonitor.Model
             // When active tasks change, we need to edit the calculation frame
             if (activeTasksHaveChanged)
             {
-                Console.WriteLine("activeTasksHaveChanged = true");
+                Console.WriteLine(sessionTime.TotalSeconds + ": activeTasksHaveChanged = true");
 
                 // Stop the last task on the frame if still in progress
                 if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
