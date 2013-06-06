@@ -5,6 +5,17 @@ using System.IO;
 
 namespace CLESMonitor.Model
 {
+
+    /*TODO: Als we een classe ParsedAction maken (beide parsed classes zijn identiek), dan kunnen we eventsForTime en tasksForTime
+      samen nemen. Als we dan 1 extra param toevoegen kunnen we onderscheid maken tussen een task en een event. 
+     * ParsedEvent en ParsedTask laten overerven van ParsedAction, zodat task ook de pointer naar de bijbehorende event kan krijgen.
+     */ 
+
+
+    /// <summary>
+    /// After reading the XML-file, all tasks are constructed as a parsed event,
+    /// so it can be identified by a unique string (identifier) and a CTLEvent can be constructed using its type
+    /// </summary>
     public class ParsedEvent
     {
         public string identifier { get; private set; }
@@ -17,6 +28,10 @@ namespace CLESMonitor.Model
         }
     }
 
+    /// <summary>
+    /// After reading the XML-file, all tasks are constructed as a parsed task,
+    /// so it can be identified by a unique string (identifier) and a CTLTask can be constructed using its type
+    /// </summary>
     public class ParsedTask
     {
         public string identifier {get; private set;}

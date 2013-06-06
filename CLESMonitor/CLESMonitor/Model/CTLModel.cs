@@ -89,7 +89,7 @@ namespace CLESMonitor.Model
                 Console.WriteLine(ctlEvent.ToString());
             }
 
-            // For now, we generate random values
+            // TODO: For now, we generate random values
             Random random = new Random();
 
             return random.Next(0, 5);
@@ -124,7 +124,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Updates start- and endtimes of tasks
         /// </summary>
-        /// <param name="startedTasks"></param>
+        /// <param name="timeSpan">The timeSpan corresponding to the currentSessionTime</param>
         private void updateTaskTimes(TimeSpan timeSpan)
         {
             foreach (CTLTask task in tasksInTimeframe)
@@ -203,6 +203,12 @@ namespace CLESMonitor.Model
         }
 
         //TODO: Opsplitsen task1,task2.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="task1"></param>
+        /// <param name="task2"></param>
+        /// <returns>A new task; the multitask</returns>
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
@@ -219,8 +225,8 @@ namespace CLESMonitor.Model
         /// Sets the array of domains of the new tasks to be the combined domains of both task1 and task2
         /// Domains that occur in both tasks are only added once.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>An array of informationDomains</returns>
         private InformationDomain[] multitaskDomain(CTLTask task1, CTLTask task2)
         {
@@ -240,21 +246,21 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Sets the MO-value of a multitaks to be the sum of the MO-values of the original tasks when this sum is greater than 1.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>A double representing the MO value of the new multitask</returns>
         private double multitaskMO(CTLTask task1, CTLTask task2)
         {
             double MO1 = task1.moValue;
             double MO2 = task2.moValue;
-            return Math.Max(MO1 + MO2, 1); ;
+            return Math.Max(MO1 + MO2, 1); 
         }
 
         /// <summary>
         /// Sets the Lip-value of a multitask: the largest of the two lip-values of the original tasks
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>The Lip value for a new task</returns>
         private int multitaskLip(CTLTask task1, CTLTask task2)
         {
@@ -266,8 +272,9 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Determines the start- and endtime of a multitask by means of the start- and endtimes of two tasks.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
+        /// <param name="multiTask">The multitask for which the start and end time will be set</param>
         private void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
         {
             // When task1 begins first, the overlap starts when task2 starts
@@ -294,7 +301,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Calculates the average normalized lip-values across the current time frame.
         /// </summary>
-        /// <param name="tasks"></param>
+        /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>Average Lip-value (not rounded) </returns>
         private double calculateOverallLip(List<CTLTask> tasks)
         {
@@ -316,7 +323,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Calculates the average normalized mental occupancy waarde.
         /// </summary>
-        /// <param name="tasks"></param>
+        /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>The normalized MO-value across 1 time frame </returns>
         private double calculateOverallMo(List<CTLTask> tasks)
         {
