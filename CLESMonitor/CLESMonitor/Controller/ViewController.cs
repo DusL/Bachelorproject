@@ -172,6 +172,7 @@ namespace CLESMonitor.Controller
                 richTextBox1.Invoke(new UpdateDelegate(UpdateConsole));
                 sessionTimeBox.Invoke(new UpdateDelegate(UpdateSessionTime));
 
+                // TODO: vervangen met een timer
                 Thread.Sleep(LOOP_SLEEP_INTERVAL);
             }
         }

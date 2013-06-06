@@ -1,10 +1,8 @@
-﻿using System;
-
+﻿using CLESMonitor.Controller;
+using CLESMonitor.Model;
 using NUnit.Framework;
 using NUnit.Mocks;
-
-using CLESMonitor.Model;
-using CLESMonitor.Controller;
+using System;
 
 namespace UnitTest.Model
 {
@@ -12,94 +10,90 @@ namespace UnitTest.Model
     public class PRLDomainTest
     {
         PRLDomain domain;
-        ParsedEvent parsedEvent;
-        ParsedTask parsedTask;
 
         [SetUp]
         public void setUp()
         {
             domain = new PRLDomain();
         }
-        
+
+        #region generateEvent
+
         /// <summary>
-        /// If a null struct is presented, generateEvent should return null aswell
+        /// If any null values are given, method should return null
         /// </summary>
-        [Test]     
-        public void generateEventNull()
+        [Test]
+        public void generateEvent_NullValues()
         {
-            parsedEvent = new ParsedEvent(null,null);
-            Assert.IsNull(domain.generateEvent(parsedEvent));
+            Assert.IsNull(domain.generateEvent(null));
+            Assert.IsNull(domain.generateEvent(new ParsedEvent(null, "ANY_TYPE")));
+            Assert.IsNull(domain.generateEvent(new ParsedEvent("ANY_IDENTIFIER", null)));
+            Assert.IsNull(domain.generateEvent(new ParsedEvent(null, null)));
         }
 
         /// <summary>
-        /// When the identifier is null, a null-object is returned 
+        /// When parsedEvent contains an valid type, a valid CTLEvent should be generated
         /// </summary>
         [Test]
-        public void generateEventNullIdentifier()
+        public void generateEvent_ExistingType()
         {
-           parsedEvent = new ParsedEvent(null, "VERTRAAGDE_TREIN");
-           Assert.IsNull(domain.generateEvent(parsedEvent));
+            ParsedEvent validParsedEvent = new ParsedEvent("0", "VERTRAAGDE_TREIN");
+            CTLEvent ctlEvent = domain.generateEvent(validParsedEvent);
+            Assert.IsNotNull(ctlEvent);
+            Assert.AreEqual(validParsedEvent.identifier, ctlEvent.identifier);
+            Assert.AreEqual(validParsedEvent.type, ctlEvent.type);
         }
 
         /// <summary>
-        /// The struct contains an existing event type; this should return an event that is not null
+        /// When parsedEvent contains an non-existing type, method should return null
         /// </summary>
         [Test]
-        public void generateEventExistingType()
+        public void generateEvent_NonExistingType()
         {
-            parsedEvent = new ParsedEvent("0", "VERTRAAGDE_TREIN");
-            Assert.AreEqual(parsedEvent.type, domain.generateEvent(parsedEvent).type);
+            ParsedEvent invalidParsedEvent = new ParsedEvent("0", "NONEXISTING_TYPE");
+            Assert.IsNull(domain.generateEvent(invalidParsedEvent));
         }
 
-        /// <summary>
-        /// If the type does not exist an Event object with value null is returned.
-        /// </summary>
-        [Test]
-        public void generateEventNonExistingType()
-        {
-            parsedEvent = new ParsedEvent("0", "NON_EXISTING");
-            Assert.IsNull(domain.generateEvent(parsedEvent));
-        }
+        #endregion
+
+        #region generateTask
 
         /// <summary>
-        /// When trying to generate a taks with a struct that has not been set, retur null
+        /// If any null values are given, method should return null
         /// </summary>
         [Test]
-        public void generateTaskNull()
+        public void generateTask_NullValues()
         {
-            parsedTask = new ParsedTask(null,null);
-            Assert.IsNull(domain.generateTask(parsedTask));
-        }
-
-        /// <summary>
-        /// When the identifier is null, a null-object is returned 
-        /// </summary>
-        [Test]
-        public void generateTaskNullIdentifier()
-        {
-            parsedTask = new ParsedTask(null, "ARI_IN");
-            Assert.IsNull(domain.generateTask(parsedTask));
+            Assert.IsNull(domain.generateTask(null));
+            Assert.IsNull(domain.generateTask(new ParsedTask(null, "ANY_TYPE")));
+            Assert.IsNull(domain.generateTask(new ParsedTask("ANY_IDENTIFIER", null)));
+            Assert.IsNull(domain.generateTask(new ParsedTask(null, null)));
         }
 
         /// <summary>
         /// Generate a task with identifier != null and an existing type
         /// </summary>
         [Test]
-        public void generateTaskExistingType()
+        public void generateTask_ExistingType()
         {
-            parsedTask = new ParsedTask("0", "ARI_IN");
-            Assert.AreEqual(parsedTask.type, domain.generateTask(parsedTask).type);
+            ParsedTask validParsedTask = new ParsedTask("0", "ARI_UIT");
+            CTLTask ctlTask = domain.generateTask(validParsedTask);
+            Assert.IsNotNull(ctlTask);
+            Assert.AreEqual(validParsedTask.identifier, ctlTask.identifier);
+            Assert.AreEqual(validParsedTask.type, ctlTask.type);
         }
 
         /// <summary>
-        /// Given a struct that has not been created (thus null), return null
+        /// When parsedTask contains an non-existing type, method should return null
         /// </summary>
         [Test]
-        public void generateTaskNonExistingType()
+        public void generateTask_NonExistingType()
         {
-            parsedTask = new ParsedTask("0", "NON_EXISTING");
-            Assert.IsNull(domain.generateTask(parsedTask));
+            ParsedTask invalidParsedTask = new ParsedTask("0", "NONEXISTING_TYPE");
+            Assert.IsNull(domain.generateTask(invalidParsedTask));
         }
+
+        #endregion
 
         [TearDown]
         public void tearDown()
