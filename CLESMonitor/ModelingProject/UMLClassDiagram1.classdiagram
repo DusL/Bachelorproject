@@ -214,6 +214,52 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation Id="2a3bcce3-0045-4434-9ac5-9dbeb8c7976c" name="generateEvents" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="b6696adc-8724-48c4-b47f-c32ee75e29ee" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="4a2a049f-0a48-4717-bc40-415fdbff1128" name="List&lt;ParsedEvent&gt; parsedEvents" direction="In" isUnique="false">
+                  <elementDefinition Id="b75f5218-ff18-43d8-a50d-bb2c0aba3740" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="e7f89f2c-a5b8-4345-be4e-caedba3955ea" name="TimeSpan sessionTime" direction="In" isUnique="false">
+                  <elementDefinition Id="001e5940-ff8d-46dc-afae-3abcf162cf54" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="f0149690-6fb0-4bfd-9460-13ca4862232a" direction="Return">
+                  <elementDefinition Id="88f4e0b8-436d-4bea-9257-072aa60684a1" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="05833e48-4883-4d33-b597-ce42696b00ef" LastKnownName="List&lt;CTLEvent&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="08c8196e-1ca9-4754-905d-ff1ca0a77076" name="generateTasks" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="52b0f3f9-2b85-4528-a394-1aa52eed0445" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ad9463a8-4bf1-4064-966a-7ee36cdf156c" name="List&lt;ParsedTask&gt; parsedTasks" direction="In" isUnique="false">
+                  <elementDefinition Id="70b9db51-c579-4235-8bed-b23acc0b4125" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="373532fb-30a0-4b3e-976b-1722958fc0cc" name="TimeSpan sessionTime" direction="In" isUnique="false">
+                  <elementDefinition Id="cbc07625-b969-4e82-a84a-adabeb214506" />
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="01172c9d-9129-46f9-ac55-dbcf0df1b083" direction="Return">
+                  <elementDefinition Id="06073b11-4604-4647-a38d-89d0ddaa3153" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="71092bc6-8869-435d-8b8f-4f634a4e6cc2" LastKnownName="List&lt;CTLTask&gt;" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </logicalClassDesignerModelHasTypes>
@@ -826,6 +872,16 @@
     <packageHasNamedElement>
       <referencedType Id="c5795395-3a1a-4151-9e83-3c5673aab32b" name="double" isAbstract="false" isLeaf="false" cachedFullName="double">
         <elementDefinition Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="05833e48-4883-4d33-b597-ce42696b00ef" name="List&lt;CTLEvent&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;CTLEvent&gt;">
+        <elementDefinition Id="c02c517b-e1a9-4718-88bb-749f41eabf99" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="71092bc6-8869-435d-8b8f-4f634a4e6cc2" name="List&lt;CTLTask&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;CTLTask&gt;">
+        <elementDefinition Id="1675d753-954b-488e-8740-fbdf37c425b6" />
       </referencedType>
     </packageHasNamedElement>
   </packagedElements>
