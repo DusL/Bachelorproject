@@ -26,7 +26,7 @@ namespace CLESMonitor
             GSRSensor gsrSensor = new GSRSensor();
             FuzzyModel fuzzyModel = new FuzzyModel(hrSensor, gsrSensor);
 
-            var controller = new ViewController(ctlModel,fuzzyModel);
+            var controller = new CLESMonitorViewController(ctlModel,fuzzyModel);
 
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;

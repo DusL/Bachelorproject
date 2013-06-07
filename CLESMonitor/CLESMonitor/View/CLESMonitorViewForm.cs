@@ -13,10 +13,10 @@ namespace CLESMonitor.View
 {
     public partial class CLESMonitorViewForm : Form
     {
-        private ViewController _controller;
+        private CLESMonitorViewController _controller;
         
 
-        public CLESMonitorViewForm(ViewController controller)
+        public CLESMonitorViewForm(CLESMonitorViewController controller)
         {
             _controller = controller;
             InitializeComponent();

@@ -22,10 +22,14 @@ namespace CLESMonitor.Controller
         Calibrating
     }
 
-    public class ViewController
+    public class CLESMonitorViewController
     {
         private const double TIME_WINDOW = 0.5; //in minutes
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
+
+        System.Windows.Forms.Timer timer;
+        private TimeSpan timeSpanCounter;
+        private TimeSpan reductionSpan;
 
         private SensorViewController sensorController;
 
@@ -87,7 +91,7 @@ namespace CLESMonitor.Controller
         /// </summary>
         public CLESMonitorViewForm View { get; private set; }
 
-        public ViewController(CLModel clModel, ESModel esModel)
+        public CLESMonitorViewController(CLModel clModel, ESModel esModel)
         {
             View = new CLESMonitorViewForm(this);
             this.clModel = clModel;
@@ -182,7 +186,8 @@ namespace CLESMonitor.Controller
         private void UpdateSessionTime()
         {
             currentSessionTime =  DateTime.Now - startTime;
-            sessionTimeBox.Text = currentSessionTime.ToString();
+            sessionTimeBox.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+
         }
 
         ///<summary>
@@ -384,11 +389,6 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public void resetTimer() 
-        {
-           sessionTimeBox.Text = emptyTimer.ToString();
-        }
-
         /// <summary>
         /// Action method when the openScenarioFileButton is clicked.
         /// </summary>
@@ -435,13 +435,27 @@ namespace CLESMonitor.Controller
         public void calibrateButtonClicked()
         {
             // Setup sensorViewController
-            sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
-
+            if (sensorController == null)
+            {
+                sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
+            }
+            
             //When the button isfirst pressed, show the sensorForm and start calabration.
             if (currentState == ViewControllerState.Stopped)
             {
+                
                 // Show the form
                 sensorController.View.Show();
+                
+                // Setup the countdown calibration timer 
+                timeSpanCounter = new TimeSpan(0, 0, 15);
+                reductionSpan = new TimeSpan(0, 0, 1);
+                timer = new System.Windows.Forms.Timer();
+                timer.Tick += new EventHandler(timer_Tick);
+                timer.Interval = 1000; // 1 second
+                timer.Start();
+                View.sesionTimeBox.Text = timeSpanCounter.ToString(@"%h\:mm\:ss");
+
 
                 // Pass any manual input values for the first time,
                 // they are passed on change.
@@ -454,6 +468,9 @@ namespace CLESMonitor.Controller
                     gsrSensor.sensorValue = gsrTrackbar.Value;
                 }
 
+                View.timeLable.Text = "Kalibratie tijd";
+
+                // startCalibrating
                 esModel.startCalibration();
                 currentState = ViewControllerState.Calibrating;
                 writeStringToConsole("Calibratie gestart");
@@ -461,11 +478,34 @@ namespace CLESMonitor.Controller
             //When the button is pressed for a second time, the calibration is stopped
             else if (currentState == ViewControllerState.Calibrating)
             {
+                // Stop the countdown and set the form back to the original state
+                timer.Stop();
+                View.timeLable.Text = "Sessie tijd";
+                View.sesionTimeBox.Text = emptyTimer.ToString();
+
                 esModel.stopCalibration();
                 currentState = ViewControllerState.Stopped;
                 writeStringToConsole("Calibratie gestopt");
             }
         }
+
+        /// <summary>
+        /// Reduces the counter by 1 second, each second. When the counter is 0, stop calibrating and stop the timer.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void timer_Tick(object sender, EventArgs e)
+        {
+            timeSpanCounter -= reductionSpan;
+            if (timeSpanCounter.TotalSeconds == 0)
+            {
+                timer.Stop();
+                esModel.stopCalibration();
+            }
+            
+            View.sesionTimeBox.Text = timeSpanCounter.ToString(@"%h\:mm\:ss");
+        }
+
         /// <summary>
         /// Action Method: When the sensorButton is clicked, a SensorView is created and the from is shown
         /// </summary>
@@ -474,5 +514,8 @@ namespace CLESMonitor.Controller
             sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
             sensorController.View.Show();
         }
+
+
+        
     }
 }

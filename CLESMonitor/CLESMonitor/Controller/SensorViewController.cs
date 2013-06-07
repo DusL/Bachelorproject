@@ -11,6 +11,9 @@ using CLESMonitor.View;
 
 namespace CLESMonitor.Controller
 {
+    /// <summary>
+    /// The controller of the form containing twe graphs representing the input data of the sensors
+    /// </summary>
     public class SensorViewController
     {
         private const double TIME_WINDOW = 1; //in minutes       
@@ -42,6 +45,7 @@ namespace CLESMonitor.Controller
         Chart HRChart;
         Chart GSRChart;
 
+        // Needed to update the graphs on this thread
         public delegate void UpdateDelegate();
 
         // Sets the Form of the controller
@@ -49,10 +53,10 @@ namespace CLESMonitor.Controller
 
 
         /// <summary>
-        /// Constructor
+        /// Constructor: Creates the Form, sets the inputsensors and contains the setup of both charts
         /// </summary>
-        /// <param name="hrSensor"></param>
-        /// <param name="gsrSensor"></param>
+        /// <param name="hrSensor">The hart rate input that is set manualy or through a sensor</param>
+        /// <param name="gsrSensor">The GSR input that is set manualy or through a sensor</param>
         public SensorViewController(HRSensor hrSensor, GSRSensor gsrSensor)
         {
             View = new SensorViewForm(this);
@@ -82,24 +86,41 @@ namespace CLESMonitor.Controller
             GSRChart.Series.Add(newSeries2);
         }
 
-        // 
-        public void stopRunLoop() 
+        /// <summary>
+        /// When the form has been fully loaded for the first time after the controller is created, the Timer is created
+        /// </summary>
+        public void shown()
         {
-            sensorTimer.Dispose();
+            TimerCallback timerCallback = sensorTimerCallback;
+            sensorTimer = new Timer(timerCallback, null, 0, 1000);
         }
 
+        /// <summary>
+        /// Invokes the updateChart methods every second (callback time = 1 sec.)
+        /// </summary>
+        /// <param name="stateInfo">The current TimerCallback</param>
         private void sensorTimerCallback(Object stateInfo)
-        {         
-            HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
-            GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
+        {
+            if (sensorTimer != null)
+            {
+                HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
+                GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
+            }
+            
         }
 
+        /// <summary>
+        /// Retrieves the current hr data from the sensor and updates the corresponding chart
+        /// </summary>
         private void UpdateHRChart()
         {
             double newDataPoint = hrSensor.sensorValue;
             this.UpdateChartData(HRChart, newDataPoint, DateTime.Now);
         }
 
+        /// <summary>
+        /// Retrieves the current gsr data from the sensor and updates the corresponding chart
+        /// </summary>
         private void UpdateGSRChart()
         {
             double newDataPoint2 = gsrSensor.sensorValue;
@@ -110,10 +131,13 @@ namespace CLESMonitor.Controller
         /// Pre: graph contains a series named "Series1"
         /// Adjusts "Series1" 
         /// </summary>
-        /// <param name="chart"></param>
-        /// <param name="newDataPoint"></param>
+        /// <param name="chart">The chart that needs updating</param>
+        /// <param name="newDataPoint">The new point that needs to be added to the chart</param>
         private void UpdateChartData(Chart chart, double newDataPoint, DateTime timeStamp)
         {
+
+            //TODO: TIMESPAN OP X-AS
+
             // Update chart
             Series series = chart.Series["Series1"];
             series.Points.AddXY(timeStamp.ToOADate(), newDataPoint);
@@ -129,15 +153,15 @@ namespace CLESMonitor.Controller
             }
         }
 
+        /// <summary>
+        /// When the SensorViewForm closses, the TimerCallback needs to be disposed
+        /// </summary>
         public void formClosing()
         {
-            this.stopRunLoop();
+            //Console.WriteLine("Disposing of the sensorTimer");
+            sensorTimer.Dispose();
         }
 
-        public void shown()
-        {
-            TimerCallback timerCallback = sensorTimerCallback;
-            sensorTimer = new Timer(timerCallback, null, 0, 1000);
-        }
+       
     }
 }
