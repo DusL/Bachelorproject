@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using NUnit.Framework;
 using NUnit.Mocks;
 
@@ -14,46 +15,147 @@ namespace UnitTest.Model
     {
         TimeSpan timeSpan;
         XMLFileTaskParser parser;
-        DynamicMock parserMock;
+
+        string testInput1;
+        string testInput2;
 
         [SetUp]
         public void setUp()
         {
             parser = new XMLFileTaskParser();
-            timeSpan = new TimeSpan(0, 0, 10); //hours, minutes, seconds
+            timeSpan = new TimeSpan(0, 0, 1); //hours, minutes, seconds
+
+            testInput1 =
+                "<xml>" +
+                    "<second>" +
+                    "</second>" +
+                "</xml>";
+
+            testInput2 =
+                "<xml>" +
+                    "<second>" +
+                        "<event id=\"1\">" +
+                            "<name>TREIN_GESTRAND</name>" +
+                            "<action>started</action>" +
+                        "</event>" +
+                        "<task id=\"2\">" +
+                            "<name>ARI_UIT</name>" +
+                            "<action>started</action>" +
+                        "</task>" +
+                        "<task id=\"2\">" +
+                            "<name>ARI_UIT</name>" +
+                            "<action>stopped</action>" +
+                        "</task>" +
+                        "<event id=\"1\">" +
+                            "<name>TREIN_GESTRAND</name>" +
+                            "<action>stopped</action>" +
+                        "</event>" +
+                    "</second>" +
+                "</xml>";
+        }
+
+        #region eventsForTime
+
+        /// <summary>
+        /// When method is called with a invalid timespan, return an empty list.
+        /// TimeSpan is a struct and therefore cannot be null.
+        /// </summary>
+        [Test]
+        public void eventsForTime_InvalidTimeSpan()
+        {
+            parser.loadTextReader(new StringReader(testInput2));
+          
+            Assert.IsEmpty(parser.eventsForTime(new TimeSpan(0, 0, 3), ActionType.EventStarted));
+            Assert.IsEmpty(parser.eventsForTime(new TimeSpan(0, 0, 3), ActionType.EventStopped));
+
+            Assert.IsEmpty(parser.eventsForTime(new TimeSpan(0, 0, -10), ActionType.EventStarted));
+            Assert.IsEmpty(parser.eventsForTime(new TimeSpan(0, 0, -10), ActionType.EventStopped));
         }
 
         /// <summary>
-        /// When eventsStarted is called with a negative timestamp, return an empty list.
+        /// When the timespan is valid than the method returns a list with or without elements.
         /// </summary>
         [Test]
-        public void eventsStartedNegativeTimeSpan()
+        public void eventsForTime_NoEventsFound()
         {
-            TimeSpan span1 = new TimeSpan(0, 0, 8); //hours, minutes, seconds
-            Assert.IsEmpty(parser.eventsStarted(span1 - timeSpan));
+            parser.loadTextReader(new StringReader(testInput1));
+
+            TimeSpan timeSpan = new TimeSpan(0, 0, 0);
+            Assert.IsEmpty(parser.eventsForTime(timeSpan, ActionType.EventStarted));
+            Assert.IsEmpty(parser.eventsForTime(timeSpan, ActionType.EventStopped));
         }
 
         /// <summary>
-        /// When the timespan is nill or positive than the method returns a list with or without elements.
+        /// When the timespan is valid than the method returns a list with or without elements.
         /// </summary>
         [Test]
-        public void eventsStartedNonNegativeTimeSpan()
+        public void eventsForTime_EventsFound()
         {
-            //TODO: HOE TE TESTEN
-           
-            TimeSpan span1 = timeSpan;
+            parser.loadTextReader(new StringReader(testInput2));
+            TimeSpan timeSpan = new TimeSpan(0, 0, 0);
+
+            Assert.AreEqual(1, parser.eventsForTime(timeSpan, ActionType.EventStarted).Count);
+            Assert.AreEqual(1, parser.eventsForTime(timeSpan, ActionType.EventStopped).Count);
+
+            Assert.AreEqual("TREIN_GESTRAND", parser.eventsForTime(timeSpan, ActionType.EventStarted)[0].type);
+            Assert.AreEqual("TREIN_GESTRAND", parser.eventsForTime(timeSpan, ActionType.EventStopped)[0].type);
+
+            Assert.AreEqual("1", parser.eventsForTime(timeSpan, ActionType.EventStarted)[0].identifier);
+            Assert.AreEqual("1", parser.eventsForTime(timeSpan, ActionType.EventStopped)[0].identifier);
+        }
+
+        #endregion
+
+        #region tasksForTime
+
+        /// <summary>
+        /// When method is called with a invalid timespan, return an empty list.
+        /// TimeSpan is a struct and therefore cannot be null.
+        /// </summary>
+        [Test]
+        public void tasksForTime_InvalidTimeSpan()
+        {
+            parser.loadTextReader(new StringReader(testInput2));
+
+            Assert.IsEmpty(parser.tasksForTime(new TimeSpan(0, 0, 3), ActionType.TaskStarted));
+            Assert.IsEmpty(parser.tasksForTime(new TimeSpan(0, 0, 3), ActionType.TaskStopped));
+
+            Assert.IsEmpty(parser.tasksForTime(new TimeSpan(0, 0, -10), ActionType.TaskStarted));
+            Assert.IsEmpty(parser.tasksForTime(new TimeSpan(0, 0, -10), ActionType.TaskStopped));
         }
 
         /// <summary>
-        /// When tasksStarted is called with a negative timestamp, return an empty list.
+        /// When the timespan is valid than the method returns a list with or without elements.
         /// </summary>
         [Test]
-        public void tasksStartedNegativeTimeSpan()
+        public void tasksForTime_NoEventsFound()
         {
-            TimeSpan span1 = new TimeSpan(0, 0, 8); //hours, minutes, seconds
-            Assert.IsEmpty(parser.eventsStarted(span1 - timeSpan));
+            parser.loadTextReader(new StringReader(testInput1));
+
+            TimeSpan timeSpan = new TimeSpan(0, 0, 0);
+            Assert.IsEmpty(parser.tasksForTime(timeSpan, ActionType.TaskStarted));
+            Assert.IsEmpty(parser.tasksForTime(timeSpan, ActionType.TaskStopped));
         }
 
-        //TODO: Zelfde fix voor de taken.
+        /// <summary>
+        /// When the timespan is valid than the method returns a list with or without elements.
+        /// </summary>
+        [Test]
+        public void tasksForTime_EventsFound()
+        {
+            parser.loadTextReader(new StringReader(testInput2));
+            TimeSpan timeSpan = new TimeSpan(0, 0, 0);
+
+            Assert.AreEqual(1, parser.tasksForTime(timeSpan, ActionType.TaskStarted).Count);
+            Assert.AreEqual(1, parser.tasksForTime(timeSpan, ActionType.TaskStopped).Count);
+
+            Assert.AreEqual("ARI_UIT", parser.tasksForTime(timeSpan, ActionType.TaskStarted)[0].type);
+            Assert.AreEqual("ARI_UIT", parser.tasksForTime(timeSpan, ActionType.TaskStopped)[0].type);
+
+            Assert.AreEqual("2", parser.tasksForTime(timeSpan, ActionType.TaskStarted)[0].identifier);
+            Assert.AreEqual("2", parser.tasksForTime(timeSpan, ActionType.TaskStopped)[0].identifier);
+        }
+
+        #endregion
     }
 }

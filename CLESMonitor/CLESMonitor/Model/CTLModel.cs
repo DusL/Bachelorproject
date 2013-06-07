@@ -5,99 +5,153 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.IO;
 
 namespace CLESMonitor.Model
 {
+    /// <summary>
+    /// This class is an implementation of the CTL-model for cognitive load.
+    /// It uses XMLFileTaskParser to receive domain-specific input, PRLDomain to 
+    /// convert this into general classes and then calculates cognitive load.
+    /// </summary>
     public class CTLModel : CLModel
     {
-        private PRLDomain modelDomain;
         private XMLFileTaskParser parser;
+        private PRLDomain modelDomain;
 
-        private List<CTLTask> tasksInTimeframe;
-        private List<CTLTask> currentStartedTasks;
+        // Lists of events and tasks that are active right now
+        private List<CTLEvent> activeEvents;
+        private List<CTLTask> activeTasks;
+        private bool activeTasksHaveChanged;
 
-        private List<CTLEvent> currentEvents;
+        // List of tasks that are used for model calculation
+        private List<CTLTask> tasksInCalculationFrame;
 
+        /// <summary>
+        /// The constructor method.
+        /// </summary>
+        /// <param name="parser">A XMLFileTaskParser to use as input for the model</param>
         public CTLModel(XMLFileTaskParser parser)
         {
+            this.parser = parser;
             modelDomain = new PRLDomain();
             lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
-            tasksInTimeframe = new List<CTLTask>();
-            currentStartedTasks = new List<CTLTask>();
-            currentEvents = new List<CTLEvent>();
-            this.parser = parser;
+            activeEvents = new List<CTLEvent>();
+            activeTasks = new List<CTLTask>();
+            tasksInCalculationFrame = new List<CTLTask>();
         }
 
-        public override double calculateModelValue(TimeSpan currentSessionTime)
+        public override double calculateModelValue(TimeSpan sessionTime)
         {
-            // TODO: code werkt nog niet voor meerdere events
-            // Proces the event that have started
-            List<ParsedEvent> eventsBegan = parser.eventsStarted(currentSessionTime);
-            List<CTLEvent> eventsStartedThisSecond = generateEvents(eventsBegan, currentSessionTime);
-            currentEvents.AddRange(eventsStartedThisSecond);
-
-            // Proces the tasks that have started
-            List<ParsedTask> tasksBegan = parser.tasksStarted(currentSessionTime);
-            List<CTLTask> tasksStartedThisSecond = generateTasks(tasksBegan, currentSessionTime);
-            currentStartedTasks.AddRange(tasksStartedThisSecond);
-            //TODO: verwerken naar tasksInTimeframe!
-
-            // Update all task times
-            updateTaskTimes(currentSessionTime);
-
-            // Proces the tasks that have ended
-            List<ParsedTask> tasksEnded = parser.tasksStopped(currentSessionTime);
-            List<CTLTask> tasksEndedThisSecond = new List<CTLTask>();
-            foreach (ParsedTask parsedTask in tasksEnded)
-            {
-                tasksEndedThisSecond.Add(getTaskFromIdentifier(parsedTask.identifier));
-            }
-            foreach (CTLTask task in tasksEndedThisSecond)
-            {
-                task.isStarted = false;
-            }
-            clearOldTasks();
-
-            // Proces the events that have ended
-            List<ParsedEvent> eventsEnded = parser.eventsStopped(currentSessionTime);
-            List<CTLEvent> eventsStoppedThisSecond = new List<CTLEvent>();
-            foreach (ParsedEvent parsedEvent in eventsEnded)
-            {
-                eventsStoppedThisSecond.Add(getEventFromIdentifier(parsedEvent.identifier));
-            }
-            foreach (CTLEvent ctlEvent in eventsStoppedThisSecond)
-            {
-                currentEvents.Remove(ctlEvent);
-            }
-
-            //TODO: multitasking implementeren
+            updateActiveEvents(sessionTime);
+            updateActiveTasks(sessionTime);
+            updateTasksInCalculationFrame(sessionTime);
 
             // Calculate all necessary values
-            double lip = calculateOverallLip(tasksInTimeframe);
-            double mo = calculateOverallMo(tasksInTimeframe);
-            double tss = calculateTSS(tasksInTimeframe);
+            double lip = calculateOverallLip(tasksInCalculationFrame);
+            double mo = calculateOverallMo(tasksInCalculationFrame);
+            double tss = calculateTSS(tasksInCalculationFrame);
 
-            //TODO: dit staat hier slechts voor debug
-            foreach (CTLTask task in currentStartedTasks)
+            //TODO: debug code
+            foreach (CTLTask task in activeTasks)
             {
-                Console.WriteLine("Nieuwe seconde");
-                Console.WriteLine(task.ToString());
+                Console.WriteLine(sessionTime.TotalSeconds + ": " + task.ToString());
             }
-            foreach (CTLEvent ctlEvent in currentEvents)
+            foreach (CTLEvent ctlEvent in activeEvents)
             {
-                Console.WriteLine(ctlEvent.ToString());
+                Console.WriteLine(sessionTime.TotalSeconds + ": " + ctlEvent.ToString());
             }
 
-            // For now, we generate random values
+            // TODO: For now, we generate random values
             Random random = new Random();
 
             return random.Next(0, 5);
         }
 
+        private void updateActiveEvents(TimeSpan sessionTime)
+        {
+            // Proces events that have started
+            List<ParsedEvent> parsedEventsStarted = parser.eventsStarted(sessionTime);
+            List<CTLEvent> eventsStarted = generateEvents(parsedEventsStarted, sessionTime);
+            activeEvents.AddRange(eventsStarted);
+
+            // Update the 'end time' for all active events
+            foreach (CTLEvent ctlEvent in activeEvents)
+            {
+                ctlEvent.endTime = sessionTime;
+            }
+
+            // Proces events that have stopped
+            List<ParsedEvent> parsedEventsStopped = parser.eventsStopped(sessionTime);
+            foreach (ParsedEvent parsedEvent in parsedEventsStopped)
+            {
+                activeEvents.Remove(getEventFromIdentifier(parsedEvent.identifier));
+            }
+        }
+
+        private void updateActiveTasks(TimeSpan sessionTime)
+        {
+            activeTasksHaveChanged = false;
+
+            // Proces the tasks that have started
+            List<ParsedTask> parsedTasksStarted = parser.tasksStarted(sessionTime);
+            if (parsedTasksStarted.Count > 0)
+            {
+                List<CTLTask> tasksStarted = generateTasks(parsedTasksStarted, sessionTime);
+                activeTasks.AddRange(tasksStarted);
+                activeTasksHaveChanged = true;
+            }
+
+            // Update the 'end time' for all active tasks
+            foreach (CTLTask task in activeTasks)
+            {
+                task.endTime = sessionTime;
+            }
+
+            // Proces the tasks that have stopped
+            List<ParsedTask> parsedTasksStopped = parser.tasksStopped(sessionTime);
+            if (parsedTasksStopped.Count > 0)
+            {
+                foreach (ParsedTask parsedTask in parsedTasksStopped)
+                {
+                    activeTasks.Remove(getTaskFromIdentifier(parsedTask.identifier));
+                }
+                activeTasksHaveChanged = true;
+            }
+
+        }
+
+        private void updateTasksInCalculationFrame(TimeSpan sessionTime)
+        {
+            List<CTLTask> tasksToRemove = new List<CTLTask>();
+            foreach (CTLTask task in tasksInCalculationFrame)
+            {
+                // Delete all tasks that have dropped outside of the calculation frame
+                if (task.endTime < (sessionTime - lengthTimeframe))
+                {
+                    tasksToRemove.Add(task);
+                }
+                // When the start time of a task drops outside of the calculation frame, crop it
+                if (task.startTime < (sessionTime - lengthTimeframe))
+                {
+                    task.startTime = (sessionTime - lengthTimeframe);
+                }
+            }
+            foreach (CTLTask task in tasksToRemove)
+            {
+                tasksInCalculationFrame.Remove(task);
+            }
+
+            Console.WriteLine("activeTasksHaveChanged = " + activeTasksHaveChanged);
+
+            //TODO: update the list
+            //TODO: multitasking implementeren
+        }
+
         private CTLTask getTaskFromIdentifier(string identifier)
         {
             CTLTask taskToReturn = null;
-            foreach (CTLTask task in currentStartedTasks)
+            foreach (CTLTask task in activeTasks)
             {
                 if (task.identifier.Equals(identifier))
                 {
@@ -110,7 +164,7 @@ namespace CLESMonitor.Model
         private CTLEvent getEventFromIdentifier(string identifier)
         {
             CTLEvent eventToReturn = null;
-            foreach (CTLEvent ctlEvent in currentEvents)
+            foreach (CTLEvent ctlEvent in activeEvents)
             {
                 if (ctlEvent.identifier.Equals(identifier))
                 {
@@ -118,47 +172,6 @@ namespace CLESMonitor.Model
                 }
             }
             return eventToReturn;
-        }
-
-        /// <summary>
-        /// Updates start- and endtimes of tasks
-        /// </summary>
-        /// <param name="startedTasks"></param>
-        private void updateTaskTimes(TimeSpan timeSpan)
-        {
-            foreach (CTLTask task in tasksInTimeframe)
-            {
-                // As long as a task is still active, update the endTime
-                if (task.isStarted)
-                {
-                    task.endTime = timeSpan;
-                }
-
-                // When the startTime of a task moves outside of the timeframe, crop it
-                if (task.startTime < (timeSpan - lengthTimeframe))
-                {
-                    task.startTime = (timeSpan - lengthTimeframe);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Delete all tasks that are completed and have dropped outside of the timeframe
-        /// </summary>
-        private void clearOldTasks()
-        {
-            List<CTLTask> tasksToRemove = new List<CTLTask>();
-            foreach (CTLTask task in tasksInTimeframe)
-            {
-                if (task.startTime > task.endTime)
-                {
-                    tasksToRemove.Add(task);
-                }
-            }
-            foreach (CTLTask task in tasksToRemove)
-            {
-                tasksInTimeframe.Remove(task);
-            }
         }
 
         /// <summary>
@@ -202,6 +215,12 @@ namespace CLESMonitor.Model
         }
 
         //TODO: Opsplitsen task1,task2.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="task1"></param>
+        /// <param name="task2"></param>
+        /// <returns>A new task; the multitask</returns>
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
@@ -218,8 +237,8 @@ namespace CLESMonitor.Model
         /// Sets the array of domains of the new tasks to be the combined domains of both task1 and task2
         /// Domains that occur in both tasks are only added once.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>An array of informationDomains</returns>
         private InformationDomain[] multitaskDomain(CTLTask task1, CTLTask task2)
         {
@@ -239,21 +258,21 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Sets the MO-value of a multitaks to be the sum of the MO-values of the original tasks when this sum is greater than 1.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>A double representing the MO value of the new multitask</returns>
         private double multitaskMO(CTLTask task1, CTLTask task2)
         {
             double MO1 = task1.moValue;
             double MO2 = task2.moValue;
-            return Math.Max(MO1 + MO2, 1); ;
+            return Math.Max(MO1 + MO2, 1); 
         }
 
         /// <summary>
         /// Sets the Lip-value of a multitask: the largest of the two lip-values of the original tasks
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>The Lip value for a new task</returns>
         private int multitaskLip(CTLTask task1, CTLTask task2)
         {
@@ -265,8 +284,9 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Determines the start- and endtime of a multitask by means of the start- and endtimes of two tasks.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
+        /// <param name="task1">The first task that overlaps</param>
+        /// <param name="task2">The task that overlaps with task1</param>
+        /// <param name="multiTask">The multitask for which the start and end time will be set</param>
         private void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
         {
             // When task1 begins first, the overlap starts when task2 starts
@@ -293,7 +313,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Calculates the average normalized lip-values across the current time frame.
         /// </summary>
-        /// <param name="tasks"></param>
+        /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>Average Lip-value (not rounded) </returns>
         private double calculateOverallLip(List<CTLTask> tasks)
         {
@@ -315,7 +335,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Calculates the average normalized mental occupancy waarde.
         /// </summary>
-        /// <param name="tasks"></param>
+        /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>The normalized MO-value across 1 time frame </returns>
         private double calculateOverallMo(List<CTLTask> tasks)
         {
@@ -344,7 +364,8 @@ namespace CLESMonitor.Model
         /// <param name="filePath"></param>
         public override void setPathForParser(string filePath)
         {
-            parser.readPath(filePath);
+            StreamReader streamReader = new StreamReader(File.Open(filePath, FileMode.Open));
+            parser.loadTextReader(streamReader);
         }
     }
 }
