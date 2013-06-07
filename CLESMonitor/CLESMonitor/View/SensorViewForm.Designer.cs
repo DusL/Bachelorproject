@@ -64,6 +64,7 @@
             this.GSRChart.BorderlineColor = System.Drawing.Color.Gray;
             this.GSRChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.GSRChart.BorderlineWidth = 2;
+            chartArea1.AxisX.Title = "Sessietijd";
             chartArea1.Name = "ChartArea1";
             this.GSRChart.ChartAreas.Add(chartArea1);
             this.GSRChart.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -80,8 +81,8 @@
             this.GSRChart.Size = new System.Drawing.Size(291, 304);
             this.GSRChart.TabIndex = 5;
             this.GSRChart.Text = "GSRChart";
-            title1.Name = "ES-waarden";
-            title1.Text = "ES-Waarden";
+            title1.Name = "GSR-waarden";
+            title1.Text = "Huidgeleiding";
             this.GSRChart.Titles.Add(title1);
             // 
             // HRChart
@@ -89,6 +90,7 @@
             this.HRChart.BorderlineColor = System.Drawing.Color.Gray;
             this.HRChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.HRChart.BorderlineWidth = 2;
+            chartArea2.AxisX.Title = "Sessietijd";
             chartArea2.Name = "ChartArea1";
             this.HRChart.ChartAreas.Add(chartArea2);
             this.HRChart.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -105,8 +107,8 @@
             this.HRChart.Size = new System.Drawing.Size(290, 304);
             this.HRChart.TabIndex = 4;
             this.HRChart.Text = "HRChart";
-            title2.Name = "ES-waarden";
-            title2.Text = "ES-Waarden";
+            title2.Name = "HR-values";
+            title2.Text = "Hartslag";
             this.HRChart.Titles.Add(title2);
             // 
             // SensorViewForm
