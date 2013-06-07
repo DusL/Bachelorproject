@@ -106,7 +106,7 @@ namespace CLESMonitor.Controller
             newSeries.ChartType = SeriesChartType.Spline;
             newSeries.BorderWidth = 2;
             newSeries.Color = Color.OrangeRed;
-            newSeries.XValueType = ChartValueType.DateTime;
+            newSeries.XValueType = ChartValueType.Double;
             CLChart.Series.Add(newSeries);
 
             // Setup of chart2
@@ -115,7 +115,7 @@ namespace CLESMonitor.Controller
             newSeries2.ChartType = SeriesChartType.Spline;
             newSeries2.BorderWidth = 2;
             newSeries2.Color = Color.Blue;
-            newSeries2.XValueType = ChartValueType.DateTime;
+            newSeries2.XValueType = ChartValueType.Double;
             ESChart.Series.Add(newSeries2);
 
             // Create a thread for the real-time graph - not yet starting
@@ -216,7 +216,7 @@ namespace CLESMonitor.Controller
             double newDataPoint = this.clModel.calculateModelValue(currentSessionTime);
 
             // Update the graph and TextBox
-            this.UpdateChartData(CLChart, newDataPoint, DateTime.Now);
+            this.UpdateChartData(CLChart, newDataPoint, currentSessionTime);
             clTextBox.Text = newDataPoint.ToString();
         }
         /// <summary>
@@ -228,7 +228,7 @@ namespace CLESMonitor.Controller
             double newDataPoint = this.esModel.calculateModelValue();
 
             // Update the graph and TextBox
-            this.UpdateChartData(ESChart, newDataPoint, DateTime.Now);
+            this.UpdateChartData(ESChart, newDataPoint, currentSessionTime);
             esTextBox.Text = newDataPoint.ToString();
         }
 
@@ -238,17 +238,17 @@ namespace CLESMonitor.Controller
         /// </summary>
         /// <param name="chart"></param>
         /// <param name="newDataPoint"></param>
-        private void UpdateChartData(Chart chart, double newDataPoint, DateTime timeStamp)
+        private void UpdateChartData(Chart chart, double newDataPoint, TimeSpan currentSessionTime)
         {
             // Update chart
             Series series = chart.Series["Series1"];
-            series.Points.AddXY(timeStamp.ToOADate(), newDataPoint);
+            series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
             chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            chart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
+            chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
             chart.Invalidate(); //redraw
 
             // Remove old datapoints
-            double removeBefore = timeStamp.AddSeconds((double)(60) * (-TIME_WINDOW)).ToOADate();
+            double removeBefore = Math.Floor(currentSessionTime.TotalSeconds- ((double)(60) * (TIME_WINDOW)));
             while (series.Points[0].XValue < removeBefore)
             {
                 series.Points.RemoveAt(0);
