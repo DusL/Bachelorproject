@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller\SensorViewController.cs" />
-    <Compile Include="Controller\ViewController.cs" />
+    <Compile Include="Controller\CLESMonitorViewController.cs" />
     <Compile Include="Model\FuzzyCalculate.cs" />
     <Compile Include="Model\CLModel.cs" />
     <Compile Include="Model\CTLEvent.cs" />
