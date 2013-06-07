@@ -16,11 +16,11 @@ namespace CLESMonitor.Model
         public TimeSpan endTime { get; set; }
         public double moValue { get; set; } //mental occupancy
         public int lipValue { get; set; } //level of information processing
-        public InformationDomain[] informationDomains { get; set; } //an array of enum representations of domains
+        /// <summary>
+        /// A list of integers representing different information domains.
+        /// </summary>
+        public List<int> informationDomains { get; set; } //an array of enum representations of domains
         public string description { get; set; }
-
-        //TODO: is deze property nog nodig?
-        public bool isStarted { get; set; }
 
         public bool inProgress { get; set; }
 
@@ -32,9 +32,12 @@ namespace CLESMonitor.Model
         {
             identifier = _identifier;
             type = _type;
-            isStarted = true;
         }
 
+        /// <summary>
+        /// Implementation of the clone methode
+        /// </summary>
+        /// <returns>The clopne (copy) of a CTLTask</returns>
         public Object Clone()
         {
             CTLTask cloneTask = new CTLTask(this.identifier, this.type);
@@ -44,15 +47,16 @@ namespace CLESMonitor.Model
             cloneTask.endTime = this.endTime;
             cloneTask.moValue = this.moValue;
             cloneTask.lipValue = this.lipValue;
-            cloneTask.informationDomains = (InformationDomain[]) this.informationDomains.Clone();
-
+            cloneTask.informationDomains = this.informationDomains;
             cloneTask.description = this.description;
-            cloneTask.isStarted = this.isStarted;
             cloneTask.inProgress = this.inProgress;
 
             return cloneTask;
         }
-
+        /// <summary>
+        /// Calculates the duration of a taks, using its start- and endtime
+        /// </summary>
+        /// <returns></returns>
         public TimeSpan getDuration()
         {
             return endTime - startTime;

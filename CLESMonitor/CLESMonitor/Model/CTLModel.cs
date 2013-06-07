@@ -18,7 +18,7 @@ namespace CLESMonitor.Model
     public class CTLModel : CLModel
     {
         private XMLFileTaskParser parser;
-        private PRLDomain modelDomain;
+        private CTLDomain modelDomain;
         private Timer updateTimer;
         private DateTime startSessionTime;
         public TimeSpan sessionTime
@@ -260,16 +260,15 @@ namespace CLESMonitor.Model
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>An array of informationDomains</returns>
-        private InformationDomain[] multitaskDomain(CTLTask task1, CTLTask task2)
+        private List<int> multitaskDomain(CTLTask task1, CTLTask task2)
         {
-            InformationDomain[] newDomain = task1.informationDomains;
-            InformationDomain[] tempDomain = task2.informationDomains;
-            for (int i = 0; i <= tempDomain.Length - 1; i++)
+            List<int> newDomain = task1.informationDomains;
+            List<int> tempDomain = task2.informationDomains;
+            for (int i = 0; i <= tempDomain.Count - 1; i++)
             {
-                if (Array.IndexOf(newDomain, tempDomain[i]) == -1)
+                if (!newDomain.Contains(tempDomain[i]))      
                 {
-                    Array.Resize(ref newDomain, newDomain.Length + 1);
-                    newDomain[newDomain.Length] = tempDomain[i];
+                    newDomain.Add(tempDomain[i]);
                 }
             }
             return newDomain;
