@@ -49,6 +49,7 @@
     <Compile Include="Controller\SensorViewController.cs" />
     <Compile Include="Controller\CLESMonitorViewController.cs" />
     <Compile Include="Model\CTLInputSource.cs" />
+    <Compile Include="Model\CTLDomain.cs" />
     <Compile Include="Model\FuzzyCalculate.cs" />
     <Compile Include="Model\CLModel.cs" />
     <Compile Include="Model\CTLEvent.cs" />
