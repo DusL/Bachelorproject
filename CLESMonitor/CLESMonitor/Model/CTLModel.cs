@@ -94,7 +94,7 @@ namespace CLESMonitor.Model
         {
             // Proces events that have started
             List<ParsedEvent> parsedEventsStarted = parser.eventsStarted(sessionTime);
-            List<CTLEvent> eventsStarted = generateEvents(parsedEventsStarted, sessionTime);
+            List<CTLEvent> eventsStarted = modelDomain.generateEvents(parsedEventsStarted, sessionTime);
             activeEvents.AddRange(eventsStarted);
 
             // Update the 'end time' for all active events
@@ -119,7 +119,7 @@ namespace CLESMonitor.Model
             List<ParsedTask> parsedTasksStarted = parser.tasksStarted(sessionTime);
             if (parsedTasksStarted.Count > 0)
             {
-                List<CTLTask> tasksStarted = generateTasks(parsedTasksStarted, sessionTime);
+                List<CTLTask> tasksStarted = modelDomain.generateTasks(parsedTasksStarted, sessionTime);
                 activeTasks.AddRange(tasksStarted);
                 activeTasksHaveChanged = true;
             }
@@ -232,46 +232,6 @@ namespace CLESMonitor.Model
                 }
             }
             return eventToReturn;
-        }
-
-        /// <summary>
-        /// Create a list of CTLEvent based on a list of string identifiers
-        /// </summary>
-        /// <param name="tasks"></param>
-        /// <returns>A list of CTLEvent</returns>
-        private List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents, TimeSpan currentSessionTime)
-        {
-            // Add all CTLEvent objects to a list
-            List<CTLEvent> events = new List<CTLEvent>();
-
-            foreach (ParsedEvent parsedEvent in parsedEvents)
-            {
-                CTLEvent ctlEvent = modelDomain.generateEvent(parsedEvent);
-                ctlEvent.startTime = currentSessionTime;
-                events.Add(ctlEvent);
-            }
-
-            return events;
-        }
-
-        /// <summary>
-        /// Create a list of CTLTasks based on a list of string identifiers
-        /// </summary>
-        /// <param name="parsedTasks"></param>
-        /// <returns>A list of CTLTasks</returns>
-        private List<CTLTask> generateTasks(List<ParsedTask> parsedTasks, TimeSpan currentSessionTime)
-        { 
-            // Add all CTLTask objects to a list
-            List<CTLTask> tasks = new List<CTLTask>();
-
-            foreach (ParsedTask parsedTask in parsedTasks)
-            {
-                CTLTask task = modelDomain.generateTask(parsedTask);
-                task.startTime = currentSessionTime;
-                tasks.Add(task);
-            }
-
-            return tasks;
         }
 
         //TODO: Opsplitsen task1,task2.

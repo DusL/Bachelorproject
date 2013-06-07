@@ -161,6 +161,48 @@ namespace CLESMonitor.Model
             }
 
             return ctlTask;
-        }       
+        }
+
+        /// <summary>
+        /// Create a list of CTLEvents from a list of ParsedEvents
+        /// </summary>
+        /// <param name="parsedTasks">The list to generate from</param>
+        /// <param name="sessionTime">The current session time</param>
+        /// <returns>A list of CTLEvents</returns>
+        public List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents, TimeSpan sessionTime)
+        {
+            // Add all CTLEvent objects to a list
+            List<CTLEvent> events = new List<CTLEvent>();
+
+            foreach (ParsedEvent parsedEvent in parsedEvents)
+            {
+                CTLEvent ctlEvent = generateEvent(parsedEvent);
+                ctlEvent.startTime = sessionTime;
+                events.Add(ctlEvent);
+            }
+
+            return events;
+        }
+
+        /// <summary>
+        /// Create a list of CTLTasks from a list of ParsedTasks
+        /// </summary>
+        /// <param name="parsedTasks">The list to generate from</param>
+        /// <param name="sessionTime">The current session time</param>
+        /// <returns>A list of CTLTasks</returns>
+        public List<CTLTask> generateTasks(List<ParsedTask> parsedTasks, TimeSpan sessionTime)
+        {
+            // Add all CTLTask objects to a list
+            List<CTLTask> tasks = new List<CTLTask>();
+
+            foreach (ParsedTask parsedTask in parsedTasks)
+            {
+                CTLTask task = generateTask(parsedTask);
+                task.startTime = sessionTime;
+                tasks.Add(task);
+            }
+
+            return tasks;
+        }
     }
 }
