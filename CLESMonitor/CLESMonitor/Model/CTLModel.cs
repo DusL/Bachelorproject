@@ -15,7 +15,7 @@ namespace CLESMonitor.Model
     /// It uses XMLFileTaskParser to receive domain-specific input, PRLDomain to 
     /// convert this into general classes and then calculates cognitive load.
     /// </summary>
-    public class CTLModel : CLModel
+    public class CTLModel : CLModel, CTLInputSourceDelegate
     {
         private XMLFileTaskParser parser;
         private PRLDomain modelDomain;
@@ -57,6 +57,7 @@ namespace CLESMonitor.Model
             startSessionTime = DateTime.Now;
 
             // Create and start a timer to update the model input values
+            //FIXME, implementatie is afhankelijk van de frequentie!
             updateTimer = new Timer(updateTimerCallback, null, 0, 500);
         }
 
@@ -68,6 +69,26 @@ namespace CLESMonitor.Model
             Console.WriteLine("CTLModel.stopSession()");
 
             updateTimer.Dispose();
+        }
+
+        public void eventHasStarted(InputElement eventElement)
+        {
+
+        }
+
+        public void eventHasStopped(InputElement eventElement)
+        {
+
+        }
+
+        public void taskHasStarted(InputElement taskElement)
+        {
+
+        }
+
+        public void taskHasStopped(InputElement taskElement)
+        {
+
         }
 
         private void updateTimerCallback(Object stateInfo)
