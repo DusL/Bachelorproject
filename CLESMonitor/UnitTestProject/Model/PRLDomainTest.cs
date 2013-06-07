@@ -25,32 +25,32 @@ namespace UnitTest.Model
         public void generateEvent_NullValues()
         {
             Assert.IsNull(domain.generateEvent(null));
-            Assert.IsNull(domain.generateEvent(new ParsedEvent(null, "ANY_TYPE")));
-            Assert.IsNull(domain.generateEvent(new ParsedEvent("ANY_IDENTIFIER", null)));
-            Assert.IsNull(domain.generateEvent(new ParsedEvent(null, null)));
+            Assert.IsNull(domain.generateEvent(new InputElement(null, "ANY_TYPE")));
+            Assert.IsNull(domain.generateEvent(new InputElement("ANY_IDENTIFIER", null)));
+            Assert.IsNull(domain.generateEvent(new InputElement(null, null)));
         }
 
         /// <summary>
-        /// When parsedEvent contains an valid type, a valid CTLEvent should be generated
+        /// When InputElement contains an valid type, a valid CTLEvent should be generated
         /// </summary>
         [Test]
         public void generateEvent_ExistingType()
         {
-            ParsedEvent validParsedEvent = new ParsedEvent("0", "VERTRAAGDE_TREIN");
-            CTLEvent ctlEvent = domain.generateEvent(validParsedEvent);
+            InputElement validInputElement = new InputElement("0", "VERTRAAGDE_TREIN");
+            CTLEvent ctlEvent = domain.generateEvent(validInputElement);
             Assert.IsNotNull(ctlEvent);
-            Assert.AreEqual(validParsedEvent.identifier, ctlEvent.identifier);
-            Assert.AreEqual(validParsedEvent.type, ctlEvent.type);
+            Assert.AreEqual(validInputElement.identifier, ctlEvent.identifier);
+            Assert.AreEqual(validInputElement.type, ctlEvent.name);
         }
 
         /// <summary>
-        /// When parsedEvent contains an non-existing type, method should return null
+        /// When InputElement contains an non-existing type, method should return null
         /// </summary>
         [Test]
         public void generateEvent_NonExistingType()
         {
-            ParsedEvent invalidParsedEvent = new ParsedEvent("0", "NONEXISTING_TYPE");
-            Assert.IsNull(domain.generateEvent(invalidParsedEvent));
+            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE");
+            Assert.IsNull(domain.generateEvent(invalidInputElement));
         }
 
         #endregion
@@ -64,9 +64,9 @@ namespace UnitTest.Model
         public void generateTask_NullValues()
         {
             Assert.IsNull(domain.generateTask(null));
-            Assert.IsNull(domain.generateTask(new ParsedTask(null, "ANY_TYPE")));
-            Assert.IsNull(domain.generateTask(new ParsedTask("ANY_IDENTIFIER", null)));
-            Assert.IsNull(domain.generateTask(new ParsedTask(null, null)));
+            Assert.IsNull(domain.generateTask(new InputElement(null, "ANY_TYPE")));
+            Assert.IsNull(domain.generateTask(new InputElement("ANY_IDENTIFIER", null)));
+            Assert.IsNull(domain.generateTask(new InputElement(null, null)));
         }
 
         /// <summary>
@@ -75,21 +75,21 @@ namespace UnitTest.Model
         [Test]
         public void generateTask_ExistingType()
         {
-            ParsedTask validParsedTask = new ParsedTask("0", "ARI_UIT");
-            CTLTask ctlTask = domain.generateTask(validParsedTask);
+            InputElement validInputElement = new InputElement("0", "ARI_UIT");
+            CTLTask ctlTask = domain.generateTask(validInputElement);
             Assert.IsNotNull(ctlTask);
-            Assert.AreEqual(validParsedTask.identifier, ctlTask.identifier);
-            Assert.AreEqual(validParsedTask.type, ctlTask.type);
+            Assert.AreEqual(validInputElement.identifier, ctlTask.identifier);
+            Assert.AreEqual(validInputElement.type, ctlTask.name);
         }
 
         /// <summary>
-        /// When parsedTask contains an non-existing type, method should return null
+        /// When InputElement contains an non-existing type, method should return null
         /// </summary>
         [Test]
         public void generateTask_NonExistingType()
         {
-            ParsedTask invalidParsedTask = new ParsedTask("0", "NONEXISTING_TYPE");
-            Assert.IsNull(domain.generateTask(invalidParsedTask));
+            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE");
+            Assert.IsNull(domain.generateTask(invalidInputElement));
         }
 
         #endregion

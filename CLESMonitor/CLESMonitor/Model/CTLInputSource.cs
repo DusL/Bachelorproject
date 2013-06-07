@@ -6,36 +6,6 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
-    /// <summary>
-    /// A parsed event, the PRLDomain can turn this into a CTLEvent
-    /// </summary>
-    public class ParsedEvent
-    {
-        public string identifier { get; private set; }
-        public string type { get; private set; }
-
-        public ParsedEvent(string _identifier, string _type)
-        {
-            identifier = _identifier;
-            type = _type;
-        }
-    }
-
-    /// <summary>
-    /// A parsed task, the PRLDomain can turn this into a CTLTask
-    /// </summary>
-    public class ParsedTask
-    {
-        public string identifier { get; private set; }
-        public string type { get; private set; }
-
-        public ParsedTask(string _identifier, string _type)
-        {
-            identifier = _identifier;
-            type = _type;
-        }
-    }
-
     public class InputElement
     {
         public enum Type
@@ -67,6 +37,7 @@ namespace CLESMonitor.Model
         {
             identifier = _identifier;
             name = _name;
+            type = _type;
             action = _action;
         }
     }

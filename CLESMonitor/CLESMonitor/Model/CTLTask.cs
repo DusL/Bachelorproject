@@ -10,7 +10,7 @@ namespace CLESMonitor.Model
     public class CTLTask : ICloneable
     {
         public string identifier {get; private set;}
-        public string type { get; private set; }
+        public string name { get; private set; }
         private string eventIdentifier;
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
@@ -27,11 +27,11 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Constructor method
         /// </summary>
-        /// <param name="_type"></param>
-        public CTLTask(string _identifier, string _type)
+        /// <param name="_name"></param>
+        public CTLTask(string _identifier, string _name)
         {
             identifier = _identifier;
-            type = _type;
+            name = _name;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace CLESMonitor.Model
         /// <returns>The clopne (copy) of a CTLTask</returns>
         public Object Clone()
         {
-            CTLTask cloneTask = new CTLTask(this.identifier, this.type);
+            CTLTask cloneTask = new CTLTask(this.identifier, this.name);
             cloneTask.eventIdentifier = this.eventIdentifier;
             // Structs are always copied on assignment
             cloneTask.startTime = this.startTime;
@@ -68,7 +68,7 @@ namespace CLESMonitor.Model
         /// <returns>A string-representation of the CTLTask object</returns>
         public override string ToString()
         {
-            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}", identifier, type, startTime.TotalSeconds, endTime.TotalSeconds);
+            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}", identifier, name, startTime.TotalSeconds, endTime.TotalSeconds);
         }
     }
 }

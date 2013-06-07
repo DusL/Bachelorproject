@@ -30,24 +30,24 @@ namespace CLESMonitor.Model
     {
         
         /// <summary>
-        /// Generates a CTLEvent instance from a ParsedEvent instance
+        /// Generates a CTLEvent instance from a InputElement instance
         /// </summary>
-        /// <param name="parsedEvent">The ParsedEvent to generate from</param>
+        /// <param name="inputElement">The InputElement to generate from</param>
         /// <returns>The generated CTLEvent</returns>
-        public override CTLEvent generateEvent(ParsedEvent parsedEvent)
+        public override CTLEvent generateEvent(InputElement inputElement)
         {
             CTLEvent ctlEvent = null;
 
-            List<string> validTypes = new List<string>();
-            validTypes.Add("GESTRANDE_TREIN");
-            validTypes.Add("GESTOORDE_WISSEL");
-            validTypes.Add("VERTRAAGDE_TREIN");
+            List<string> validNames = new List<string>();
+            validNames.Add("GESTRANDE_TREIN");
+            validNames.Add("GESTOORDE_WISSEL");
+            validNames.Add("VERTRAAGDE_TREIN");
 
-            if (parsedEvent != null && parsedEvent.type != null && parsedEvent.identifier != null)
+            if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
-                if (validTypes.Contains(parsedEvent.type))
+                if (validNames.Contains(inputElement.name))
                 {
-                    ctlEvent = new CTLEvent(parsedEvent.identifier, parsedEvent.type);
+                    ctlEvent = new CTLEvent(inputElement.identifier, inputElement.name);
                 }
             }
 
@@ -55,109 +55,110 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Generates a CTLTask instance from a ParsedTask instance
+        /// Generates a CTLTask instance from a InputElement instance
         /// </summary>
-        /// <param name="parsedTask">The ParsedTask to generate from</param>
+        /// <param name="inputElement">The InputElement to generate from</param>
         /// <returns>The generated CTLTask</returns>
-        public override CTLTask generateTask(ParsedTask parsedTask)
+        public override CTLTask generateTask(InputElement inputElement)
         {
             CTLTask ctlTask = null;
 
-            if (parsedTask != null && parsedTask.type != null && parsedTask.identifier != null)
+            if (inputElement != null && inputElement.identifier != null)
             {
-                if (parsedTask.type.Equals("ARI_UIT"))
+                Console.WriteLine(inputElement.name);
+                if (inputElement.name.Equals("ARI_UIT"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "ARI_UIT");
+                    ctlTask = new CTLTask(inputElement.identifier, "ARI_UIT");
                     ctlTask.description = "ARI uitschakelen voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("ARI_IN"))
+                else if (inputElement.name.Equals("ARI_IN"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "ARI_IN");
+                    ctlTask = new CTLTask(inputElement.identifier, "ARI_IN");
                     ctlTask.description = "ARI inschakelen voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("VIND_TREIN"))
+                else if (inputElement.name.Equals("VIND_TREIN"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "VIND_TREIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "VIND_TREIN");
                     ctlTask.description = "Vind planregel met specifiek treinnummer";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("SELECTEER_REGEL"))
+                else if (inputElement.name.Equals("SELECTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "SELECTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "SELECTEER_REGEL");
                     ctlTask.description = "Selecteer planregel";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("DESELECTEER_REGEL"))
+                else if (inputElement.name.Equals("DESELECTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "DESELECTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "DESELECTEER_REGEL");
                     ctlTask.description = "De-selecteer planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("REGEL_IN_MUTATIESCHERM"))
+                else if (inputElement.name.Equals("REGEL_IN_MUTATIESCHERM"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "REGEL_IN_MUTATIESCHERM");
+                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_IN_MUTATIESCHERM");
                     ctlTask.description = "Planregel in mutatiescherm plaatsen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("MUTEER_REGEL"))
+                else if (inputElement.name.Equals("MUTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "MUTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "MUTEER_REGEL");
                     ctlTask.description = "Planregel muteren";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("REGEL_TERUG"))
+                else if (inputElement.name.Equals("REGEL_TERUG"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "REGEL_TERUG");
+                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_TERUG");
                     ctlTask.description = "Planregel terug plaatsen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("HAND_VERWERK_REGEL"))
+                else if (inputElement.name.Equals("HAND_VERWERK_REGEL"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "HAND_VERWERK_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "HAND_VERWERK_REGEL");
                     ctlTask.description = "planregel handmatig verwerken";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("VERWERK_VERT_REGELS"))
+                else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "VERWERK_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS");
                     ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("KWIT_VERT_REGELS"))
+                else if (inputElement.name.Equals("KWIT_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "KWIT_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "KWIT_VERT_REGELS");
                     ctlTask.description = "Vertraging kwiteren voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("VERWERK_VERT_TREIN"))
+                else if (inputElement.name.Equals("VERWERK_VERT_TREIN"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "VERWERK_VERT_TREIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_TREIN");
                     ctlTask.description = "Vertraging verwerken voor trein";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("VERWERK_VERT_REGELS"))
+                else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "VERWERK_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS");
                     ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("LASTGEVING"))
+                else if (inputElement.name.Equals("LASTGEVING"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "LASTGEVING");
+                    ctlTask = new CTLTask(inputElement.identifier, "LASTGEVING");
                     ctlTask.description = "Lastgeving";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
                 }
-                else if (parsedTask.type.Equals("HERROEP_SEIN"))
+                else if (inputElement.name.Equals("HERROEP_SEIN"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "HERROEP_SEIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "HERROEP_SEIN");
                     ctlTask.description = "Sein herroepen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
-                else if (parsedTask.type.Equals("COMMUNICATIE"))
+                else if (inputElement.name.Equals("COMMUNICATIE"))
                 {
-                    ctlTask = new CTLTask(parsedTask.identifier, "COMMUNICATIE");
+                    ctlTask = new CTLTask(inputElement.identifier, "COMMUNICATIE");
                     ctlTask.description = "Communicatie met andere processleiders en externe partijen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
                 }
@@ -167,19 +168,19 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Create a list of CTLEvents from a list of ParsedEvents
+        /// Create a list of CTLEvents from a list of InputElements
         /// </summary>
-        /// <param name="parsedTasks">The list to generate from</param>
+        /// <param name="InputElements">The list to generate from</param>
         /// <param name="sessionTime">The current session time</param>
         /// <returns>A list of CTLEvents</returns>
-        public override List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents, TimeSpan sessionTime)
+        public override List<CTLEvent> generateEvents(List<InputElement> InputElements, TimeSpan sessionTime)
         {
             // Add all CTLEvent objects to a list
             List<CTLEvent> events = new List<CTLEvent>();
 
-            foreach (ParsedEvent parsedEvent in parsedEvents)
+            foreach (InputElement InputElement in InputElements)
             {
-                CTLEvent ctlEvent = generateEvent(parsedEvent);
+                CTLEvent ctlEvent = generateEvent(InputElement);
                 ctlEvent.startTime = sessionTime;
                 events.Add(ctlEvent);
             }
@@ -188,19 +189,19 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Create a list of CTLTasks from a list of ParsedTasks
+        /// Create a list of CTLTasks from a list of InputElements
         /// </summary>
-        /// <param name="parsedTasks">The list to generate from</param>
+        /// <param name="InputElements">The list to generate from</param>
         /// <param name="sessionTime">The current session time</param>
         /// <returns>A list of CTLTasks</returns>
-        public override List<CTLTask> generateTasks(List<ParsedTask> parsedTasks, TimeSpan sessionTime)
+        public override List<CTLTask> generateTasks(List<InputElement> InputElements, TimeSpan sessionTime)
         {
             // Add all CTLTask objects to a list
             List<CTLTask> tasks = new List<CTLTask>();
 
-            foreach (ParsedTask parsedTask in parsedTasks)
+            foreach (InputElement InputElement in InputElements)
             {
-                CTLTask task = generateTask(parsedTask);
+                CTLTask task = generateTask(InputElement);
                 task.startTime = sessionTime;
                 tasks.Add(task);
             }

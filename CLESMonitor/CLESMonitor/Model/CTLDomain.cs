@@ -15,12 +15,12 @@ namespace CLESMonitor.Model
     {
         
 
-        public abstract CTLEvent generateEvent(ParsedEvent parsedEvent);
+        public abstract CTLEvent generateEvent(InputElement InputElement);
 
-        public abstract CTLTask generateTask(ParsedTask parsedTask);
+        public abstract CTLTask generateTask(InputElement InputElement);
 
-        public abstract List<CTLEvent> generateEvents(List<ParsedEvent> parsedEvents, TimeSpan sessionTime);
+        public abstract List<CTLEvent> generateEvents(List<InputElement> InputElements, TimeSpan sessionTime);
 
-        public abstract List<CTLTask> generateTasks(List<ParsedTask> parsedTasks, TimeSpan sessionTime);
+        public abstract List<CTLTask> generateTasks(List<InputElement> InputElements, TimeSpan sessionTime);
     }
 }

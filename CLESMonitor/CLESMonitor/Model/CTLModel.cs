@@ -41,6 +41,7 @@ namespace CLESMonitor.Model
         public CTLModel(XMLFileTaskParser parser)
         {
             this.parser = parser;
+            parser.delegateObject = this;
             modelDomain = new PRLDomain();
             lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
             activeEvents = new List<CTLEvent>();
@@ -56,6 +57,8 @@ namespace CLESMonitor.Model
             Console.WriteLine("CTLModel.startSession()");
             startSessionTime = DateTime.Now;
 
+            parser.startReceivingInput();
+
             // Create and start a timer to update the model input values
             //FIXME, implementatie is afhankelijk van de frequentie!
             updateTimer = new Timer(updateTimerCallback, null, 0, 500);
@@ -68,27 +71,53 @@ namespace CLESMonitor.Model
         {
             Console.WriteLine("CTLModel.stopSession()");
 
+            parser.stopReceivingInput();
+
             updateTimer.Dispose();
         }
 
+        /// <summary>
+        /// Proces events that have started
+        /// </summary>
+        /// <param name="eventElement"></param>
         public void eventHasStarted(InputElement eventElement)
         {
-
+            Console.WriteLine("CTLModel.eventHasStarted()");
+            CTLEvent eventStarted = modelDomain.generateEvent(eventElement);
+            activeEvents.Add(eventStarted);
         }
 
+        /// <summary>
+        /// Proces events that have stopped
+        /// </summary>
+        /// <param name="eventElement"></param>
         public void eventHasStopped(InputElement eventElement)
         {
-
+            Console.WriteLine("CTLModel.eventHasStopped()");
+            activeEvents.Remove(getEventFromIdentifier(eventElement.identifier));
         }
 
+        /// <summary>
+        /// Proces the tasks that have started
+        /// </summary>
+        /// <param name="taskElement"></param>
         public void taskHasStarted(InputElement taskElement)
         {
+            Console.WriteLine("CTLModel.taskHasStarted()");
+            CTLTask taskStarted = modelDomain.generateTask(taskElement);
+            activeTasks.Add(taskStarted);
 
+            //TODO: deze bool wisselen voor direct herberekenen (?)
+            activeTasksHaveChanged = true;
         }
 
         public void taskHasStopped(InputElement taskElement)
         {
+            Console.WriteLine("CTLModel.taskHasStopped()");
+            activeTasks.Remove(getTaskFromIdentifier(taskElement.identifier));
 
+            //TODO: deze bool wisselen voor direct herberekenen (?)
+            activeTasksHaveChanged = true;
         }
 
         private void updateTimerCallback(Object stateInfo)
@@ -113,53 +142,19 @@ namespace CLESMonitor.Model
 
         private void updateActiveEvents(TimeSpan sessionTime)
         {
-            // Proces events that have started
-            List<ParsedEvent> parsedEventsStarted = parser.eventsStarted(sessionTime);
-            List<CTLEvent> eventsStarted = modelDomain.generateEvents(parsedEventsStarted, sessionTime);
-            activeEvents.AddRange(eventsStarted);
-
             // Update the 'end time' for all active events
             foreach (CTLEvent ctlEvent in activeEvents)
             {
                 ctlEvent.endTime = sessionTime;
             }
-
-            // Proces events that have stopped
-            List<ParsedEvent> parsedEventsStopped = parser.eventsStopped(sessionTime);
-            foreach (ParsedEvent parsedEvent in parsedEventsStopped)
-            {
-                activeEvents.Remove(getEventFromIdentifier(parsedEvent.identifier));
-            }
         }
 
         private void updateActiveTasks(TimeSpan sessionTime)
         {
-            activeTasksHaveChanged = false;
-
-            // Proces the tasks that have started
-            List<ParsedTask> parsedTasksStarted = parser.tasksStarted(sessionTime);
-            if (parsedTasksStarted.Count > 0)
-            {
-                List<CTLTask> tasksStarted = modelDomain.generateTasks(parsedTasksStarted, sessionTime);
-                activeTasks.AddRange(tasksStarted);
-                activeTasksHaveChanged = true;
-            }
-
             // Update the 'end time' for all active tasks
             foreach (CTLTask task in activeTasks)
             {
                 task.endTime = sessionTime;
-            }
-
-            // Proces the tasks that have stopped
-            List<ParsedTask> parsedTasksStopped = parser.tasksStopped(sessionTime);
-            if (parsedTasksStopped.Count > 0)
-            {
-                foreach (ParsedTask parsedTask in parsedTasksStopped)
-                {
-                    activeTasks.Remove(getTaskFromIdentifier(parsedTask.identifier));
-                }
-                activeTasksHaveChanged = true;
             }
         }
 
@@ -221,7 +216,9 @@ namespace CLESMonitor.Model
 
                     multitask.inProgress = true;
                     tasksInCalculationFrame.Add(multitask);
-                }            
+                }
+
+                activeTasksHaveChanged = false;
             }
             else if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
             {
@@ -265,7 +262,7 @@ namespace CLESMonitor.Model
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
-            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.type + task2.type);
+            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name);
             //and set its values
             multiTask.moValue = multitaskMO(task1, task2);
             multiTask.lipValue = multitaskLip(task1, task2);

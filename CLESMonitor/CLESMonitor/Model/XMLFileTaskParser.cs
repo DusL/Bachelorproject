@@ -53,12 +53,14 @@ namespace CLESMonitor.Model
             timeSpan = timeSpan + new TimeSpan(0, 0, 1); //add one second
 
             List<InputElement> elementsForSecond = elementsForTime(timeSpan);
+            Console.WriteLine(elementsForSecond.Count);
             if (this.delegateObject != null)
             {
                 if (elementsForSecond.Count > 0)
                 {
                     foreach (InputElement inputElement in elementsForSecond)
                     {
+                        Console.WriteLine(inputElement.type + " " + inputElement.action);
                         if (inputElement.type == InputElement.Type.Event && inputElement.action == InputElement.Action.Started)
                         {
                             delegateObject.eventHasStarted(inputElement);
@@ -122,6 +124,8 @@ namespace CLESMonitor.Model
                     {
                         elementType = InputElement.Type.Event;
                     }
+                    else
+                        Console.WriteLine(node.Name);
 
                     InputElement.Action elementAction = InputElement.Action.Unknown;
                     foreach (XmlNode childNode in node.ChildNodes)
