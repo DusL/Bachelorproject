@@ -1,7 +1,6 @@
 ﻿using CLESMonitor.Controller;
 using CLESMonitor.Model;
 using NUnit.Framework;
-using NUnit.Mocks;
 using System;
 
 namespace UnitTest.Model

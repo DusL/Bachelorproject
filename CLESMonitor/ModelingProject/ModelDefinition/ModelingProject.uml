@@ -408,6 +408,80 @@
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
+          <operation
+            Id="b6696adc-8724-48c4-b47f-c32ee75e29ee"
+            name="generateEvents"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="b75f5218-ff18-43d8-a50d-bb2c0aba3740"
+                  name="List&lt;ParsedEvent&gt; parsedEvents"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="001e5940-ff8d-46dc-afae-3abcf162cf54"
+                  name="TimeSpan sessionTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="88f4e0b8-436d-4bea-9257-072aa60684a1"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="c02c517b-e1a9-4718-88bb-749f41eabf99"
+                      LastKnownName="List&lt;CTLEvent&gt;"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="52b0f3f9-2b85-4528-a394-1aa52eed0445"
+            name="generateTasks"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="70b9db51-c579-4235-8bed-b23acc0b4125"
+                  name="List&lt;ParsedTask&gt; parsedTasks"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="cbc07625-b969-4e82-a84a-adabeb214506"
+                  name="TimeSpan sessionTime"
+                  direction="In"
+                  isUnique="false" />
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="06073b11-4604-4647-a38d-89d0ddaa3153"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="1675d753-954b-488e-8740-fbdf37c425b6"
+                      LastKnownName="List&lt;CTLTask&gt;"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -1283,6 +1357,16 @@
           </operation>
         </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="c02c517b-e1a9-4718-88bb-749f41eabf99"
+        name="List&lt;CTLEvent&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="1675d753-954b-488e-8740-fbdf37c425b6"
+        name="List&lt;CTLTask&gt;" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
