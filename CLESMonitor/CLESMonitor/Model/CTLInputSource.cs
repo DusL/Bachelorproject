@@ -32,13 +32,14 @@ namespace CLESMonitor.Model
         public string name { get; private set; }
         public Type type { get; private set; }
         public Action action { get; private set; }
+        public string secondaryIndentifier { get; set; }
 
         public InputElement(string _identifier, string _name, Type _type, Action _action)
         {
             identifier = _identifier;
             name = _name;
             type = _type;
-            action = _action;
+            action = _action;        
         }
     }
 

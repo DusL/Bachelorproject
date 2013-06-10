@@ -38,16 +38,20 @@ namespace CLESMonitor.Model
         {
             CTLEvent ctlEvent = null;
 
-            List<string> validNames = new List<string>();
-            validNames.Add("GESTRANDE_TREIN");
-            validNames.Add("GESTOORDE_WISSEL");
-            validNames.Add("VERTRAAGDE_TREIN");
+            // The possible event types with their corresponding mo and lip values
+            Tuple<string, double, int>[] validValues = //new Tuple<string, double, int>();
+            {Tuple.Create("GESTRANDE_TREIN", 0.6, 2),
+             Tuple.Create("GESTOORDE_WISSEL", 0.1, 1),
+             Tuple.Create("VERTRAAGDE_TREIN", 0.8, 3)};
 
             if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
-                if (validNames.Contains(inputElement.name))
+                foreach(var values in validValues)
                 {
-                    ctlEvent = new CTLEvent(inputElement.identifier, inputElement.name);
+                    if (values.Item1.Equals(inputElement.name))
+                    {
+                        ctlEvent = new CTLEvent(inputElement.identifier, inputElement.name, values.Item2, values.Item3);
+                    }
                 }
             }
 
@@ -68,104 +72,105 @@ namespace CLESMonitor.Model
                 Console.WriteLine(inputElement.name);
                 if (inputElement.name.Equals("ARI_UIT"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "ARI_UIT");
+                    ctlTask = new CTLTask(inputElement.identifier, "ARI_UIT", inputElement.secondaryIndentifier);
                     ctlTask.description = "ARI uitschakelen voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("ARI_IN"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "ARI_IN");
+                    ctlTask = new CTLTask(inputElement.identifier, "ARI_IN", inputElement.secondaryIndentifier);
                     ctlTask.description = "ARI inschakelen voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("VIND_TREIN"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "VIND_TREIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "VIND_TREIN", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vind planregel met specifiek treinnummer";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("SELECTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "SELECTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "SELECTEER_REGEL", inputElement.secondaryIndentifier);
                     ctlTask.description = "Selecteer planregel";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("DESELECTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "DESELECTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "DESELECTEER_REGEL", inputElement.secondaryIndentifier);
                     ctlTask.description = "De-selecteer planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("REGEL_IN_MUTATIESCHERM"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_IN_MUTATIESCHERM");
+                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_IN_MUTATIESCHERM", inputElement.secondaryIndentifier);
                     ctlTask.description = "Planregel in mutatiescherm plaatsen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("MUTEER_REGEL"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "MUTEER_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "MUTEER_REGEL", inputElement.secondaryIndentifier);
                     ctlTask.description = "Planregel muteren";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("REGEL_TERUG"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_TERUG");
+                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_TERUG", inputElement.secondaryIndentifier);
                     ctlTask.description = "Planregel terug plaatsen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("HAND_VERWERK_REGEL"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "HAND_VERWERK_REGEL");
+                    ctlTask = new CTLTask(inputElement.identifier, "HAND_VERWERK_REGEL", inputElement.secondaryIndentifier);
                     ctlTask.description = "planregel handmatig verwerken";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("KWIT_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "KWIT_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "KWIT_VERT_REGELS", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vertraging kwiteren voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("VERWERK_VERT_TREIN"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_TREIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_TREIN", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vertraging verwerken voor trein";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS");
+                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("LASTGEVING"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "LASTGEVING");
+                    ctlTask = new CTLTask(inputElement.identifier, "LASTGEVING", inputElement.secondaryIndentifier);
                     ctlTask.description = "Lastgeving";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
                 }
                 else if (inputElement.name.Equals("HERROEP_SEIN"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "HERROEP_SEIN");
+                    ctlTask = new CTLTask(inputElement.identifier, "HERROEP_SEIN", inputElement.secondaryIndentifier);
                     ctlTask.description = "Sein herroepen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("COMMUNICATIE"))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "COMMUNICATIE");
+                    ctlTask = new CTLTask(inputElement.identifier, "COMMUNICATIE", inputElement.secondaryIndentifier);
                     ctlTask.description = "Communicatie met andere processleiders en externe partijen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
                 }
-            }
 
+            }
             return ctlTask;
         }
+
 
         /// <summary>
         /// Create a list of CTLEvents from a list of InputElements
@@ -181,8 +186,17 @@ namespace CLESMonitor.Model
             foreach (InputElement InputElement in InputElements)
             {
                 CTLEvent ctlEvent = generateEvent(InputElement);
-                ctlEvent.startTime = sessionTime;
-                events.Add(ctlEvent);
+                if (ctlEvent != null)
+                {
+                    ctlEvent.startTime = sessionTime;
+                    events.Add(ctlEvent);
+                }
+                else 
+                {
+                    //TODO: Hier iets van een log bericht zodat de gebruiker ook weet dat er iets mis is?
+                }
+                
+                
             }
 
             return events;
@@ -202,8 +216,16 @@ namespace CLESMonitor.Model
             foreach (InputElement InputElement in InputElements)
             {
                 CTLTask task = generateTask(InputElement);
-                task.startTime = sessionTime;
-                tasks.Add(task);
+                if (task != null)
+                {
+                    task.startTime = sessionTime;
+                    tasks.Add(task);
+                }
+                else
+                {
+                    //TODO: Hier iets van een log bericht zodat de gebruiker ook weet dat er iets mis is?
+                }
+
             }
 
             return tasks;

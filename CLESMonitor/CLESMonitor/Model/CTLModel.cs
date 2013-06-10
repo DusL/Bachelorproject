@@ -56,7 +56,6 @@ namespace CLESMonitor.Model
         {
             Console.WriteLine("CTLModel.startSession()");
             startSessionTime = DateTime.Now;
-
             parser.startReceivingInput();
 
             // Create and start a timer to update the model input values
@@ -84,7 +83,11 @@ namespace CLESMonitor.Model
         {
             Console.WriteLine("CTLModel.eventHasStarted()");
             CTLEvent eventStarted = modelDomain.generateEvent(eventElement);
-            activeEvents.Add(eventStarted);
+            if (eventStarted != null)
+            {
+                eventStarted.startTime = sessionTime;
+                activeEvents.Add(eventStarted);
+            }
         }
 
         /// <summary>
@@ -104,11 +107,22 @@ namespace CLESMonitor.Model
         public void taskHasStarted(InputElement taskElement)
         {
             Console.WriteLine("CTLModel.taskHasStarted()");
+            
             CTLTask taskStarted = modelDomain.generateTask(taskElement);
-            activeTasks.Add(taskStarted);
+            if (taskStarted != null)
+            {
+                taskStarted.eventIdentifier = taskElement.secondaryIndentifier;
+                taskStarted.startTime = sessionTime;
+               // taskStarted.endTime = sessionTime;
 
-            //TODO: deze bool wisselen voor direct herberekenen (?)
-            activeTasksHaveChanged = true;
+                setMoAndLip(taskStarted);
+                activeTasks.Add(taskStarted);
+
+                Console.WriteLine(taskStarted.ToString());
+
+                //TODO: deze bool wisselen voor direct herberekenen (?)
+                activeTasksHaveChanged = true;
+            }
         }
 
         public void taskHasStopped(InputElement taskElement)
@@ -122,6 +136,11 @@ namespace CLESMonitor.Model
 
         private void updateTimerCallback(Object stateInfo)
         {
+            foreach (CTLTask task in activeTasks)
+            {
+                Console.WriteLine(task.ToString());
+            }
+            // Console.WriteLine("De huidige sessieduur = " + sessionTime);
             updateActiveEvents(sessionTime);
             updateActiveTasks(sessionTime);
             updateTasksInCalculationFrame(sessionTime);
@@ -217,6 +236,7 @@ namespace CLESMonitor.Model
                     multitask.inProgress = true;
                     tasksInCalculationFrame.Add(multitask);
                 }
+                
 
                 activeTasksHaveChanged = false;
             }
@@ -252,7 +272,7 @@ namespace CLESMonitor.Model
             return eventToReturn;
         }
 
-        //TODO: Opsplitsen task1,task2.
+
         /// <summary>
         /// 
         /// </summary>
@@ -262,7 +282,7 @@ namespace CLESMonitor.Model
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             //Creat a new CTLTask
-            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name);
+            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);
             //and set its values
             multiTask.moValue = multitaskMO(task1, task2);
             multiTask.lipValue = multitaskLip(task1, task2);
@@ -403,6 +423,27 @@ namespace CLESMonitor.Model
         {
             StreamReader streamReader = new StreamReader(File.Open(filePath, FileMode.Open));
             parser.loadTextReader(streamReader);
+        }
+
+        //TODO: Hier nog even kijken of we de mo en lip values anders kunnen kiezen zodat deze varieren per taak.
+        /// <summary>
+        /// Set the mo and lip values of a task by adopting these values from the event it belongs to.
+        /// </summary>
+        /// <param name="task"></param>
+        private void setMoAndLip(CTLTask task)
+        {
+            Console.WriteLine("Aantal active events: " + activeEvents.Count);
+            
+            foreach (CTLEvent ctlEvent in activeEvents)
+            {
+                Console.WriteLine(ctlEvent.ToString());
+                if (ctlEvent.identifier.Equals(task.eventIdentifier))
+                {
+                    task.moValue = ctlEvent.moValue;
+                    task.lipValue = ctlEvent.lipValue;
+                }
+            }
+
         }
     }
 }
