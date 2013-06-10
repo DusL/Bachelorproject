@@ -11,7 +11,7 @@ namespace CLESMonitor.Model
     {
         public string identifier {get; private set;}
         public string name { get; private set; }
-        private string eventIdentifier;
+        public string eventIdentifier { get;  set; }
         public TimeSpan startTime { get; set; }
         public TimeSpan endTime { get; set; }
         public double moValue { get; set; } //mental occupancy
@@ -28,10 +28,11 @@ namespace CLESMonitor.Model
         /// Constructor method
         /// </summary>
         /// <param name="_name"></param>
-        public CTLTask(string _identifier, string _name)
+        public CTLTask(string _identifier, string _name, string _eventIdentifier)
         {
             identifier = _identifier;
             name = _name;
+            eventIdentifier = _eventIdentifier;
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace CLESMonitor.Model
         /// <returns>The clopne (copy) of a CTLTask</returns>
         public Object Clone()
         {
-            CTLTask cloneTask = new CTLTask(this.identifier, this.name);
+            CTLTask cloneTask = new CTLTask(this.identifier, this.name, this.eventIdentifier);
             cloneTask.eventIdentifier = this.eventIdentifier;
             // Structs are always copied on assignment
             cloneTask.startTime = this.startTime;
@@ -68,7 +69,7 @@ namespace CLESMonitor.Model
         /// <returns>A string-representation of the CTLTask object</returns>
         public override string ToString()
         {
-            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}", identifier, name, startTime.TotalSeconds, endTime.TotalSeconds);
+            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}, eventID={4}, moValue={5}, lipValue={6}", identifier, name, startTime.TotalSeconds, endTime.TotalSeconds, eventIdentifier, moValue, lipValue);
         }
     }
 }

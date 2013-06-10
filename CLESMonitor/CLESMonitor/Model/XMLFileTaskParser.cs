@@ -101,6 +101,7 @@ namespace CLESMonitor.Model
         {
             int timeInSeconds = (int)Math.Floor(timeSpan.TotalSeconds);
             List<InputElement> actions = new List<InputElement>();
+            string secondaryIdentifier = null;
 
             if (timeInSeconds >= 0)
             {
@@ -119,6 +120,7 @@ namespace CLESMonitor.Model
                     if (node.Name.Equals("task"))
                     {
                         elementType = InputElement.Type.Task;
+                        secondaryIdentifier = node.Attributes["eventID"].Value;
                     }
                     else if (node.Name.Equals("event"))
                     {
@@ -142,7 +144,10 @@ namespace CLESMonitor.Model
                    
                     string identifier = node.Attributes["id"].Value;
                     string name = node.FirstChild.InnerText;
-                    actions.Add(new InputElement(identifier, name, elementType, elementAction));
+                    InputElement returnElement = new InputElement(identifier, name, elementType, elementAction);
+                    returnElement.secondaryIndentifier = secondaryIdentifier;
+
+                    actions.Add(returnElement);
                 }
             }
             return actions;
