@@ -60,7 +60,6 @@ namespace CLESMonitor.Model
             parser.startReceivingInput();
 
             // Create and start a timer to update the model input values
-            //FIXME, implementatie is afhankelijk van de frequentie!
             updateTimer = new Timer(updateTimerCallback, null, 0, 500);
         }
 
@@ -134,10 +133,7 @@ namespace CLESMonitor.Model
             double mo = calculateOverallMo(tasksInCalculationFrame);
             double tss = calculateTSS(tasksInCalculationFrame);
 
-            // TODO: For now, we generate random values
-            Random random = new Random();
-
-            return random.Next(0, 5);
+            return calculateMentalWorkLoad(lip, mo, tss);
         }
 
         private void updateActiveEvents(TimeSpan sessionTime)
@@ -348,51 +344,108 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Calculates the average normalized lip-values across the current time frame.
+        /// Implements the overall Level of Information Processing (LIP) formula as defined in the scientific literature.
         /// </summary>
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
-        /// <returns>Average Lip-value (not rounded) </returns>
+        /// <returns>Average Lip-value (not rounded). 
+        /// It can attain values between 1 and 3 (only without overlapping tasks!).</returns>
         private double calculateOverallLip(List<CTLTask> tasks)
         {
-            int i = 0;
-            double lipTimesDuration = 0;
-            double sum = 0; 
-            while (i != tasks.Count)
-            {
-                CTLTask t = (CTLTask)tasks[i];
-                lipTimesDuration= t.lipValue * t.getDuration().TotalSeconds;
-                sum += lipTimesDuration;
-                i++;
-            }
+            double lipValue = 0;
 
-            //TODO: Afronden of niet?
-            return lipTimesDuration/lengthTimeframe.TotalSeconds;
+            for (int i = 0; i < tasks.Count; i++)
+            {
+                lipValue += tasks[i].lipValue * tasks[i].getDuration().TotalSeconds;
+            }
+            lipValue = lipValue / lengthTimeframe.TotalSeconds;
+
+            return lipValue;
         }
 
         /// <summary>
-        /// Calculates the average normalized mental occupancy waarde.
+        /// Implements the overall Mental occupancy (MO) formula as defined in the scientific literature.
         /// </summary>
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
-        /// <returns>The normalized MO-value across 1 time frame </returns>
+        /// <returns>The normalized MO-value across 1 time frame. 
+        /// It can attain values between 0 and 1 (only without overlapping tasks!).</returns>
         private double calculateOverallMo(List<CTLTask> tasks)
         {
-            int i = 0;
-            double moTimesDuration = 0;
-            double sum = 0;
-            while (i != tasks.Count)
+            double moValue = 0;
+
+            for (int i = 0; i < tasks.Count; i++)
             {
-                CTLTask t = (CTLTask)tasks[i];
-                moTimesDuration = t.moValue * t.getDuration().TotalSeconds;
-                sum += moTimesDuration;
-                i++;
+                moValue += tasks[i].moValue * tasks[i].getDuration().TotalSeconds;
             }
-            return moTimesDuration / lengthTimeframe.TotalSeconds;
+            moValue = moValue / lengthTimeframe.TotalSeconds;
+
+            return moValue;
         }
 
-        //TODO: methode implementeren
+        /// <summary>
+        /// Implements the overall Task Set Switching (TSS) formula as defined in the scientific literature.
+        /// </summary>
+        /// <param name="tasks">The list of tasks to use</param>
+        /// <returns>The calculated TSS-value. 
+        /// It can attain values between 0 and (tasks.Count-1) (only without overlapping tasks!).</returns>
         private double calculateTSS(List<CTLTask> tasks)
-        { 
-            return 0;
+        {
+            double tssValue = 0;
+
+            for (int i = 0; i < tasks.Count-1; i++)
+            {
+                int unionCount = tasks[i].informationDomains.Union(tasks[i + 1].informationDomains).Count();
+                int intersectionCount = tasks[i].informationDomains.Intersect(tasks[i + 1].informationDomains).Count();
+
+                tssValue += (unionCount - intersectionCount) / unionCount;
+            }
+
+            return tssValue;
+        }
+
+        /// <summary>
+        /// Implements the mental workload (MWL) formula as defined in the scientific literature
+        /// </summary>
+        /// <param name="lipValue">The level of information processing</param>
+        /// <param name="moValue">The mental occupancy</param>
+        /// <param name="tssValue">The task set switches</param>
+        /// <returns>The calculated MWL-value</returns>
+        private double calculateMentalWorkLoad(double lipValue, double moValue, double tssValue)
+        {
+            double mwlValue = 0;
+
+            // Define the bounds as tuples (lower bound, upper bound)
+            Tuple<int, int> lipBounds = Tuple.Create(1, 3);
+            Tuple<int, int> moBounds = Tuple.Create(0, 1);
+            Tuple<int, int> tssBounds = Tuple.Create(0, tasksInCalculationFrame.Count-1);
+
+            // Project all metrics on the [0, 1] interval
+            double normalizedLipValue = (lipValue - lipBounds.Item1) / lipBounds.Item2;
+            double normalizedMoValue = (moValue - moBounds.Item1) / moBounds.Item2;
+            double normalizedTssValue = (tssValue - tssBounds.Item1) / tssBounds.Item2;
+
+            // There is no Vector class (in Windows Forms) available, therefore a triple is used
+            // This produces very, very, complicated code..
+            Tuple<double, double, double> originVector = Tuple.Create(1.0, 1.0, 1.0);
+            Tuple<double, double, double> mwlVector = Tuple.Create(normalizedLipValue, normalizedMoValue, normalizedTssValue);
+            double mwlDotProduct = Math.Pow(mwlVector.Item1, 2) + Math.Pow(mwlVector.Item2, 2) + Math.Pow(mwlVector.Item3, 2);
+            double distanceToOrigin = Math.Sqrt(mwlDotProduct * mwlDotProduct);
+
+            double topOfFraction = (mwlVector.Item1 * originVector.Item1) 
+                + (mwlVector.Item2 * originVector.Item2) 
+                + (mwlVector.Item3 * originVector.Item3);
+            double bottomOfFraction = (originVector.Item1 * originVector.Item1) 
+                + (originVector.Item2 * originVector.Item2) 
+                + (originVector.Item3 * originVector.Item3);
+            double fraction = topOfFraction / bottomOfFraction;
+            Tuple<double, double, double> mwlProjDiagonal = Tuple.Create(fraction * originVector.Item1,
+                fraction * originVector.Item2, fraction * originVector.Item3);
+            Tuple<double, double, double> zVector = Tuple.Create(mwlVector.Item1 - mwlProjDiagonal.Item1,
+                mwlVector.Item2 - mwlProjDiagonal.Item2, mwlVector.Item3 - mwlProjDiagonal.Item3);
+
+            double distanceToDiagonal = Math.Sqrt(Math.Pow(zVector.Item1, 2) + Math.Pow(zVector.Item2, 2) + Math.Pow(zVector.Item3, 2));
+            mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
+
+            return mwlValue;
         }
 
         /// <summary>
