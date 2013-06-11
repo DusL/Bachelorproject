@@ -621,8 +621,8 @@
         </suppliersInternal>
         <ownedOperationsInternal>
           <operation
-            Id="840fad1f-2213-4fa1-b701-d1251a88df31"
-            name="tasksStarted"
+            Id="daae9a06-18b6-4634-988d-7c1982507a23"
+            name="loadTextReader"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -631,19 +631,19 @@
             <ownedParameters>
               <operationHasOwnedParameters>
                 <parameter
-                  Id="cb2f372e-b6ac-46b7-a1cf-714fa9ea2ae8"
-                  name="TimeSpan timeSpan"
+                  Id="96a45fc6-50ac-4519-b69c-ca0af0dd1f6f"
+                  name="TextReader textReader"
                   direction="In"
                   isUnique="false" />
               </operationHasOwnedParameters>
               <operationHasOwnedParameters>
                 <parameter
-                  Id="acca3965-798c-4a4b-9ce1-6a77e88d9599"
+                  Id="d8334308-f2ac-48cb-aef1-bd661f93b174"
                   direction="Return">
                   <type_NamedElement>
                     <undefinedTypeMoniker
-                      Id="45a7df48-013c-468f-a44b-5cdbcd915eed"
-                      LastKnownName="List&lt;ParsedTask&gt;"
+                      Id="a0b4694b-1e98-49da-bcea-1f881d9b6056"
+                      LastKnownName="List&lt;InputElement&gt;"
                       LastKnownLocation="ModelingProject.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -651,38 +651,24 @@
             </ownedParameters>
           </operation>
           <operation
-            Id="2ac31332-e807-4e0c-915a-3d7766a4200b"
-            name="tasksStopped"
+            Id="7e9a8b3b-c17b-4444-bf76-ccd22502ca82"
+            name="startReceivingInput"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8d1ca94f-b8a6-4e0d-8ee2-7510d1bb1430"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f236cf55-5638-4a06-aacb-fff2930f5012"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="45a7df48-013c-468f-a44b-5cdbcd915eed"
-                      LastKnownName="List&lt;ParsedTask&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
+            isQuery="false" />
           <operation
-            Id="85777fda-e4bf-4a92-b64f-e1a53e936a2e"
-            name="readPath"
+            Id="96bbd9d6-cd30-4698-be7a-d92f6878773e"
+            name="stopReceivingInput"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="d6ab253c-0db3-4219-8c90-67e9af74fd5e"
+            name="elementsForTime"
             isLeaf="false"
             isStatic="false"
             isAbstract="false"
@@ -691,147 +677,21 @@
             <ownedParameters>
               <operationHasOwnedParameters>
                 <parameter
-                  Id="788d385b-51a4-40e6-adcc-b08288e4419e"
-                  name="String path"
+                  Id="e906cd46-e969-42e4-9583-5336e29b27c0"
+                  name="TimeSpan timeSpan"
                   direction="In"
                   isUnique="false" />
               </operationHasOwnedParameters>
             </ownedParameters>
           </operation>
           <operation
-            Id="9e719a27-d7b2-4e54-94e7-2128d24f64c3"
-            name="eventsStarted"
+            Id="3391b956-30c5-4ee8-af04-529855dfa778"
+            name="XMLFileTaskParser"
             isLeaf="false"
-            isStatic="false"
+            isStatic="true"
             isAbstract="false"
             concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="feda60bd-1e17-406b-b182-ae6d99fc4a64"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="27ad92ba-916b-4eca-bcdc-440dea5d52ca"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="414fdf23-9cf8-434d-963d-14f9ef460190"
-                      LastKnownName="List&lt;ParsedEvent&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="81c1bbe6-8dbe-496f-bc46-a052b7fe6f82"
-            name="eventsStopped"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="46995cea-f680-43df-84f9-029de6ab4d58"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e5abd9e6-7383-4916-ab2f-955b3ec96fea"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="414fdf23-9cf8-434d-963d-14f9ef460190"
-                      LastKnownName="List&lt;ParsedEvent&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="5e35a677-58b3-4fe8-b13c-8605735c0ede"
-            name="eventsForTime"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8b41d902-b11f-4c57-ab93-b62657ed8101"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="ab73a739-daea-4c2b-91bf-bd6fb6b4db63"
-                  name="ActionType actionType"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="4abc5dcb-fdfb-44ac-ba23-4beb5995169e"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="414fdf23-9cf8-434d-963d-14f9ef460190"
-                      LastKnownName="List&lt;ParsedEvent&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="06e52210-b4c7-4be5-8134-02c67aaefb9f"
-            name="tasksForTime"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="c70da268-2bd1-4998-8630-e58a13ea91d0"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="cf9511a5-80f4-4aae-97a8-05951450cf06"
-                  name="ActionType actionType"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="674887f2-e6c7-409f-8af2-eb0676b87aae"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="45a7df48-013c-468f-a44b-5cdbcd915eed"
-                      LastKnownName="List&lt;ParsedTask&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
+            isQuery="false" />
         </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
@@ -1367,6 +1227,61 @@
       <undefinedType
         Id="1675d753-954b-488e-8740-fbdf37c425b6"
         name="List&lt;CTLTask&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="a0b4694b-1e98-49da-bcea-1f881d9b6056"
+        name="List&lt;InputElement&gt;" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2eb03d6e-bd02-4d24-a9b1-76d64a2a2e28"
+        name="CTLInputSource"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="60284177-11ff-4999-8b07-613967cc06b4"
+            isSubstitutable="false">
+            <classMoniker
+              Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded"
+              LastKnownName="XMLFileTaskParser"
+              LastKnownLocation="ModelingProject.uml" />
+          </generalization>
+        </generalsInternal>
+        <ownedAttributesInternal>
+          <property
+            Id="467c3222-2f23-457d-89aa-e91e5f36e72a"
+            name="CTLInputSourceDelegate delegateObject"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="false"
+            isUnique="false"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false" />
+        </ownedAttributesInternal>
+        <ownedOperationsInternal>
+          <operation
+            Id="183fb075-792d-4cca-86a7-b67f5042496f"
+            name="stopReceivingInput"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+          <operation
+            Id="a70ff281-02c6-4eb5-8ba8-7b98fa914358"
+            name="startReceivingInput"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

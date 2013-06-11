@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using System.Threading;
 
+
 namespace CLESMonitor.Model
 {
     /// <summary>
@@ -93,10 +94,10 @@ namespace CLESMonitor.Model
 
         /// <summary>
         /// Returns a list containing all the elements that have occured in the 
-        /// second represented by timeSpan.
+        /// second represented by timeSpan. 
         /// </summary>
         /// <param name="timeSpan">The time span</param>
-        /// <returns>The list of elements</returns>
+        /// <returns>The list of elements in the same order as they occur in the xml-file</returns>
         public List<InputElement> elementsForTime(TimeSpan timeSpan)
         {
             int timeInSeconds = (int)Math.Floor(timeSpan.TotalSeconds);

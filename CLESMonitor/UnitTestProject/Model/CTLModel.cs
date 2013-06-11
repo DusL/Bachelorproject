@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-//using Moq;
+using Moq;
 
 using CLESMonitor.Model;
 
@@ -30,8 +30,8 @@ namespace UnitTest.Model
         [Test]
         public void eventHasStarted()
         {
-            //var mock = new Mock<CLModel>();
-            //mock.Setup(foo => foo.calculateModelValue()).Returns(5);
+            var mock = new Mock<CLModel>();
+            mock.Setup(foo => foo.calculateModelValue()).Returns(5);
 
             Assert.AreEqual(1, 1);        
         }
