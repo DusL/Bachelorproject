@@ -61,6 +61,7 @@
     <Compile Include="Model\CTLTaskTest.cs" />
     <Compile Include="Model\PRLDomainTest.cs" />
     <Compile Include="Model\FuzzyCalculateTest.cs" />
+    <Compile Include="Model\VectorTest.cs" />
     <Compile Include="Model\XMLFileTaskParserTest.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

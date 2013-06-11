@@ -60,6 +60,7 @@
     <Compile Include="Model\GSRSensor.cs" />
     <Compile Include="Model\HRSensor.cs" />
     <Compile Include="Model\PRLDomain.cs" />
+    <Compile Include="Model\Vector.cs" />
     <Compile Include="Model\XMLFileTaskParser.cs" />
     <Compile Include="View\CLESMonitorViewForm.cs">
       <SubType>Form</SubType>
