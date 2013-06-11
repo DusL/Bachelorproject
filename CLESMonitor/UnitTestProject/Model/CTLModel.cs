@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using NUnit.Framework;
-using Moq;
+//using Moq;
 
 using CLESMonitor.Model;
 
@@ -14,26 +14,31 @@ namespace UnitTest.Model
     [TestFixture]
     public class CTLModel
     {
-        XMLFileTaskParser parser;
-        PRLDomain domain;
+        Mock<CTLInputSource> mockedInputSource;
+        Mock<CTLDomain> mockedDomain;
         CLESMonitor.Model.CTLModel ctlModel;
 
         [SetUp]
         //Initialize any objects needed for the tests contained in this class
         public void Setup()
         {
-            parser = new XMLFileTaskParser();
-            domain = new PRLDomain();
-            ctlModel = new CLESMonitor.Model.CTLModel(parser, domain);
+            mockedInputSource = new Mock<CTLInputSource>();
+            mockedDomain = new Mock<CTLDomain>();
+            ctlModel = new CLESMonitor.Model.CTLModel(mockedInputSource.Object, mockedDomain.Object);
         }
 
         [Test]
         public void eventHasStarted()
         {
-            var mock = new Mock<CLModel>();
-            mock.Setup(foo => foo.calculateModelValue()).Returns(5);
+            InputElement inputElement = new InputElement("1", "TEST", InputElement.Type.Event, InputElement.Action.Started);
+            CTLEvent ctlEvent = new CTLEvent("1", "TEST", 0, 0);
+            mockedDomain.Setup(domain => domain.generateEvent(inputElement)).Returns(ctlEvent);
 
-            Assert.AreEqual(1, 1);        
+            ctlModel.eventHasStarted(inputElement);
+
+            mockedDomain.Verify(domain => domain.generateEvent(inputElement), Times.Once());
+            Assert.AreEqual(1, ctlModel.activeEvents.Count());
+            Assert.AreEqual(ctlEvent, ctlModel.activeEvents[0]);
         }
 
         [TearDown]
