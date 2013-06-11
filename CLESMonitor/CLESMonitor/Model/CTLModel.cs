@@ -53,6 +53,8 @@ namespace CLESMonitor.Model
             tasksInCalculationFrame = new List<CTLTask>();
         }
 
+        #region Abstract CLModel implementation
+
         /// <summary>
         /// Starts a new session, calculateModelValue() will
         /// now produce valid values.
@@ -93,6 +95,8 @@ namespace CLESMonitor.Model
             updateTimer.Dispose();
         }
 
+        #endregion
+
         #region CTLInputSourceDelegate methods
 
         /// <summary>
@@ -117,7 +121,17 @@ namespace CLESMonitor.Model
         public void eventHasStopped(InputElement eventElement)
         {
             Console.WriteLine("CTLModel.eventHasStopped()");
-            activeEvents.Remove(getEventFromIdentifier(eventElement.identifier));
+
+            CTLEvent ctlEventToRemove = null;
+            foreach (CTLEvent ctlEvent in activeEvents)
+            {
+                if (ctlEvent.identifier.Equals(eventElement.identifier))
+                {
+                    ctlEventToRemove = ctlEvent;
+                }
+            }
+
+            activeEvents.Remove(ctlEventToRemove);
         }
 
         /// <summary>
@@ -148,7 +162,16 @@ namespace CLESMonitor.Model
         public void taskHasStopped(InputElement taskElement)
         {
             Console.WriteLine("CTLModel.taskHasStopped()");
-            activeTasks.Remove(getTaskFromIdentifier(taskElement.identifier));
+
+            CTLTask taskToRemove = null;
+            foreach (CTLTask task in activeTasks)
+            {
+                if (task.identifier.Equals(taskElement.identifier))
+                {
+                    taskToRemove = task;
+                }
+            }
+            activeTasks.Remove(taskToRemove);
 
             //TODO: deze bool wisselen voor direct herberekenen (?)
             activeTasksHaveChanged = true;
@@ -239,7 +262,6 @@ namespace CLESMonitor.Model
                     tasksInCalculationFrame.Add(multitask);
                 }
                 
-
                 activeTasksHaveChanged = false;
             }
             else if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
@@ -247,33 +269,6 @@ namespace CLESMonitor.Model
                 tasksInCalculationFrame.Last().endTime = sessionTime;
             }
         }
-
-        private CTLTask getTaskFromIdentifier(string identifier)
-        {
-            CTLTask taskToReturn = null;
-            foreach (CTLTask task in activeTasks)
-            {
-                if (task.identifier.Equals(identifier))
-                {
-                    taskToReturn = task;
-                }
-            }
-            return taskToReturn;
-        }
-
-        private CTLEvent getEventFromIdentifier(string identifier)
-        {
-            CTLEvent eventToReturn = null;
-            foreach (CTLEvent ctlEvent in activeEvents)
-            {
-                if (ctlEvent.identifier.Equals(identifier))
-                {
-                    eventToReturn = ctlEvent;
-                }
-            }
-            return eventToReturn;
-        }
-
 
         /// <summary>
         /// 
