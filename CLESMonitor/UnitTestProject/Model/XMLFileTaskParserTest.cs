@@ -1,14 +1,18 @@
 ﻿using System;
 using System.IO;
 using NUnit.Framework;
+using Moq;
 
 using CLESMonitor.Model;
-using Moq;
+using System.Threading;
+
+
+
 
 namespace UnitTest.Model
 {
     /// <summary>
-    /// We only test eventsStarted and taskStarted cases since eventsStopped, and tasksStopped use the same methods
+    ///
     /// </summary>
     [TestFixture]
     public class XMLFileTaskParserTest
@@ -18,6 +22,7 @@ namespace UnitTest.Model
 
         string testInput1;
         string testInput2;
+        string testInput3;
 
         [SetUp]
         public void setUp()
@@ -39,13 +44,13 @@ namespace UnitTest.Model
                             "<name>TREIN_GESTRAND</name>" +
                             "<action>started</action>" +
                         "</event>" +
-                        "<task id=\"2\">" +
+                        "<task id=\"2\" eventID=\"1\">" +
                             "<name>ARI_UIT</name>" +
                             "<action>started</action>" +
                         "</task>" +
                     "</second>"+
                     "<second>"+
-                        "<task id=\"2\">" +
+                        "<task id=\"2\" eventID=\"1\">" +
                             "<name>ARI_UIT</name>" +
                             "<action>stopped</action>" +
                         "</task>" +
@@ -53,6 +58,16 @@ namespace UnitTest.Model
                             "<name>TREIN_GESTRAND</name>" +
                             "<action>stopped</action>" +
                         "</event>" +
+                    "</second>" +
+                "</xml>";
+
+            testInput3 =
+                "<xml>" +
+                    "<second>" +
+                        "<event id=\"1\">" +
+                            "<name>TREIN_GESTRAND</name>" +
+                            "<action>started</action>" +
+                        "</event>"+
                     "</second>" +
                 "</xml>";
         }
@@ -93,6 +108,8 @@ namespace UnitTest.Model
             parser.loadTextReader(new StringReader(testInput2));
             TimeSpan timeSpan = new TimeSpan(0, 0, 0);
 
+            Assert.IsNotEmpty(parser.elementsForTime(timeSpan));
+
             Assert.AreEqual("TREIN_GESTRAND", parser.elementsForTime(timeSpan)[0].name);
             Assert.IsNull(parser.elementsForTime(timeSpan)[0].secondaryIndentifier);
             Assert.AreEqual("1", parser.elementsForTime(timeSpan)[0].identifier);
@@ -109,11 +126,13 @@ namespace UnitTest.Model
             parser.loadTextReader(new StringReader(testInput2));
             TimeSpan timeSpan = new TimeSpan(0, 0, 0);
 
+            Assert.IsNotEmpty(parser.elementsForTime(timeSpan));
+
             Assert.AreEqual("ARI_UIT", parser.elementsForTime(timeSpan)[1].name);
             Assert.AreEqual("1",parser.elementsForTime(timeSpan)[1].secondaryIndentifier);
             Assert.AreEqual("2", parser.elementsForTime(timeSpan)[1].identifier);
-            Assert.AreEqual(InputElement.Type.Task, parser.elementsForTime(timeSpan)[0].type);
-            Assert.AreEqual(InputElement.Action.Started, parser.elementsForTime(timeSpan)[0].action);
+            Assert.AreEqual(InputElement.Type.Task, parser.elementsForTime(timeSpan)[1].type);
+            Assert.AreEqual(InputElement.Action.Started, parser.elementsForTime(timeSpan)[1].action);
         }
 
         [Test]
@@ -132,9 +151,18 @@ namespace UnitTest.Model
         [Test]
         public void startRecevinginput()
         {
-            var mockedModel = new Mock<CTLModel>();
+            parser.loadTextReader(new StringReader(testInput3));
+            Mock<CTLInputSourceDelegate> mockedModel = new Mock<CTLInputSourceDelegate>();
+            
+            parser.startReceivingInput();
+            Thread.Sleep(5000);            
 
-            mockedModel.Verify(model => model.eventHasStarted(), Times.Once());
+            InputElement comparativeElement = new InputElement("1", "TREIN_GESTRAND", InputElement.Type.Event, InputElement.Action.Started);
+            InputElement eventElement = null;
+            mockedModel.Setup(model => model.eventHasStarted(It.IsAny<InputElement>())).Callback((InputElement element) => eventElement = element);
+           // mockedModel.Verify(model => model.eventHasStarted(It.IsAny<InputElement>()), Times.Once());
+            Assert.IsNotNull(eventElement);
+            //Assert.AreEqual(comparativeElement, eventElement);
         }
     }
 }
