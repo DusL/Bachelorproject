@@ -25,9 +25,9 @@ namespace UnitTest.Model
         public void generateEvent_NullValues()
         {
             Assert.IsNull(domain.generateEvent(null));
-            Assert.IsNull(domain.generateEvent(new InputElement(null, "ANY_TYPE")));
-            Assert.IsNull(domain.generateEvent(new InputElement("ANY_IDENTIFIER", null)));
-            Assert.IsNull(domain.generateEvent(new InputElement(null, null)));
+            Assert.IsNull(domain.generateEvent(new InputElement(null, "ANY_TYPE", InputElement.Type.Unknown, InputElement.Action.Unknown)));
+            Assert.IsNull(domain.generateEvent(new InputElement("ANY_IDENTIFIER", null, InputElement.Type.Unknown, InputElement.Action.Unknown)));
+            Assert.IsNull(domain.generateEvent(new InputElement(null, null, InputElement.Type.Unknown, InputElement.Action.Unknown)));
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace UnitTest.Model
         [Test]
         public void generateEvent_ExistingType()
         {
-            InputElement validInputElement = new InputElement("0", "VERTRAAGDE_TREIN");
+            InputElement validInputElement = new InputElement("0", "VERTRAAGDE_TREIN", InputElement.Type.Event, InputElement.Action.Started);
             CTLEvent ctlEvent = domain.generateEvent(validInputElement);
             Assert.IsNotNull(ctlEvent);
             Assert.AreEqual(validInputElement.identifier, ctlEvent.identifier);
@@ -49,7 +49,7 @@ namespace UnitTest.Model
         [Test]
         public void generateEvent_NonExistingType()
         {
-            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE");
+            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE", InputElement.Type.Event,InputElement.Action.Started);
             Assert.IsNull(domain.generateEvent(invalidInputElement));
         }
 
@@ -64,9 +64,9 @@ namespace UnitTest.Model
         public void generateTask_NullValues()
         {
             Assert.IsNull(domain.generateTask(null));
-            Assert.IsNull(domain.generateTask(new InputElement(null, "ANY_TYPE")));
-            Assert.IsNull(domain.generateTask(new InputElement("ANY_IDENTIFIER", null)));
-            Assert.IsNull(domain.generateTask(new InputElement(null, null)));
+            Assert.IsNull(domain.generateTask(new InputElement(null, "ANY_TYPE", InputElement.Type.Unknown, InputElement.Action.Unknown)));
+            Assert.IsNull(domain.generateTask(new InputElement("ANY_IDENTIFIER", null, InputElement.Type.Unknown, InputElement.Action.Unknown)));
+            Assert.IsNull(domain.generateTask(new InputElement(null, null, InputElement.Type.Unknown, InputElement.Action.Unknown)));
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace UnitTest.Model
         [Test]
         public void generateTask_ExistingType()
         {
-            InputElement validInputElement = new InputElement("0", "ARI_UIT");
+            InputElement validInputElement = new InputElement("0", "ARI_UIT", InputElement.Type.Task, InputElement.Action.Started);
             CTLTask ctlTask = domain.generateTask(validInputElement);
             Assert.IsNotNull(ctlTask);
             Assert.AreEqual(validInputElement.identifier, ctlTask.identifier);
@@ -88,7 +88,7 @@ namespace UnitTest.Model
         [Test]
         public void generateTask_NonExistingType()
         {
-            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE");
+            InputElement invalidInputElement = new InputElement("0", "NONEXISTING_TYPE", InputElement.Type.Task, InputElement.Action.Started);
             Assert.IsNull(domain.generateTask(invalidInputElement));
         }
 

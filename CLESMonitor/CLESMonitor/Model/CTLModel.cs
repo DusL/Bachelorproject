@@ -451,26 +451,17 @@ namespace CLESMonitor.Model
 
             // There is no Vector class (in Windows Forms) available, therefore a triple is used
             // This produces very, very, complicated code..
-            Tuple<double, double, double> diagonalVector = Tuple.Create(1.0, 1.0, 1.0);
-            Tuple<double, double, double> mwlVector = Tuple.Create(normalizedLipValue, normalizedMoValue, normalizedTssValue);
-            double mwlDotProduct = Math.Pow(mwlVector.Item1, 2) + Math.Pow(mwlVector.Item2, 2) + Math.Pow(mwlVector.Item3, 2);
-            double distanceToOrigin = Math.Sqrt(mwlDotProduct);
-            // Calculate the orthogonal projection
-            double topOfFraction = (mwlVector.Item1 * diagonalVector.Item1) 
-                + (mwlVector.Item2 * diagonalVector.Item2) 
-                + (mwlVector.Item3 * diagonalVector.Item3);
-            // The dot product diagonalVector.diagonalVector
-            double bottomOfFraction = (diagonalVector.Item1 * diagonalVector.Item1) 
-                + (diagonalVector.Item2 * diagonalVector.Item2) 
-                + (diagonalVector.Item3 * diagonalVector.Item3);
-            double fraction = topOfFraction / bottomOfFraction;
+            Vector diagonalVector = new Vector(1.0, 1.0, 1.0);
+            Vector mwlVector = new Vector(normalizedLipValue, normalizedMoValue, normalizedTssValue);
 
-            Tuple<double, double, double> mwlProjDiagonal = Tuple.Create(fraction * diagonalVector.Item1,
-                fraction * diagonalVector.Item2, fraction * diagonalVector.Item3);
-            Tuple<double, double, double> zVector = Tuple.Create(mwlVector.Item1 - mwlProjDiagonal.Item1,
-                mwlVector.Item2 - mwlProjDiagonal.Item2, mwlVector.Item3 - mwlProjDiagonal.Item3);
+            // Vector.distanceToOrigin(mwlVector);
+            double distanceToOrigin = mwlVector.length();
 
-            double distanceToDiagonal = Math.Sqrt(Math.Pow(zVector.Item1, 2) + Math.Pow(zVector.Item2, 2) + Math.Pow(zVector.Item3, 2));
+            Vector mwlProjDiagonal = mwlVector.orthogonalProjection(diagonalVector);
+
+            Vector zVector = mwlVector - mwlProjDiagonal;
+
+            double distanceToDiagonal = zVector.length(); 
             mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
 
             return mwlValue;
