@@ -42,6 +42,7 @@ namespace CLESMonitor.Model
         /// </summary>
         public override void startReceivingInput()
         {
+            System.Diagnostics.Debug.WriteLine("Is dit te lezen?");
             updateTimer = new Timer(updateTimerCallback, null, 0, 1000);
         }
 

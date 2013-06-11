@@ -67,9 +67,9 @@ namespace CLESMonitor.Model
         {
             CTLTask ctlTask = null;
 
-            if (inputElement != null && inputElement.identifier != null)
+            if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
-                Console.WriteLine(inputElement.name);
+                //Console.WriteLine(inputElement.name);
                 if (inputElement.name.Equals("ARI_UIT"))
                 {
                     ctlTask = new CTLTask(inputElement.identifier, "ARI_UIT", inputElement.secondaryIndentifier);
