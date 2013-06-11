@@ -10,6 +10,7 @@ using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
 using System.Windows.Forms;
 using System.Drawing;
+using System.IO;
 
 namespace CLESMonitor.Controller
 {
@@ -61,6 +62,8 @@ namespace CLESMonitor.Controller
                 _gsrSensor.type = GSRSensorType.ManualInput;
             }
         }
+
+        public XMLFileTaskParser parser;
 
         public delegate void UpdateDelegate();
 
@@ -396,7 +399,8 @@ namespace CLESMonitor.Controller
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                clModel.setPathForParser(openFileDialog.FileName);
+                StreamReader streamReader = new StreamReader(File.Open(openFileDialog.FileName, FileMode.Open));
+                parser.loadTextReader(streamReader);
                 writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
                 startButton.Enabled = true;
             }            

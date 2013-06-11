@@ -17,32 +17,36 @@ namespace CLESMonitor.Model
     /// </summary>
     public class CTLModel : CLModel, CTLInputSourceDelegate
     {
-        private XMLFileTaskParser parser;
-        private CTLDomain modelDomain;
+        private CTLInputSource inputSource;
+        private CTLDomain domain;
         private Timer updateTimer;
         private DateTime startSessionTime;
-        public TimeSpan sessionTime
+        private TimeSpan sessionTime
         {
             get { return (DateTime.Now - startSessionTime); }
         }
-
-        // Lists of events and tasks that are active right now
-        public List<CTLEvent> activeEvents { get; private set; }
-        public List<CTLTask> activeTasks { get; private set; }
-        private bool activeTasksHaveChanged; 
-
-        // List of tasks that are used for model calculation
+        private bool activeTasksHaveChanged;
+        // The list of tasks that is used for model calculation 
         private List<CTLTask> tasksInCalculationFrame;
+
+        /// <summary>
+        /// A list of events that are currently in progress
+        /// </summary>
+        public List<CTLEvent> activeEvents { get; private set; }
+        /// <summary>
+        /// A list of tasks that are currently in progress
+        /// </summary>
+        public List<CTLTask> activeTasks { get; private set; }
 
         /// <summary>
         /// The constructor method.
         /// </summary>
         /// <param name="parser">A XMLFileTaskParser to use as input for the model</param>
-        public CTLModel(XMLFileTaskParser parser)
+        public CTLModel(CTLInputSource inputSource, CTLDomain domain)
         {
-            this.parser = parser;
-            parser.delegateObject = this;
-            modelDomain = new PRLDomain();
+            this.inputSource = inputSource;
+            inputSource.delegateObject = this;
+            this.domain = domain;
             lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
             activeEvents = new List<CTLEvent>();
             activeTasks = new List<CTLTask>();
@@ -52,14 +56,29 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Starts a new session, calculateModelValue() will
         /// now produce valid values.
+        /// </summary>
         public override void startSession()
         {
             Console.WriteLine("CTLModel.startSession()");
             startSessionTime = DateTime.Now;
-            parser.startReceivingInput();
+            inputSource.startReceivingInput();
 
             // Create and start a timer to update the model input values
             updateTimer = new Timer(updateTimerCallback, null, 0, 500);
+        }
+
+        /// <summary>
+        /// (Re)calculates the model value
+        /// </summary>
+        /// <returns>The model value</returns>
+        public override double calculateModelValue()
+        {
+            // Calculate all necessary values
+            double lip = calculateOverallLip(tasksInCalculationFrame);
+            double mo = calculateOverallMo(tasksInCalculationFrame);
+            double tss = calculateTSS(tasksInCalculationFrame);
+
+            return calculateMentalWorkLoad(lip, mo, tss);
         }
 
         /// <summary>
@@ -69,10 +88,12 @@ namespace CLESMonitor.Model
         {
             Console.WriteLine("CTLModel.stopSession()");
 
-            parser.stopReceivingInput();
+            inputSource.stopReceivingInput();
 
             updateTimer.Dispose();
         }
+
+        #region CTLInputSourceDelegate methods
 
         /// <summary>
         /// Proces events that have started
@@ -81,7 +102,7 @@ namespace CLESMonitor.Model
         public void eventHasStarted(InputElement eventElement)
         {
             Console.WriteLine("CTLModel.eventHasStarted()");
-            CTLEvent eventStarted = modelDomain.generateEvent(eventElement);
+            CTLEvent eventStarted = domain.generateEvent(eventElement);
             if (eventStarted != null)
             {
                 eventStarted.startTime = sessionTime;
@@ -107,7 +128,7 @@ namespace CLESMonitor.Model
         {
             Console.WriteLine("CTLModel.taskHasStarted()");
             
-            CTLTask taskStarted = modelDomain.generateTask(taskElement);
+            CTLTask taskStarted = domain.generateTask(taskElement);
             if (taskStarted != null)
             {
                 taskStarted.eventIdentifier = taskElement.secondaryIndentifier;
@@ -133,44 +154,29 @@ namespace CLESMonitor.Model
             activeTasksHaveChanged = true;
         }
 
+        #endregion
+
         private void updateTimerCallback(Object stateInfo)
         {
+            //TODO: debug code
             foreach (CTLTask task in activeTasks)
             {
                 Console.WriteLine(task.ToString());
             }
-            // Console.WriteLine("De huidige sessieduur = " + sessionTime);
-            updateActiveEvents(sessionTime);
-            updateActiveTasks(sessionTime);
-            updateTasksInCalculationFrame(sessionTime);
-        }
 
-        public override double calculateModelValue()
-        {
-            // Calculate all necessary values
-            double lip = calculateOverallLip(tasksInCalculationFrame);
-            double mo = calculateOverallMo(tasksInCalculationFrame);
-            double tss = calculateTSS(tasksInCalculationFrame);
-
-            return calculateMentalWorkLoad(lip, mo, tss);
-        }
-
-        private void updateActiveEvents(TimeSpan sessionTime)
-        {
             // Update the 'end time' for all active events
             foreach (CTLEvent ctlEvent in activeEvents)
             {
                 ctlEvent.endTime = sessionTime;
             }
-        }
 
-        private void updateActiveTasks(TimeSpan sessionTime)
-        {
             // Update the 'end time' for all active tasks
             foreach (CTLTask task in activeTasks)
             {
                 task.endTime = sessionTime;
             }
+
+            updateTasksInCalculationFrame(sessionTime);
         }
 
         private void updateTasksInCalculationFrame(TimeSpan sessionTime)
@@ -459,16 +465,6 @@ namespace CLESMonitor.Model
             mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
 
             return mwlValue;
-        }
-
-        /// <summary>
-        /// Gets the selected path from ViewController and sets that path for the XMLTaskParser
-        /// </summary>
-        /// <param name="filePath"></param>
-        public override void setPathForParser(string filePath)
-        {
-            StreamReader streamReader = new StreamReader(File.Open(filePath, FileMode.Open));
-            parser.loadTextReader(streamReader);
         }
 
         //TODO: Hier nog even kijken of we de mo en lip values anders kunnen kiezen zodat deze varieren per taak.

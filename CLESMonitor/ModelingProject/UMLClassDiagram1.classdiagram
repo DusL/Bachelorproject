@@ -176,7 +176,7 @@
             <elementDefinition Id="199e3d49-e92d-4ea2-b882-5814d831cbde" />
             <ownedParameters>
               <operationHasOwnedParameters>
-                <parameter Id="62d4aa44-1c97-413b-a4f8-cf1ddbae5222" name="InputElement" direction="In" isUnique="false">
+                <parameter Id="62d4aa44-1c97-413b-a4f8-cf1ddbae5222" name="parsedTask" direction="In" isUnique="false">
                   <elementDefinition Id="fd7ee6c9-10c4-4c64-8d6c-ca0bb6c871be" />
                   <type_NamedElement>
                     <referencedTypeMoniker Id="b91ba864-d95a-4b71-80a7-7493d44ac5fe" LastKnownName="InputElement" />
@@ -197,7 +197,7 @@
             <elementDefinition Id="abb7508f-3e7e-4389-85d2-8b08ba6d33ef" />
             <ownedParameters>
               <operationHasOwnedParameters>
-                <parameter Id="7665f945-033f-4659-a075-d416e62cfce7" name="InputElement" direction="In">
+                <parameter Id="7665f945-033f-4659-a075-d416e62cfce7" name="parsedEvent" direction="In">
                   <elementDefinition Id="1eda8995-6e5b-4f0f-ad39-90edff106cb3" />
                   <type_NamedElement>
                     <referencedTypeMoniker Id="a8b3fca0-0ee6-4f62-9b8b-07a6c0dcae10" LastKnownName="InputElement" />
@@ -218,7 +218,7 @@
             <elementDefinition Id="b6696adc-8724-48c4-b47f-c32ee75e29ee" />
             <ownedParameters>
               <operationHasOwnedParameters>
-                <parameter Id="4a2a049f-0a48-4717-bc40-415fdbff1128" name="List&lt;InputElement&gt; InputElements" direction="In" isUnique="false">
+                <parameter Id="4a2a049f-0a48-4717-bc40-415fdbff1128" name="List&lt;ParsedEvent&gt; parsedEvents" direction="In" isUnique="false">
                   <elementDefinition Id="b75f5218-ff18-43d8-a50d-bb2c0aba3740" />
                 </parameter>
               </operationHasOwnedParameters>
@@ -241,7 +241,7 @@
             <elementDefinition Id="52b0f3f9-2b85-4528-a394-1aa52eed0445" />
             <ownedParameters>
               <operationHasOwnedParameters>
-                <parameter Id="ad9463a8-4bf1-4064-966a-7ee36cdf156c" name="List&lt;InputElement&gt; InputElements" direction="In" isUnique="false">
+                <parameter Id="ad9463a8-4bf1-4064-966a-7ee36cdf156c" name="List&lt;ParsedTask&gt; parsedTasks" direction="In" isUnique="false">
                   <elementDefinition Id="70b9db51-c579-4235-8bed-b23acc0b4125" />
                 </parameter>
               </operationHasOwnedParameters>

@@ -20,14 +20,15 @@ namespace CLESMonitor
             Application.SetCompatibleTextRenderingDefault(false);
 
             XMLFileTaskParser parser = new XMLFileTaskParser();
-            CTLModel ctlModel = new CTLModel(parser);
+            PRLDomain prlDomain = new PRLDomain();
+            CTLModel ctlModel = new CTLModel(parser, prlDomain);
 
             HRSensor hrSensor = new HRSensor();
             GSRSensor gsrSensor = new GSRSensor();
             FuzzyModel fuzzyModel = new FuzzyModel(hrSensor, gsrSensor);
 
             var controller = new CLESMonitorViewController(ctlModel,fuzzyModel);
-
+            controller.parser = parser;
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;
 
