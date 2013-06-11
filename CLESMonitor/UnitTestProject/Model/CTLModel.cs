@@ -15,6 +15,7 @@ namespace UnitTest.Model
     public class CTLModel
     {
         XMLFileTaskParser parser;
+        PRLDomain domain;
         CLESMonitor.Model.CTLModel ctlModel;
 
         [SetUp]
@@ -22,14 +23,15 @@ namespace UnitTest.Model
         public void Setup()
         {
             parser = new XMLFileTaskParser();
-            ctlModel = new CLESMonitor.Model.CTLModel(parser);
+            domain = new PRLDomain();
+            ctlModel = new CLESMonitor.Model.CTLModel(parser, domain);
         }
 
         [Test]
-        public void updateActiveEvents_EventAdded()
+        public void eventHasStarted()
         {
-            var mock = new Mock<CLModel>();
-            mock.Setup(foo => foo.calculateModelValue()).Returns(5);
+            //var mock = new Mock<CLModel>();
+            //mock.Setup(foo => foo.calculateModelValue()).Returns(5);
 
             Assert.AreEqual(1, 1);        
         }

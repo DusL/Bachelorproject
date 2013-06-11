@@ -23,17 +23,14 @@ namespace CLESMonitor.Model
         public abstract void startSession();
 
         /// <summary>
-        /// Stops the current session.
-        /// </summary>
-        public abstract void stopSession();
-
-        /// <summary>
         /// (Re)calculates the model value
         /// </summary>
         /// <returns>The model value</returns>
         public abstract double calculateModelValue();
 
-        //TODO: deze hier houden?
-        public abstract void setPathForParser(string filePath);
+        /// <summary>
+        /// Stops the current session.
+        /// </summary>
+        public abstract void stopSession();
     }
 }
