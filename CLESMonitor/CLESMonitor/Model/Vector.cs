@@ -26,8 +26,13 @@ namespace CLESMonitor.Model
         /// <param name="vector2"></param>
         /// <returns>The dotproduct of this vector with vector</returns>
         public double dotProduct(Vector vector)
-        { 
-            return (this.x * vector.x) + (this.y * vector.y) + (this.z * vector.z);
+        {
+            double returnValue = 0.0;
+            if (vector != null)
+            {
+                returnValue = (this.x * vector.x) + (this.y * vector.y) + (this.z * vector.z);
+            }
+            return returnValue;
         }
 
 
@@ -37,10 +42,15 @@ namespace CLESMonitor.Model
         /// <param name="vector">The vector which is projected upon</param>
         /// <returns>The projected vector</returns>
         public Vector orthogonalProjection(Vector vector)
-        {
-            double fraction = this.dotProduct(vector) / this.dotProduct(vector);
-
-            return (new Vector(fraction * this.x,fraction * this.y, fraction * this.z));  
+        {  
+            Vector returnVector = null;
+            if (!((this.x == 0) && (this.y ==0) && (this.z == 0)))
+            {
+                double fraction = this.dotProduct(vector) / this.dotProduct(this);
+                returnVector = new Vector(fraction * this.x, fraction * this.y, fraction * this.z);
+            }
+            
+            return returnVector;  
         }
 
         /// <summary>
