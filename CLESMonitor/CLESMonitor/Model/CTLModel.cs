@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
-using System.IO;
 
 namespace CLESMonitor.Model
 {
@@ -295,7 +290,7 @@ namespace CLESMonitor.Model
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>An array of informationDomains</returns>
-        private List<int> multitaskDomain(CTLTask task1, CTLTask task2)
+        public static List<int> multitaskDomain(CTLTask task1, CTLTask task2)
         {
             List<int> newDomain = task1.informationDomains;
             List<int> tempDomain = task2.informationDomains;
@@ -449,7 +444,6 @@ namespace CLESMonitor.Model
             Vector diagonalVector = new Vector(1.0, 1.0, 1.0);
             Vector mwlVector = new Vector(normalizedLipValue, normalizedMoValue, normalizedTssValue);
 
-            // Vector.distanceToOrigin(mwlVector);
             double distanceToOrigin = mwlVector.length();
 
             Vector mwlProjDiagonal = mwlVector.orthogonalProjection(diagonalVector);
@@ -466,7 +460,7 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Set the mo and lip values of a task by adopting these values from the event it belongs to.
         /// </summary>
-        /// <param name="task"></param>
+        /// <param name="task">The CTLTask that needs its mo and lip values to be set</param>
         private void setMoAndLip(CTLTask task)
         {
             Console.WriteLine("Aantal active events: " + activeEvents.Count);

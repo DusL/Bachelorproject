@@ -2,6 +2,7 @@
 using NUnit.Framework;
 
 using CLESMonitor.Model;
+using OriginalCalulate = CLESMonitor.Model.FuzzyCalculate;
 
 namespace UnitTest.Model
 {
@@ -16,14 +17,14 @@ namespace UnitTest.Model
         double result;
         double result2;
 
-        FuzzyCalculate calc;
+        OriginalCalulate calc;
 
         [SetUp]
         public void setUp()
         {
             mean = 20;
             sd = 4;
-            calc = new FuzzyCalculate(); 
+            calc = new OriginalCalulate(); 
         }
 
 
@@ -344,6 +345,14 @@ namespace UnitTest.Model
             Assert.AreEqual(0, result);
         }
         #endregion
+
+        [TearDown]
+        public void tearDown()
+        {
+            mean = 0;
+            sd = 0;
+            calc = null;
+        }
 
     }
 }

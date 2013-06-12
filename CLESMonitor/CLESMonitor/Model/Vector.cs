@@ -85,7 +85,31 @@ namespace CLESMonitor.Model
             return (new Vector(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z));
         }
 
+        /// <summary>
+        /// Override the Equals method so that it can easily check if two vectors contain the same elements. 
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(Object obj)
+        {
+            bool equals = false;
+
+            if (obj != null && obj.GetType().Equals(typeof(Vector)))
+            {
+                Vector vector = (Vector)obj;
+
+                if (this.x == vector.x
+                    && this.y == vector.y
+                    && this.z == vector.z)
+                {
+                    equals = true;
+                }
+            }
+            
+            return equals;
+        } 
+
         #endregion
 
-    }
+    }      
 }
