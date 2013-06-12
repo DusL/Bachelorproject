@@ -129,11 +129,25 @@
         isLeaf="false"
         isActiveClass="false">
         <suppliersInternal>
+          <interfaceRealization
+            Id="e83483ae-8816-42b1-a16c-2c2dc88d1446">
+            <interfaceMoniker
+              Id="9031a88a-88cb-4382-a444-1544560fd237"
+              LastKnownName="CTLInputSourceDelegate"
+              LastKnownLocation="ModelingProject.uml" />
+          </interfaceRealization>
           <dependency
-            Id="11a534b9-9428-4325-b2a9-853a1784017c">
+            Id="8456e705-a3bc-43a2-ba85-34b1142d4332">
             <classMoniker
-              Id="fdfcf92a-a48e-403e-83bf-d0eecf48d5d7"
-              LastKnownName="PRLDomain"
+              Id="14dc8e3e-ba7d-489e-8359-c45aeb60310e"
+              LastKnownName="CTLDomain"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="d9ec6f0f-d168-4862-984f-a31fa37fc6fc">
+            <classMoniker
+              Id="2eb03d6e-bd02-4d24-a9b1-76d64a2a2e28"
+              LastKnownName="CTLInputSource"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
         </suppliersInternal>
@@ -333,6 +347,16 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="4438e6fb-af0c-447f-b3d3-4bb5512eb476"
+            isSubstitutable="false">
+            <classMoniker
+              Id="14dc8e3e-ba7d-489e-8359-c45aeb60310e"
+              LastKnownName="CTLDomain"
+              LastKnownLocation="ModelingProject.uml" />
+          </generalization>
+        </generalsInternal>
         <ownedOperationsInternal>
           <operation
             Id="199e3d49-e92d-4ea2-b882-5814d831cbde"
@@ -402,80 +426,6 @@
                     <undefinedTypeMoniker
                       Id="86e8d39a-ec76-44da-a602-61a7da84beff"
                       LastKnownName="CTLEvent"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="b6696adc-8724-48c4-b47f-c32ee75e29ee"
-            name="generateEvents"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="b75f5218-ff18-43d8-a50d-bb2c0aba3740"
-                  name="List&lt;ParsedEvent&gt; parsedEvents"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="001e5940-ff8d-46dc-afae-3abcf162cf54"
-                  name="TimeSpan sessionTime"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="88f4e0b8-436d-4bea-9257-072aa60684a1"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="c02c517b-e1a9-4718-88bb-749f41eabf99"
-                      LastKnownName="List&lt;CTLEvent&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="52b0f3f9-2b85-4528-a394-1aa52eed0445"
-            name="generateTasks"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="70b9db51-c579-4235-8bed-b23acc0b4125"
-                  name="List&lt;ParsedTask&gt; parsedTasks"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="cbc07625-b969-4e82-a84a-adabeb214506"
-                  name="TimeSpan sessionTime"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="06073b11-4604-4647-a38d-89d0ddaa3153"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="1675d753-954b-488e-8740-fbdf37c425b6"
-                      LastKnownName="List&lt;CTLTask&gt;"
                       LastKnownLocation="ModelingProject.uml" />
                   </type_NamedElement>
                 </parameter>
@@ -610,15 +560,16 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
-        <suppliersInternal>
-          <dependency
-            Id="3e3d7fe7-cfee-40f4-a5b5-ba88e7373819">
+        <generalsInternal>
+          <generalization
+            Id="649e819b-7de2-4905-a5e0-45d907faa6e4"
+            isSubstitutable="false">
             <classMoniker
-              Id="9f3b8cf1-e2f4-4306-b445-a41f04f2d024"
-              LastKnownName="CTLModel"
+              Id="2eb03d6e-bd02-4d24-a9b1-76d64a2a2e28"
+              LastKnownName="CTLInputSource"
               LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
+          </generalization>
+        </generalsInternal>
         <ownedOperationsInternal>
           <operation
             Id="daae9a06-18b6-4634-988d-7c1982507a23"
@@ -702,15 +653,6 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
-        <suppliersInternal>
-          <dependency
-            Id="88f7d60c-4812-422c-bb83-6c7b1da9bb09">
-            <classMoniker
-              Id="fdfcf92a-a48e-403e-83bf-d0eecf48d5d7"
-              LastKnownName="PRLDomain"
-              LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-        </suppliersInternal>
         <ownedOperationsInternal>
           <operation
             Id="09d681c9-c17c-4eb5-83a2-828118f7cb62"
@@ -1240,16 +1182,6 @@
         isAbstract="true"
         isLeaf="false"
         isActiveClass="false">
-        <generalsInternal>
-          <generalization
-            Id="60284177-11ff-4999-8b07-613967cc06b4"
-            isSubstitutable="false">
-            <classMoniker
-              Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded"
-              LastKnownName="XMLFileTaskParser"
-              LastKnownLocation="ModelingProject.uml" />
-          </generalization>
-        </generalsInternal>
         <ownedAttributesInternal>
           <property
             Id="467c3222-2f23-457d-89aa-e91e5f36e72a"
@@ -1282,6 +1214,145 @@
             isQuery="false" />
         </ownedOperationsInternal>
       </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="14dc8e3e-ba7d-489e-8359-c45aeb60310e"
+        name="CTLDomain"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="eb0d67d0-69cf-4792-a743-22ef935ea576"
+            name="generateEvent"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="d066c874-07ed-4da0-8ef7-aac12e086779"
+                  name="parsedEvent"
+                  direction="In">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c"
+                      LastKnownName="InputElement"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="f08be975-71e3-4a0e-a020-e5fd59daddf2"
+                  direction="Return">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="86e8d39a-ec76-44da-a602-61a7da84beff"
+                      LastKnownName="CTLEvent"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation
+            Id="4da5693e-d14d-4412-9915-77a5327564bb"
+            name="generateTask"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false">
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="7109702e-da5c-4201-8640-1df44a496fb0"
+                  name="parsedTask"
+                  direction="In"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <undefinedTypeMoniker
+                      Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c"
+                      LastKnownName="InputElement"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="877dfaaa-e01d-4f2a-8224-ef35f810b2c4"
+                  direction="Return"
+                  isUnique="false">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="9a3414c3-77ed-417a-b7a3-eaf316daf4d0"
+                      LastKnownName="CTLTask"
+                      LastKnownLocation="ModelingProject.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <undefinedType
+        Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c"
+        name="InputElement" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="044e4edc-ac39-4d44-bc42-05e83a237094"
+        name="Vector"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f7203876-6c12-447c-beb4-0ee25b1e6b10"
+        name="CTLEvent"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <ownedOperationsInternal>
+          <operation
+            Id="ab9091f2-5838-499b-be08-3d063fbd8f8f"
+            name="toString"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="false"
+            concurrency="Sequential"
+            isQuery="false" />
+        </ownedOperationsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="6714bbde-24cf-4e22-905c-277f87121ed0"
+        name="InputElement"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="0cdeb1dc-e693-4ba4-841b-0c4514719a0c"
+        name="Interface1"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="9031a88a-88cb-4382-a444-1544560fd237"
+        name="CTLInputSourceDelegate"
+        isAbstract="false"
+        isLeaf="false" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

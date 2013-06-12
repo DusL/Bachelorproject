@@ -28,9 +28,6 @@ namespace CLESMonitor.Model
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(textReader); 
 
-            // Retrieve every scenario from file.
-            XmlNodeList scenario = xmlDoc.GetElementsByTagName("scenario");
-
             // Retrieve every second defiened in the scenario
             seconds = xmlDoc.GetElementsByTagName("second");
 
@@ -42,7 +39,6 @@ namespace CLESMonitor.Model
         /// </summary>
         public override void startReceivingInput()
         {
-            System.Diagnostics.Debug.WriteLine("Is dit te lezen?");
             updateTimer = new Timer(updateTimerCallback, null, 0, 1000);
         }
 
@@ -50,11 +46,10 @@ namespace CLESMonitor.Model
         /// Timer callback method.
         /// </summary>
         /// <param name="stateInfo">The state info</param>
-        private void updateTimerCallback(Object stateInfo)
+        public void updateTimerCallback(Object stateInfo)
         {
-            timeSpan = timeSpan + new TimeSpan(0, 0, 1); //add one second
-
             List<InputElement> elementsForSecond = elementsForTime(timeSpan);
+            System.Diagnostics.Debug.WriteLine(timeSpan);
             Console.WriteLine(elementsForSecond.Count);
             if (this.delegateObject != null)
             {
@@ -82,6 +77,9 @@ namespace CLESMonitor.Model
                     }
                 }
             }
+
+            // Add one second to the local time span
+            timeSpan = timeSpan + new TimeSpan(0, 0, 1);
         }
 
         /// <summary>
