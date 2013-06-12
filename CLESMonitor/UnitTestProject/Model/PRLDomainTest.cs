@@ -3,17 +3,18 @@ using CLESMonitor.Model;
 using NUnit.Framework;
 using System;
 
+using OriginalDomain = CLESMonitor.Model.PRLDomain;
 namespace UnitTest.Model
 {
     [TestFixture]
     public class PRLDomainTest
     {
-        PRLDomain domain;
+        OriginalDomain domain;
 
         [SetUp]
         public void setUp()
         {
-            domain = new PRLDomain();
+            domain = new OriginalDomain();
         }
 
         #region generateEvent

@@ -12,7 +12,7 @@ using CLESMonitor.Model;
 namespace UnitTest.Model
 {
     [TestFixture]
-    public class CTLModel
+    public class CTLModelTest
     {
         Mock<CTLInputSource> mockedInputSource;
         Mock<CTLDomain> mockedDomain;
@@ -94,6 +94,13 @@ namespace UnitTest.Model
         }
 
         #endregion
+
+        [Test]
+        public void multitaskDomain_SameDomains()
+        { 
+            //CTLTask task1 =  
+            
+        }
 
         [TearDown]
         // Removes all objects generated during setUp and the tests so that only the original objects are present
