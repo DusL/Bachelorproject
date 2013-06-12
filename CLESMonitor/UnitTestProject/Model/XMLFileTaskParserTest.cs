@@ -32,13 +32,13 @@ namespace UnitTest.Model
             timeSpan = new TimeSpan(0, 0, 1); //hours, minutes, seconds
 
             testInput1 =
-                "<xml>" +
+                "<scenario>" +
                     "<second>" +
                     "</second>" +
-                "</xml>";
+                "</scenario>";
 
             testInput2 =
-                "<xml>" +
+                "<scenario>" +
                     "<second>" +
                         "<event id=\"1\">" +
                             "<name>TREIN_GESTRAND</name>" +
@@ -59,17 +59,17 @@ namespace UnitTest.Model
                             "<action>stopped</action>" +
                         "</event>" +
                     "</second>" +
-                "</xml>";
+                "</scenario>";
 
             testInput3 =
-                "<xml>" +
-                    "<second>" +
+                "<scenario>" +
+                    "<second id=\"1\">" +
                         "<event id=\"1\">" +
                             "<name>TREIN_GESTRAND</name>" +
                             "<action>started</action>" +
                         "</event>"+
                     "</second>" +
-                "</xml>";
+                "</scenario>";
         }
 
         #region eventsForTime
@@ -142,27 +142,30 @@ namespace UnitTest.Model
             TimeSpan timeSpan = new TimeSpan(0, 0, 0);
 
             Assert.AreEqual(2, parser.elementsForTime(timeSpan).Count);
-            
         }
 
         #endregion
 
-
         [Test]
-        public void startRecevinginput()
+        public void updateTimerCallback()
         {
+            Mock<CTLInputSourceDelegate> mockedDelegate = new Mock<CTLInputSourceDelegate>();
+            parser.delegateObject = mockedDelegate.Object;
             parser.loadTextReader(new StringReader(testInput3));
-            Mock<CTLInputSourceDelegate> mockedModel = new Mock<CTLInputSourceDelegate>();
-            
-            parser.startReceivingInput();
-            Thread.Sleep(5000);            
 
-            InputElement comparativeElement = new InputElement("1", "TREIN_GESTRAND", InputElement.Type.Event, InputElement.Action.Started);
-            InputElement eventElement = null;
-            mockedModel.Setup(model => model.eventHasStarted(It.IsAny<InputElement>())).Callback((InputElement element) => eventElement = element);
-           // mockedModel.Verify(model => model.eventHasStarted(It.IsAny<InputElement>()), Times.Once());
-            Assert.IsNotNull(eventElement);
-            //Assert.AreEqual(comparativeElement, eventElement);
+            InputElement receivedElement = null;
+            mockedDelegate.Setup(delegateObject => delegateObject.eventHasStarted(It.IsAny<InputElement>()))
+                .Callback((InputElement element) => receivedElement = element);
+
+            parser.updateTimerCallback(null);
+
+            mockedDelegate.Verify(delegateObject => delegateObject.eventHasStarted(It.IsAny<InputElement>()), Times.Once());
+
+            InputElement expectedElement = 
+                new InputElement("1", "TREIN_GESTRAND", InputElement.Type.Event, InputElement.Action.Started);
+            Assert.AreEqual(expectedElement, receivedElement);
         }
+
+        
     }
 }

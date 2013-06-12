@@ -58,9 +58,10 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Model\CTLModelTest.cs" />
-    <Compile Include="Model\PRLDomain.cs" />
-    <Compile Include="Model\FuzzyCalculate.cs" />
     <Compile Include="Model\VectorTest.cs" />
+    <Compile Include="Model\PRLDomainTest.cs" />
+    <Compile Include="Model\FuzzyCalculateTest.cs" />
+    <Compile Include="Model\CTLInputSourceTest.cs" />
     <Compile Include="Model\XMLFileTaskParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

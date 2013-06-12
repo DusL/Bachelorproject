@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
@@ -10,9 +6,7 @@ namespace CLESMonitor.Model
     {
         public enum Type
         {
-            /// <summary>
-            /// Default value
-            /// </summary>
+            /// <summary>Default value</summary>
             Unknown,
             Event,
             Task,
@@ -20,9 +14,7 @@ namespace CLESMonitor.Model
 
         public enum Action
         {
-            /// <summary>
-            /// Default value
-            /// </summary>
+            /// <summary>Default value</summary>
             Unknown,
             Started,
             Stopped,
@@ -34,6 +26,13 @@ namespace CLESMonitor.Model
         public Action action { get; private set; }
         public string secondaryIndentifier { get; set; }
 
+        /// <summary>
+        /// The constructor.
+        /// </summary>
+        /// <param name="_identifier">the identifier</param>
+        /// <param name="_name">the name</param>
+        /// <param name="_type">the type</param>
+        /// <param name="_action">the action</param>
         public InputElement(string _identifier, string _name, Type _type, Action _action)
         {
             identifier = _identifier;
@@ -41,8 +40,46 @@ namespace CLESMonitor.Model
             type = _type;
             action = _action;        
         }
+
+        /// <summary>
+        /// Determines whether the specified object is equal to the current object.
+        /// </summary>
+        /// <param name="obj">The object to compare with the current object.</param>
+        /// <returns>true if the specified object is equal to the current object; otherwise, false.</returns>
+        public override bool Equals(Object obj)
+        {
+            bool equality = false;
+
+            if (obj != null && obj.GetType().Equals(typeof(InputElement)))
+            {
+                InputElement otherInputElement = (InputElement)obj;
+                if (this.identifier.Equals(otherInputElement.identifier)
+                    && this.name.Equals(otherInputElement.name)
+                    && this.type == otherInputElement.type
+                    && this.action == otherInputElement.action)
+                {
+                    equality = true;
+                }
+
+                if (this.secondaryIndentifier != null
+                    && !this.secondaryIndentifier.Equals(otherInputElement.secondaryIndentifier))
+                {
+                    equality = false;
+                }
+                else if (this.secondaryIndentifier == null
+                    && otherInputElement.secondaryIndentifier != null)
+                {
+                    equality = false;
+                }
+            }
+
+            return equality;
+        }
     }
 
+    /// <summary>
+    /// The interface for a delegate of CTLInputSource.
+    /// </summary>
     public interface CTLInputSourceDelegate
     {
         void eventHasStarted(InputElement eventElement);
@@ -51,8 +88,14 @@ namespace CLESMonitor.Model
         void taskHasStopped(InputElement taskElement);
     }
 
+    /// <summary>
+    /// This abstract class is used as the input source by the CTLModel object.
+    /// </summary>
     public abstract class CTLInputSource
     {
+        /// <summary>
+        /// The delegate object.
+        /// </summary>
         public CTLInputSourceDelegate delegateObject;
 
         public abstract void startReceivingInput();

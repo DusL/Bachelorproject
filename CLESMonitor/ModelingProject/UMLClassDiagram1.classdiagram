@@ -63,10 +63,18 @@
       <class Id="d57e9f0e-c3ce-4c82-9ea8-4ab2e433be4c" name="CTLModel" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="9f3b8cf1-e2f4-4306-b445-a41f04f2d024" />
         <suppliersInternal>
-          <dependency Id="cfbc492c-625a-4d36-a199-62befb008676">
-            <classMoniker Id="4aa14ddb-d06a-4da9-ab60-231048d2ca23" LastKnownName="PRLDomain" />
-            <elementDefinition Id="11a534b9-9428-4325-b2a9-853a1784017c" />
+          <dependency Id="178c1017-cd29-4aa9-99af-aeda0ef8affa">
+            <classMoniker Id="a512281d-3e34-4818-8096-a9b972decc9c" LastKnownName="CTLDomain" />
+            <elementDefinition Id="8456e705-a3bc-43a2-ba85-34b1142d4332" />
           </dependency>
+          <dependency Id="099221d7-6707-49c1-b19c-190f5e226eba">
+            <classMoniker Id="6abe171b-d705-424b-ac19-cfe5fd38e926" LastKnownName="CTLInputSource" />
+            <elementDefinition Id="d9ec6f0f-d168-4862-984f-a31fa37fc6fc" />
+          </dependency>
+          <interfaceRealization Id="2ae66646-3f00-4d99-ac0e-0b011a4c1519">
+            <interfaceMoniker Id="b61e3a30-e806-452c-9fec-cced8702381c" LastKnownName="CTLInputSourceDelegate" />
+            <elementDefinition Id="e83483ae-8816-42b1-a16c-2c2dc88d1446" />
+          </interfaceRealization>
         </suppliersInternal>
         <generalsInternal>
           <generalization Id="c2d402cd-4669-4271-8f5d-035ea006a461" isSubstitutable="false">
@@ -171,6 +179,12 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="4aa14ddb-d06a-4da9-ab60-231048d2ca23" name="PRLDomain" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="fdfcf92a-a48e-403e-83bf-d0eecf48d5d7" />
+        <generalsInternal>
+          <generalization Id="111df9fb-a147-4535-bf85-33710b2cbced" isSubstitutable="false">
+            <classMoniker Id="a512281d-3e34-4818-8096-a9b972decc9c" LastKnownName="CTLDomain" />
+            <elementDefinition Id="4438e6fb-af0c-447f-b3d3-4bb5512eb476" />
+          </generalization>
+        </generalsInternal>
         <ownedOperationsInternal>
           <operation Id="471b6d91-f2aa-49d7-96f5-4bc70e1304bd" name="generateTask" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="199e3d49-e92d-4ea2-b882-5814d831cbde" />
@@ -209,52 +223,6 @@
                   <elementDefinition Id="b1b5ceeb-7e26-4a7c-baf0-72b99a64d8bc" />
                   <type_NamedElement>
                     <referencedTypeMoniker Id="6e280549-c434-4ef5-b93c-9fcc91f6a2c3" LastKnownName="CTLEvent" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation Id="2a3bcce3-0045-4434-9ac5-9dbeb8c7976c" name="generateEvents" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="b6696adc-8724-48c4-b47f-c32ee75e29ee" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="4a2a049f-0a48-4717-bc40-415fdbff1128" name="List&lt;ParsedEvent&gt; parsedEvents" direction="In" isUnique="false">
-                  <elementDefinition Id="b75f5218-ff18-43d8-a50d-bb2c0aba3740" />
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="e7f89f2c-a5b8-4345-be4e-caedba3955ea" name="TimeSpan sessionTime" direction="In" isUnique="false">
-                  <elementDefinition Id="001e5940-ff8d-46dc-afae-3abcf162cf54" />
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="f0149690-6fb0-4bfd-9460-13ca4862232a" direction="Return">
-                  <elementDefinition Id="88f4e0b8-436d-4bea-9257-072aa60684a1" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="05833e48-4883-4d33-b597-ce42696b00ef" LastKnownName="List&lt;CTLEvent&gt;" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation Id="08c8196e-1ca9-4754-905d-ff1ca0a77076" name="generateTasks" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
-            <elementDefinition Id="52b0f3f9-2b85-4528-a394-1aa52eed0445" />
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="ad9463a8-4bf1-4064-966a-7ee36cdf156c" name="List&lt;ParsedTask&gt; parsedTasks" direction="In" isUnique="false">
-                  <elementDefinition Id="70b9db51-c579-4235-8bed-b23acc0b4125" />
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="373532fb-30a0-4b3e-976b-1722958fc0cc" name="TimeSpan sessionTime" direction="In" isUnique="false">
-                  <elementDefinition Id="cbc07625-b969-4e82-a84a-adabeb214506" />
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter Id="01172c9d-9129-46f9-ac55-dbcf0df1b083" direction="Return">
-                  <elementDefinition Id="06073b11-4604-4647-a38d-89d0ddaa3153" />
-                  <type_NamedElement>
-                    <referencedTypeMoniker Id="71092bc6-8869-435d-8b8f-4f634a4e6cc2" LastKnownName="List&lt;CTLTask&gt;" />
                   </type_NamedElement>
                 </parameter>
               </operationHasOwnedParameters>
@@ -328,12 +296,12 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="7463881b-a5d4-4244-9890-bc0540e393a8" name="XMLFileTaskParser" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded" />
-        <suppliersInternal>
-          <dependency Id="bf0dd948-339d-400d-8c15-799eeb2f5609">
-            <classMoniker Id="d57e9f0e-c3ce-4c82-9ea8-4ab2e433be4c" LastKnownName="CTLModel" />
-            <elementDefinition Id="3e3d7fe7-cfee-40f4-a5b5-ba88e7373819" />
-          </dependency>
-        </suppliersInternal>
+        <generalsInternal>
+          <generalization Id="24105613-9270-4b2c-8719-fc6276775abd" isSubstitutable="false">
+            <classMoniker Id="6abe171b-d705-424b-ac19-cfe5fd38e926" LastKnownName="CTLInputSource" />
+            <elementDefinition Id="649e819b-7de2-4905-a5e0-45d907faa6e4" />
+          </generalization>
+        </generalsInternal>
         <ownedOperationsInternal>
           <operation Id="1d2f0bad-58b0-4a1e-83b4-771519470b3d" name="loadTextReader" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="daae9a06-18b6-4634-988d-7c1982507a23" />
@@ -378,12 +346,6 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="1223f39c-8b00-405b-bb24-e5f4996c9174" name="CTLTask" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b" />
-        <suppliersInternal>
-          <dependency Id="be97b82c-01fa-40d8-a0f0-8e5c33a9d9ac">
-            <classMoniker Id="4aa14ddb-d06a-4da9-ab60-231048d2ca23" LastKnownName="PRLDomain" />
-            <elementDefinition Id="88f7d60c-4812-422c-bb83-6c7b1da9bb09" />
-          </dependency>
-        </suppliersInternal>
         <ownedOperationsInternal>
           <operation Id="407dcd36-f6c0-4650-9a77-70af210ecb9d" name="toString" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
             <elementDefinition Id="09d681c9-c17c-4eb5-83a2-828118f7cb62" />
@@ -754,16 +716,6 @@
       </referencedType>
     </packageHasNamedElement>
     <packageHasNamedElement>
-      <referencedType Id="05833e48-4883-4d33-b597-ce42696b00ef" name="List&lt;CTLEvent&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;CTLEvent&gt;">
-        <elementDefinition Id="c02c517b-e1a9-4718-88bb-749f41eabf99" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
-      <referencedType Id="71092bc6-8869-435d-8b8f-4f634a4e6cc2" name="List&lt;CTLTask&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;CTLTask&gt;">
-        <elementDefinition Id="1675d753-954b-488e-8740-fbdf37c425b6" />
-      </referencedType>
-    </packageHasNamedElement>
-    <packageHasNamedElement>
       <referencedType Id="ab688693-5550-4b3f-810b-218ca1ff1a56" name="List&lt;InputElement&gt;" isAbstract="false" isLeaf="false" cachedFullName="List&lt;InputElement&gt;">
         <elementDefinition Id="a0b4694b-1e98-49da-bcea-1f881d9b6056" />
       </referencedType>
@@ -771,12 +723,6 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="6abe171b-d705-424b-ac19-cfe5fd38e926" name="CTLInputSource" isAbstract="true" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="2eb03d6e-bd02-4d24-a9b1-76d64a2a2e28" />
-        <generalsInternal>
-          <generalization Id="3327d2dd-830c-49c7-bb02-96589d846a81" isSubstitutable="false">
-            <classMoniker Id="7463881b-a5d4-4244-9890-bc0540e393a8" LastKnownName="XMLFileTaskParser" />
-            <elementDefinition Id="60284177-11ff-4999-8b07-613967cc06b4" />
-          </generalization>
-        </generalsInternal>
         <ownedAttributesInternal>
           <property Id="3e8349e9-56a7-4599-891f-019766c4d4a2" name="CTLInputSourceDelegate delegateObject" isLeaf="false" isStatic="false" isReadOnly="false" isUnique="false" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <elementDefinition Id="467c3222-2f23-457d-89aa-e91e5f36e72a" />
@@ -791,6 +737,100 @@
           </operation>
         </ownedOperationsInternal>
       </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="a512281d-3e34-4818-8096-a9b972decc9c" name="CTLDomain" isAbstract="true" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="14dc8e3e-ba7d-489e-8359-c45aeb60310e" />
+        <ownedOperationsInternal>
+          <operation Id="0ac36b47-470c-4a47-b671-d148e366dafa" name="generateEvent" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="eb0d67d0-69cf-4792-a743-22ef935ea576" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="1688945f-6448-4698-b556-e68094eaf7d0" name="parsedEvent" direction="In">
+                  <elementDefinition Id="d066c874-07ed-4da0-8ef7-aac12e086779" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="de656b01-9013-4d57-b40c-44507ebd113e" LastKnownName="InputElement" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="ea0004eb-18d7-45d8-bb65-8b3190a67972" direction="Return">
+                  <elementDefinition Id="f08be975-71e3-4a0e-a020-e5fd59daddf2" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="480d095a-371d-4ec2-9fd2-e7be2f6a9685" LastKnownName="CTLEvent" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+          <operation Id="c8c6d9ff-1c34-48c9-953a-9070015e32e2" name="generateTask" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="4da5693e-d14d-4412-9915-77a5327564bb" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="c95c510c-57fb-41e1-936d-0bda8612b2a0" name="parsedTask" direction="In" isUnique="false">
+                  <elementDefinition Id="7109702e-da5c-4201-8640-1df44a496fb0" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="b3864318-79ba-4aec-9237-4cf3e4605f9d" LastKnownName="InputElement" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="b59f03f0-3dbe-4108-93bb-e256010cf9da" direction="Return" isUnique="false">
+                  <elementDefinition Id="877dfaaa-e01d-4f2a-8224-ef35f810b2c4" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="eae1c2c8-a035-44a3-a208-df4f321b63e4" LastKnownName="CTLTask" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <packageHasNamedElement>
+      <referencedType Id="de656b01-9013-4d57-b40c-44507ebd113e" name="InputElement" isAbstract="false" isLeaf="false" cachedFullName="InputElement">
+        <elementDefinition Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="480d095a-371d-4ec2-9fd2-e7be2f6a9685" name="CTLEvent" isAbstract="false" isLeaf="false" cachedFullName="CTLEvent">
+        <elementDefinition Id="86e8d39a-ec76-44da-a602-61a7da84beff" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="b3864318-79ba-4aec-9237-4cf3e4605f9d" name="InputElement" isAbstract="false" isLeaf="false" cachedFullName="InputElement">
+        <elementDefinition Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c" />
+      </referencedType>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <referencedType Id="eae1c2c8-a035-44a3-a208-df4f321b63e4" name="CTLTask" isAbstract="false" isLeaf="false" cachedFullName="ModelingProject::CTLTask">
+        <elementDefinition Id="9a3414c3-77ed-417a-b7a3-eaf316daf4d0" />
+      </referencedType>
+    </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="2365eeb4-d151-450c-8f0f-63afe3e9cc7c" name="Vector" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="044e4edc-ac39-4d44-bc42-05e83a237094" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="66056f16-8a3f-417a-924b-cbe286ded122" name="CTLEvent" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="f7203876-6c12-447c-beb4-0ee25b1e6b10" />
+        <ownedOperationsInternal>
+          <operation Id="d90fa6c4-ca17-4683-bb55-e3c690437753" name="toString" isLeaf="false" isStatic="false" isAbstract="false" concurrency="Sequential" isQuery="false">
+            <elementDefinition Id="ab9091f2-5838-499b-be08-3d063fbd8f8f" />
+          </operation>
+        </ownedOperationsInternal>
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <class Id="e8158627-a035-49cb-93bd-336f6369fc37" name="InputElement" isAbstract="false" isLeaf="false" isActiveClass="false">
+        <elementDefinition Id="6714bbde-24cf-4e22-905c-277f87121ed0" />
+      </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="b61e3a30-e806-452c-9fec-cced8702381c" name="CTLInputSourceDelegate" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="9031a88a-88cb-4382-a444-1544560fd237" />
+      </Interface>
     </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="99542157-bec8-4e29-bd17-7ff5522c7adf" name="ModelingProject">
