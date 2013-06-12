@@ -19,7 +19,7 @@ namespace CLESMonitor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            XMLFileTaskParser parser = new XMLFileTaskParser();
+            XMLParser parser = new XMLParser();
             PRLDomain prlDomain = new PRLDomain();
             CTLModel ctlModel = new CTLModel(parser, prlDomain);
 

@@ -63,7 +63,7 @@
     <Compile Include="Model\FuzzyCalculateTest.cs" />
     <Compile Include="Model\CTLInputSourceTest.cs" />
     <Compile Include="Model\Vector.cs" />
-    <Compile Include="Model\XMLFileTaskParserTest.cs" />
+    <Compile Include="Model\XMLParserTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
