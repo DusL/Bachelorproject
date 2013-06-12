@@ -63,7 +63,7 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public XMLFileTaskParser parser;
+        public XMLParser parser;
 
         public delegate void UpdateDelegate();
 

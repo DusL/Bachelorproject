@@ -75,6 +75,15 @@ namespace CLESMonitor.Model
 
             return equality;
         }
+
+        public override string ToString()
+        {
+            string returnString = "InputElement: identifier=" + identifier
+                + " name=" + name + " type=" + type + " action=" + action 
+                + " secondaryIndentifier=" + secondaryIndentifier;
+
+            return returnString;
+        }
     }
 
     /// <summary>
