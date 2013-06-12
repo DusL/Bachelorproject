@@ -71,8 +71,8 @@ namespace CLESMonitor.Model
         public override double calculateModelValue()
         {
             // Calculate all necessary values
-            double lip = calculateOverallLip(tasksInCalculationFrame);
-            double mo = calculateOverallMo(tasksInCalculationFrame);
+            double lip = calculateOverallLip(tasksInCalculationFrame, lengthTimeframe);
+            double mo = calculateOverallMo(tasksInCalculationFrame, lengthTimeframe);
             double tss = calculateTSS(tasksInCalculationFrame);
 
             return calculateMentalWorkLoad(lip, mo, tss);
@@ -276,10 +276,13 @@ namespace CLESMonitor.Model
             //Creat a new CTLTask
             CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);
             //and set its values
-            multiTask.moValue = multitaskMO(task1, task2);
-            multiTask.lipValue = multitaskLip(task1, task2);
-            multiTask.informationDomains = multitaskDomain(task1, task2);
-            setTimesForMultitask(task1, task2, multiTask);
+            if (task1 != null && task2 != null)
+            {
+                multiTask.moValue = multitaskMO(task1, task2);
+                multiTask.lipValue = multitaskLip(task1, task2);
+                multiTask.informationDomains = multitaskDomain(task1, task2);
+                setTimesForMultitask(task1, task2, multiTask);
+            }
             return multiTask;
         }
 
@@ -292,13 +295,20 @@ namespace CLESMonitor.Model
         /// <returns>An array of informationDomains</returns>
         public static List<int> multitaskDomain(CTLTask task1, CTLTask task2)
         {
-            List<int> newDomain = task1.informationDomains;
-            List<int> tempDomain = task2.informationDomains;
-            for (int i = 0; i <= tempDomain.Count - 1; i++)
+            List<int> newDomain = null;
+            if (task1 != null && task2 != null)
             {
-                if (!newDomain.Contains(tempDomain[i]))      
+                if (task1.informationDomains != null && task2.informationDomains != null)
                 {
-                    newDomain.Add(tempDomain[i]);
+                    newDomain = task1.informationDomains;
+                    List<int> tempDomain = task2.informationDomains;
+                    for (int i = 0; i <= tempDomain.Count - 1; i++)
+                    {
+                        if (!newDomain.Contains(tempDomain[i]))
+                        {
+                            newDomain.Add(tempDomain[i]);
+                        }
+                    }
                 }
             }
             return newDomain;
@@ -309,12 +319,20 @@ namespace CLESMonitor.Model
         /// </summary>
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
-        /// <returns>A double representing the MO value of the new multitask</returns>
-        private double multitaskMO(CTLTask task1, CTLTask task2)
+        /// <returns>A double representing the MO value of the new multitask (value between 1 and 2)</returns>
+        public static double multitaskMO(CTLTask task1, CTLTask task2)
         {
-            double MO1 = task1.moValue;
-            double MO2 = task2.moValue;
-            return Math.Max(MO1 + MO2, 1); 
+            double MO1 = 0.0;
+            double MO2 = 0.0;
+            double returnMO = 0.0;
+
+            if (task1 != null && task2 != null)
+            {
+                MO1 = task1.moValue;
+                MO2 = task2.moValue;
+                returnMO = Math.Max(MO1 + MO2, 1);
+            }
+            return returnMO; 
         }
 
         /// <summary>
@@ -323,11 +341,19 @@ namespace CLESMonitor.Model
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
         /// <returns>The Lip value for a new task</returns>
-        private int multitaskLip(CTLTask task1, CTLTask task2)
+        public static int multitaskLip(CTLTask task1, CTLTask task2)
         {
-            int Lip1 = task1.lipValue;
-            int Lip2 = task2.lipValue;
-            return Math.Max(Lip1,Lip2);
+            int lip1 = 0;
+            int lip2 = 0;
+            int returnLip = 0;
+            
+            if(task1 != null && task2 != null)
+            {
+                lip1 = task1.lipValue;
+                lip2 = task2.lipValue;
+                returnLip = Math.Max(lip1, lip2);
+            }
+            return returnLip;
         }
         
         /// <summary>
@@ -336,25 +362,30 @@ namespace CLESMonitor.Model
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
         /// <param name="multiTask">The multitask for which the start and end time will be set</param>
-        private void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
+        public static void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
         {
-            // When task1 begins first, the overlap starts when task2 starts
-            if (task1.startTime < task2.startTime)
+            if (task1 != null && task2 != null && multiTask != null)
             {
-                multiTask.startTime = task2.startTime;
-                multiTask.endTime = task1.startTime;
-            }
-            // When task2 begins first, or when they begin at the same time
-            else
-            {
-                multiTask.startTime = task1.startTime;
-
-                // Endtime is set to be the moment one of both tasks ends
-                if (task1.endTime < task2.endTime) {
-                    multiTask.endTime = task1.endTime;
+                // When task1 begins first, the overlap starts when task2 starts
+                if (task1.startTime < task2.startTime)
+                {
+                    multiTask.startTime = task2.startTime;
+                    multiTask.endTime = task1.startTime;
                 }
-                else {
-                    multiTask.endTime = task2.startTime;
+                // When task2 begins first, or when they begin at the same time
+                else
+                {
+                    multiTask.startTime = task1.startTime;
+
+                    // Endtime is set to be the moment one of both tasks ends
+                    if (task1.endTime < task2.endTime)
+                    {
+                        multiTask.endTime = task1.endTime;
+                    }
+                    else
+                    {
+                        multiTask.endTime = task2.startTime;
+                    }
                 }
             }
         }
@@ -365,7 +396,7 @@ namespace CLESMonitor.Model
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>Average Lip-value (not rounded). 
         /// It can attain values between 1 and 3 (only without overlapping tasks!).</returns>
-        private double calculateOverallLip(List<CTLTask> tasks)
+        public static double calculateOverallLip(List<CTLTask> tasks, TimeSpan lengthTimeframe)
         {
             double lipValue = 0;
 
@@ -384,7 +415,7 @@ namespace CLESMonitor.Model
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>The normalized MO-value across 1 time frame. 
         /// It can attain values between 0 and 1 (only without overlapping tasks!).</returns>
-        private double calculateOverallMo(List<CTLTask> tasks)
+        public static double calculateOverallMo(List<CTLTask> tasks, TimeSpan lengthTimeframe)
         {
             double moValue = 0;
 
@@ -403,7 +434,7 @@ namespace CLESMonitor.Model
         /// <param name="tasks">The list of tasks to use</param>
         /// <returns>The calculated TSS-value. 
         /// It can attain values between 0 and (tasks.Count-1) (only without overlapping tasks!).</returns>
-        private double calculateTSS(List<CTLTask> tasks)
+        public static double calculateTSS(List<CTLTask> tasks)
         {
             double tssValue = 0;
 
@@ -439,8 +470,6 @@ namespace CLESMonitor.Model
             double normalizedMoValue = (moValue - moBounds.Item1) / moBounds.Item2;
             double normalizedTssValue = (tssValue - tssBounds.Item1) / tssBounds.Item2;
 
-            // There is no Vector class (in Windows Forms) available, therefore a triple is used
-            // This produces very, very, complicated code..
             Vector diagonalVector = new Vector(1.0, 1.0, 1.0);
             Vector mwlVector = new Vector(normalizedLipValue, normalizedMoValue, normalizedTssValue);
 
