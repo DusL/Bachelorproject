@@ -459,20 +459,27 @@ namespace CLESMonitor.Model
         private double calculateMentalWorkLoad(double lipValue, double moValue, double tssValue)
         {
             double mwlValue = 0;
+            double normalizedTssValue = 0;
 
             // Define the bounds as tuples (lower bound, upper bound)
             Tuple<int, int> lipBounds = Tuple.Create(1, 3);
             Tuple<int, int> moBounds = Tuple.Create(0, 1);
-            Tuple<int, int> tssBounds = Tuple.Create(0, tasksInCalculationFrame.Count-1);
+            Tuple<int, int> tssBounds = Tuple.Create(0, Math.Max(tasksInCalculationFrame.Count - 1,0));
 
             // Project all metrics on the [0, 1] interval
             double normalizedLipValue = (lipValue - lipBounds.Item1) / lipBounds.Item2;
             double normalizedMoValue = (moValue - moBounds.Item1) / moBounds.Item2;
-            double normalizedTssValue = (tssValue - tssBounds.Item1) / tssBounds.Item2;
+            // Avoid NaN values!
+            if (tssBounds.Item2 != 0)
+            {
+                normalizedTssValue = (tssValue - tssBounds.Item1) / tssBounds.Item2;
+            }
 
             Vector diagonalVector = new Vector(1.0, 1.0, 1.0);
             Vector mwlVector = new Vector(normalizedLipValue, normalizedMoValue, normalizedTssValue);
 
+            // The distance to the origin (the length of the input vector)
+            // For now we use this as MWL value, since the formula appeared to be unuseable
             double distanceToOrigin = mwlVector.length();
 
             Vector mwlProjDiagonal = mwlVector.orthogonalProjection(diagonalVector);
@@ -482,7 +489,8 @@ namespace CLESMonitor.Model
             double distanceToDiagonal = zVector.length(); 
             mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
 
-            return mwlValue;
+            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de ebrekening zal gaan.
+            return distanceToOrigin;
         }
 
         //TODO: Hier nog even kijken of we de mo en lip values anders kunnen kiezen zodat deze varieren per taak.
