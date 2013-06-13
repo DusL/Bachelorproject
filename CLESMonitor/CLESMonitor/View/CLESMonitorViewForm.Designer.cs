@@ -86,7 +86,14 @@
             this.CLChart.BorderlineColor = System.Drawing.Color.Gray;
             this.CLChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.CLChart.BorderlineWidth = 2;
+            chartArea1.AxisX.Interval = 2D;
+            chartArea1.AxisX.ScaleView.MinSize = 10D;
+            chartArea1.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
+            chartArea1.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
             chartArea1.AxisX.Title = "Sessietijd";
+            chartArea1.AxisY.Maximum = 2D;
+            chartArea1.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
             chartArea1.Name = "ChartArea1";
             this.CLChart.ChartAreas.Add(chartArea1);
             this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
