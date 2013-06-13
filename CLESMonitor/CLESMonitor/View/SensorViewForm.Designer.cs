@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.GSRChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.HRChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -64,50 +64,52 @@
             this.GSRChart.BorderlineColor = System.Drawing.Color.Gray;
             this.GSRChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.GSRChart.BorderlineWidth = 2;
-            chartArea5.Name = "ChartArea1";
-            this.GSRChart.ChartAreas.Add(chartArea5);
+            chartArea1.AxisX.Title = "Sessietijd";
+            chartArea1.Name = "ChartArea1";
+            this.GSRChart.ChartAreas.Add(chartArea1);
             this.GSRChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend5.Enabled = false;
-            legend5.Name = "Legend1";
-            this.GSRChart.Legends.Add(legend5);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.GSRChart.Legends.Add(legend1);
             this.GSRChart.Location = new System.Drawing.Point(299, 3);
             this.GSRChart.Name = "GSRChart";
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Legend = "Legend1";
-            series5.Name = "Series1";
-            this.GSRChart.Series.Add(series5);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.GSRChart.Series.Add(series1);
             this.GSRChart.Size = new System.Drawing.Size(291, 304);
             this.GSRChart.TabIndex = 5;
             this.GSRChart.Text = "GSRChart";
-            title5.Name = "ES-waarden";
-            title5.Text = "ES-Waarden";
-            this.GSRChart.Titles.Add(title5);
+            title1.Name = "GSR-waarden";
+            title1.Text = "Huidgeleiding";
+            this.GSRChart.Titles.Add(title1);
             // 
             // HRChart
             // 
             this.HRChart.BorderlineColor = System.Drawing.Color.Gray;
             this.HRChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.HRChart.BorderlineWidth = 2;
-            chartArea6.Name = "ChartArea1";
-            this.HRChart.ChartAreas.Add(chartArea6);
+            chartArea2.AxisX.Title = "Sessietijd";
+            chartArea2.Name = "ChartArea1";
+            this.HRChart.ChartAreas.Add(chartArea2);
             this.HRChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend6.Enabled = false;
-            legend6.Name = "Legend1";
-            this.HRChart.Legends.Add(legend6);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.HRChart.Legends.Add(legend2);
             this.HRChart.Location = new System.Drawing.Point(3, 3);
             this.HRChart.Name = "HRChart";
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Legend = "Legend1";
-            series6.Name = "Series1";
-            this.HRChart.Series.Add(series6);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.HRChart.Series.Add(series2);
             this.HRChart.Size = new System.Drawing.Size(290, 304);
             this.HRChart.TabIndex = 4;
             this.HRChart.Text = "HRChart";
-            title6.Name = "ES-waarden";
-            title6.Text = "ES-Waarden";
-            this.HRChart.Titles.Add(title6);
+            title2.Name = "HR-values";
+            title2.Text = "Hartslag";
+            this.HRChart.Titles.Add(title2);
             // 
             // SensorViewForm
             // 

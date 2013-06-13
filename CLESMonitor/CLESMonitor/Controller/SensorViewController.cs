@@ -19,6 +19,9 @@ namespace CLESMonitor.Controller
         private const double TIME_WINDOW = 1; //in minutes       
         Timer sensorTimer;
 
+        private TimeSpan currentSessionTime;
+        private DateTime startTime;
+
         // References to sensors for manual input
         private HRSensor _hrSensor;
         public HRSensor hrSensor
@@ -60,6 +63,7 @@ namespace CLESMonitor.Controller
         public SensorViewController(HRSensor hrSensor, GSRSensor gsrSensor)
         {
             View = new SensorViewForm(this);
+            startTime = DateTime.Now;
 
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
@@ -73,7 +77,7 @@ namespace CLESMonitor.Controller
             newSeries.ChartType = SeriesChartType.Spline;
             newSeries.BorderWidth = 2;
             newSeries.Color = Color.OrangeRed;
-            newSeries.XValueType = ChartValueType.DateTime;
+            newSeries.XValueType = ChartValueType.Double;
             HRChart.Series.Add(newSeries);
 
             // Setup of chart2
@@ -82,7 +86,7 @@ namespace CLESMonitor.Controller
             newSeries2.ChartType = SeriesChartType.Spline;
             newSeries2.BorderWidth = 2;
             newSeries2.Color = Color.Blue;
-            newSeries2.XValueType = ChartValueType.DateTime;
+            newSeries2.XValueType = ChartValueType.Double;
             GSRChart.Series.Add(newSeries2);
         }
 
@@ -103,6 +107,8 @@ namespace CLESMonitor.Controller
         {
             if (sensorTimer != null)
             {
+                currentSessionTime = DateTime.Now - startTime;
+
                 HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
                 GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
             }
@@ -115,7 +121,7 @@ namespace CLESMonitor.Controller
         private void UpdateHRChart()
         {
             double newDataPoint = hrSensor.sensorValue;
-            this.UpdateChartData(HRChart, newDataPoint, DateTime.Now);
+            this.UpdateChartData(HRChart, newDataPoint, currentSessionTime); //DateTime.Now
         }
 
         /// <summary>
@@ -124,7 +130,7 @@ namespace CLESMonitor.Controller
         private void UpdateGSRChart()
         {
             double newDataPoint2 = gsrSensor.sensorValue;
-            this.UpdateChartData(GSRChart, newDataPoint2, DateTime.Now);
+            this.UpdateChartData(GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
         }
 
         /// <summary>
@@ -133,20 +139,19 @@ namespace CLESMonitor.Controller
         /// </summary>
         /// <param name="chart">The chart that needs updating</param>
         /// <param name="newDataPoint">The new point that needs to be added to the chart</param>
-        private void UpdateChartData(Chart chart, double newDataPoint, DateTime timeStamp)
+        private void UpdateChartData(Chart chart, double newDataPoint, TimeSpan currentSessionTime)
         {
-
-            //TODO: TIMESPAN OP X-AS
-
             // Update chart
             Series series = chart.Series["Series1"];
-            series.Points.AddXY(timeStamp.ToOADate(), newDataPoint);
+            int point = series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
+            int pointsCounter = series.Points.Count;
+
             chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            chart.ChartAreas[0].AxisX.Maximum = DateTime.FromOADate(series.Points[0].XValue).AddMinutes(TIME_WINDOW).ToOADate();
+            chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
             chart.Invalidate(); //redraw
 
             // Remove old datapoints
-            double removeBefore = timeStamp.AddSeconds((double)(60) * (-TIME_WINDOW)).ToOADate();
+            double removeBefore = Math.Floor(currentSessionTime.TotalSeconds - ((60) * (TIME_WINDOW)));
             while (series.Points[0].XValue < removeBefore)
             {
                 series.Points.RemoveAt(0);
