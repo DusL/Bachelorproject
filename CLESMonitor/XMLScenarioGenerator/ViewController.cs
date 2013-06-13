@@ -88,6 +88,7 @@ namespace XMLScenarioGenerator
             saveFileDialog = this.view.saveFileDialog;
 
             // Add the (hardcoded) data to be generated here //
+            /*
             scenarioLength = 60;
             Event event1 = new Event("EVENT_IDENTIFIER_1", 5, 30);
             elements.Add(event1);
@@ -96,7 +97,52 @@ namespace XMLScenarioGenerator
             Event event2 = new Event("EVENT_IDENTIFIER_2", 30, 6);
             elements.Add(event2);
             elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
+            */
+            addScenario1();
             // Add the (hardcoded) data to be generated here //
+        }
+
+        public void addScenario1()
+        {
+            scenarioLength = 160;
+
+            Event event1 = new Event("GESTRANDE_TREIN", 5, 150);
+            elements.Add(event1);
+
+            // Rijweginstelling trein verhinderen
+            elements.Add(new Task("SELECTEER_REGEL", 10, 1, event1));
+            elements.Add(new Task("VIND_TREIN", 11, 5, event1));
+            elements.Add(new Task("ARI_UIT", 16, 1, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 17, 3, event1));
+
+            // Rijweginstelling trein verhinderen
+            elements.Add(new Task("SELECTEER_REGEL", 25, 1, event1));
+            elements.Add(new Task("VIND_TREIN", 26, 5, event1));
+            elements.Add(new Task("ARI_UIT", 31, 1, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 32, 3, event1));
+
+            // Communicatie VKL, monteur
+            elements.Add(new Task("COMMUNICATIE", 40, 30, event1));
+            elements.Add(new Task("COMMUNICATIE", 80, 30, event1));
+
+            // Rijweginstelling trein herstellen
+            elements.Add(new Task("SELECTEER_REGEL", 120, 1, event1));
+            elements.Add(new Task("VIND_TREIN", 121, 5, event1));
+            elements.Add(new Task("ARI_IN", 126, 1, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 127, 3, event1));
+
+            // Muteer rijweg
+            elements.Add(new Task("SELECTEER_REGEL", 135, 2, event1));
+            elements.Add(new Task("REGEL_IN_MUTATIESCHERM", 137, 2, event1));
+            elements.Add(new Task("MUTEER_REGEL", 139, 11, event1));
+            elements.Add(new Task("REGEL_TERUG", 150, 2, event1));
+
+            Event event2 = new Event("VERTRAAGDE_TREIN", 20, 20);
+            elements.Add(event2);
+
+            elements.Add(new Task("SELECTEER_REGEL", 25, 1, event2));
+            elements.Add(new Task("KWIT_VERT_REGELS", 26, 2, event2));
+            elements.Add(new Task("VERWERK_VERT_REGELS", 38, 2, event2));
         }
 
         /// <summary>
