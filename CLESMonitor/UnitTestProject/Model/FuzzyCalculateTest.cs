@@ -325,7 +325,7 @@ namespace UnitTest.Model
         /// If the normalised value is out of bounds, return 0.
         /// </summary>
         [Test]
-        public void hgihHRValue_OutOfBouds()
+        public void highHRValue_OutOfBounds()
         {
             normalised = mean - sd;
             
@@ -337,7 +337,7 @@ namespace UnitTest.Model
         /// If the normalised value is equal to the boundary, return 0.
         /// </summary>
         [Test]
-        public void highHRValue_OnBbound()
+        public void highHRValue_OnBound()
         {
             normalised = mean;
 

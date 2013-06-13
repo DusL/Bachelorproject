@@ -39,10 +39,10 @@ namespace CLESMonitor.Model
             CTLEvent ctlEvent = null;
 
             // The possible event types with their corresponding mo and lip values
-            Tuple<string, double, int>[] validValues = //new Tuple<string, double, int>();
+            Tuple<string, double, int>[] validValues =
             {Tuple.Create("GESTRANDE_TREIN", 0.6, 2),
-             Tuple.Create("GESTOORDE_WISSEL", 0.1, 1),
-             Tuple.Create("VERTRAAGDE_TREIN", 0.8, 3)};
+             Tuple.Create("GESTOORDE_WISSEL", 0.8, 3),
+             Tuple.Create("VERTRAAGDE_TREIN", 0.1, 1)};
 
             if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
@@ -140,12 +140,6 @@ namespace CLESMonitor.Model
                 {
                     ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_TREIN", inputElement.secondaryIndentifier);
                     ctlTask.description = "Vertraging verwerken voor trein";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
                 }
                 else if (inputElement.name.Equals("LASTGEVING"))

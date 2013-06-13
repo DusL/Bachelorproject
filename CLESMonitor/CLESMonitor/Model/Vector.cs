@@ -41,15 +41,15 @@ namespace CLESMonitor.Model
         /// <summary>
         /// Calculates the orthogonal projection of a vector on a differnet vector
         /// </summary>
-        /// <param name="vector">The vector which is projected upon</param>
+        /// <param name="toVector">The vector which is projected upon</param>
         /// <returns>The projected vector</returns>
-        public Vector orthogonalProjection(Vector vector)
+        public Vector orthogonalProjection(Vector toVector)
         {  
             Vector returnVector = null;
-            if (!((this.x == 0) && (this.y ==0) && (this.z == 0)))
+            if (!((toVector.x == 0) && (toVector.y == 0) && (toVector.z == 0)))
             {
-                double fraction = this.dotProduct(vector) / this.dotProduct(this);
-                returnVector = new Vector(fraction * this.x, fraction * this.y, fraction * this.z);
+                double fraction = this.dotProduct(toVector) / toVector.dotProduct(toVector);
+                returnVector = new Vector(fraction * toVector.x, fraction * toVector.y, fraction * toVector.z);
             }
             
             return returnVector;  
@@ -112,5 +112,10 @@ namespace CLESMonitor.Model
         } 
 
         #endregion
+
+        public override string ToString()
+        {
+            return String.Format("Vector: x={0}, y={1}, z={2}", x, y, z);
+        }
     }      
 }
