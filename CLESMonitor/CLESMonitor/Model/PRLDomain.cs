@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-
 
 namespace CLESMonitor.Model
 {    
@@ -28,6 +27,8 @@ namespace CLESMonitor.Model
     /// </summary>
     public class PRLDomain : CTLDomain
     {
+        #region Abstract CTLDomain implementation
+
         /// <summary>
         /// Generates a CTLEvent instance from a InputElement instance
         /// </summary>
@@ -169,5 +170,7 @@ namespace CLESMonitor.Model
             }
             return ctlTask;
         }
+
+        #endregion
     }
 }

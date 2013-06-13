@@ -34,9 +34,10 @@ namespace CLESMonitor.Model
         public List<CTLTask> activeTasks { get; private set; }
 
         /// <summary>
-        /// The constructor method.
+        /// The CTLModel constructor.
         /// </summary>
-        /// <param name="parser">A XMLFileTaskParser to use as input for the model</param>
+        /// <param name="inputSource">a input source for the model</param>
+        /// <param name="domain">the domain in which the model will work</param>
         public CTLModel(CTLInputSource inputSource, CTLDomain domain)
         {
             this.inputSource = inputSource;
@@ -266,22 +267,22 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// 
+        /// Creates a multitask from two tasks. The CTL-values for the multitask will be
+        /// calculated and set, however the start- and endtime will not.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
-        /// <returns>A new task; the multitask</returns>
+        /// <param name="task1">the first task</param>
+        /// <param name="task2">the second task</param>
+        /// <returns>the multitask</returns>
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
-            //Creat a new CTLTask
+            // Create a new CTLTask
             CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);
-            //and set its values
+            // Set its values
             if (task1 != null && task2 != null)
             {
                 multiTask.moValue = multitaskMO(task1, task2);
                 multiTask.lipValue = multitaskLip(task1, task2);
                 multiTask.informationDomains = multitaskDomain(task1, task2);
-                setTimesForMultitask(task1, task2, multiTask);
             }
             return multiTask;
         }
@@ -356,40 +357,6 @@ namespace CLESMonitor.Model
             return returnLip;
         }
         
-        /// <summary>
-        /// Determines the start- and endtime of a multitask by means of the start- and endtimes of two tasks.
-        /// </summary>
-        /// <param name="task1">The first task that overlaps</param>
-        /// <param name="task2">The task that overlaps with task1</param>
-        /// <param name="multiTask">The multitask for which the start and end time will be set</param>
-        public static void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
-        {
-            if (task1 != null && task2 != null && multiTask != null)
-            {
-                // When task1 begins first, the overlap starts when task2 starts
-                if (task1.startTime < task2.startTime)
-                {
-                    multiTask.startTime = task2.startTime;
-                    multiTask.endTime = task1.startTime;
-                }
-                // When task2 begins first, or when they begin at the same time
-                else
-                {
-                    multiTask.startTime = task1.startTime;
-
-                    // Endtime is set to be the moment one of both tasks ends
-                    if (task1.endTime < task2.endTime)
-                    {
-                        multiTask.endTime = task1.endTime;
-                    }
-                    else
-                    {
-                        multiTask.endTime = task2.startTime;
-                    }
-                }
-            }
-        }
-
         /// <summary>
         /// Implements the overall Level of Information Processing (LIP) formula as defined in the scientific literature.
         /// </summary>
@@ -489,7 +456,7 @@ namespace CLESMonitor.Model
             double distanceToDiagonal = zVector.length(); 
             mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
 
-            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de ebrekening zal gaan.
+            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de berekening zal gaan.
             return distanceToOrigin;
         }
 

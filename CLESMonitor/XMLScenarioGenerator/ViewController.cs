@@ -20,12 +20,18 @@ namespace XMLScenarioGenerator
         public string identifier;
         private static int counter = 1;
 
-        public Element(string _name, int _startSecond, int _duration)
+        /// <summary>
+        /// The Element constructor.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="startSecond"></param>
+        /// <param name="duration"></param>
+        public Element(string name, int startSecond, int duration)
         {
-            name = _name;
+            this.name = name;
             identifier = null;
-            startSecond = _startSecond;
-            duration = _duration;
+            this.startSecond = startSecond;
+            this.duration = duration;
             identifier = counter.ToString();
             counter++;
         }
@@ -36,8 +42,8 @@ namespace XMLScenarioGenerator
     /// </summary>
     public class Event : Element
     {
-        public Event(string _name, int _startSecond, int _duration)
-            : base(_name, _startSecond, _duration)
+        public Event(string name, int startSecond, int duration)
+            : base(name, startSecond, duration)
         { 
         }
     }
@@ -49,10 +55,10 @@ namespace XMLScenarioGenerator
     {
         public string eventIdentifier;
 
-        public Task(string _name, int _startSecond, int _duration, Event _event) 
-            : base(_name, _startSecond, _duration)
+        public Task(string name, int startSecond, int duration, Event eventObject) 
+            : base(name, startSecond, duration)
         {
-            eventIdentifier = _event.identifier;
+            eventIdentifier = eventObject.identifier;
         }
     }
 
@@ -97,6 +103,11 @@ namespace XMLScenarioGenerator
             elements.Add(event2);
             elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
             // Add the (hardcoded) data to be generated here //
+        }
+
+        public void addScenario1()
+        {
+            Event event1 = new Event("GESTRANDE_TREIN", 5, 60);
         }
 
         /// <summary>

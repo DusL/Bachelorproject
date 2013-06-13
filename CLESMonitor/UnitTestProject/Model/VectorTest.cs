@@ -2,16 +2,13 @@
 using NUnit.Framework;
 using CLESMonitor.Model;
 
-
 namespace UnitTest.Model
 {
-    
     [TestFixture]
     public class VectorTest
     {
         Vector vector;
         Vector vector2;
-
         Vector checkVector;
 
         #region Operator override
@@ -37,7 +34,7 @@ namespace UnitTest.Model
             Assert.IsFalse(vector.Equals(vector2));
         }
         /// <summary>
-        /// Test the logic of t he equality method
+        /// Test the logic of the equality method
         /// </summary>
         [Test]
         public void equalityTest_Logic()
@@ -89,7 +86,6 @@ namespace UnitTest.Model
         }
 
         #endregion
-
 
         #region dotProduct
         /// <summary>
@@ -246,7 +242,5 @@ namespace UnitTest.Model
             Assert.AreEqual(expected, vector2.length());
         }
         #endregion
-
-        
     }
 }
