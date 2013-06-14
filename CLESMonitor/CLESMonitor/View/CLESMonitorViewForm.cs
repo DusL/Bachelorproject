@@ -14,7 +14,6 @@ namespace CLESMonitor.View
     public partial class CLESMonitorViewForm : Form
     {
         private CLESMonitorViewController _controller;
-        
 
         public CLESMonitorViewForm(CLESMonitorViewController controller)
         {
@@ -37,49 +36,9 @@ namespace CLESMonitor.View
             _controller.pauseButtonClicked();
         }
 
-        private void hrTrackBar_Scroll(object sender, EventArgs e)
-        {
-            _controller.HRValueChangedInManualContext(sender);
-        }
-
-        private void hrMinusButton_Click(object sender, EventArgs e)
-        {
-            _controller.decreaseHRValueInManualContext();
-        }
-
-        private void hrPlusButton_Click(object sender, EventArgs e)
-        {
-            _controller.increaseHRValueInManualContext();
-        }
-
-        private void gsrTrackBar_Scroll(object sender, EventArgs e)
-        {
-            _controller.GSRValueChangedInManualContext(sender);
-        }
-
-        private void gsrMinusButton_Click(object sender, EventArgs e)
-        {
-            _controller.decreaseGSRValueInManualContext();
-        }
-
-        private void gsrPlusButton_Click(object sender, EventArgs e)
-        {
-            _controller.increaseGSRValueInManualContext();
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             _controller.openScenarioFileDialog();
-        }
-
-        private void hrSensorTypeRadioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            _controller.hrSensorTypeChanged(sender);
-        }
-
-        private void hrSensorTypeRadioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            _controller.hrSensorTypeChanged(sender);
         }
 
         private void calibrateButton_Click(object sender, EventArgs e)

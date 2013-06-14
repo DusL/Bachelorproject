@@ -342,6 +342,5 @@ namespace CLESMonitor.Model.ES
 
             return HRValueList;
         }
-
     }
 }

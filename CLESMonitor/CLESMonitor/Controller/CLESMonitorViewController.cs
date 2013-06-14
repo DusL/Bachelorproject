@@ -82,18 +82,24 @@ namespace CLESMonitor.Controller
         Button pauseButton;
         Button calibrateButton;
         OpenFileDialog openFileDialog;
-        Button hrMinusButton;
-        Button hrPlusButton;
-        // Sensors
-        TrackBar hrTrackbar;
-        Label hrValueLabel;
-        TrackBar gsrTrackbar;
-        Label gsrValueLabel;
-       
-        /// <summary>
-        /// The View this Controller manages
-        /// </summary>
-        public CLESMonitorViewForm View { get; private set; }
+        TableLayoutPanel tableLayoutPanel2;
+
+        /// <summary>The View this Controller manages</summary>
+        public CLESMonitorViewForm View { get; set; }
+        public Form clUtilityView { get; set; }
+        private Form _esUtilityView;
+        public Form esUtilityView 
+        {
+            get { return _esUtilityView; }            
+            set
+            {
+                _esUtilityView = value;
+                _esUtilityView.TopLevel = false;
+                _esUtilityView.Visible = true;
+                _esUtilityView.Dock = DockStyle.Fill;
+                tableLayoutPanel2.Controls.Add(_esUtilityView);
+            }
+        }
 
         public CLESMonitorViewController(CLModel clModel, ESModel esModel)
         {
@@ -132,9 +138,6 @@ namespace CLESMonitor.Controller
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
 
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
         }
@@ -154,13 +157,8 @@ namespace CLESMonitor.Controller
             stopButton = this.View.stopButton;
             calibrateButton = this.View.calibrateButton;
             pauseButton = this.View.pauseButton;
-            hrTrackbar = this.View.hrTrackBar;
-            hrValueLabel = this.View.hrValueLabel;
-            gsrTrackbar = this.View.gsrTrackBar;
-            gsrValueLabel = this.View.gsrValueLabel;
             openFileDialog = this.View.openFileDialog1;
-            hrMinusButton = this.View.hrMinusButton;
-            hrPlusButton = this.View.hrPlusButton;
+            tableLayoutPanel2 = this.View.tableLayoutPanel2;
         }
 
         /// <summary>
@@ -321,78 +319,6 @@ namespace CLESMonitor.Controller
             this.currentState = ViewControllerState.Stopped;
         }
 
-        public void HRValueChangedInManualContext(object sender)
-        {
-            TrackBar trackBar = (TrackBar)sender;
-            hrValueLabel.Text = trackBar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (hrSensor.type == HRSensorType.ManualInput) 
-            {
-                hrSensor.sensorValue = hrTrackbar.Value;
-            }
-        }
-
-        public void increaseHRValueInManualContext()
-        {
-            hrTrackbar.Value = hrTrackbar.Value + 10;
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (hrSensor.type == HRSensorType.ManualInput)
-            {
-                hrSensor.sensorValue = hrTrackbar.Value;
-            }
-        }
-
-        public void decreaseHRValueInManualContext()
-        {
-            hrTrackbar.Value = hrTrackbar.Value - 10;
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (hrSensor.type == HRSensorType.ManualInput)
-            {
-                hrSensor.sensorValue = hrTrackbar.Value;
-            }
-        }
-
-        public void GSRValueChangedInManualContext(object sender)
-        {
-            TrackBar trackBar = (TrackBar)sender;
-            gsrValueLabel.Text = trackBar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (gsrSensor.type == GSRSensorType.ManualInput)
-            {
-                gsrSensor.sensorValue = gsrTrackbar.Value;
-            }
-        }
-
-        public void increaseGSRValueInManualContext()
-        {
-            gsrTrackbar.Value = gsrTrackbar.Value + 10;
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (gsrSensor.type == GSRSensorType.ManualInput)
-            {
-                gsrSensor.sensorValue = gsrTrackbar.Value;
-            }
-        }
-
-        public void decreaseGSRValueInManualContext()
-        {
-            gsrTrackbar.Value = gsrTrackbar.Value - 10;
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-
-            // Pass along simulated sensor-data
-            if (gsrSensor.type == GSRSensorType.ManualInput)
-            {
-                gsrSensor.sensorValue = gsrTrackbar.Value;
-            }
-        }
-
         /// <summary>
         /// Action method when the openScenarioFileButton is clicked.
         /// </summary>
@@ -405,33 +331,6 @@ namespace CLESMonitor.Controller
                 writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
                 startButton.Enabled = true;
             }            
-        }
-
-        /// <summary>
-        /// Action when the heart rate sensor type is being changed
-        /// </summary>
-        /// <param name="sender">Radio buttons for the available types</param>
-        public void hrSensorTypeChanged(object sender)
-        {
-            RadioButton radioButton = (RadioButton)sender;
-            if (radioButton.Checked)
-            {
-                //TODO: is dit vies?
-                if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
-                {
-                    hrSensor.type = HRSensorType.ManualInput;
-                    hrTrackbar.Enabled = true;
-                    hrMinusButton.Enabled = true;
-                    hrPlusButton.Enabled = true;
-                }
-                else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
-                {
-                    hrSensor.type = HRSensorType.BluetoothZephyr;
-                    hrTrackbar.Enabled = false;
-                    hrMinusButton.Enabled = false;
-                    hrPlusButton.Enabled = false;
-                }
-            }
         }
 
         /// <summary>
@@ -466,11 +365,13 @@ namespace CLESMonitor.Controller
                 // they are passed on change.
                 if (hrSensor.type == HRSensorType.ManualInput)
                 {
-                    hrSensor.sensorValue = hrTrackbar.Value;
+                    // FIXME: dit is niet meer mogelijk
+                    //hrSensor.sensorValue = hrTrackbar.Value;
                 }
                 if (gsrSensor.type == GSRSensorType.ManualInput)
                 {
-                    gsrSensor.sensorValue = gsrTrackbar.Value;
+                    // FIXME: dit is niet meer mogelijk
+                    //gsrSensor.sensorValue = gsrTrackbar.Value;
                 }
 
                 View.timeLable.Text = "Kalibratie tijd";
