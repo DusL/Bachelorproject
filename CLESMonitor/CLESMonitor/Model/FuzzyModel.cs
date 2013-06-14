@@ -147,6 +147,11 @@ namespace CLESMonitor.Model
             Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
 
+        /// <summary>
+        /// Calculates the standard deviation when presented a list of values.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns>The standard deviation of list</returns>
         private double standardDeviationFromList(List<double> list)
         {
             double sumOfSquares = 0;
@@ -174,8 +179,16 @@ namespace CLESMonitor.Model
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 
-            normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
+            // TODO: Blijft 0 totdat je de slider een keer beweegt.
+            Console.WriteLine("currentHR - " + currentHR);
+            Console.WriteLine("currentGSR - " + currentGSR);
+           
             normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
+            normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
+
+            Console.WriteLine("normalisedHR - " + normalisedHR);
+            Console.WriteLine("normalisedGSR - " + normalisedGSR);
+            fuzzyArousalRules();
 
             return (double)arousalLevel;
         }

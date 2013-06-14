@@ -65,6 +65,10 @@ namespace CLESMonitor.Model
                     Console.WriteLine("SerialPort IOException");
                 }
             }
+            else
+            { 
+                // TODO: Slider uitlezen. Losse thread voor?
+            }
         }
 
         /// <summary>
