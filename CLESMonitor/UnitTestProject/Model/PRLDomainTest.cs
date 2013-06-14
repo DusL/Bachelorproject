@@ -2,8 +2,8 @@
 using CLESMonitor.Model;
 using NUnit.Framework;
 using System;
-
 using OriginalDomain = CLESMonitor.Model.PRLDomain;
+
 namespace UnitTest.Model
 {
     [TestFixture]

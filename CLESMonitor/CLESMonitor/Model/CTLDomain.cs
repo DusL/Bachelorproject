@@ -1,10 +1,9 @@
-﻿using System;
+﻿using CLESMonitor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using CLESMonitor;
 
 namespace CLESMonitor.Model
 {
@@ -13,6 +12,5 @@ namespace CLESMonitor.Model
         public abstract CTLEvent generateEvent(InputElement InputElement);
 
         public abstract CTLTask generateTask(InputElement InputElement);
-
     }
 }

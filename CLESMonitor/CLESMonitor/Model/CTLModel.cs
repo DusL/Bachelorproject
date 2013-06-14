@@ -34,9 +34,10 @@ namespace CLESMonitor.Model
         public List<CTLTask> activeTasks { get; private set; }
 
         /// <summary>
-        /// The constructor method.
+        /// The CTLModel constructor.
         /// </summary>
-        /// <param name="parser">A XMLFileTaskParser to use as input for the model</param>
+        /// <param name="inputSource">a input source for the model</param>
+        /// <param name="domain">the domain in which the model will work</param>
         public CTLModel(CTLInputSource inputSource, CTLDomain domain)
         {
             this.inputSource = inputSource;
@@ -141,13 +142,28 @@ namespace CLESMonitor.Model
             if (taskStarted != null)
             {
                 taskStarted.eventIdentifier = taskElement.secondaryIndentifier;
-                taskStarted.startTime = sessionTime;
-               // taskStarted.endTime = sessionTime;
+                taskStarted.startTime = taskStarted.endTime = sessionTime;
 
-                setMoAndLip(taskStarted);
+                foreach (CTLEvent ctlEvent in activeEvents)
+                {
+                    if (ctlEvent.identifier.Equals(taskStarted.eventIdentifier))
+                    {
+                        // If the task's mo value is not set, fallback by grabbing it from
+                        // the event it belongs to.
+                        if (taskStarted.moValue == -1)
+                        {
+                            taskStarted.moValue = ctlEvent.moValue;
+                        }
+                        // If the task's lip value is not set, fallback by grabbing it from
+                        // the event it belongs to.
+                        if (taskStarted.lipValue == 0)
+                        {
+                            taskStarted.lipValue = ctlEvent.lipValue;
+                        }
+                    }
+                }
+
                 activeTasks.Add(taskStarted);
-
-                Console.WriteLine(taskStarted.ToString());
 
                 //TODO: deze bool wisselen voor direct herberekenen (?)
                 activeTasksHaveChanged = true;
@@ -176,12 +192,6 @@ namespace CLESMonitor.Model
 
         private void updateTimerCallback(Object stateInfo)
         {
-            //TODO: debug code
-            foreach (CTLTask task in activeTasks)
-            {
-                Console.WriteLine(task.ToString());
-            }
-
             // Update the 'end time' for all active events
             foreach (CTLEvent ctlEvent in activeEvents)
             {
@@ -221,8 +231,6 @@ namespace CLESMonitor.Model
             // When active tasks change, we need to edit the calculation frame
             if (activeTasksHaveChanged)
             {
-                Console.WriteLine(sessionTime.TotalSeconds + ": activeTasksHaveChanged = true");
-
                 // Stop the last task on the frame if still in progress
                 if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
                 {
@@ -266,22 +274,22 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// 
+        /// Creates a multitask from two tasks. The CTL-values for the multitask will be
+        /// calculated and set, however the start- and endtime will not.
         /// </summary>
-        /// <param name="task1"></param>
-        /// <param name="task2"></param>
-        /// <returns>A new task; the multitask</returns>
+        /// <param name="task1">the first task</param>
+        /// <param name="task2">the second task</param>
+        /// <returns>the multitask</returns>
         private CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
-            //Creat a new CTLTask
+            // Create a new CTLTask
             CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);
-            //and set its values
+            // Set its values
             if (task1 != null && task2 != null)
             {
                 multiTask.moValue = multitaskMO(task1, task2);
                 multiTask.lipValue = multitaskLip(task1, task2);
                 multiTask.informationDomains = multitaskDomain(task1, task2);
-                setTimesForMultitask(task1, task2, multiTask);
             }
             return multiTask;
         }
@@ -357,40 +365,6 @@ namespace CLESMonitor.Model
         }
         
         /// <summary>
-        /// Determines the start- and endtime of a multitask by means of the start- and endtimes of two tasks.
-        /// </summary>
-        /// <param name="task1">The first task that overlaps</param>
-        /// <param name="task2">The task that overlaps with task1</param>
-        /// <param name="multiTask">The multitask for which the start and end time will be set</param>
-        public static void setTimesForMultitask(CTLTask task1, CTLTask task2, CTLTask multiTask)
-        {
-            if (task1 != null && task2 != null && multiTask != null)
-            {
-                // When task1 begins first, the overlap starts when task2 starts
-                if (task1.startTime < task2.startTime)
-                {
-                    multiTask.startTime = task2.startTime;
-                    multiTask.endTime = task1.startTime;
-                }
-                // When task2 begins first, or when they begin at the same time
-                else
-                {
-                    multiTask.startTime = task1.startTime;
-
-                    // Endtime is set to be the moment one of both tasks ends
-                    if (task1.endTime < task2.endTime)
-                    {
-                        multiTask.endTime = task1.endTime;
-                    }
-                    else
-                    {
-                        multiTask.endTime = task2.startTime;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Implements the overall Level of Information Processing (LIP) formula as defined in the scientific literature.
         /// </summary>
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
@@ -462,7 +436,7 @@ namespace CLESMonitor.Model
             double normalizedTssValue = 0;
 
             // Define the bounds as tuples (lower bound, upper bound)
-            Tuple<int, int> lipBounds = Tuple.Create(1, 3);
+            Tuple<int, int> lipBounds = Tuple.Create(0, 3);
             Tuple<int, int> moBounds = Tuple.Create(0, 1);
             Tuple<int, int> tssBounds = Tuple.Create(0, Math.Max(tasksInCalculationFrame.Count - 1,0));
 
@@ -489,29 +463,8 @@ namespace CLESMonitor.Model
             double distanceToDiagonal = zVector.length(); 
             mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
 
-            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de ebrekening zal gaan.
+            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de berekening zal gaan.
             return distanceToOrigin;
-        }
-
-        //TODO: Hier nog even kijken of we de mo en lip values anders kunnen kiezen zodat deze varieren per taak.
-        /// <summary>
-        /// Set the mo and lip values of a task by adopting these values from the event it belongs to.
-        /// </summary>
-        /// <param name="task">The CTLTask that needs its mo and lip values to be set</param>
-        private void setMoAndLip(CTLTask task)
-        {
-            Console.WriteLine("Aantal active events: " + activeEvents.Count);
-            
-            foreach (CTLEvent ctlEvent in activeEvents)
-            {
-                Console.WriteLine(ctlEvent.ToString());
-                if (ctlEvent.identifier.Equals(task.eventIdentifier))
-                {
-                    task.moValue = ctlEvent.moValue;
-                    task.lipValue = ctlEvent.lipValue;
-                }
-            }
-
         }
     }
 }

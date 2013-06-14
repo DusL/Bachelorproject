@@ -16,10 +16,10 @@ namespace CLESMonitor.Model
         public TimeSpan endTime { get; set; }
         public double moValue { get; set; } //mental occupancy
         public int lipValue { get; set; } //level of information processing
-        /// <summary>
-        /// A list of integers representing different information domains.
-        /// </summary>
-        public List<int> informationDomains { get; set; } //an array of enum representations of domains
+
+        /// <summary>A list of integers representing different information domains.</summary>
+        public List<int> informationDomains { get; set; }
+
         public string description { get; set; }
 
         public bool inProgress { get; set; }
@@ -28,11 +28,13 @@ namespace CLESMonitor.Model
         /// Constructor method
         /// </summary>
         /// <param name="_name"></param>
-        public CTLTask(string _identifier, string _name, string _eventIdentifier)
+        public CTLTask(string identifier, string name, string eventIdentifier)
         {
-            identifier = _identifier;
-            name = _name;
-            eventIdentifier = _eventIdentifier;
+            this.identifier = identifier;
+            this.name = name;
+            this.eventIdentifier = eventIdentifier;
+            this.moValue = -1;
+            this.lipValue = 0;
         }
 
         /// <summary>
@@ -41,7 +43,7 @@ namespace CLESMonitor.Model
         /// <returns>The clopne (copy) of a CTLTask</returns>
         public Object Clone()
         {
-            CTLTask cloneTask = new CTLTask(this.identifier, this.name, this.eventIdentifier);
+            CTLTask cloneTask = new CTLTask(identifier, name, eventIdentifier);
             cloneTask.eventIdentifier = this.eventIdentifier;
             // Structs are always copied on assignment
             cloneTask.startTime = this.startTime;
