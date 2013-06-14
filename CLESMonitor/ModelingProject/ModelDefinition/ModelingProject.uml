@@ -442,6 +442,15 @@
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="0aba264e-b6ef-448c-886e-70610d32a1ce">
+            <classMoniker
+              Id="fb02ec03-d20e-473e-8847-ccb0d77d2874"
+              LastKnownName="FuzzyCalculate"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
         <generalsInternal>
           <generalization
             Id="6f0a70ff-9a2c-4500-9f49-3eb2b0c9d21e"

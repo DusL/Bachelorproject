@@ -50,7 +50,7 @@ namespace CLESMonitor.Controller
             set
             {
                 _hrSensor = value;
-                _hrSensor.sensorType = HRSensorType.ManualInput;
+                _hrSensor.type = HRSensorType.ManualInput;
             }
         }
         private GSRSensor _gsrSensor;
@@ -327,7 +327,7 @@ namespace CLESMonitor.Controller
             hrValueLabel.Text = trackBar.Value.ToString();
 
             // Pass along simulated sensor-data
-            if (hrSensor.sensorType == HRSensorType.ManualInput) 
+            if (hrSensor.type == HRSensorType.ManualInput) 
             {
                 hrSensor.sensorValue = hrTrackbar.Value;
             }
@@ -339,7 +339,7 @@ namespace CLESMonitor.Controller
             hrValueLabel.Text = hrTrackbar.Value.ToString();
 
             // Pass along simulated sensor-data
-            if (hrSensor.sensorType == HRSensorType.ManualInput)
+            if (hrSensor.type == HRSensorType.ManualInput)
             {
                 hrSensor.sensorValue = hrTrackbar.Value;
             }
@@ -351,7 +351,7 @@ namespace CLESMonitor.Controller
             hrValueLabel.Text = hrTrackbar.Value.ToString();
 
             // Pass along simulated sensor-data
-            if (hrSensor.sensorType == HRSensorType.ManualInput)
+            if (hrSensor.type == HRSensorType.ManualInput)
             {
                 hrSensor.sensorValue = hrTrackbar.Value;
             }
@@ -419,14 +419,14 @@ namespace CLESMonitor.Controller
                 //TODO: is dit vies?
                 if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
                 {
-                    hrSensor.sensorType = HRSensorType.ManualInput;
+                    hrSensor.type = HRSensorType.ManualInput;
                     hrTrackbar.Enabled = true;
                     hrMinusButton.Enabled = true;
                     hrPlusButton.Enabled = true;
                 }
                 else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
                 {
-                    hrSensor.sensorType = HRSensorType.BluetoothZephyr;
+                    hrSensor.type = HRSensorType.BluetoothZephyr;
                     hrTrackbar.Enabled = false;
                     hrMinusButton.Enabled = false;
                     hrPlusButton.Enabled = false;
@@ -464,7 +464,7 @@ namespace CLESMonitor.Controller
 
                 // Pass any manual input values for the first time,
                 // they are passed on change.
-                if (hrSensor.sensorType == HRSensorType.ManualInput)
+                if (hrSensor.type == HRSensorType.ManualInput)
                 {
                     hrSensor.sensorValue = hrTrackbar.Value;
                 }

@@ -7,23 +7,25 @@ using System.Threading.Tasks;
 namespace CLESMonitor.Model.ES
 {
     /// <summary>
-    /// The way in which the HRSensor will recieve its raw data
+    /// The way in which the sensor will receive its raw data
     /// </summary>
     public enum GSRSensorType
     {
-        /// <summary>
-        /// Initial value
-        /// </summary>
+        /// <summary>Initial unknown value</summary>
         Unknown,
-        /// <summary>
-        /// By manual input, sensorValue is set from the outside
-        /// </summary>
+        /// <summary>The sensor value is set from the outside (another class)</summary>
         ManualInput
     }
 
+    /// <summary>
+    /// The GSRSensor class represents a Galvanic Skin Response sensor. Also known as skin conductance,
+    /// it can be used as a metric to measure emotional state.
+    /// </summary>
     public class GSRSensor
     {
+        /// <summary>The type of the sensor</summary>
         public GSRSensorType type;
-        public double sensorValue; //conductance, in siemens
+        /// <summary>The value of the sensor, expressed in siemens</summary>
+        public double sensorValue;
     }
 }

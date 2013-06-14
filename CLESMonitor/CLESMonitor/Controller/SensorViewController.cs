@@ -30,7 +30,7 @@ namespace CLESMonitor.Controller
             set
             {
                 _hrSensor = value;
-                _hrSensor.sensorType = HRSensorType.ManualInput;
+                _hrSensor.type = HRSensorType.ManualInput;
             }
         }
         private GSRSensor _gsrSensor;

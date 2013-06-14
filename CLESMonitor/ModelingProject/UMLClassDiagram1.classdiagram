@@ -234,6 +234,12 @@
     <logicalClassDesignerModelHasTypes>
       <class Id="5092022c-e5f2-4ab6-b809-5fd7a8821f5c" name="FuzzyModel" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="aa9ceb99-7ba0-4d56-93aa-b27c155565b4" />
+        <suppliersInternal>
+          <dependency Id="7e7e36f3-a860-4721-973e-b09f03cf1a9b">
+            <classMoniker Id="ddc1df34-d1a1-4401-8a74-70599b2bac92" LastKnownName="FuzzyCalculate" />
+            <elementDefinition Id="0aba264e-b6ef-448c-886e-70610d32a1ce" />
+          </dependency>
+        </suppliersInternal>
         <generalsInternal>
           <generalization Id="6c0e1937-bb7e-48b6-98d0-97c1225762b8" isSubstitutable="false">
             <classMoniker Id="f6f0fd90-8a03-444d-82f9-ff4c7ac4a1a7" LastKnownName="ESModel" />
