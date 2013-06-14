@@ -107,7 +107,7 @@ namespace CLESMonitor.Controller
             // Setup of chart1
             CLChart.Series.Clear();
             Series newSeries = new Series("Series1");
-            newSeries.ChartType = SeriesChartType.Spline;
+            newSeries.ChartType = SeriesChartType.FastLine;
             newSeries.BorderWidth = 2;
             newSeries.Color = Color.OrangeRed;
             newSeries.XValueType = ChartValueType.Double;
@@ -116,7 +116,7 @@ namespace CLESMonitor.Controller
             // Setup of chart2
             ESChart.Series.Clear();
             Series newSeries2 = new Series("Series1");
-            newSeries2.ChartType = SeriesChartType.Spline;
+            newSeries2.ChartType = SeriesChartType.Line;
             newSeries2.BorderWidth = 2;
             newSeries2.Color = Color.Blue;
             newSeries2.XValueType = ChartValueType.Double;
