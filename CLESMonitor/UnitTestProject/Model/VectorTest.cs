@@ -2,16 +2,13 @@
 using NUnit.Framework;
 using CLESMonitor.Model;
 
-
 namespace UnitTest.Model
 {
-    
     [TestFixture]
     public class VectorTest
     {
         Vector vector;
         Vector vector2;
-
         Vector checkVector;
 
         #region Operator override
@@ -37,7 +34,7 @@ namespace UnitTest.Model
             Assert.IsFalse(vector.Equals(vector2));
         }
         /// <summary>
-        /// Test the logic of t he equality method
+        /// Test the logic of the equality method
         /// </summary>
         [Test]
         public void equalityTest_Logic()
@@ -89,7 +86,6 @@ namespace UnitTest.Model
         }
 
         #endregion
-
 
         #region dotProduct
         /// <summary>
@@ -176,8 +172,8 @@ namespace UnitTest.Model
             vector = new Vector(1.0, 2.0, 3.0);
             vector2 = new Vector(-4.0, -25.0, -1.0);
 
-            double fraction = vector.dotProduct(vector2)/vector.dotProduct(vector);
-            Vector newVector =  new Vector (fraction, 2 * fraction, 3 * fraction);
+            double fraction = vector.dotProduct(vector2)/vector2.dotProduct(vector2);
+            Vector newVector =  new Vector (fraction*(-4.0), (-25.0) * fraction, (-1.0)* fraction);
             Assert.IsTrue(newVector.Equals(vector.orthogonalProjection(vector2)));
         }
 
@@ -190,6 +186,8 @@ namespace UnitTest.Model
             vector = new Vector(0.0, 0.0, 0.0);
 
             Assert.IsNull(vector.orthogonalProjection(vector));
+
+            Assert.IsNotNull(vector.orthogonalProjection((new Vector(1.0, 1.0, 1.0))));
         }
 
         /// <summary>
@@ -246,7 +244,5 @@ namespace UnitTest.Model
             Assert.AreEqual(expected, vector2.length());
         }
         #endregion
-
-        
     }
 }

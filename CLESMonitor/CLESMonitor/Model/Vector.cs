@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace CLESMonitor.Model
 {
+    /// <summary>
+    /// This is a vector class, representing a vector in 3D space. It contains methods to
+    /// calculate with vectors including dot product, vector length and orthogonal projection.
+    /// </summary>
     public class Vector
     {
         public double x {get; private set;}
@@ -20,11 +24,10 @@ namespace CLESMonitor.Model
         }
 
         /// <summary>
-        /// Calculate the dotProduct of two vectors
+        /// Calculate the dotProduct between this vector and another vector.
         /// </summary>
-        /// <param name="vector1"></param>
-        /// <param name="vector2"></param>
-        /// <returns>The dotproduct of this vector with vector</returns>
+        /// <param name="vector">The other vector</param>
+        /// <returns>The dotproduct</returns>
         public double dotProduct(Vector vector)
         {
             double returnValue = 0.0;
@@ -35,19 +38,18 @@ namespace CLESMonitor.Model
             return returnValue;
         }
 
-
         /// <summary>
         /// Calculates the orthogonal projection of a vector on a differnet vector
         /// </summary>
-        /// <param name="vector">The vector which is projected upon</param>
+        /// <param name="toVector">The vector which is projected upon</param>
         /// <returns>The projected vector</returns>
-        public Vector orthogonalProjection(Vector vector)
+        public Vector orthogonalProjection(Vector toVector)
         {  
             Vector returnVector = null;
-            if (!((this.x == 0) && (this.y ==0) && (this.z == 0)))
+            if (!((toVector.x == 0) && (toVector.y == 0) && (toVector.z == 0)))
             {
-                double fraction = this.dotProduct(vector) / this.dotProduct(this);
-                returnVector = new Vector(fraction * this.x, fraction * this.y, fraction * this.z);
+                double fraction = this.dotProduct(toVector) / toVector.dotProduct(toVector);
+                returnVector = new Vector(fraction * toVector.x, fraction * toVector.y, fraction * toVector.z);
             }
             
             return returnVector;  
@@ -111,5 +113,9 @@ namespace CLESMonitor.Model
 
         #endregion
 
+        public override string ToString()
+        {
+            return String.Format("Vector: x={0}, y={1}, z={2}", x, y, z);
+        }
     }      
 }
