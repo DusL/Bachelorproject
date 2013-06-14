@@ -49,8 +49,8 @@ namespace CLESMonitor.Model.ES
 
         // Data from calibration periode
         private Timer calibrationTimer;
-        private List<double> calibrationHR; //in beats/minute
-        private List<double> calibrationGSR; //in siemens
+        public List<double> calibrationHR; //in beats/minute
+        public List<double> calibrationGSR; //in siemens
         private double HRMax, HRMin;
         private double GSRMax, GSRMin;
         private double GSRMean, HRMean;
@@ -65,8 +65,8 @@ namespace CLESMonitor.Model.ES
         private double normalisedHR;
 
         // The current 'sensor' levels
-        private GSRLevel gsrLevel;
-        private HRLevel hrLevel;
+        public GSRLevel gsrLevel;
+        public HRLevel hrLevel;
 
         // The current arousal level
         private ArousalLevel arousalLevel;
@@ -133,8 +133,8 @@ namespace CLESMonitor.Model.ES
 
             HRMean = calibrationHR.Average();
             GSRMean = calibrationGSR.Average();
-            HRsd = standardDeviationFromList(calibrationHR);
-            GSRsd = standardDeviationFromList(calibrationGSR);
+            HRsd = calculate.standardDeviationFromList(calibrationHR);
+            GSRsd = calculate.standardDeviationFromList(calibrationGSR);
 
             foreach (double value in calibrationHR)
             {
@@ -147,22 +147,9 @@ namespace CLESMonitor.Model.ES
             Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
 
-        /// <summary>
-        /// Calculates the standard deviation when presented a list of values.
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns>The standard deviation of list</returns>
-        private double standardDeviationFromList(List<double> list)
-        {
-            double sumOfSquares = 0;
-            foreach (double value in list)
-            {
-                sumOfSquares += Math.Pow(value - list.Average(), 2); 
-            }
-            return Math.Sqrt(sumOfSquares / list.Count-1);
-        }
+        
 
-        private void calibrationTimerCallback(Object stateInfo)
+        public void calibrationTimerCallback(Object stateInfo)
         {
             Console.WriteLine("Calibratie: hrSensor={0} gsrSensor={1}", hrSensor.sensorValue, gsrSensor.sensorValue);
             calibrationHR.Add(hrSensor.sensorValue);
@@ -182,10 +169,11 @@ namespace CLESMonitor.Model.ES
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
             normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
             normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
-
-            fuzzyArousalRules();
+            
             findGSRLevel(fuzzyGSR());
             findHRLevel(fuzzyHR());
+
+            fuzzyArousalRules(gsrLevel, hrLevel);
 
             Console.WriteLine("arousalLevel - " + arousalLevel);
 
@@ -195,10 +183,12 @@ namespace CLESMonitor.Model.ES
         /// <summary>
         /// Sets the arousal level based on the fuzzy logic model
         /// </summary>
-        public void fuzzyArousalRules()
+        public static ArousalLevel fuzzyArousalRules(GSRLevel gsrLevel, HRLevel hrLevel)
         {
             Console.WriteLine("gsrLevel - " + gsrLevel);
             Console.WriteLine("hrLevel - " + hrLevel);
+
+            ArousalLevel arousalLevel = ArousalLevel.Unknown;
 
             if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
             {
@@ -245,6 +235,8 @@ namespace CLESMonitor.Model.ES
             {
                 arousalLevel = ArousalLevel.High;
             }
+
+            return arousalLevel;
         }
 
         /// <summary>

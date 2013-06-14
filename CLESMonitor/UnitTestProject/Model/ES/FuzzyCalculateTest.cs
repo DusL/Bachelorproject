@@ -1,10 +1,10 @@
 ﻿using System;
 using NUnit.Framework;
+using CLESMonitor.Model.ES;
+using System.Collections.Generic;
+using System.Linq;
 
-using CLESMonitor.Model;
-using OriginalCalulate = CLESMonitor.Model.ES.FuzzyCalculate;
-
-namespace UnitTest.Model
+namespace UnitTest.Model.ES
 {
     [TestFixture]
     public class FuzzyCalculateTest
@@ -17,14 +17,17 @@ namespace UnitTest.Model
         double result;
         double result2;
 
-        OriginalCalulate calc;
+        double expected;
+        List<double> inputList;
+
+        FuzzyCalculate calc;
 
         [SetUp]
         public void setUp()
         {
             mean = 20;
             sd = 4;
-            calc = new OriginalCalulate(); 
+            calc = new FuzzyCalculate(); 
         }
 
 
@@ -209,6 +212,7 @@ namespace UnitTest.Model
 
         #endregion
 
+        #region HR
         #region lowHRValue
 
         /// <summary>
@@ -344,6 +348,41 @@ namespace UnitTest.Model
             result = calc.highHRValue(mean, normalised);
             Assert.AreEqual(0, result);
         }
+        #endregion
+
+        #endregion
+
+        #region standardDeviation
+        /// <summary>
+        /// Test the method for lists with both, positive, negative and 0 values.
+        /// Expected values gathered through Wolfram Alpha.
+        /// </summary>
+        [Test]
+        public void standardDeviationFromList_FilledList()
+        {
+            inputList = new List<double>(new double[] { 5.0, 9.0, 4.0, 2.0, 0.0});
+            expected = 3.39116; // Made possible by Wolfram Alpha.
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(calc.standardDeviationFromList(inputList),2));
+
+            inputList = new List<double>(new double[] { 30.0, 22.1, -33.0, 6.0, 33.5});
+            expected = 27.1517;
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(calc.standardDeviationFromList(inputList), 2));
+        }
+
+        /// <summary>
+        /// When the method is called with an empty list we expect to return 0.0
+        /// </summary>
+        [Test]
+        public void standardDeviationFromList_EmptyList()
+        {
+            inputList = new List<double>();
+            expected = 0.0;
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(calc.standardDeviationFromList(inputList), 2));
+        }
+
         #endregion
 
         [TearDown]

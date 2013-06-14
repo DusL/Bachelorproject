@@ -177,6 +177,21 @@ namespace CLESMonitor.Model.ES
         }
 
         /// <summary>
+        /// Calculates the standard deviation when presented a list of values.
+        /// </summary>
+        /// <param name="list"></param>
+        /// <returns>The standard deviation of list</returns>
+        public double standardDeviationFromList(List<double> list)
+        {
+            double sumOfSquares = 0;
+            foreach (double value in list)
+            {
+                sumOfSquares += Math.Pow(value - list.Average(), 2);
+            }
+            return Math.Sqrt(sumOfSquares /( list.Count - 1));
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="HRValue"></param>

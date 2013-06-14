@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using CLESMonitor.Model.CL;
 
-namespace UnitTest.Model
+namespace UnitTest.Model.Cl
 {
     [TestFixture]
     public class VectorTest
