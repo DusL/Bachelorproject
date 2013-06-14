@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Xml;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {
     /// <summary>
     /// This is a support class for CTLModel. It can parse simulated scenario's in

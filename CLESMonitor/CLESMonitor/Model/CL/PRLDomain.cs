@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {    
     /// <summary>
     /// This enum is merely used to improve the readability. All domains are represented by integers,

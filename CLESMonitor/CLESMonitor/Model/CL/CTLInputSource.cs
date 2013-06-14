@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {
     public class InputElement
     {

@@ -5,7 +5,7 @@ using System.Threading;
 
 using CLESMonitor;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.ES
 {
     public enum GSRLevel
     {

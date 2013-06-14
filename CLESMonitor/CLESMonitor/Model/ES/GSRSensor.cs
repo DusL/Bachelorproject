@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.ES
 {
     /// <summary>
     /// The way in which the HRSensor will recieve its raw data

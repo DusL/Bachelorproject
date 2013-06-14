@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {
     /// <summary>
     /// This is a vector class, representing a vector in 3D space. It contains methods to

@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using CLESMonitor.Model;
+using CLESMonitor.Model.CL;
+using CLESMonitor.Model.ES;
 using CLESMonitor.View;
 using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;

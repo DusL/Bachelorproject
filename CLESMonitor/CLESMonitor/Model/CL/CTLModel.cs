@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {
     /// <summary>
     /// This class is an implementation of the CTL-model for cognitive load.

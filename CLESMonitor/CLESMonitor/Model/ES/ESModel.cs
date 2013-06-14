@@ -4,23 +4,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.ES
 {
     /// <summary>
-    /// This abstract class represents an Cognitive Load model.
+    /// This abstract class represents an Emotional State model.
     /// The method calculateModelValue() is the core method that will return
     /// calculated values from the model.
     /// </summary>
-    public abstract class CLModel
+    public abstract class ESModel
     {
-        //Time frame in seconds
-        public TimeSpan lengthTimeframe;
-
         /// <summary>
         /// Starts a new session, calculateModelValue() will
         /// now produce valid values.
         /// </summary>
         public abstract void startSession();
+
+        /// <summary>
+        /// Stops the current session.
+        /// </summary>
+        public abstract void stopSession();
 
         /// <summary>
         /// (Re)calculates the model value
@@ -29,8 +31,13 @@ namespace CLESMonitor.Model
         public abstract double calculateModelValue();
 
         /// <summary>
-        /// Stops the current session.
+        /// Start a calibration session.
         /// </summary>
-        public abstract void stopSession();
+        public abstract void startCalibration();
+
+        /// <summary>
+        /// Stops the current calibration session.
+        /// </summary>
+        public abstract void stopCalibration();
     }
 }

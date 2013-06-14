@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using CLESMonitor;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.ES
 {   
     /// <summary>
     /// Handles all (fuzzy) calculations for fuzzyModel. It can be used as a private instance, 

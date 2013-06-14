@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CLESMonitor.Model;
 
-namespace CLESMonitor.Model
+namespace CLESMonitor.Model.CL
 {
     public class CTLTask : ICloneable
     {

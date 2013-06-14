@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms.DataVisualization.Charting;
-using CLESMonitor.Model;
+using CLESMonitor.Model.ES;
 using CLESMonitor.View;
 
 namespace CLESMonitor.Controller

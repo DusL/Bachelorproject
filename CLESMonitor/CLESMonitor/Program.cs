@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CLESMonitor.Model;
+using CLESMonitor.Model.CL;
+using CLESMonitor.Model.ES;
 using CLESMonitor.Controller;
 
 namespace CLESMonitor

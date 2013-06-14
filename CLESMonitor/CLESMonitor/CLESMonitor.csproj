@@ -48,20 +48,20 @@
   <ItemGroup>
     <Compile Include="Controller\SensorViewController.cs" />
     <Compile Include="Controller\CLESMonitorViewController.cs" />
-    <Compile Include="Model\CTLInputSource.cs" />
-    <Compile Include="Model\CTLDomain.cs" />
-    <Compile Include="Model\FuzzyCalculate.cs" />
-    <Compile Include="Model\CLModel.cs" />
-    <Compile Include="Model\CTLEvent.cs" />
-    <Compile Include="Model\CTLModel.cs" />
-    <Compile Include="Model\CTLTask.cs" />
-    <Compile Include="Model\ESModel.cs" />
-    <Compile Include="Model\FuzzyModel.cs" />
-    <Compile Include="Model\GSRSensor.cs" />
-    <Compile Include="Model\HRSensor.cs" />
-    <Compile Include="Model\PRLDomain.cs" />
-    <Compile Include="Model\Vector.cs" />
-    <Compile Include="Model\XMLParser.cs" />
+    <Compile Include="Model\CL\CTLInputSource.cs" />
+    <Compile Include="Model\CL\CTLDomain.cs" />
+    <Compile Include="Model\ES\FuzzyCalculate.cs" />
+    <Compile Include="Model\CL\CLModel.cs" />
+    <Compile Include="Model\CL\CTLEvent.cs" />
+    <Compile Include="Model\CL\CTLModel.cs" />
+    <Compile Include="Model\CL\CTLTask.cs" />
+    <Compile Include="Model\ES\ESModel.cs" />
+    <Compile Include="Model\ES\FuzzyModel.cs" />
+    <Compile Include="Model\ES\GSRSensor.cs" />
+    <Compile Include="Model\ES\HRSensor.cs" />
+    <Compile Include="Model\CL\PRLDomain.cs" />
+    <Compile Include="Model\CL\Vector.cs" />
+    <Compile Include="Model\CL\XMLParser.cs" />
     <Compile Include="View\CLESMonitorViewForm.cs">
       <SubType>Form</SubType>
     </Compile>
