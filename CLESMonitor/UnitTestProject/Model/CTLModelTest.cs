@@ -1,4 +1,4 @@
-﻿using CLESMonitor.Model;
+﻿using CLESMonitor.Model.CL;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -14,7 +14,7 @@ namespace UnitTest.Model
     {
         Mock<CTLInputSource> mockedInputSource;
         Mock<CTLDomain> mockedDomain;
-        CLESMonitor.Model.CTLModel ctlModel;
+        CTLModel ctlModel;
 
         InputElement startedEvent;
         InputElement stoppedEvent;
@@ -32,7 +32,7 @@ namespace UnitTest.Model
         {
             mockedInputSource = new Mock<CTLInputSource>();
             mockedDomain = new Mock<CTLDomain>();
-            ctlModel = new CLESMonitor.Model.CTLModel(mockedInputSource.Object, mockedDomain.Object);
+            ctlModel = new CTLModel(mockedInputSource.Object, mockedDomain.Object);
 
             // Setup event-related data
             startedEvent = new InputElement("1", "TEST", InputElement.Type.Event, InputElement.Action.Started);

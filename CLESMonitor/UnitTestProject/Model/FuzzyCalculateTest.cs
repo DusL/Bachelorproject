@@ -2,7 +2,7 @@
 using NUnit.Framework;
 
 using CLESMonitor.Model;
-using OriginalCalulate = CLESMonitor.Model.FuzzyCalculate;
+using OriginalCalulate = CLESMonitor.Model.ES.FuzzyCalculate;
 
 namespace UnitTest.Model
 {

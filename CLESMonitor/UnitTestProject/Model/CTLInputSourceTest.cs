@@ -1,4 +1,4 @@
-﻿using CLESMonitor.Model;
+﻿using CLESMonitor.Model.CL;
 using Moq;
 using NUnit.Framework;
 using System;

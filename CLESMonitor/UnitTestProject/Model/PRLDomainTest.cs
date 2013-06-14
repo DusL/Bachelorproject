@@ -1,8 +1,8 @@
 ﻿using CLESMonitor.Controller;
-using CLESMonitor.Model;
+using CLESMonitor.Model.CL;
 using NUnit.Framework;
 using System;
-using OriginalDomain = CLESMonitor.Model.PRLDomain;
+using OriginalDomain = CLESMonitor.Model.CL.PRLDomain;
 
 namespace UnitTest.Model
 {

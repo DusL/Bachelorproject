@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using CLESMonitor.Model;
+using CLESMonitor.Model.CL;
 
 namespace UnitTest.Model
 {
