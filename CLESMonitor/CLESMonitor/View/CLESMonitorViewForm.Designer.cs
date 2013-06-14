@@ -119,7 +119,10 @@
             this.ESChart.BorderlineColor = System.Drawing.Color.Gray;
             this.ESChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.ESChart.BorderlineWidth = 2;
+            chartArea2.AxisX.Interval = 2D;
+            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea2.AxisX.Title = "Sessietijd";
+            chartArea2.AxisY.Maximum = 5D;
             chartArea2.Name = "ChartArea1";
             this.ESChart.ChartAreas.Add(chartArea2);
             this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;

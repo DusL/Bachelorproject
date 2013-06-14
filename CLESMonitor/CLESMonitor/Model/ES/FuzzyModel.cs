@@ -180,15 +180,14 @@ namespace CLESMonitor.Model.ES
             currentGSR = gsrSensor.sensorValue;
 
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
-            Console.WriteLine("currentHR - " + currentHR);
-            Console.WriteLine("currentGSR - " + currentGSR);
-           
             normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
             normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
 
-            Console.WriteLine("normalisedHR - " + normalisedHR);
-            Console.WriteLine("normalisedGSR - " + normalisedGSR);
             fuzzyArousalRules();
+            findGSRLevel(fuzzyGSR());
+            findHRLevel(fuzzyHR());
+
+            Console.WriteLine("arousalLevel - " + arousalLevel);
 
             return (double)arousalLevel;
         }
@@ -198,6 +197,9 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public void fuzzyArousalRules()
         {
+            Console.WriteLine("gsrLevel - " + gsrLevel);
+            Console.WriteLine("hrLevel - " + hrLevel);
+
             if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
             {
                 arousalLevel = ArousalLevel.MidHigh;
