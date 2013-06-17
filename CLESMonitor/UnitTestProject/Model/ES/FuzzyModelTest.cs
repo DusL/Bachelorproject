@@ -3,6 +3,7 @@ using NUnit.Framework;
 using Moq;
 using CLESMonitor.Model.ES;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace UnitTest.Model.ES
 {
@@ -32,17 +33,28 @@ namespace UnitTest.Model.ES
             model = new FuzzyModel(hrSensor, gsrSensor);
         }
 
+        [TearDown]
+        public void tearDown()
+        {
+            hrSensor = null;
+            gsrSensor = null;
+
+            model = null;
+        }
+
         [Test]
         public void CallBack()
         {
-            model.startCalibration();
-
-            List<double> hrList = new List<double>(new double[] {3.0});
+            model.startCalibrationWithTimerParameters(Timeout.Infinite, Timeout.Infinite);
+                
+            List<double> hrList = new List<double>(new double[] { 3.0});
             List<double> gsrList = new List<double>(new double[] {5.0});
             
             hrSensor.sensorValue = hrValue = 3.0;
             gsrSensor.sensorValue = gsrValue = 5.0;
             
+            model.calibrationTimerCallback(null);
+
             Assert.AreEqual(hrList, model.calibrationHR);
             Assert.AreEqual(gsrList, model.calibrationGSR);
 
@@ -106,7 +118,10 @@ namespace UnitTest.Model.ES
 
         [Test]
         public void fuzzyArousalRules()
-        { 
+        {
+            GSRLevel gsrLevel = GSRLevel.High;
+            HRLevel hrLevel = HRLevel.Low;
+            
             // TODO: Hier was ik gebleven.
         }
     }

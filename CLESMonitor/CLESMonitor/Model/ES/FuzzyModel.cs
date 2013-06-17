@@ -106,12 +106,10 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void startCalibration()
         {
-            TimerCallback timerCallback = calibrationTimerCallback;
-            startCalibrationWithTimerParameters(timerCallback, null, 0, 1000);
+            startCalibrationWithTimerParameters(0, 1000);
         }
 
-        public void startCalibrationWithTimerParameters(TimerCallback callback, object state, 
-            int dueTime, int period)
+        public void startCalibrationWithTimerParameters(int dueTime, int period)
         {
             Console.WriteLine("FuzzyModel.startCalibration()");
 
@@ -119,7 +117,8 @@ namespace CLESMonitor.Model.ES
             calibrationGSR = new List<double>();
 
             // Create and start a timer to poll the sensors
-            calibrationTimer = new Timer(callback, state, dueTime, period);
+            TimerCallback timerCallback = calibrationTimerCallback;
+            calibrationTimer = new Timer(timerCallback, null, dueTime, period);
         }
 
         /// <summary>
@@ -127,6 +126,8 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopCalibration()
         {
+
+            //TODO: Ongetest
             Console.WriteLine("FuzzyModel.stopCalibration()");
 
             calibrationTimer.Dispose();
@@ -196,51 +197,58 @@ namespace CLESMonitor.Model.ES
 
             ArousalLevel arousalLevel = ArousalLevel.Unknown;
 
-            if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidHigh) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidLow) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
-            else if (gsrLevel.Equals(GSRLevel.Low) && hrLevel.Equals(HRLevel.High))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
+            // Create a 2-dimensional array of length 5, 4
+            ArousalLevel[,] arousal = new ArousalLevel[(int)GSRLevel.High, (int)HRLevel.High];
+            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.Low, (int)HRLevel.Low] = ArousalLevel.Low;
+            
 
-            else if (gsrLevel.Equals(GSRLevel.High))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidHigh))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidLow))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
-            else if (gsrLevel.Equals(GSRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.Low;
-            }
-            else if (hrLevel.Equals(HRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.Low;
-            }
-            else if (hrLevel.Equals(HRLevel.High))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
+
+                if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
+                {
+                    arousalLevel = ArousalLevel.MidHigh;
+                }
+                else if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Mid))
+                {
+                    arousalLevel = ArousalLevel.High;
+                }
+                else if (gsrLevel.Equals(GSRLevel.MidHigh) && hrLevel.Equals(HRLevel.Mid))
+                {
+                    arousalLevel = ArousalLevel.MidHigh;
+                }
+                else if (gsrLevel.Equals(GSRLevel.MidLow) && hrLevel.Equals(HRLevel.Mid))
+                {
+                    arousalLevel = ArousalLevel.MidLow;
+                }
+                else if (gsrLevel.Equals(GSRLevel.Low) && hrLevel.Equals(HRLevel.High))
+                {
+                    arousalLevel = ArousalLevel.MidLow;
+                }
+
+                else if (gsrLevel.Equals(GSRLevel.High))
+                {
+                    arousalLevel = ArousalLevel.High;
+                }
+                else if (gsrLevel.Equals(GSRLevel.MidHigh))
+                {
+                    arousalLevel = ArousalLevel.MidHigh;
+                }
+                else if (gsrLevel.Equals(GSRLevel.MidLow))
+                {
+                    arousalLevel = ArousalLevel.MidLow;
+                }
+                else if (gsrLevel.Equals(GSRLevel.Low))
+                {
+                    arousalLevel = ArousalLevel.Low;
+                }
+                else if (hrLevel.Equals(HRLevel.Low))
+                {
+                    arousalLevel = ArousalLevel.Low;
+                }
+                else if (hrLevel.Equals(HRLevel.High))
+                {
+                    arousalLevel = ArousalLevel.High;
+                }
 
             return arousalLevel;
         }
