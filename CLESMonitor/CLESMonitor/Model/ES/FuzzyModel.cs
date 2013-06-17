@@ -106,14 +106,20 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void startCalibration()
         {
+            TimerCallback timerCallback = calibrationTimerCallback;
+            startCalibrationWithTimerParameters(timerCallback, null, 0, 1000);
+        }
+
+        public void startCalibrationWithTimerParameters(TimerCallback callback, object state, 
+            int dueTime, int period)
+        {
             Console.WriteLine("FuzzyModel.startCalibration()");
 
             calibrationHR = new List<double>();
             calibrationGSR = new List<double>();
 
             // Create and start a timer to poll the sensors
-            TimerCallback timerCallback = calibrationTimerCallback;
-            calibrationTimer = new Timer(timerCallback, null, 0, 1000);
+            calibrationTimer = new Timer(callback, state, dueTime, period);
         }
 
         /// <summary>
