@@ -19,9 +19,6 @@ namespace CLESMonitor.Controller
 
         private XMLParser parser;
 
-        // Outlets
-        OpenFileDialog openFileDialog;
-
         /// <summary>
         /// The constructor method.
         /// </summary>
@@ -31,13 +28,6 @@ namespace CLESMonitor.Controller
             this.View = new CTLModelUtilityView(this);
             this.ctlModel = ctlModel;
             this.parser = parser;
-
-            setupOutlets();
-        }
-
-        private void setupOutlets()
-        {
-            openFileDialog = View.openFileDialog;
         }
 
         /// <summary>
@@ -45,11 +35,11 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void openScenarioFileDialog()
         {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            if (View.openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                StreamReader streamReader = new StreamReader(File.Open(openFileDialog.FileName, FileMode.Open));
+                StreamReader streamReader = new StreamReader(File.Open(View.openFileDialog.FileName, FileMode.Open));
                 parser.loadTextReader(streamReader);
-                Console.WriteLine("Gekozen file: " + openFileDialog.FileName);
+                Console.WriteLine("Gekozen file: " + View.openFileDialog.FileName);
             }
         }
     }

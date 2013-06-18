@@ -30,6 +30,7 @@
         {
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.activeListView = new System.Windows.Forms.ListView();
             this.SuspendLayout();
             // 
             // openScenarioFileButton
@@ -47,11 +48,21 @@
             this.openFileDialog.FileName = "openFileDialog1";
             this.openFileDialog.Filter = "XML files (*.xml)|*.xml";
             // 
+            // activeListView
+            // 
+            this.activeListView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.activeListView.Location = new System.Drawing.Point(0, 70);
+            this.activeListView.Name = "activeListView";
+            this.activeListView.Size = new System.Drawing.Size(442, 192);
+            this.activeListView.TabIndex = 23;
+            this.activeListView.UseCompatibleStateImageBehavior = false;
+            // 
             // CTLModelUtilityView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(442, 262);
+            this.Controls.Add(this.activeListView);
             this.Controls.Add(this.openScenarioFileButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CTLModelUtilityView";
@@ -64,6 +75,7 @@
 
         public System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button openScenarioFileButton;
+        public System.Windows.Forms.ListView activeListView;
 
 
     }
