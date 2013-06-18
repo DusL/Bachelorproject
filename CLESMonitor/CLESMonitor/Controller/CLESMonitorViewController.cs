@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using CLESMonitor.Model.CL;
+﻿using CLESMonitor.Model.CL;
 using CLESMonitor.Model.ES;
 using CLESMonitor.View;
-using System.Threading;
-using System.Windows.Forms.DataVisualization.Charting;
-using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CLESMonitor.Controller
 {
-    enum ViewControllerState
+    public enum ViewControllerState
     {
         Unknown,
         Started,
@@ -24,6 +23,9 @@ namespace CLESMonitor.Controller
         Calibrating
     }
 
+    /// <summary>
+    /// CLESMonitorViewController is the main viewcontroller for the CLESMonitor application.
+    /// </summary>
     public class CLESMonitorViewController
     {
         private const double TIME_WINDOW = 0.5; //in minutes
@@ -36,33 +38,10 @@ namespace CLESMonitor.Controller
         private TimeSpan emptyTimer;
         private TimeSpan currentSessionTime;
 
-        // References to sensors for manual input
-        private HRSensor _hrSensor;
-        public HRSensor hrSensor
-        {
-            get { return _hrSensor; }
-            set
-            {
-                _hrSensor = value;
-                _hrSensor.type = HRSensorType.ManualInput;
-            }
-        }
-        private GSRSensor _gsrSensor;
-        public GSRSensor gsrSensor
-        {
-            get { return _gsrSensor; }
-            set
-            {
-                _gsrSensor = value;
-                _gsrSensor.type = GSRSensorType.ManualInput;
-            }
-        }
-
-        public XMLParser parser;
-
         public delegate void UpdateDelegate();
 
-        private ViewControllerState currentState;
+        /// <summary>The current state of the viewcontroller</summary>
+        public ViewControllerState currentState;
 
         // Outlets
         Chart CLChart;
@@ -74,13 +53,27 @@ namespace CLESMonitor.Controller
         Button startButton;
         Button stopButton;
         Button pauseButton;
-        OpenFileDialog openFileDialog;
         TableLayoutPanel tableLayoutPanel2;
 
         /// <summary>The View this Controller manages</summary>
         public CLESMonitorViewForm View { get; set; }
-        public Form clUtilityView { get; set; }
-        private Form _esUtilityView;
+        
+        /// <summary>A utility view for the CL aspect of the monitor</summary>
+        public Form clUtilityView
+        {
+            get { return _clUtilityView; }
+            set
+            {
+                _clUtilityView = value;
+                _clUtilityView.TopLevel = false;
+                _clUtilityView.Visible = true;
+                _clUtilityView.Dock = DockStyle.Fill;
+                tableLayoutPanel2.Controls.Add(_clUtilityView);
+            }
+        }
+        private Form _clUtilityView; //backing field
+
+        /// <summary>A utility view for the ES aspect of the monitor</summary>
         public Form esUtilityView 
         {
             get { return _esUtilityView; }            
@@ -93,6 +86,7 @@ namespace CLESMonitor.Controller
                 tableLayoutPanel2.Controls.Add(_esUtilityView);
             }
         }
+        private Form _esUtilityView; //backing field
 
         /// <summary>
         /// The constructor method.
@@ -109,6 +103,7 @@ namespace CLESMonitor.Controller
             this.setupOutlets();
 
             // Setup of chart1
+            // TODO: onderstaande in de grafische editor stoppen
             CLChart.Series.Clear();
             Series newSeries = new Series("Series1");
             newSeries.ChartType = SeriesChartType.FastLine;
@@ -118,6 +113,7 @@ namespace CLESMonitor.Controller
             CLChart.Series.Add(newSeries);
 
             // Setup of chart2
+            // TODO: onderstaande in de grafische editor stoppen
             ESChart.Series.Clear();
             Series newSeries2 = new Series("Series1");
             newSeries2.ChartType = SeriesChartType.Line;
@@ -149,12 +145,10 @@ namespace CLESMonitor.Controller
             ESChart = this.View.ESChart;
             clTextBox = this.View.clTextBox;
             esTextBox = this.View.esTextBox;
-            richTextBox1 = this.View.richTextBox1;
             sessionTimeBox = this.View.sessionTimeBox;
             startButton = this.View.startButton;
             stopButton = this.View.stopButton;
             pauseButton = this.View.pauseButton;
-            openFileDialog = this.View.openFileDialog1;
             tableLayoutPanel2 = this.View.tableLayoutPanel2;
         }
 
@@ -172,13 +166,13 @@ namespace CLESMonitor.Controller
                     CLChart.Invoke(new UpdateDelegate(UpdateCLChartData));
                     ESChart.Invoke(new UpdateDelegate(UpdateESChartData));
                 }
-                richTextBox1.Invoke(new UpdateDelegate(UpdateConsole));
                 sessionTimeBox.Invoke(new UpdateDelegate(UpdateSessionTime));
 
                 // TODO: vervangen met een timer
                 Thread.Sleep(LOOP_SLEEP_INTERVAL);
             }
         }
+
         /// <summary>
         /// Keeps the session time up-to-date
         /// </summary>
@@ -186,24 +180,18 @@ namespace CLESMonitor.Controller
         {
             currentSessionTime =  DateTime.Now - startTime;
             sessionTimeBox.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
-
         }
 
-        ///<summary>
-        /// Writes console messages (as part of the runloop) 
-        ///</summary>
-        private void UpdateConsole()
-        {
-        }
-
+        // FIXME: strings schrijven naar?
         /// <summary>
-        /// Writes a string to the console in the GUI
+        /// Writes a string to the console
         /// </summary>
         /// <param name="stringToWrite"></param>
         private void writeStringToConsole(String stringToWrite)
         {
-            richTextBox1.Select(0, 0);
-            richTextBox1.SelectedText = " " + stringToWrite + "\n";
+            //richTextBox1.Select(0, 0);
+            //richTextBox1.SelectedText = " " + stringToWrite + "\n";
+            Console.WriteLine(stringToWrite);
         }
 
         /// <summary>
@@ -312,20 +300,6 @@ namespace CLESMonitor.Controller
 
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
-        }
-
-        /// <summary>
-        /// Action method when the openScenarioFileButton is clicked.
-        /// </summary>
-        public void openScenarioFileDialog()
-        {
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                StreamReader streamReader = new StreamReader(File.Open(openFileDialog.FileName, FileMode.Open));
-                parser.loadTextReader(streamReader);
-                writeStringToConsole("Gekozen file: " + openFileDialog.FileName);
-                startButton.Enabled = true;
-            }            
         }
     }
 }

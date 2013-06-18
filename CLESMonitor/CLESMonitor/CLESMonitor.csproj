@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\CTLModelUtilityViewController.cs" />
     <Compile Include="Controller\FuzzyModelUtilityViewController.cs" />
     <Compile Include="Controller\SensorViewController.cs" />
     <Compile Include="Controller\CLESMonitorViewController.cs" />
@@ -71,6 +72,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="View\CTLModelUtilityView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View\CTLModelUtilityView.Designer.cs">
+      <DependentUpon>CTLModelUtilityView.cs</DependentUpon>
+    </Compile>
     <Compile Include="View\FuzzyModelUtilityView.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +101,9 @@
     </Compile>
     <EmbeddedResource Include="View\CLESMonitorViewForm.resx">
       <DependentUpon>CLESMonitorViewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View\CTLModelUtilityView.resx">
+      <DependentUpon>CTLModelUtilityView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\FuzzyModelUtilityView.resx">
       <DependentUpon>FuzzyModelUtilityView.cs</DependentUpon>
