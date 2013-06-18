@@ -40,15 +40,5 @@ namespace CLESMonitor.View
         {
             _controller.openScenarioFileDialog();
         }
-
-        private void calibrateButton_Click(object sender, EventArgs e)
-        {
-           _controller.calibrateButtonClicked();
-        }
-
-        private void sensorButton_Click(object sender, EventArgs e)
-        {
-            _controller.sensorButtonClicked();
-        }
     }
 }

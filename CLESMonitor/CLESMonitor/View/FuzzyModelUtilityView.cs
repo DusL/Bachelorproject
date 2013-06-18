@@ -15,6 +15,10 @@ namespace CLESMonitor.View
     {
         private FuzzyModelUtilityViewController controller;
 
+        /// <summary>
+        /// The Constructor method.
+        /// </summary>
+        /// <param name="controller">A viewController for this view.</param>
         public FuzzyModelUtilityView(FuzzyModelUtilityViewController controller)
         {
             InitializeComponent();
@@ -59,6 +63,16 @@ namespace CLESMonitor.View
         private void gsrTrackBar_Scroll(object sender, EventArgs e)
         {
             controller.GSRValueChangedInManualContext(sender);
+        }
+
+        private void calibrateButton_Click(object sender, EventArgs e)
+        {
+            controller.calibrateButtonClicked();
+        }
+
+        private void sensorButton_Click(object sender, EventArgs e)
+        {
+            controller.sensorButtonClicked();
         }
     }
 }

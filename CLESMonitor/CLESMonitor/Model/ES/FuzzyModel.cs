@@ -44,8 +44,8 @@ namespace CLESMonitor.Model.ES
         //
         private FuzzyCalculate calculate;
         // Sensors
-        private HRSensor hrSensor;
-        private GSRSensor gsrSensor;
+        public HRSensor hrSensor { get; private set; }
+        public GSRSensor gsrSensor { get; private set; }
 
         // Data from calibration periode
         private Timer calibrationTimer;

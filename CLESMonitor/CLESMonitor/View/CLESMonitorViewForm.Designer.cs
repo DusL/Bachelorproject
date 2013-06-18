@@ -29,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title13 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title14 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
@@ -47,14 +47,12 @@
             this.esTextBox = new System.Windows.Forms.TextBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pauseButton = new System.Windows.Forms.Button();
-            this.calibrateButton = new System.Windows.Forms.Button();
             this.timeLable = new System.Windows.Forms.Label();
-            this.sesionTimeBox = new System.Windows.Forms.TextBox();
+            this.sessionTimeBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.sensorButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -66,62 +64,62 @@
             this.CLChart.BorderlineColor = System.Drawing.Color.Gray;
             this.CLChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.CLChart.BorderlineWidth = 2;
-            chartArea13.AxisX.Interval = 2D;
-            chartArea13.AxisX.ScaleView.MinSize = 10D;
-            chartArea13.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea13.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
-            chartArea13.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea13.AxisX.Title = "Sessietijd";
-            chartArea13.AxisY.Maximum = 2D;
-            chartArea13.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea13.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea13);
+            chartArea3.AxisX.Interval = 2D;
+            chartArea3.AxisX.ScaleView.MinSize = 10D;
+            chartArea3.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea3.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
+            chartArea3.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea3.AxisX.Title = "Sessietijd";
+            chartArea3.AxisY.Maximum = 2D;
+            chartArea3.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea3.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea3);
             this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend13.Enabled = false;
-            legend13.Name = "Legend1";
-            this.CLChart.Legends.Add(legend13);
+            legend3.Enabled = false;
+            legend3.Name = "Legend1";
+            this.CLChart.Legends.Add(legend3);
             this.CLChart.Location = new System.Drawing.Point(3, 3);
             this.CLChart.Name = "CLChart";
-            series13.ChartArea = "ChartArea1";
-            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series13.Legend = "Legend1";
-            series13.Name = "Series1";
-            this.CLChart.Series.Add(series13);
-            this.CLChart.Size = new System.Drawing.Size(474, 376);
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series3.Legend = "Legend1";
+            series3.Name = "Series1";
+            this.CLChart.Series.Add(series3);
+            this.CLChart.Size = new System.Drawing.Size(474, 344);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title13.Name = "CL-Waarden";
-            title13.Text = "CL-Waarden";
-            this.CLChart.Titles.Add(title13);
+            title3.Name = "CL-Waarden";
+            title3.Text = "Cognitieve Belasting";
+            this.CLChart.Titles.Add(title3);
             // 
             // ESChart
             // 
             this.ESChart.BorderlineColor = System.Drawing.Color.Gray;
             this.ESChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.ESChart.BorderlineWidth = 2;
-            chartArea14.AxisX.Interval = 2D;
-            chartArea14.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea14.AxisX.Title = "Sessietijd";
-            chartArea14.AxisY.Maximum = 5D;
-            chartArea14.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea14);
+            chartArea4.AxisX.Interval = 2D;
+            chartArea4.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea4.AxisX.Title = "Sessietijd";
+            chartArea4.AxisY.Maximum = 5D;
+            chartArea4.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea4);
             this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend14.Enabled = false;
-            legend14.Name = "Legend1";
-            this.ESChart.Legends.Add(legend14);
+            legend4.Enabled = false;
+            legend4.Name = "Legend1";
+            this.ESChart.Legends.Add(legend4);
             this.ESChart.Location = new System.Drawing.Point(483, 3);
             this.ESChart.Name = "ESChart";
-            series14.ChartArea = "ChartArea1";
-            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series14.Legend = "Legend1";
-            series14.Name = "Series1";
-            this.ESChart.Series.Add(series14);
-            this.ESChart.Size = new System.Drawing.Size(474, 376);
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series4.Legend = "Legend1";
+            series4.Name = "Series1";
+            this.ESChart.Series.Add(series4);
+            this.ESChart.Size = new System.Drawing.Size(474, 344);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title14.Name = "ES-waarden";
-            title14.Text = "ES-Waarden";
-            this.ESChart.Titles.Add(title14);
+            title4.Name = "ES-waarden";
+            title4.Text = "Emotionele Toestand";
+            this.ESChart.Titles.Add(title4);
             // 
             // startButton
             // 
@@ -207,17 +205,6 @@
             this.pauseButton.UseVisualStyleBackColor = true;
             this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
-            // calibrateButton
-            // 
-            this.calibrateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.calibrateButton.Location = new System.Drawing.Point(516, 661);
-            this.calibrateButton.Name = "calibrateButton";
-            this.calibrateButton.Size = new System.Drawing.Size(120, 40);
-            this.calibrateButton.TabIndex = 12;
-            this.calibrateButton.Text = "Kalibreren";
-            this.calibrateButton.UseVisualStyleBackColor = true;
-            this.calibrateButton.Click += new System.EventHandler(this.calibrateButton_Click);
-            // 
             // timeLable
             // 
             this.timeLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -228,13 +215,13 @@
             this.timeLable.TabIndex = 13;
             this.timeLable.Text = "Sessie Tijd";
             // 
-            // sesionTimeBox
+            // sessionTimeBox
             // 
-            this.sesionTimeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sesionTimeBox.Location = new System.Drawing.Point(890, 672);
-            this.sesionTimeBox.Name = "sesionTimeBox";
-            this.sesionTimeBox.Size = new System.Drawing.Size(82, 20);
-            this.sesionTimeBox.TabIndex = 14;
+            this.sessionTimeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sessionTimeBox.Location = new System.Drawing.Point(890, 672);
+            this.sessionTimeBox.Name = "sessionTimeBox";
+            this.sessionTimeBox.Size = new System.Drawing.Size(82, 20);
+            this.sessionTimeBox.TabIndex = 14;
             // 
             // tableLayoutPanel1
             // 
@@ -285,29 +272,16 @@
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Filter = "XML files (*.xml)|*.xml";
             // 
-            // sensorButton
-            // 
-            this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.sensorButton.Location = new System.Drawing.Point(642, 661);
-            this.sensorButton.Name = "sensorButton";
-            this.sensorButton.Size = new System.Drawing.Size(120, 40);
-            this.sensorButton.TabIndex = 22;
-            this.sensorButton.Text = "Bekijk sensor input";
-            this.sensorButton.UseVisualStyleBackColor = true;
-            this.sensorButton.Click += new System.EventHandler(this.sensorButton_Click);
-            // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 712);
-            this.Controls.Add(this.sensorButton);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.openScenarioFileButton);
-            this.Controls.Add(this.sesionTimeBox);
+            this.Controls.Add(this.sessionTimeBox);
             this.Controls.Add(this.timeLable);
-            this.Controls.Add(this.calibrateButton);
             this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.esTextBox);
             this.Controls.Add(this.clTextBox);
@@ -318,7 +292,7 @@
             this.MinimumSize = new System.Drawing.Size(825, 600);
             this.Name = "CLESMonitorViewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CLES-Monitor";
+            this.Text = "Monitor voor Cognitieve Belasting en Emotionele Toestand";
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -340,12 +314,10 @@
         public System.Windows.Forms.Button startButton;
         public System.Windows.Forms.Button stopButton;
         public System.Windows.Forms.Button pauseButton;
-        public System.Windows.Forms.Button calibrateButton;
-        public System.Windows.Forms.TextBox sesionTimeBox;
+        public System.Windows.Forms.TextBox sessionTimeBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button openScenarioFileButton;
         public System.Windows.Forms.OpenFileDialog openFileDialog1;
-        public System.Windows.Forms.Button sensorButton;
         public System.Windows.Forms.Label timeLable;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 

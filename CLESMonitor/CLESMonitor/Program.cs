@@ -33,7 +33,7 @@ namespace CLESMonitor
             controller.hrSensor = hrSensor;
             controller.gsrSensor = gsrSensor;
 
-            FuzzyModelUtilityViewController esUtilityVC = new FuzzyModelUtilityViewController(hrSensor, gsrSensor);
+            FuzzyModelUtilityViewController esUtilityVC = new FuzzyModelUtilityViewController(fuzzyModel);
             controller.esUtilityView = esUtilityVC.View;
 
             Application.Run(controller.View);

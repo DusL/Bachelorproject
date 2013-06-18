@@ -43,6 +43,8 @@
             this.gsrMinusButton = new System.Windows.Forms.Button();
             this.gsrPlusButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.sensorButton = new System.Windows.Forms.Button();
+            this.calibrateButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hrTrackbar)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -211,6 +213,8 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.sensorButton);
+            this.groupBox2.Controls.Add(this.calibrateButton);
             this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.groupBox3);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -220,6 +224,27 @@
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Sensoren";
+            // 
+            // sensorButton
+            // 
+            this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.sensorButton.Location = new System.Drawing.Point(261, 222);
+            this.sensorButton.Name = "sensorButton";
+            this.sensorButton.Size = new System.Drawing.Size(120, 40);
+            this.sensorButton.TabIndex = 25;
+            this.sensorButton.Text = "Bekijk sensor input";
+            this.sensorButton.UseVisualStyleBackColor = true;
+            this.sensorButton.Click += new System.EventHandler(this.sensorButton_Click);
+            // 
+            // calibrateButton
+            // 
+            this.calibrateButton.Location = new System.Drawing.Point(6, 222);
+            this.calibrateButton.Name = "calibrateButton";
+            this.calibrateButton.Size = new System.Drawing.Size(120, 40);
+            this.calibrateButton.TabIndex = 24;
+            this.calibrateButton.Text = "Kalibreren";
+            this.calibrateButton.UseVisualStyleBackColor = true;
+            this.calibrateButton.Click += new System.EventHandler(this.calibrateButton_Click);
             // 
             // FuzzyModelUtilityView
             // 
@@ -258,6 +283,8 @@
         private System.Windows.Forms.Button gsrMinusButton;
         private System.Windows.Forms.Button gsrPlusButton;
         private System.Windows.Forms.GroupBox groupBox2;
+        public System.Windows.Forms.Button sensorButton;
+        public System.Windows.Forms.Button calibrateButton;
 
     }
 }

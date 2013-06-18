@@ -29,12 +29,6 @@ namespace CLESMonitor.Controller
         private const double TIME_WINDOW = 0.5; //in minutes
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
 
-        System.Windows.Forms.Timer timer;
-        private TimeSpan timeSpanCounter;
-        private TimeSpan reductionSpan;
-
-        private SensorViewController sensorController;
-
         private CLModel clModel;
         private ESModel esModel;
         private Thread updateChartDataThread;
@@ -80,7 +74,6 @@ namespace CLESMonitor.Controller
         Button startButton;
         Button stopButton;
         Button pauseButton;
-        Button calibrateButton;
         OpenFileDialog openFileDialog;
         TableLayoutPanel tableLayoutPanel2;
 
@@ -101,6 +94,11 @@ namespace CLESMonitor.Controller
             }
         }
 
+        /// <summary>
+        /// The constructor method.
+        /// </summary>
+        /// <param name="clModel">The CL model to use.</param>
+        /// <param name="esModel">The ES model to use.</param>
         public CLESMonitorViewController(CLModel clModel, ESModel esModel)
         {
             View = new CLESMonitorViewForm(this);
@@ -152,10 +150,9 @@ namespace CLESMonitor.Controller
             clTextBox = this.View.clTextBox;
             esTextBox = this.View.esTextBox;
             richTextBox1 = this.View.richTextBox1;
-            sessionTimeBox = this.View.sesionTimeBox;
+            sessionTimeBox = this.View.sessionTimeBox;
             startButton = this.View.startButton;
             stopButton = this.View.stopButton;
-            calibrateButton = this.View.calibrateButton;
             pauseButton = this.View.pauseButton;
             openFileDialog = this.View.openFileDialog1;
             tableLayoutPanel2 = this.View.tableLayoutPanel2;
@@ -287,7 +284,6 @@ namespace CLESMonitor.Controller
             startButton.Enabled = false;
             pauseButton.Enabled = true;
             stopButton.Enabled = true;
-            calibrateButton.Enabled = false;
 
             this.writeStringToConsole("ViewController State = Started");
             this.currentState = ViewControllerState.Started;
@@ -311,7 +307,6 @@ namespace CLESMonitor.Controller
 
             updateChartDataThread.Suspend();
             stopButton.Enabled = false;
-            View.calibrateButton.Enabled = false;
             pauseButton.Enabled = false;
             startButton.Enabled = true;
 
@@ -332,96 +327,5 @@ namespace CLESMonitor.Controller
                 startButton.Enabled = true;
             }            
         }
-
-        /// <summary>
-        /// Action method when the calibrate button is clicked.
-        /// </summary>
-        public void calibrateButtonClicked()
-        {
-            // Setup sensorViewController
-            if (sensorController == null)
-            {
-                sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
-            }
-            
-            //When the button isfirst pressed, show the sensorForm and start calabration.
-            if (currentState == ViewControllerState.Stopped)
-            {
-                
-                // Show the form
-                sensorController.View.Show();
-                
-                // Setup the countdown calibration timer 
-                timeSpanCounter = new TimeSpan(0, 5, 0);
-                reductionSpan = new TimeSpan(0, 0, 1);
-                timer = new System.Windows.Forms.Timer();
-                timer.Tick += new EventHandler(timer_Tick);
-                timer.Interval = 1000; // 1 second
-                timer.Start();
-                View.sesionTimeBox.Text = timeSpanCounter.ToString(@"%h\:mm\:ss");
-
-
-                // Pass any manual input values for the first time,
-                // they are passed on change.
-                if (hrSensor.type == HRSensorType.ManualInput)
-                {
-                    // FIXME: dit is niet meer mogelijk
-                    //hrSensor.sensorValue = hrTrackbar.Value;
-                }
-                if (gsrSensor.type == GSRSensorType.ManualInput)
-                {
-                    // FIXME: dit is niet meer mogelijk
-                    //gsrSensor.sensorValue = gsrTrackbar.Value;
-                }
-
-                View.timeLable.Text = "Kalibratie tijd";
-
-                // startCalibrating
-                esModel.startCalibration();
-                currentState = ViewControllerState.Calibrating;
-                writeStringToConsole("Calibratie gestart");
-            }
-            //When the button is pressed for a second time, the calibration is stopped
-            else if (currentState == ViewControllerState.Calibrating)
-            {
-                // Stop the countdown and set the form back to the original state
-                timer.Stop();
-                View.timeLable.Text = "Sessie tijd";
-                View.sesionTimeBox.Text = emptyTimer.ToString();
-
-                esModel.stopCalibration();
-                currentState = ViewControllerState.Stopped;
-                writeStringToConsole("Calibratie gestopt");
-            }
-        }
-
-        /// <summary>
-        /// Reduces the counter by 1 second, each second. When the counter is 0, stop calibrating and stop the timer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void timer_Tick(object sender, EventArgs e)
-        {
-            timeSpanCounter -= reductionSpan;
-            if (timeSpanCounter.TotalSeconds == 0)
-            {
-                timer.Stop();
-                esModel.stopCalibration();
-            }
-            
-            View.sesionTimeBox.Text = timeSpanCounter.ToString(@"%h\:mm\:ss");
-        }
-
-        /// <summary>
-        /// Action Method: When the sensorButton is clicked, a SensorView is created and the from is shown
-        /// </summary>
-        public void sensorButtonClicked()
-        {
-            sensorController = new SensorViewController(this.hrSensor, this.gsrSensor);
-            sensorController.View.Show();
-        }
-
-
-        
     }
 }
