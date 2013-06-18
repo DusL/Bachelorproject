@@ -51,10 +51,10 @@ namespace CLESMonitor.Model.ES
         private Timer calibrationTimer;
         private List<double> calibrationHR; //in beats/minute
         private List<double> calibrationGSR; //in siemens
-        private double HRMax, HRMin;
-        private double GSRMax, GSRMin;
-        private double GSRMean, HRMean;
-        private double GSRsd, HRsd;
+        public double HRMax, HRMin;
+        public double GSRMax, GSRMin;
+        public double GSRMean, HRMean;
+        public double GSRsd, HRsd;
 
         // Current values
         private double currentHR;

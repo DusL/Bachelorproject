@@ -8,7 +8,7 @@ using CLESMonitor.Model.ES;
 using System.Windows.Forms;
 using System.Threading;
 
-using ThreadTimer = System.Threading.Timer;
+using Timer = System.Threading.Timer;
 
 namespace CLESMonitor.Controller
 {
@@ -37,7 +37,7 @@ namespace CLESMonitor.Controller
         private TimeSpan timeSpanCounter;
         private TimeSpan reductionSpan; // TODO: wat is dit?
         private SensorViewController sensorController;
-        private ThreadTimer sensorTimer;
+        private Timer sensorTimer;
 
         // Needed to update the graphs on this thread
         public delegate void UpdateDelegate();
@@ -50,8 +50,7 @@ namespace CLESMonitor.Controller
         private TrackBar gsrTrackbar;
         private Label gsrValueLabel;
         private Button calibrateButton;
-        private TextBox gsrBox;
-        private TextBox hrBox;
+
 
         /// <summary>
         /// The constructor method.
@@ -72,7 +71,7 @@ namespace CLESMonitor.Controller
             fuzzyModel.gsrSensor.type = GSRSensorType.ManualInput;
             sensorController = null;
             TimerCallback timerCallback = sensorTimerCallback;
-            sensorTimer = new ThreadTimer(timerCallback, null, 1000, 1000);
+            sensorTimer = new Timer(timerCallback, null, 1000, 1000);
 
             this.currentState = State.Uncalibrated;
         }
@@ -95,12 +94,19 @@ namespace CLESMonitor.Controller
 
         private void UpdateHRBox()
         {
-            String text = fuzzyModel.gsrLevel.ToString();
-            gsrBox.Text = text;
+            View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
+            View.hrMeanLabel.Text = Math.Round(fuzzyModel.HRMean).ToString();
+            View.hrSDLabel.Text = Math.Round(fuzzyModel.HRsd).ToString();
+            View.hrMinLabel.Text = Math.Round(fuzzyModel.HRMin).ToString();
+            View.hrMaxLabel.Text = Math.Round(fuzzyModel.HRMax).ToString();
         }
         private void UpdateGSRBox()
         {
-            hrBox.Text = fuzzyModel.hrLevel.ToString();
+            View.gsrLevelLabel.Text = fuzzyModel.gsrLevel.ToString();
+            View.gsrMeanLabel.Text = Math.Round(fuzzyModel.GSRMean).ToString();
+            View.gsrSDLabel.Text = Math.Round(fuzzyModel.GSRsd).ToString();
+            View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
+            View.gsrMaxLabel.Text = Math.Round(fuzzyModel.GSRMax).ToString();
         }
 
         private void setupOutlets()
@@ -112,8 +118,6 @@ namespace CLESMonitor.Controller
             gsrTrackbar = View.gsrTrackBar;
             gsrValueLabel = View.gsrValueLabel;
             calibrateButton = View.calibrateButton;
-            gsrBox = View.gsrBox;
-            hrBox = View.hrBox;
         }
 
         /// <summary>
@@ -315,6 +319,11 @@ namespace CLESMonitor.Controller
             }
             
             
+        }
+
+        internal void close()
+        {
+            View.Dispose();
         }
     }
 }

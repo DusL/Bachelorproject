@@ -29,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
@@ -60,62 +60,62 @@
             this.CLChart.BorderlineColor = System.Drawing.Color.Gray;
             this.CLChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.CLChart.BorderlineWidth = 2;
-            chartArea1.AxisX.Interval = 2D;
-            chartArea1.AxisX.ScaleView.MinSize = 10D;
-            chartArea1.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
-            chartArea1.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea1.AxisX.Title = "Sessietijd";
-            chartArea1.AxisY.Maximum = 2D;
-            chartArea1.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea1.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea1);
+            chartArea5.AxisX.Interval = 2D;
+            chartArea5.AxisX.ScaleView.MinSize = 10D;
+            chartArea5.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
+            chartArea5.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea5.AxisX.Title = "Sessietijd";
+            chartArea5.AxisY.Maximum = 2D;
+            chartArea5.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea5);
             this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.CLChart.Legends.Add(legend1);
+            legend5.Enabled = false;
+            legend5.Name = "Legend1";
+            this.CLChart.Legends.Add(legend5);
             this.CLChart.Location = new System.Drawing.Point(3, 3);
             this.CLChart.Name = "CLChart";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.CLChart.Series.Add(series1);
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            this.CLChart.Series.Add(series5);
             this.CLChart.Size = new System.Drawing.Size(474, 294);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title1.Name = "CL-Waarden";
-            title1.Text = "Cognitieve Belasting";
-            this.CLChart.Titles.Add(title1);
+            title5.Name = "CL-Waarden";
+            title5.Text = "Cognitieve Belasting";
+            this.CLChart.Titles.Add(title5);
             // 
             // ESChart
             // 
             this.ESChart.BorderlineColor = System.Drawing.Color.Gray;
             this.ESChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.ESChart.BorderlineWidth = 2;
-            chartArea2.AxisX.Interval = 2D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.Title = "Sessietijd";
-            chartArea2.AxisY.Maximum = 5D;
-            chartArea2.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea2);
+            chartArea6.AxisX.Interval = 2D;
+            chartArea6.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea6.AxisX.Title = "Sessietijd";
+            chartArea6.AxisY.Maximum = 5D;
+            chartArea6.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea6);
             this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.ESChart.Legends.Add(legend2);
+            legend6.Enabled = false;
+            legend6.Name = "Legend1";
+            this.ESChart.Legends.Add(legend6);
             this.ESChart.Location = new System.Drawing.Point(483, 3);
             this.ESChart.Name = "ESChart";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.ESChart.Series.Add(series2);
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.ESChart.Series.Add(series6);
             this.ESChart.Size = new System.Drawing.Size(474, 294);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title2.Name = "ES-waarden";
-            title2.Text = "Emotionele Toestand";
-            this.ESChart.Titles.Add(title2);
+            title6.Name = "ES-waarden";
+            title6.Text = "Emotionele Toestand";
+            this.ESChart.Titles.Add(title6);
             // 
             // startButton
             // 
@@ -229,6 +229,7 @@
             // 
             this.tableLayoutPanel2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel2.AutoScroll = true;
             this.tableLayoutPanel2.ColumnCount = 2;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));

@@ -43,12 +43,26 @@
             this.gsrMinusButton = new System.Windows.Forms.Button();
             this.gsrPlusButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.hrCalLabel = new System.Windows.Forms.Label();
+            this.gsrCalLabel = new System.Windows.Forms.Label();
+            this.gsrLevelLabel = new System.Windows.Forms.Label();
+            this.hrLevelLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.HRLabel = new System.Windows.Forms.Label();
-            this.hrBox = new System.Windows.Forms.TextBox();
-            this.gsrBox = new System.Windows.Forms.TextBox();
             this.sensorButton = new System.Windows.Forms.Button();
             this.calibrateButton = new System.Windows.Forms.Button();
+            this.hrMinLabel = new System.Windows.Forms.Label();
+            this.gsrMinLabel = new System.Windows.Forms.Label();
+            this.gsrMaxLabel = new System.Windows.Forms.Label();
+            this.hrMaxLabel = new System.Windows.Forms.Label();
+            this.gsrSDLabel = new System.Windows.Forms.Label();
+            this.hrSDLabel = new System.Windows.Forms.Label();
+            this.gsrMeanLabel = new System.Windows.Forms.Label();
+            this.hrMeanLabel = new System.Windows.Forms.Label();
+            this.sdLabel = new System.Windows.Forms.Label();
+            this.meanLabel = new System.Windows.Forms.Label();
+            this.maxLabel = new System.Windows.Forms.Label();
+            this.minLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hrTrackbar)).BeginInit();
             this.groupBox3.SuspendLayout();
@@ -67,9 +81,9 @@
             this.groupBox1.Controls.Add(this.hrTrackbar);
             this.groupBox1.Controls.Add(this.hrMinusButton);
             this.groupBox1.Controls.Add(this.hrPlusButton);
-            this.groupBox1.Location = new System.Drawing.Point(6, 64);
+            this.groupBox1.Location = new System.Drawing.Point(6, 90);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(375, 113);
+            this.groupBox1.Size = new System.Drawing.Size(375, 114);
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hartslagmeter";
@@ -118,8 +132,10 @@
             // 
             // hrTrackbar
             // 
+            this.hrTrackbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hrTrackbar.LargeChange = 10;
-            this.hrTrackbar.Location = new System.Drawing.Point(6, 43);
+            this.hrTrackbar.Location = new System.Drawing.Point(6, 44);
             this.hrTrackbar.Maximum = 150;
             this.hrTrackbar.Minimum = 30;
             this.hrTrackbar.Name = "hrTrackbar";
@@ -131,7 +147,8 @@
             // 
             // hrMinusButton
             // 
-            this.hrMinusButton.Location = new System.Drawing.Point(278, 43);
+            this.hrMinusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.hrMinusButton.Location = new System.Drawing.Point(278, 44);
             this.hrMinusButton.Name = "hrMinusButton";
             this.hrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.hrMinusButton.TabIndex = 18;
@@ -141,7 +158,8 @@
             // 
             // hrPlusButton
             // 
-            this.hrPlusButton.Location = new System.Drawing.Point(314, 43);
+            this.hrPlusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.hrPlusButton.Location = new System.Drawing.Point(314, 44);
             this.hrPlusButton.Name = "hrPlusButton";
             this.hrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.hrPlusButton.TabIndex = 17;
@@ -158,7 +176,7 @@
             this.groupBox3.Controls.Add(this.gsrTrackBar);
             this.groupBox3.Controls.Add(this.gsrMinusButton);
             this.groupBox3.Controls.Add(this.gsrPlusButton);
-            this.groupBox3.Location = new System.Drawing.Point(6, 183);
+            this.groupBox3.Location = new System.Drawing.Point(6, 210);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(375, 78);
             this.groupBox3.TabIndex = 23;
@@ -185,6 +203,8 @@
             // 
             // gsrTrackBar
             // 
+            this.gsrTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gsrTrackBar.LargeChange = 10;
             this.gsrTrackBar.Location = new System.Drawing.Point(6, 19);
             this.gsrTrackBar.Maximum = 100;
@@ -197,6 +217,7 @@
             // 
             // gsrMinusButton
             // 
+            this.gsrMinusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gsrMinusButton.Location = new System.Drawing.Point(278, 19);
             this.gsrMinusButton.Name = "gsrMinusButton";
             this.gsrMinusButton.Size = new System.Drawing.Size(30, 30);
@@ -207,6 +228,7 @@
             // 
             // gsrPlusButton
             // 
+            this.gsrPlusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.gsrPlusButton.Location = new System.Drawing.Point(314, 19);
             this.gsrPlusButton.Name = "gsrPlusButton";
             this.gsrPlusButton.Size = new System.Drawing.Size(30, 30);
@@ -217,10 +239,24 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.sdLabel);
+            this.groupBox2.Controls.Add(this.meanLabel);
+            this.groupBox2.Controls.Add(this.maxLabel);
+            this.groupBox2.Controls.Add(this.minLabel);
+            this.groupBox2.Controls.Add(this.gsrSDLabel);
+            this.groupBox2.Controls.Add(this.hrSDLabel);
+            this.groupBox2.Controls.Add(this.gsrMeanLabel);
+            this.groupBox2.Controls.Add(this.hrMeanLabel);
+            this.groupBox2.Controls.Add(this.hrMaxLabel);
+            this.groupBox2.Controls.Add(this.gsrMaxLabel);
+            this.groupBox2.Controls.Add(this.gsrMinLabel);
+            this.groupBox2.Controls.Add(this.hrMinLabel);
+            this.groupBox2.Controls.Add(this.hrCalLabel);
+            this.groupBox2.Controls.Add(this.gsrCalLabel);
+            this.groupBox2.Controls.Add(this.gsrLevelLabel);
+            this.groupBox2.Controls.Add(this.hrLevelLabel);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.HRLabel);
-            this.groupBox2.Controls.Add(this.hrBox);
-            this.groupBox2.Controls.Add(this.gsrBox);
             this.groupBox2.Controls.Add(this.sensorButton);
             this.groupBox2.Controls.Add(this.calibrateButton);
             this.groupBox2.Controls.Add(this.groupBox1);
@@ -228,15 +264,56 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 314);
+            this.groupBox2.Size = new System.Drawing.Size(387, 340);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Emotionele staat";
             // 
+            // hrCalLabel
+            // 
+            this.hrCalLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.hrCalLabel.AutoSize = true;
+            this.hrCalLabel.Location = new System.Drawing.Point(14, 43);
+            this.hrCalLabel.Name = "hrCalLabel";
+            this.hrCalLabel.Size = new System.Drawing.Size(46, 13);
+            this.hrCalLabel.TabIndex = 35;
+            this.hrCalLabel.Text = "Hartslag";
+            // 
+            // gsrCalLabel
+            // 
+            this.gsrCalLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gsrCalLabel.AutoSize = true;
+            this.gsrCalLabel.Location = new System.Drawing.Point(14, 65);
+            this.gsrCalLabel.Name = "gsrCalLabel";
+            this.gsrCalLabel.Size = new System.Drawing.Size(74, 13);
+            this.gsrCalLabel.TabIndex = 34;
+            this.gsrCalLabel.Text = "Huidgeleiding:";
+            // 
+            // gsrLevelLabel
+            // 
+            this.gsrLevelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.gsrLevelLabel.AutoSize = true;
+            this.gsrLevelLabel.Location = new System.Drawing.Point(317, 65);
+            this.gsrLevelLabel.Name = "gsrLevelLabel";
+            this.gsrLevelLabel.Size = new System.Drawing.Size(53, 13);
+            this.gsrLevelLabel.TabIndex = 31;
+            this.gsrLevelLabel.Text = "Unknown";
+            // 
+            // hrLevelLabel
+            // 
+            this.hrLevelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.hrLevelLabel.AutoSize = true;
+            this.hrLevelLabel.Location = new System.Drawing.Point(317, 43);
+            this.hrLevelLabel.Name = "hrLevelLabel";
+            this.hrLevelLabel.Size = new System.Drawing.Size(53, 13);
+            this.hrLevelLabel.TabIndex = 30;
+            this.hrLevelLabel.Text = "Unknown";
+            // 
             // label2
             // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(233, 50);
+            this.label2.Location = new System.Drawing.Point(238, 65);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 29;
@@ -244,31 +321,18 @@
             // 
             // HRLabel
             // 
+            this.HRLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.HRLabel.AutoSize = true;
-            this.HRLabel.Location = new System.Drawing.Point(258, 22);
+            this.HRLabel.Location = new System.Drawing.Point(263, 43);
             this.HRLabel.Name = "HRLabel";
             this.HRLabel.Size = new System.Drawing.Size(46, 13);
             this.HRLabel.TabIndex = 28;
             this.HRLabel.Text = "Hartslag";
             // 
-            // hrBox
-            // 
-            this.hrBox.Location = new System.Drawing.Point(310, 19);
-            this.hrBox.Name = "hrBox";
-            this.hrBox.Size = new System.Drawing.Size(71, 20);
-            this.hrBox.TabIndex = 27;
-            // 
-            // gsrBox
-            // 
-            this.gsrBox.Location = new System.Drawing.Point(310, 47);
-            this.gsrBox.Name = "gsrBox";
-            this.gsrBox.Size = new System.Drawing.Size(71, 20);
-            this.gsrBox.TabIndex = 26;
-            // 
             // sensorButton
             // 
-            this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.sensorButton.Location = new System.Drawing.Point(261, 267);
+            this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.sensorButton.Location = new System.Drawing.Point(261, 294);
             this.sensorButton.Name = "sensorButton";
             this.sensorButton.Size = new System.Drawing.Size(120, 40);
             this.sensorButton.TabIndex = 25;
@@ -278,7 +342,8 @@
             // 
             // calibrateButton
             // 
-            this.calibrateButton.Location = new System.Drawing.Point(6, 267);
+            this.calibrateButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.calibrateButton.Location = new System.Drawing.Point(6, 294);
             this.calibrateButton.Name = "calibrateButton";
             this.calibrateButton.Size = new System.Drawing.Size(120, 40);
             this.calibrateButton.TabIndex = 24;
@@ -286,15 +351,141 @@
             this.calibrateButton.UseVisualStyleBackColor = true;
             this.calibrateButton.Click += new System.EventHandler(this.calibrateButton_Click);
             // 
+            // hrMinLabel
+            // 
+            this.hrMinLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.hrMinLabel.AutoSize = true;
+            this.hrMinLabel.Location = new System.Drawing.Point(91, 43);
+            this.hrMinLabel.Name = "hrMinLabel";
+            this.hrMinLabel.Size = new System.Drawing.Size(24, 13);
+            this.hrMinLabel.TabIndex = 40;
+            this.hrMinLabel.Text = "Min";
+            this.hrMinLabel.Click += new System.EventHandler(this.hrMinLabel_Click);
+            // 
+            // gsrMinLabel
+            // 
+            this.gsrMinLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gsrMinLabel.AutoSize = true;
+            this.gsrMinLabel.Location = new System.Drawing.Point(91, 65);
+            this.gsrMinLabel.Name = "gsrMinLabel";
+            this.gsrMinLabel.Size = new System.Drawing.Size(24, 13);
+            this.gsrMinLabel.TabIndex = 41;
+            this.gsrMinLabel.Text = "Min";
+            // 
+            // gsrMaxLabel
+            // 
+            this.gsrMaxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gsrMaxLabel.AutoSize = true;
+            this.gsrMaxLabel.Location = new System.Drawing.Point(121, 65);
+            this.gsrMaxLabel.Name = "gsrMaxLabel";
+            this.gsrMaxLabel.Size = new System.Drawing.Size(27, 13);
+            this.gsrMaxLabel.TabIndex = 42;
+            this.gsrMaxLabel.Text = "Max";
+            // 
+            // hrMaxLabel
+            // 
+            this.hrMaxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.hrMaxLabel.AutoSize = true;
+            this.hrMaxLabel.Location = new System.Drawing.Point(121, 43);
+            this.hrMaxLabel.Name = "hrMaxLabel";
+            this.hrMaxLabel.Size = new System.Drawing.Size(27, 13);
+            this.hrMaxLabel.TabIndex = 43;
+            this.hrMaxLabel.Text = "Max";
+            this.hrMaxLabel.Click += new System.EventHandler(this.hrMaxLabel_Click);
+            // 
+            // gsrSDLabel
+            // 
+            this.gsrSDLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gsrSDLabel.AutoSize = true;
+            this.gsrSDLabel.Location = new System.Drawing.Point(198, 65);
+            this.gsrSDLabel.Name = "gsrSDLabel";
+            this.gsrSDLabel.Size = new System.Drawing.Size(22, 13);
+            this.gsrSDLabel.TabIndex = 47;
+            this.gsrSDLabel.Text = "SD";
+            // 
+            // hrSDLabel
+            // 
+            this.hrSDLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.hrSDLabel.AutoSize = true;
+            this.hrSDLabel.Location = new System.Drawing.Point(198, 43);
+            this.hrSDLabel.Name = "hrSDLabel";
+            this.hrSDLabel.Size = new System.Drawing.Size(22, 13);
+            this.hrSDLabel.TabIndex = 46;
+            this.hrSDLabel.Text = "SD";
+            this.hrSDLabel.Click += new System.EventHandler(this.hrSDLabel_Click);
+            // 
+            // gsrMeanLabel
+            // 
+            this.gsrMeanLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.gsrMeanLabel.AutoSize = true;
+            this.gsrMeanLabel.Location = new System.Drawing.Point(158, 65);
+            this.gsrMeanLabel.Name = "gsrMeanLabel";
+            this.gsrMeanLabel.Size = new System.Drawing.Size(34, 13);
+            this.gsrMeanLabel.TabIndex = 45;
+            this.gsrMeanLabel.Text = "Mean";
+            // 
+            // hrMeanLabel
+            // 
+            this.hrMeanLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.hrMeanLabel.AutoSize = true;
+            this.hrMeanLabel.Location = new System.Drawing.Point(158, 43);
+            this.hrMeanLabel.Name = "hrMeanLabel";
+            this.hrMeanLabel.Size = new System.Drawing.Size(34, 13);
+            this.hrMeanLabel.TabIndex = 44;
+            this.hrMeanLabel.Text = "Mean";
+            this.hrMeanLabel.Click += new System.EventHandler(this.hrMeanLabel_Click);
+            // 
+            // sdLabel
+            // 
+            this.sdLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.sdLabel.AutoSize = true;
+            this.sdLabel.Location = new System.Drawing.Point(198, 24);
+            this.sdLabel.Name = "sdLabel";
+            this.sdLabel.Size = new System.Drawing.Size(22, 13);
+            this.sdLabel.TabIndex = 51;
+            this.sdLabel.Text = "SD";
+            // 
+            // meanLabel
+            // 
+            this.meanLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.meanLabel.AutoSize = true;
+            this.meanLabel.Location = new System.Drawing.Point(158, 24);
+            this.meanLabel.Name = "meanLabel";
+            this.meanLabel.Size = new System.Drawing.Size(34, 13);
+            this.meanLabel.TabIndex = 50;
+            this.meanLabel.Text = "Mean";
+            // 
+            // maxLabel
+            // 
+            this.maxLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.maxLabel.AutoSize = true;
+            this.maxLabel.Location = new System.Drawing.Point(121, 24);
+            this.maxLabel.Name = "maxLabel";
+            this.maxLabel.Size = new System.Drawing.Size(27, 13);
+            this.maxLabel.TabIndex = 49;
+            this.maxLabel.Text = "Max";
+            // 
+            // minLabel
+            // 
+            this.minLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.minLabel.AutoSize = true;
+            this.minLabel.Location = new System.Drawing.Point(91, 24);
+            this.minLabel.Name = "minLabel";
+            this.minLabel.Size = new System.Drawing.Size(24, 13);
+            this.minLabel.TabIndex = 48;
+            this.minLabel.Text = "Min";
+            // 
             // FuzzyModelUtilityView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 314);
+            this.AutoScroll = true;
+            this.ClientSize = new System.Drawing.Size(387, 340);
             this.Controls.Add(this.groupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FuzzyModelUtilityView";
             this.Text = "FuzzyModelUtilityView";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FuzzyModelUtilityView_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.hrTrackbar)).EndInit();
@@ -328,8 +519,22 @@
         public System.Windows.Forms.Button calibrateButton;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label HRLabel;
-        public System.Windows.Forms.TextBox hrBox;
-        public System.Windows.Forms.TextBox gsrBox;
+        public System.Windows.Forms.Label gsrLevelLabel;
+        public System.Windows.Forms.Label hrLevelLabel;
+        private System.Windows.Forms.Label gsrCalLabel;
+        private System.Windows.Forms.Label hrCalLabel;
+        public System.Windows.Forms.Label hrMinLabel;
+        public System.Windows.Forms.Label gsrSDLabel;
+        public System.Windows.Forms.Label hrSDLabel;
+        public System.Windows.Forms.Label gsrMeanLabel;
+        public System.Windows.Forms.Label hrMeanLabel;
+        public System.Windows.Forms.Label hrMaxLabel;
+        public System.Windows.Forms.Label gsrMaxLabel;
+        public System.Windows.Forms.Label gsrMinLabel;
+        public System.Windows.Forms.Label sdLabel;
+        public System.Windows.Forms.Label meanLabel;
+        public System.Windows.Forms.Label maxLabel;
+        public System.Windows.Forms.Label minLabel;
 
     }
 }
