@@ -43,6 +43,10 @@
             this.gsrMinusButton = new System.Windows.Forms.Button();
             this.gsrPlusButton = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.HRLabel = new System.Windows.Forms.Label();
+            this.hrBox = new System.Windows.Forms.TextBox();
+            this.gsrBox = new System.Windows.Forms.TextBox();
             this.sensorButton = new System.Windows.Forms.Button();
             this.calibrateButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -63,7 +67,7 @@
             this.groupBox1.Controls.Add(this.hrTrackbar);
             this.groupBox1.Controls.Add(this.hrMinusButton);
             this.groupBox1.Controls.Add(this.hrPlusButton);
-            this.groupBox1.Location = new System.Drawing.Point(6, 19);
+            this.groupBox1.Location = new System.Drawing.Point(6, 64);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(375, 113);
             this.groupBox1.TabIndex = 22;
@@ -154,7 +158,7 @@
             this.groupBox3.Controls.Add(this.gsrTrackBar);
             this.groupBox3.Controls.Add(this.gsrMinusButton);
             this.groupBox3.Controls.Add(this.gsrPlusButton);
-            this.groupBox3.Location = new System.Drawing.Point(6, 138);
+            this.groupBox3.Location = new System.Drawing.Point(6, 183);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(375, 78);
             this.groupBox3.TabIndex = 23;
@@ -213,6 +217,10 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.HRLabel);
+            this.groupBox2.Controls.Add(this.hrBox);
+            this.groupBox2.Controls.Add(this.gsrBox);
             this.groupBox2.Controls.Add(this.sensorButton);
             this.groupBox2.Controls.Add(this.calibrateButton);
             this.groupBox2.Controls.Add(this.groupBox1);
@@ -220,15 +228,47 @@
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(387, 294);
+            this.groupBox2.Size = new System.Drawing.Size(387, 314);
             this.groupBox2.TabIndex = 24;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Sensoren";
+            this.groupBox2.Text = "Emotionele staat";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(233, 50);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(71, 13);
+            this.label2.TabIndex = 29;
+            this.label2.Text = "Huidgeleiding";
+            // 
+            // HRLabel
+            // 
+            this.HRLabel.AutoSize = true;
+            this.HRLabel.Location = new System.Drawing.Point(258, 22);
+            this.HRLabel.Name = "HRLabel";
+            this.HRLabel.Size = new System.Drawing.Size(46, 13);
+            this.HRLabel.TabIndex = 28;
+            this.HRLabel.Text = "Hartslag";
+            // 
+            // hrBox
+            // 
+            this.hrBox.Location = new System.Drawing.Point(310, 19);
+            this.hrBox.Name = "hrBox";
+            this.hrBox.Size = new System.Drawing.Size(71, 20);
+            this.hrBox.TabIndex = 27;
+            // 
+            // gsrBox
+            // 
+            this.gsrBox.Location = new System.Drawing.Point(310, 47);
+            this.gsrBox.Name = "gsrBox";
+            this.gsrBox.Size = new System.Drawing.Size(71, 20);
+            this.gsrBox.TabIndex = 26;
             // 
             // sensorButton
             // 
             this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.sensorButton.Location = new System.Drawing.Point(261, 222);
+            this.sensorButton.Location = new System.Drawing.Point(261, 267);
             this.sensorButton.Name = "sensorButton";
             this.sensorButton.Size = new System.Drawing.Size(120, 40);
             this.sensorButton.TabIndex = 25;
@@ -238,7 +278,7 @@
             // 
             // calibrateButton
             // 
-            this.calibrateButton.Location = new System.Drawing.Point(6, 222);
+            this.calibrateButton.Location = new System.Drawing.Point(6, 267);
             this.calibrateButton.Name = "calibrateButton";
             this.calibrateButton.Size = new System.Drawing.Size(120, 40);
             this.calibrateButton.TabIndex = 24;
@@ -250,7 +290,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(387, 294);
+            this.ClientSize = new System.Drawing.Size(387, 314);
             this.Controls.Add(this.groupBox2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "FuzzyModelUtilityView";
@@ -262,6 +302,7 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).EndInit();
             this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -285,6 +326,10 @@
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.Button sensorButton;
         public System.Windows.Forms.Button calibrateButton;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label HRLabel;
+        public System.Windows.Forms.TextBox hrBox;
+        public System.Windows.Forms.TextBox gsrBox;
 
     }
 }

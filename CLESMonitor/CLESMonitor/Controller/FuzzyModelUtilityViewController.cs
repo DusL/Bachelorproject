@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using CLESMonitor.View;
 using CLESMonitor.Model.ES;
 using System.Windows.Forms;
+using System.Threading;
+
+using ThreadTimer = System.Threading.Timer;
 
 namespace CLESMonitor.Controller
 {
@@ -20,6 +23,7 @@ namespace CLESMonitor.Controller
             Calibrated
         }
 
+        private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
         /// <summary>The view this viewcontroller manages</summary>
         public FuzzyModelUtilityView View { get; private set; }
         /// <summary>The current state of this viewcontroller</summary>
@@ -27,11 +31,16 @@ namespace CLESMonitor.Controller
         /// <summary>The FuzzyModel that this utility viewcontroller communicates with</summary>
         private FuzzyModel fuzzyModel;
 
+        private Thread updateDataThread;
         // TODO: waarom is dit een Forms timer?
         System.Windows.Forms.Timer timer;
         private TimeSpan timeSpanCounter;
         private TimeSpan reductionSpan; // TODO: wat is dit?
         private SensorViewController sensorController;
+        private ThreadTimer sensorTimer;
+
+        // Needed to update the graphs on this thread
+        public delegate void UpdateDelegate();
 
         // Outlets
         private TrackBar hrTrackbar;
@@ -41,6 +50,8 @@ namespace CLESMonitor.Controller
         private TrackBar gsrTrackbar;
         private Label gsrValueLabel;
         private Button calibrateButton;
+        private TextBox gsrBox;
+        private TextBox hrBox;
 
         /// <summary>
         /// The constructor method.
@@ -59,8 +70,37 @@ namespace CLESMonitor.Controller
             // Set the default sensor types
             fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
             fuzzyModel.gsrSensor.type = GSRSensorType.ManualInput;
+            sensorController = null;
+            TimerCallback timerCallback = sensorTimerCallback;
+            sensorTimer = new ThreadTimer(timerCallback, null, 1000, 1000);
 
             this.currentState = State.Uncalibrated;
+        }
+
+        /// <summary>
+        /// Always show the current states.
+        /// </summary>
+        private void sensorTimerCallback(Object stateInfo)
+        {
+            if (sensorTimer != null)
+            {
+
+                View.Invoke(new UpdateDelegate(UpdateHRBox));
+                View.Invoke(new UpdateDelegate(UpdateGSRBox));
+               
+                // TODO: vervangen met een timer
+                Thread.Sleep(LOOP_SLEEP_INTERVAL);
+            }
+        }
+
+        private void UpdateHRBox()
+        {
+            String text = fuzzyModel.gsrLevel.ToString();
+            gsrBox.Text = text;
+        }
+        private void UpdateGSRBox()
+        {
+            hrBox.Text = fuzzyModel.hrLevel.ToString();
         }
 
         private void setupOutlets()
@@ -72,6 +112,8 @@ namespace CLESMonitor.Controller
             gsrTrackbar = View.gsrTrackBar;
             gsrValueLabel = View.gsrValueLabel;
             calibrateButton = View.calibrateButton;
+            gsrBox = View.gsrBox;
+            hrBox = View.hrBox;
         }
 
         /// <summary>
@@ -262,8 +304,17 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void sensorButtonClicked()
         {
-            SensorViewController viewController = new SensorViewController(fuzzyModel.hrSensor, fuzzyModel.gsrSensor);
-            viewController.View.Show();
+            if (sensorController == null)
+            {
+                sensorController = new SensorViewController(fuzzyModel.hrSensor, fuzzyModel.gsrSensor);
+                sensorController.View.Show();
+            }
+            else if (!sensorController.View.Visible)
+            {
+
+            }
+            
+            
         }
     }
 }

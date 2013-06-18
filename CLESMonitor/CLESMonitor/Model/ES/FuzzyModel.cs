@@ -65,8 +65,8 @@ namespace CLESMonitor.Model.ES
         private double normalisedHR;
 
         // The current 'sensor' levels
-        private GSRLevel gsrLevel;
-        private HRLevel hrLevel;
+        public GSRLevel gsrLevel;
+        public HRLevel hrLevel;
 
         // The current arousal level
         private ArousalLevel arousalLevel;
@@ -81,6 +81,9 @@ namespace CLESMonitor.Model.ES
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
             calculate = new FuzzyCalculate();
+
+            gsrLevel = GSRLevel.Unknown;
+            hrLevel = HRLevel.Unknown;
         }
 
         /// <summary>
