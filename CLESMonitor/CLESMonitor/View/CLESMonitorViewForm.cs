@@ -13,27 +13,60 @@ namespace CLESMonitor.View
 {
     public partial class CLESMonitorViewForm : Form
     {
-        private CLESMonitorViewController _controller;
+        private CLESMonitorViewController controller;
 
         public CLESMonitorViewForm(CLESMonitorViewController controller)
         {
-            _controller = controller;
+            this.controller = controller;
             InitializeComponent();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            _controller.startButtonClicked(null, null);
+            controller.startButtonClicked(null, null);
         }
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            _controller.stopButtonClicked();
+            controller.stopButtonClicked();
         }
 
         private void pauseButton_Click(object sender, EventArgs e)
         {
-            _controller.pauseButtonClicked();
+            controller.pauseButtonClicked();
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.startButtonClicked(null, null);
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.pauseButtonClicked();
+        }
+
+        private void stopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.stopButtonClicked();
+        }
+
+        private void quitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            controller.quit();
+        }
+
+        private void CLESMonitorViewForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Alt && e.KeyCode == Keys.F4)
+            {
+                controller.quit();
+            }
+            else if (e.KeyCode == Keys.S)
+            {
+                controller.quit();
+            }
+
         }
     }
 }

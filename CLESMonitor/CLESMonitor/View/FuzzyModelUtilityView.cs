@@ -80,29 +80,6 @@ namespace CLESMonitor.View
             controller.close();
         }
 
-        private void gsrLevelLabel_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        private void hrMinLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void hrMaxLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void hrMeanLabel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void hrSDLabel_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
