@@ -41,8 +41,7 @@ namespace CLESMonitor.Model.ES
     {
         // HR = heart rate
         // GSR = skin conductance
-        //
-        private FuzzyCalculate calculate;
+
         // Sensors
         private HRSensor hrSensor;
         private GSRSensor gsrSensor;
@@ -80,7 +79,6 @@ namespace CLESMonitor.Model.ES
         {
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
-            calculate = new FuzzyCalculate();
             arousal = createFuzzyMatrix(); // set the matrix for the arousal values
 
         }
@@ -147,8 +145,8 @@ namespace CLESMonitor.Model.ES
 
             HRMean = calibrationHR.Average();
             GSRMean = calibrationGSR.Average();
-            HRsd = calculate.standardDeviationFromList(calibrationHR);
-            GSRsd = calculate.standardDeviationFromList(calibrationGSR);
+            HRsd = FuzzyMath.standardDeviationFromList(calibrationHR);
+            GSRsd = FuzzyMath.standardDeviationFromList(calibrationGSR);
 
             foreach (double value in calibrationHR)
             {
@@ -184,8 +182,8 @@ namespace CLESMonitor.Model.ES
             currentGSR = gsrSensor.sensorValue;
 
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
-            normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
-            normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
+            normalisedHR = FuzzyMath.normalisedHR(currentHR, HRMin, HRMax);
+            normalisedGSR = FuzzyMath.normalisedGSR(currentGSR, GSRMin, GSRMax);
             
             // Find the current GSR and HR Levels
             findGSRLevel(fuzzyGSR());
@@ -318,10 +316,10 @@ namespace CLESMonitor.Model.ES
         /// <returns>A list of the fuzzy values for each level of GSR</returns>
         public List<double> fuzzyGSR()
         {
-            double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double midLowValue = calculate.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double midHighValue = calculate.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double highValue = calculate.highGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double lowValue = FuzzyMath.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midLowValue = FuzzyMath.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midHighValue = FuzzyMath.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double highValue = FuzzyMath.highGSRValue(GSRMean, GSRsd, normalisedGSR);
 
             List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
 
@@ -334,9 +332,9 @@ namespace CLESMonitor.Model.ES
         /// <returns>>A list of the fuzzy values for each level of HR</returns>
         public List<double> fuzzyHR()
         {
-            double lowValue = calculate.lowHRValue(HRMean, HRsd, normalisedHR);
-            double midValue = calculate.midHRValue(HRMean, HRsd, normalisedHR);
-            double highValue = calculate.highHRValue(HRMean, normalisedHR);
+            double lowValue = FuzzyMath.lowHRValue(HRMean, HRsd, normalisedHR);
+            double midValue = FuzzyMath.midHRValue(HRMean, HRsd, normalisedHR);
+            double highValue = FuzzyMath.highHRValue(HRMean, normalisedHR);
 
             List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
 
