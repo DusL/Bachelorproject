@@ -301,5 +301,10 @@ namespace CLESMonitor.Controller
             this.writeStringToConsole("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
         }
+
+        internal void quit()
+        {
+            View.Dispose();
+        }
     }
 }
