@@ -24,7 +24,7 @@ namespace CLESMonitor.Controller
         public FuzzyModelUtilityView View { get; private set; }
         /// <summary>The current state of this viewcontroller</summary>
         public State currentState { get; private set; }
-        /// <summary>The FuzzyModel that this utility viewcontroller communicates with</summary>
+        /// <summary>The FuzzyModel that this utility-viewcontroller interacts with</summary>
         private FuzzyModel fuzzyModel;
 
         // TODO: waarom is dit een Forms timer?

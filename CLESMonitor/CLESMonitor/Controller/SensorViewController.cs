@@ -109,10 +109,10 @@ namespace CLESMonitor.Controller
             {
                 currentSessionTime = DateTime.Now - startTime;
 
+                // FIXME: dit crasht als je de sensorvenster sluit
                 HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
                 GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
             }
-            
         }
 
         /// <summary>

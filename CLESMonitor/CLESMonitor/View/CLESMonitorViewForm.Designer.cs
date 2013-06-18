@@ -45,18 +45,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.clTextBox = new System.Windows.Forms.TextBox();
             this.esTextBox = new System.Windows.Forms.TextBox();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.pauseButton = new System.Windows.Forms.Button();
             this.timeLable = new System.Windows.Forms.Label();
             this.sessionTimeBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.openScenarioFileButton = new System.Windows.Forms.Button();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // CLChart
@@ -124,8 +120,7 @@
             // startButton
             // 
             this.startButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.startButton.Enabled = false;
-            this.startButton.Location = new System.Drawing.Point(138, 661);
+            this.startButton.Location = new System.Drawing.Point(12, 661);
             this.startButton.Name = "startButton";
             this.startButton.Size = new System.Drawing.Size(120, 40);
             this.startButton.TabIndex = 3;
@@ -137,7 +132,7 @@
             // 
             this.stopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.stopButton.Enabled = false;
-            this.stopButton.Location = new System.Drawing.Point(390, 660);
+            this.stopButton.Location = new System.Drawing.Point(138, 661);
             this.stopButton.Name = "stopButton";
             this.stopButton.Size = new System.Drawing.Size(120, 40);
             this.stopButton.TabIndex = 4;
@@ -182,16 +177,6 @@
             this.esTextBox.Name = "esTextBox";
             this.esTextBox.Size = new System.Drawing.Size(50, 20);
             this.esTextBox.TabIndex = 8;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.richTextBox1.Location = new System.Drawing.Point(3, 3);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(472, 247);
-            this.richTextBox1.TabIndex = 10;
-            this.richTextBox1.Text = "";
             // 
             // pauseButton
             // 
@@ -248,29 +233,12 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Controls.Add(this.richTextBox1, 0, 0);
             this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 401);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(957, 253);
             this.tableLayoutPanel2.TabIndex = 21;
-            // 
-            // openScenarioFileButton
-            // 
-            this.openScenarioFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 661);
-            this.openScenarioFileButton.Name = "openScenarioFileButton";
-            this.openScenarioFileButton.Size = new System.Drawing.Size(120, 40);
-            this.openScenarioFileButton.TabIndex = 21;
-            this.openScenarioFileButton.Text = "Open Scenario File";
-            this.openScenarioFileButton.UseVisualStyleBackColor = true;
-            this.openScenarioFileButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
-            this.openFileDialog1.Filter = "XML files (*.xml)|*.xml";
             // 
             // CLESMonitorViewForm
             // 
@@ -279,7 +247,6 @@
             this.ClientSize = new System.Drawing.Size(984, 712);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.openScenarioFileButton);
             this.Controls.Add(this.sessionTimeBox);
             this.Controls.Add(this.timeLable);
             this.Controls.Add(this.pauseButton);
@@ -296,7 +263,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -310,14 +276,11 @@
         public System.Windows.Forms.DataVisualization.Charting.Chart ESChart;
         public System.Windows.Forms.TextBox clTextBox;
         public System.Windows.Forms.TextBox esTextBox;
-        public System.Windows.Forms.RichTextBox richTextBox1;
         public System.Windows.Forms.Button startButton;
         public System.Windows.Forms.Button stopButton;
         public System.Windows.Forms.Button pauseButton;
         public System.Windows.Forms.TextBox sessionTimeBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button openScenarioFileButton;
-        public System.Windows.Forms.OpenFileDialog openFileDialog1;
         public System.Windows.Forms.Label timeLable;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
 
