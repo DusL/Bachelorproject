@@ -28,6 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Geschiedenis", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            "Een taak die afgelopen is",
+            "0:01",
+            "9:59"}, -1);
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.activeListView = new System.Windows.Forms.ListView();
@@ -38,7 +44,8 @@
             // 
             // openScenarioFileButton
             // 
-            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 210);
+            this.openScenarioFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 350);
             this.openScenarioFileButton.Name = "openScenarioFileButton";
             this.openScenarioFileButton.Size = new System.Drawing.Size(120, 40);
             this.openScenarioFileButton.TabIndex = 22;
@@ -53,14 +60,27 @@
             // 
             // activeListView
             // 
+            this.activeListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.activeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            this.activeListView.Dock = System.Windows.Forms.DockStyle.Top;
+            listViewGroup7.Header = "Actieve Taken";
+            listViewGroup7.Name = "listViewGroup1";
+            listViewGroup7.Tag = "";
+            listViewGroup8.Header = "Geschiedenis";
+            listViewGroup8.Name = "listViewGroup2";
+            listViewGroup8.Tag = "";
+            this.activeListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
+            listViewGroup7,
+            listViewGroup8});
+            listViewItem4.Group = listViewGroup8;
+            this.activeListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
+            listViewItem4});
             this.activeListView.Location = new System.Drawing.Point(0, 0);
             this.activeListView.Name = "activeListView";
-            this.activeListView.Size = new System.Drawing.Size(442, 192);
+            this.activeListView.Size = new System.Drawing.Size(442, 344);
             this.activeListView.TabIndex = 23;
             this.activeListView.UseCompatibleStateImageBehavior = false;
             this.activeListView.View = System.Windows.Forms.View.Details;
@@ -84,7 +104,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(442, 262);
+            this.ClientSize = new System.Drawing.Size(442, 402);
             this.Controls.Add(this.activeListView);
             this.Controls.Add(this.openScenarioFileButton);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
