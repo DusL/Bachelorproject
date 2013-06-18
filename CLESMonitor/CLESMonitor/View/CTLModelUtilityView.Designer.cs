@@ -31,11 +31,14 @@
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.activeListView = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // openScenarioFileButton
             // 
-            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 12);
+            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 210);
             this.openScenarioFileButton.Name = "openScenarioFileButton";
             this.openScenarioFileButton.Size = new System.Drawing.Size(120, 40);
             this.openScenarioFileButton.TabIndex = 22;
@@ -50,12 +53,32 @@
             // 
             // activeListView
             // 
-            this.activeListView.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.activeListView.Location = new System.Drawing.Point(0, 70);
+            this.activeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1,
+            this.columnHeader2,
+            this.columnHeader3});
+            this.activeListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.activeListView.Location = new System.Drawing.Point(0, 0);
             this.activeListView.Name = "activeListView";
             this.activeListView.Size = new System.Drawing.Size(442, 192);
             this.activeListView.TabIndex = 23;
             this.activeListView.UseCompatibleStateImageBehavior = false;
+            this.activeListView.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Naam";
+            this.columnHeader1.Width = 180;
+            // 
+            // columnHeader2
+            // 
+            this.columnHeader2.Text = "Starttijd";
+            this.columnHeader2.Width = 80;
+            // 
+            // columnHeader3
+            // 
+            this.columnHeader3.Text = "Eindtijd";
+            this.columnHeader3.Width = 80;
             // 
             // CTLModelUtilityView
             // 
@@ -67,6 +90,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "CTLModelUtilityView";
             this.Text = "CTLModelUtilityView";
+            this.Shown += new System.EventHandler(this.CTLModelUtilityView_Shown);
             this.ResumeLayout(false);
 
         }
@@ -76,6 +100,9 @@
         public System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.Button openScenarioFileButton;
         public System.Windows.Forms.ListView activeListView;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.ColumnHeader columnHeader2;
+        private System.Windows.Forms.ColumnHeader columnHeader3;
 
 
     }

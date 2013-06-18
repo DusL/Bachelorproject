@@ -26,5 +26,10 @@ namespace CLESMonitor.View
         {
             viewController.openScenarioFileDialog();
         }
+
+        private void CTLModelUtilityView_Shown(object sender, EventArgs e)
+        {
+            viewController.viewControllerIsShown();
+        }
     }
 }
