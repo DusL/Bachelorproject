@@ -1,13 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
+using CLESMonitor.Model.ES;
+using System.Collections.Generic;
+using System.Linq;
 
-using CLESMonitor.Model;
-using OriginalCalulate = CLESMonitor.Model.ES.FuzzyCalculate;
-
-namespace UnitTest.Model
+namespace UnitTest.Model.ES
 {
     [TestFixture]
-    public class FuzzyCalculateTest
+    public class FuzzyMathTest
     {
         double mean;
         double sd;
@@ -17,14 +17,15 @@ namespace UnitTest.Model
         double result;
         double result2;
 
-        OriginalCalulate calc;
+        double expected;
+        List<double> inputList;
+
 
         [SetUp]
         public void setUp()
         {
             mean = 20;
             sd = 4;
-            calc = new OriginalCalulate(); 
         }
 
 
@@ -40,7 +41,7 @@ namespace UnitTest.Model
         {
             normalised = mean - 2 * sd;
 
-            result = calc.lowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.lowGSRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
         }
@@ -54,10 +55,10 @@ namespace UnitTest.Model
             normalised = mean;
             normalised2 = -20;
 
-            result = calc.lowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.lowGSRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
 
-            result2 = calc.lowGSRValue(mean, sd, normalised);
+            result2 = FuzzyMath.lowGSRValue(mean, sd, normalised);
             Assert.AreEqual(0, result2);
         }
 
@@ -69,7 +70,7 @@ namespace UnitTest.Model
         {
             normalised = mean - 1.5 * sd;
 
-            result = calc.lowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.lowGSRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
         }
         #endregion
@@ -85,11 +86,11 @@ namespace UnitTest.Model
             normalised = mean - 1.5 * sd;
             normalised2 = mean - 0.5 * sd;
 
-            result = calc.midLowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.midLowGSRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
 
-            result2 = calc.midLowGSRValue(mean, sd, normalised2);
+            result2 = FuzzyMath.midLowGSRValue(mean, sd, normalised2);
             Assert.LessOrEqual(result2, 1);
             Assert.GreaterOrEqual(result2, 0);
         }
@@ -103,10 +104,10 @@ namespace UnitTest.Model
             normalised = mean + 10;
             normalised2 = mean - 3 * sd;
 
-            result = calc.midLowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.midLowGSRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
 
-            result2 = calc.midLowGSRValue(mean, sd, normalised2);
+            result2 = FuzzyMath.midLowGSRValue(mean, sd, normalised2);
             Assert.AreEqual(0, result2);
         }
 
@@ -118,7 +119,7 @@ namespace UnitTest.Model
         {
             normalised = mean - sd;
 
-            result = calc.midLowGSRValue(mean, sd, normalised);
+            result = FuzzyMath.midLowGSRValue(mean, sd, normalised);
             Assert.AreEqual(1, result);
         }
         #endregion
@@ -135,11 +136,11 @@ namespace UnitTest.Model
             normalised = mean - 0.5 * sd;
             normalised2 = mean + 0.5 * sd;
 
-            result = calc.midHighGSRValue(mean, sd, normalised);
+            result = FuzzyMath.midHighGSRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
 
-            result2 = calc.midHighGSRValue(mean, sd, normalised2);
+            result2 = FuzzyMath.midHighGSRValue(mean, sd, normalised2);
             Assert.LessOrEqual(result2, 1);
             Assert.GreaterOrEqual(result2, 0);
         }
@@ -154,8 +155,8 @@ namespace UnitTest.Model
             normalised = -5;
             normalised2 = mean + 2 * sd;
 
-            result = calc.midHighGSRValue(mean, sd, normalised);
-            result2 = calc.midHighGSRValue(mean, sd, normalised2);
+            result = FuzzyMath.midHighGSRValue(mean, sd, normalised);
+            result2 = FuzzyMath.midHighGSRValue(mean, sd, normalised2);
             Assert.AreEqual(0, result);
             Assert.AreEqual(0, result2);
         }
@@ -168,7 +169,7 @@ namespace UnitTest.Model
         {
             normalised = mean;
 
-            result = calc.midHighGSRValue(mean, sd, normalised);
+            result = FuzzyMath.midHighGSRValue(mean, sd, normalised);
             Assert.AreEqual(1, result);
         }
         #endregion
@@ -185,11 +186,11 @@ namespace UnitTest.Model
             normalised = mean + 0.5 * sd;
             normalised2 = mean + 3 * sd;
 
-            result = calc.highGSRValue(mean, sd, normalised);
+            result = FuzzyMath.highGSRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
 
-            result2 = calc.highGSRValue(mean, sd, normalised2);
+            result2 = FuzzyMath.highGSRValue(mean, sd, normalised2);
             Assert.AreEqual(1, result2);
         }
 
@@ -202,13 +203,14 @@ namespace UnitTest.Model
         {
             normalised = mean - 1;
 
-            result = calc.highGSRValue(mean, sd, normalised);
+            result = FuzzyMath.highGSRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
         }
         #endregion
 
         #endregion
 
+        #region HR
         #region lowHRValue
 
         /// <summary>
@@ -219,7 +221,7 @@ namespace UnitTest.Model
         {
             normalised = mean - 0.5 * sd;
 
-            result = calc.lowHRValue(mean, sd, normalised);
+            result = FuzzyMath.lowHRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
         }
@@ -234,9 +236,9 @@ namespace UnitTest.Model
             normalised = mean;
             normalised2 = -20;
 
-            result = calc.lowHRValue(mean, sd, normalised);
+            result = FuzzyMath.lowHRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
-            result2 = calc.lowHRValue(mean, sd, normalised);
+            result2 = FuzzyMath.lowHRValue(mean, sd, normalised);
             Assert.AreEqual(0, result2);
         }
 
@@ -248,7 +250,7 @@ namespace UnitTest.Model
         {
             normalised = mean - sd;
 
-            result = calc.lowHRValue(mean, sd, normalised);
+            result = FuzzyMath.lowHRValue(mean, sd, normalised);
             Assert.AreEqual(0, result);
         }
 
@@ -266,11 +268,11 @@ namespace UnitTest.Model
             normalised = mean - 1.5 * sd; //left side
             normalised2 = mean + sd; // right side
 
-            result = calc.midHRValue(mean, sd, normalised);
+            result = FuzzyMath.midHRValue(mean, sd, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
-            
-            result2 = calc.midHRValue(mean, sd, normalised2);
+
+            result2 = FuzzyMath.midHRValue(mean, sd, normalised2);
             Assert.LessOrEqual(result2, 1);
             Assert.GreaterOrEqual(result2, 0);
         }
@@ -285,8 +287,8 @@ namespace UnitTest.Model
             normalised = mean - 2.5 * sd;
             normalised2 = mean + 2.5 * sd;
 
-            result = calc.midHRValue(mean, sd, normalised);
-            result2 = calc.midHRValue(mean, sd, normalised2);
+            result = FuzzyMath.midHRValue(mean, sd, normalised);
+            result2 = FuzzyMath.midHRValue(mean, sd, normalised2);
             Assert.AreEqual(0, result);
             Assert.AreEqual(0, result2);
         }
@@ -299,7 +301,7 @@ namespace UnitTest.Model
         {
             normalised = mean;
 
-            result = calc.midHRValue(mean, sd, normalised);
+            result = FuzzyMath.midHRValue(mean, sd, normalised);
             Assert.AreEqual(1, result);
         }
 
@@ -316,7 +318,7 @@ namespace UnitTest.Model
         {
             normalised = mean + sd;
 
-            result = calc.highHRValue(mean, normalised);
+            result = FuzzyMath.highHRValue(mean, normalised);
             Assert.LessOrEqual(result, 1);
             Assert.GreaterOrEqual(result, 0);
         }
@@ -328,8 +330,8 @@ namespace UnitTest.Model
         public void highHRValue_OutOfBounds()
         {
             normalised = mean - sd;
-            
-            result = calc.highHRValue(mean, normalised);
+
+            result = FuzzyMath.highHRValue(mean, normalised);
             Assert.AreEqual(0, result);
         }
 
@@ -341,9 +343,44 @@ namespace UnitTest.Model
         {
             normalised = mean;
 
-            result = calc.highHRValue(mean, normalised);
+            result = FuzzyMath.highHRValue(mean, normalised);
             Assert.AreEqual(0, result);
         }
+        #endregion
+
+        #endregion
+
+        #region standardDeviation
+        /// <summary>
+        /// Test the method for lists with both, positive, negative and 0 values.
+        /// Expected values gathered through Wolfram Alpha.
+        /// </summary>
+        [Test]
+        public void standardDeviationFromList_FilledList()
+        {
+            inputList = new List<double>(new double[] { 5.0, 9.0, 4.0, 2.0, 0.0});
+            expected = 3.39116; // Made possible by Wolfram Alpha.
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(FuzzyMath.standardDeviationFromList(inputList), 2));
+
+            inputList = new List<double>(new double[] { 30.0, 22.1, -33.0, 6.0, 33.5});
+            expected = 27.1517;
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(FuzzyMath.standardDeviationFromList(inputList), 2));
+        }
+
+        /// <summary>
+        /// When the method is called with an empty list we expect to return 0.0
+        /// </summary>
+        [Test]
+        public void standardDeviationFromList_EmptyList()
+        {
+            inputList = new List<double>();
+            expected = 0.0;
+
+            Assert.AreEqual(Math.Round(expected, 2), Math.Round(FuzzyMath.standardDeviationFromList(inputList), 2));
+        }
+
         #endregion
 
         [TearDown]
@@ -351,7 +388,6 @@ namespace UnitTest.Model
         {
             mean = 0;
             sd = 0;
-            calc = null;
         }
 
     }

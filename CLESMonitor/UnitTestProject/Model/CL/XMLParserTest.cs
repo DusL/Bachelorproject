@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Threading;
 
-namespace UnitTest.Model
+namespace UnitTest.Model.CL
 {
     [TestFixture]
     public class XMLParserTest

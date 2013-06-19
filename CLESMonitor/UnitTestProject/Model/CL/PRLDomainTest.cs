@@ -4,7 +4,7 @@ using NUnit.Framework;
 using System;
 using OriginalDomain = CLESMonitor.Model.CL.PRLDomain;
 
-namespace UnitTest.Model
+namespace UnitTest.Model.CL
 {
     [TestFixture]
     public class PRLDomainTest

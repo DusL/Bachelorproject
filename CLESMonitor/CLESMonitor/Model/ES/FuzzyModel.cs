@@ -41,16 +41,15 @@ namespace CLESMonitor.Model.ES
     {
         // HR = heart rate
         // GSR = skin conductance
-        //
-        private FuzzyCalculate calculate;
+
         // Sensors
         public HRSensor hrSensor { get; private set; }
         public GSRSensor gsrSensor { get; private set; }
 
         // Data from calibration periode
         private Timer calibrationTimer;
-        private List<double> calibrationHR; //in beats/minute
-        private List<double> calibrationGSR; //in siemens
+        public List<double> calibrationHR; //in beats/minute
+        public List<double> calibrationGSR; //in siemens
         public double HRMax, HRMin;
         public double GSRMax, GSRMin;
         public double GSRMean, HRMean;
@@ -69,7 +68,7 @@ namespace CLESMonitor.Model.ES
         public HRLevel hrLevel;
 
         // The current arousal level
-        private ArousalLevel arousalLevel;
+        private  ArousalLevel[,] arousal;
 
         /// <summary>
         /// Constructor method that sets the sensors immediately
@@ -80,7 +79,8 @@ namespace CLESMonitor.Model.ES
         {
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
-            calculate = new FuzzyCalculate();
+            arousal = createFuzzyMatrix(); // set the matrix for the arousal values
+
 
             gsrLevel = GSRLevel.Unknown;
             hrLevel = HRLevel.Unknown;
@@ -109,6 +109,16 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void startCalibration()
         {
+            startCalibrationWithTimerParameters(0, 1000);
+        }
+
+        /// <summary>
+        /// Creates a timerCallback for calibration and resets teh Lists of any previous calibration sessions
+        /// </summary>
+        /// <param name="dueTime">The time of delay before the callback is invoked</param>
+        /// <param name="period">The time interval between invokes</param>
+        public void startCalibrationWithTimerParameters(int dueTime, int period)
+        {
             Console.WriteLine("FuzzyModel.startCalibration()");
 
             calibrationHR = new List<double>();
@@ -116,7 +126,7 @@ namespace CLESMonitor.Model.ES
 
             // Create and start a timer to poll the sensors
             TimerCallback timerCallback = calibrationTimerCallback;
-            calibrationTimer = new Timer(timerCallback, null, 0, 1000);
+            calibrationTimer = new Timer(timerCallback, null, dueTime, period);
         }
 
         /// <summary>
@@ -124,6 +134,8 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopCalibration()
         {
+
+            //TODO: Ongetest
             Console.WriteLine("FuzzyModel.stopCalibration()");
 
             calibrationTimer.Dispose();
@@ -136,8 +148,8 @@ namespace CLESMonitor.Model.ES
 
             HRMean = calibrationHR.Average();
             GSRMean = calibrationGSR.Average();
-            HRsd = standardDeviationFromList(calibrationHR);
-            GSRsd = standardDeviationFromList(calibrationGSR);
+            HRsd = FuzzyMath.standardDeviationFromList(calibrationHR);
+            GSRsd = FuzzyMath.standardDeviationFromList(calibrationGSR);
 
             foreach (double value in calibrationHR)
             {
@@ -150,22 +162,12 @@ namespace CLESMonitor.Model.ES
             Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
 
+        
         /// <summary>
-        /// Calculates the standard deviation when presented a list of values.
+        /// When calibrating this callback function adds an GSR and HR value every x time
         /// </summary>
-        /// <param name="list"></param>
-        /// <returns>The standard deviation of list</returns>
-        private double standardDeviationFromList(List<double> list)
-        {
-            double sumOfSquares = 0;
-            foreach (double value in list)
-            {
-                sumOfSquares += Math.Pow(value - list.Average(), 2); 
-            }
-            return Math.Sqrt(sumOfSquares / list.Count-1);
-        }
-
-        private void calibrationTimerCallback(Object stateInfo)
+        /// <param name="stateInfo"></param>
+        public void calibrationTimerCallback(Object stateInfo)
         {
             Console.WriteLine("Calibratie: hrSensor={0} gsrSensor={1}", hrSensor.sensorValue, gsrSensor.sensorValue);
             calibrationHR.Add(hrSensor.sensorValue);
@@ -183,71 +185,67 @@ namespace CLESMonitor.Model.ES
             currentGSR = gsrSensor.sensorValue;
 
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
-            normalisedHR = calculate.normalisedHR(currentHR, HRMin, HRMax);
-            normalisedGSR = calculate.normalisedGSR(currentGSR, GSRMin, GSRMax);
-
-            fuzzyArousalRules();
+            normalisedHR = FuzzyMath.normalisedHR(currentHR, HRMin, HRMax);
+            normalisedGSR = FuzzyMath.normalisedGSR(currentGSR, GSRMin, GSRMax);
+            
+            // Find the current GSR and HR Levels
             findGSRLevel(fuzzyGSR());
             findHRLevel(fuzzyHR());
 
-            Console.WriteLine("arousalLevel - " + arousalLevel);
-
-            return (double)arousalLevel;
+            return (double)getArousalLevel(gsrLevel, hrLevel); 
         }
 
         /// <summary>
-        /// Sets the arousal level based on the fuzzy logic model
+        /// Sets the ArousalLevel for each possible combination of gsr and hr levels.
         /// </summary>
-        public void fuzzyArousalRules()
+        public static ArousalLevel[,] createFuzzyMatrix()
         {
-            Console.WriteLine("gsrLevel - " + gsrLevel);
-            Console.WriteLine("hrLevel - " + hrLevel);
+            // Create a 2-dimensional array of length 5, 4
+            ArousalLevel[,] arousal = new ArousalLevel[(int)GSRLevel.High +1, (int)HRLevel.High+1];
 
-            if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.High) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidHigh) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidLow) && hrLevel.Equals(HRLevel.Mid))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
-            else if (gsrLevel.Equals(GSRLevel.Low) && hrLevel.Equals(HRLevel.High))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
+            // Set al values for which GSRLevel is unknown
+            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Low] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Mid] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.Unknown, (int)HRLevel.High] = ArousalLevel.Unknown;
 
-            else if (gsrLevel.Equals(GSRLevel.High))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidHigh))
-            {
-                arousalLevel = ArousalLevel.MidHigh;
-            }
-            else if (gsrLevel.Equals(GSRLevel.MidLow))
-            {
-                arousalLevel = ArousalLevel.MidLow;
-            }
-            else if (gsrLevel.Equals(GSRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.Low;
-            }
-            else if (hrLevel.Equals(HRLevel.Low))
-            {
-                arousalLevel = ArousalLevel.Low;
-            }
-            else if (hrLevel.Equals(HRLevel.High))
-            {
-                arousalLevel = ArousalLevel.High;
-            }
+            // Set al values for which GSRLevel is Low
+            arousal[(int)GSRLevel.Low, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.Low, (int)HRLevel.Low] = ArousalLevel.Low;
+            arousal[(int)GSRLevel.Low, (int)HRLevel.Mid] = ArousalLevel.Low;
+            arousal[(int)GSRLevel.Low, (int)HRLevel.High] = ArousalLevel.MidLow;
+
+            // Set al values for which GSRLevel is MidLow
+            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Low] = ArousalLevel.MidLow;
+            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Mid] = ArousalLevel.MidLow;
+            arousal[(int)GSRLevel.MidLow, (int)HRLevel.High] = ArousalLevel.MidLow;
+
+            // Set al values for which GSRLevel is MidHigh
+            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Low] = ArousalLevel.MidHigh;
+            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Mid] = ArousalLevel.MidHigh;
+            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.High] = ArousalLevel.MidHigh;
+
+            // Set al values for which GSRLevel is High
+            arousal[(int)GSRLevel.High, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
+            arousal[(int)GSRLevel.High, (int)HRLevel.Low] = ArousalLevel.MidHigh;
+            arousal[(int)GSRLevel.High, (int)HRLevel.Mid] = ArousalLevel.High;
+            arousal[(int)GSRLevel.High, (int)HRLevel.High] = ArousalLevel.High;
+
+            return arousal;
+
+        }
+
+        /// <summary>
+        /// Returns the arousal level based on the current gsr and hr values
+        /// </summary>
+        /// <param name="gsrLevel">The current GSRLevel in terms of the enum</param>
+        /// <param name="hrLevel">The current HRLevel in terms of the enum</param>
+        /// <returns>The ArousalLevel</returns>
+        public ArousalLevel getArousalLevel(GSRLevel gsrLevel, HRLevel hrLevel)
+        {
+            return arousal[(int)gsrLevel, (int)hrLevel];
         }
 
         /// <summary>
@@ -321,10 +319,10 @@ namespace CLESMonitor.Model.ES
         /// <returns>A list of the fuzzy values for each level of GSR</returns>
         public List<double> fuzzyGSR()
         {
-            double lowValue = calculate.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double midLowValue = calculate.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double midHighValue = calculate.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
-            double highValue = calculate.highGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double lowValue = FuzzyMath.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midLowValue = FuzzyMath.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double midHighValue = FuzzyMath.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
+            double highValue = FuzzyMath.highGSRValue(GSRMean, GSRsd, normalisedGSR);
 
             List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
 
@@ -337,9 +335,9 @@ namespace CLESMonitor.Model.ES
         /// <returns>>A list of the fuzzy values for each level of HR</returns>
         public List<double> fuzzyHR()
         {
-            double lowValue = calculate.lowHRValue(HRMean, HRsd, normalisedHR);
-            double midValue = calculate.midHRValue(HRMean, HRsd, normalisedHR);
-            double highValue = calculate.highHRValue(HRMean, normalisedHR);
+            double lowValue = FuzzyMath.lowHRValue(HRMean, HRsd, normalisedHR);
+            double midValue = FuzzyMath.midHRValue(HRMean, HRsd, normalisedHR);
+            double highValue = FuzzyMath.highHRValue(HRMean, normalisedHR);
 
             List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
 

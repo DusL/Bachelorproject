@@ -3,7 +3,7 @@ using Moq;
 using NUnit.Framework;
 using System;
 
-namespace UnitTest.Model
+namespace UnitTest.Model.CL
 {
     [TestFixture]
     public class CTLInputSourceTest

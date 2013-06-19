@@ -69,6 +69,7 @@ namespace CLESMonitor.Model.CL
 
             if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
+                // TODO: Dictionary of iig andere oplossing !!?
                 //Console.WriteLine(inputElement.name);
                 if (inputElement.name.Equals("ARI_UIT"))
                 {
