@@ -132,7 +132,7 @@ namespace CLESMonitor.Controller
             emptyTimer = DateTime.Now - DateTime.Now;
             sessionTimeBox.Text = emptyTimer.ToString();
 
-            this.writeStringToConsole("ViewController State = Stopped");
+            Console.WriteLine("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
         }
 
@@ -182,17 +182,6 @@ namespace CLESMonitor.Controller
             sessionTimeBox.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
         }
 
-        // FIXME: strings schrijven naar?
-        /// <summary>
-        /// Writes a string to the console
-        /// </summary>
-        /// <param name="stringToWrite"></param>
-        private void writeStringToConsole(String stringToWrite)
-        {
-            //richTextBox1.Select(0, 0);
-            //richTextBox1.SelectedText = " " + stringToWrite + "\n";
-            Console.WriteLine(stringToWrite);
-        }
 
         /// <summary>
         /// Adjusts the CL-graph
@@ -273,7 +262,7 @@ namespace CLESMonitor.Controller
             pauseButton.Enabled = true;
             stopButton.Enabled = true;
 
-            this.writeStringToConsole("ViewController State = Started");
+            Console.WriteLine("ViewController State = Started");
             this.currentState = ViewControllerState.Started;
         }
         public void pauseButtonClicked()
@@ -281,7 +270,7 @@ namespace CLESMonitor.Controller
             pauseButton.Enabled = false;
             startButton.Enabled = true;
 
-            this.writeStringToConsole("ViewController State = Pauzed");
+            Console.WriteLine("ViewController State = Pauzed");
             this.currentState = ViewControllerState.Paused;
         }
        
@@ -298,7 +287,7 @@ namespace CLESMonitor.Controller
             pauseButton.Enabled = false;
             startButton.Enabled = true;
 
-            this.writeStringToConsole("ViewController State = Stopped");
+            Console.WriteLine("ViewController State = Stopped");
             this.currentState = ViewControllerState.Stopped;
         }
 

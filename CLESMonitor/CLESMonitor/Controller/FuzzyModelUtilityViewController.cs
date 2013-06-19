@@ -8,6 +8,7 @@ using CLESMonitor.Model.ES;
 using System.Windows.Forms;
 using System.Threading;
 
+
 using Timer = System.Threading.Timer;
 
 namespace CLESMonitor.Controller
@@ -172,6 +173,12 @@ namespace CLESMonitor.Controller
                 fuzzyModel.stopCalibration();
                 currentState = State.Calibrated;
                 Console.WriteLine("Calibratie gestopt");
+            }
+            else if (currentState == State.Calibrated)
+            {
+                //TODO: Functionaliteit
+
+                MessageBox.Show("Weet u zeker dat u nog maal wilt kalibreren?", "Kalibratie", MessageBoxButtons.YesNo);
             }
         }
 
