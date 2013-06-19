@@ -27,12 +27,12 @@ namespace CLESMonitor.View
 
         private void hrPlusButton_Click(object sender, EventArgs e)
         {
-            controller.increaseHRValueInManualContext();
+            controller.HRValueChangeByButton(sender);
         }
 
         private void hrMinusButton_Click(object sender, EventArgs e)
         {
-            controller.decreaseHRValueInManualContext();
+            controller.HRValueChangeByButton(sender);
         }
 
         private void hrTrackbar_Scroll(object sender, EventArgs e)
@@ -52,12 +52,12 @@ namespace CLESMonitor.View
 
         private void gsrPlusButton_Click(object sender, EventArgs e)
         {
-            controller.increaseGSRValueInManualContext();
+            controller.GSRValueChangeByButton(sender);
         }
 
         private void gsrMinusButton_Click(object sender, EventArgs e)
         {
-            controller.decreaseGSRValueInManualContext();
+            controller.GSRValueChangeByButton(sender);
         }
 
         private void gsrTrackBar_Scroll(object sender, EventArgs e)

@@ -40,11 +40,9 @@ namespace CLESMonitor.Controller
         private Timer sensorTimer;
 
         // Outlets
-        private TrackBar hrTrackbar;
         private Label hrValueLabel;
         private Button hrPlusButton;
         private Button hrMinusButton;
-        private TrackBar gsrTrackbar;
         private Label gsrValueLabel;
         private Button calibrateButton;
 
@@ -60,16 +58,16 @@ namespace CLESMonitor.Controller
 
             setupOutlets();
 
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+            hrValueLabel.Text = View.hrTrackBar.Value.ToString();
+            gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
 
             // Set the default sensor types
             fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
             fuzzyModel.gsrSensor.type = GSRSensorType.ManualInput;
 
             // Makes sure that from the start a vlue is present (not being 0).
-            fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
-            fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
+            fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
+            fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
 
             sensorController = null;
 
@@ -114,11 +112,9 @@ namespace CLESMonitor.Controller
 
         private void setupOutlets()
         {
-            hrTrackbar = View.hrTrackbar;
             hrValueLabel = View.hrValueLabel;
             hrPlusButton = View.hrPlusButton;
             hrMinusButton = View.hrMinusButton;
-            gsrTrackbar = View.gsrTrackBar;
             gsrValueLabel = View.gsrValueLabel;
             calibrateButton = View.calibrateButton;
         }
@@ -161,11 +157,11 @@ namespace CLESMonitor.Controller
                 // they are passed on change.
                 if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
                 {
-                    fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
+                    fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
                 }
                 if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
                 {
-                    fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
+                    fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
                 }
 
                  // Start calibrating
@@ -212,7 +208,7 @@ namespace CLESMonitor.Controller
             if (View.hrSensorTypeRadioButton1.Checked)
             {
                 fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
-                hrTrackbar.Enabled = true;
+                View.hrTrackBar.Enabled = true;
                 hrMinusButton.Enabled = true;
                 hrPlusButton.Enabled = true;
             }
@@ -220,40 +216,42 @@ namespace CLESMonitor.Controller
             if (View.hrSensorTypeRadioButton2.Checked)
             {
                 fuzzyModel.hrSensor.type = HRSensorType.BluetoothZephyr;
-                hrTrackbar.Enabled = false;
+                View.hrTrackBar.Enabled = false;
                 hrMinusButton.Enabled = false;
                 hrPlusButton.Enabled = false;
             }
         }
 
-        public void increaseHRValueInManualContext()
+        /// <summary>
+        /// Event method for a change in HRvalue by pressing the plus or minus button
+        /// </summary>
+        public void HRValueChangeByButton(object sender)
         {
-            if (hrTrackbar.Maximum < hrTrackbar.Value)
+            int changeValue = 1;
+            Button buttonPressed = (Button)sender;
+            if (buttonPressed.Equals(View.hrPlusButton))
             {
-                hrTrackbar.Value = hrTrackbar.Value + 1;
-                hrValueLabel.Text = hrTrackbar.Value.ToString();
+                if (View.hrTrackBar.Maximum > View.hrTrackBar.Value)
+                {
+                    View.hrTrackBar.Value = View.hrTrackBar.Value + changeValue;
+                    View.hrValueLabel.Text = View.hrTrackBar.Value.ToString();
+                }
+            }
+            else if (buttonPressed.Equals(hrMinusButton))
+            {
+                if (View.hrTrackBar.Minimum < View.hrTrackBar.Value)
+                {
+                    View.hrTrackBar.Value = View.hrTrackBar.Value - changeValue;
+                    View.hrValueLabel.Text = View.hrTrackBar.Value.ToString();
+                }
             }
             // Pass along simulated sensor-data
             if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
             {
-                fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
+                fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
             }
         }
 
-
-        public void decreaseHRValueInManualContext()
-        {
-            if (hrTrackbar.Minimum > hrTrackbar.Value)
-            {
-                hrTrackbar.Value = hrTrackbar.Value - 1;
-                hrValueLabel.Text = hrTrackbar.Value.ToString();
-            }
-            // Pass along simulated sensor-data
-            if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
-            {
-                fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
-            }
-        }
 
         public void HRValueChangedInManualContext(object sender)
         {
@@ -263,36 +261,39 @@ namespace CLESMonitor.Controller
             // Pass along simulated sensor-data
             if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
             {
-                fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
+                fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
             }
         }
-        public void increaseGSRValueInManualContext()
+        /// <summary>
+        /// Event method for a change in HRvalue by pressing the plus or minus button
+        /// </summary>
+        public void GSRValueChangeByButton(object sender)
         {
-            if (gsrTrackbar.Maximum < gsrTrackbar.Value)
+            Button buttonPressed = (Button)sender;
+            if (buttonPressed.Equals(View.gsrPlusButton))
             {
-                gsrTrackbar.Value = gsrTrackbar.Value + 1;
-                gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+                if (View.gsrTrackBar.Maximum > View.gsrTrackBar.Value)
+                {
+                    View.gsrTrackBar.Value = View.gsrTrackBar.Value + 1;
+                    View.gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
+                }
             }
+            else if (buttonPressed.Equals(View.gsrMinusButton))
+            {
+                if (View.gsrTrackBar.Minimum < View.gsrTrackBar.Value)
+                {
+                    View.gsrTrackBar.Value = View.gsrTrackBar.Value - 1;
+                    gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
+                }
+            }
+           
             // Pass along simulated sensor-data
             if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
             {
-                fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
+                fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
             }
         }
 
-        public void decreaseGSRValueInManualContext()
-        {
-            if (gsrTrackbar.Minimum > gsrTrackbar.Value)
-            {
-                gsrTrackbar.Value = gsrTrackbar.Value - 1;
-                gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-            }
-            // Pass along simulated sensor-data
-            if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
-            {
-                fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
-            }
-        }
 
         public void GSRValueChangedInManualContext(object sender)
         {
@@ -302,7 +303,7 @@ namespace CLESMonitor.Controller
             // Pass along simulated sensor-data
             if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
             {
-                fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
+                fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
             }
         }
 

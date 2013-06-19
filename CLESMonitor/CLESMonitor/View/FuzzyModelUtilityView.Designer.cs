@@ -33,7 +33,7 @@
             this.hrSensorTypeRadioButton2 = new System.Windows.Forms.RadioButton();
             this.hrValueLabel = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.hrTrackbar = new System.Windows.Forms.TrackBar();
+            this.hrTrackBar = new System.Windows.Forms.TrackBar();
             this.hrMinusButton = new System.Windows.Forms.Button();
             this.hrPlusButton = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
@@ -64,7 +64,7 @@
             this.sensorButton = new System.Windows.Forms.Button();
             this.calibrateButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hrTrackbar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hrTrackBar)).BeginInit();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).BeginInit();
             this.groupBox2.SuspendLayout();
@@ -78,7 +78,7 @@
             this.groupBox1.Controls.Add(this.hrSensorTypeRadioButton2);
             this.groupBox1.Controls.Add(this.hrValueLabel);
             this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.hrTrackbar);
+            this.groupBox1.Controls.Add(this.hrTrackBar);
             this.groupBox1.Controls.Add(this.hrMinusButton);
             this.groupBox1.Controls.Add(this.hrPlusButton);
             this.groupBox1.Location = new System.Drawing.Point(6, 90);
@@ -130,19 +130,19 @@
             this.label3.TabIndex = 19;
             this.label3.Text = "Gemeten hartslag (slagen/minuut)";
             // 
-            // hrTrackbar
+            // hrTrackBar
             // 
-            this.hrTrackbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.hrTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrTrackbar.Location = new System.Drawing.Point(6, 44);
-            this.hrTrackbar.Maximum = 150;
-            this.hrTrackbar.Minimum = 30;
-            this.hrTrackbar.Name = "hrTrackbar";
-            this.hrTrackbar.Size = new System.Drawing.Size(266, 45);
-            this.hrTrackbar.TabIndex = 16;
-            this.hrTrackbar.TickFrequency = 5;
-            this.hrTrackbar.Value = 70;
-            this.hrTrackbar.Scroll += new System.EventHandler(this.hrTrackbar_Scroll);
+            this.hrTrackBar.Location = new System.Drawing.Point(6, 44);
+            this.hrTrackBar.Maximum = 150;
+            this.hrTrackBar.Minimum = 30;
+            this.hrTrackBar.Name = "hrTrackBar";
+            this.hrTrackBar.Size = new System.Drawing.Size(266, 45);
+            this.hrTrackBar.TabIndex = 16;
+            this.hrTrackBar.TickFrequency = 5;
+            this.hrTrackBar.Value = 70;
+            this.hrTrackBar.Scroll += new System.EventHandler(this.hrTrackbar_Scroll);
             // 
             // hrMinusButton
             // 
@@ -482,7 +482,7 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FuzzyModelUtilityView_FormClosing);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hrTrackbar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.hrTrackBar)).EndInit();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gsrTrackBar)).EndInit();
@@ -497,15 +497,12 @@
         private System.Windows.Forms.GroupBox groupBox1;
         public System.Windows.Forms.Label hrValueLabel;
         private System.Windows.Forms.Label label3;
-        public System.Windows.Forms.TrackBar hrTrackbar;
+        public System.Windows.Forms.TrackBar hrTrackBar;
         public System.Windows.Forms.Button hrMinusButton;
         public System.Windows.Forms.Button hrPlusButton;
         private System.Windows.Forms.GroupBox groupBox3;
         public System.Windows.Forms.Label gsrValueLabel;
         private System.Windows.Forms.Label label5;
-        public System.Windows.Forms.TrackBar gsrTrackBar;
-        private System.Windows.Forms.Button gsrMinusButton;
-        private System.Windows.Forms.Button gsrPlusButton;
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.Button sensorButton;
         public System.Windows.Forms.Button calibrateButton;
@@ -529,6 +526,9 @@
         public System.Windows.Forms.Label minLabel;
         public System.Windows.Forms.RadioButton hrSensorTypeRadioButton1;
         public System.Windows.Forms.RadioButton hrSensorTypeRadioButton2;
+        public System.Windows.Forms.Button gsrMinusButton;
+        public System.Windows.Forms.Button gsrPlusButton;
+        public System.Windows.Forms.TrackBar gsrTrackBar;
 
     }
 }
