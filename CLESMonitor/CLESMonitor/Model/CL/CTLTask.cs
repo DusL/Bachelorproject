@@ -7,7 +7,7 @@ using CLESMonitor.Model;
 
 namespace CLESMonitor.Model.CL
 {
-    public class CTLTask : ICloneable
+    public class CTLTask : Object, ICloneable
     {
         public string identifier {get; private set;}
         public string name { get; private set; }
@@ -56,6 +56,7 @@ namespace CLESMonitor.Model.CL
 
             return cloneTask;
         }
+
         /// <summary>
         /// Calculates the duration of a taks, using its start- and endtime
         /// </summary>

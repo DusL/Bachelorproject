@@ -24,13 +24,9 @@ namespace CLESMonitor.Model.CL
         // The list of tasks that is used for model calculation 
         private List<CTLTask> tasksInCalculationFrame;
 
-        /// <summary>
-        /// A list of events that are currently in progress
-        /// </summary>
+        /// <summary>A list of events that are currently in progress</summary>
         public List<CTLEvent> activeEvents { get; private set; }
-        /// <summary>
-        /// A list of tasks that are currently in progress
-        /// </summary>
+        /// <summary>A list of tasks that are currently in progress</summary>
         public List<CTLTask> activeTasks { get; private set; }
 
         /// <summary>
