@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTest.Model
+namespace UnitTest.Model.CL
 {
     [TestFixture]
     public class CTLModelTest

@@ -64,6 +64,13 @@
     <Compile Include="Model\CTLInputSourceTest.cs" />
     <Compile Include="Model\VectorTest.cs" />
     <Compile Include="Model\XMLParserTest.cs" />
+    <Compile Include="Model\CL\CTLModelTest.cs" />
+    <Compile Include="Model\CL\PRLDomainTest.cs" />
+    <Compile Include="Model\ES\FuzzyMathTest.cs" />
+    <Compile Include="Model\CL\CTLInputSourceTest.cs" />
+    <Compile Include="Model\CL\VectorTest.cs" />
+    <Compile Include="Model\CL\XMLParserTest.cs" />
+    <Compile Include="Model\ES\FuzzyModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

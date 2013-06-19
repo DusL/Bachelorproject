@@ -51,7 +51,7 @@
     <Compile Include="Model\CL\CTLInputSource.cs" />
     <Compile Include="Model\CL\CTLDomain.cs" />
     <Compile Include="Model\CL\CTLMath.cs" />
-    <Compile Include="Model\ES\FuzzyCalculate.cs" />
+    <Compile Include="Model\ES\FuzzyMath.cs" />
     <Compile Include="Model\CL\CLModel.cs" />
     <Compile Include="Model\CL\CTLEvent.cs" />
     <Compile Include="Model\CL\CTLModel.cs" />

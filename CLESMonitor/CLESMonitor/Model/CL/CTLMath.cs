@@ -177,10 +177,9 @@ namespace CLESMonitor.Model.CL
             Vector zVector = mwlVector - mwlProjDiagonal;
 
             double distanceToDiagonal = zVector.length();
-            mwlValue = distanceToOrigin - (1 / distanceToDiagonal);
+            mwlValue = distanceToOrigin - (distanceToDiagonal/2);
 
-            // TODO: verander hier de return value in mwlValue wanneer bekend is hoe de berekening zal gaan.
-            return distanceToOrigin;
+            return mwlValue;
         }
     }
 }
