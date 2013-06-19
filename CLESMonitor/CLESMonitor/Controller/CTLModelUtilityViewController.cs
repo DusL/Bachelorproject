@@ -20,10 +20,18 @@ namespace CLESMonitor.Controller
     {
         /// <summary>The view this viewcontroller manages</summary>
         public CTLModelUtilityView View { get; private set; }
+
         /// <summary>The CTLModel that this utility-viewcontroller interacts with</summary>
         private CTLModel ctlModel;
+        /// <summary>A snapshot from CTLModel.activeTasks, used to build the ListView</summary>
+        private List<CTLTask> cachedActiveTasks;
+        private List<CTLTask> activeTasksToDisplay;
+        private List<CTLTask> historyTasksToDisplay;
+
         /// <summary>The XMLParser (only CTLInputSource is available from CTLModel) to set the filepath</summary>
         private XMLParser parser;
+
+        private Timer listViewUpdateTimer;
 
         /// <summary>
         /// The constructor method.
@@ -35,6 +43,9 @@ namespace CLESMonitor.Controller
             this.View = new CTLModelUtilityView(this);
             this.ctlModel = ctlModel;
             this.parser = parser;
+            this.cachedActiveTasks = new List<CTLTask>();
+            this.activeTasksToDisplay = new List<CTLTask>();
+            this.historyTasksToDisplay = new List<CTLTask>();
         }
 
         /// <summary>
@@ -44,40 +55,65 @@ namespace CLESMonitor.Controller
         {
             // Timer to update the listView with active tasks
             TimerCallback timerCallback = listViewUpdateTimerCallback;
-            Timer timer = new Timer(timerCallback, null, 0, 1000);
+            listViewUpdateTimer = new Timer(timerCallback, null, 0, 1000);
         }
 
+        // TODO: dit draait ongeacht sessie-status -> bedoeling?
         private void listViewUpdateTimerCallback(Object stateInfo)
         {
-            // Duplicate the list
-            List<CTLTask> tasks = new List<CTLTask>(ctlModel.activeTasks);
-            List<ListViewItem> items = new List<ListViewItem>();
-
-            foreach (CTLTask ctlTask in tasks)
+            IEnumerable<CTLTask> tasksUnion = cachedActiveTasks.Union(ctlModel.activeTasks);
+            IEnumerable<CTLTask> tasksIntersect = cachedActiveTasks.Intersect(ctlModel.activeTasks);
+            foreach (CTLTask task in tasksUnion.Except(tasksIntersect))
             {
-                ListViewItem item = new ListViewItem(ctlTask.name);
+                // The task has just become active
+                if (ctlModel.activeTasks.Contains(task))
+                {
+                    activeTasksToDisplay.Insert(0, task);
+                }
+                // The task is no longer active
+                else if (cachedActiveTasks.Contains(task))
+                {
+                    activeTasksToDisplay.Remove(task);
+                    historyTasksToDisplay.Insert(0, task);
+                }
+            }
+            // TODO: muteert ctlModel.activeTasks als array of per taak?
+            cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks);
+
+            // Generate the listView items for the active group
+            List<ListViewItem> activeItems = new List<ListViewItem>();
+            foreach (CTLTask task in activeTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem(task.name);
                 String timeSpanFormat = @"%h\:mm\:ss";
-                item.SubItems.Add(ctlTask.startTime.ToString(timeSpanFormat));
-                item.SubItems.Add(ctlTask.endTime.ToString(timeSpanFormat));
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
                 item.Group = View.activeListView.Groups["listViewGroup1"];
 
-                items.Add(item);
+                activeItems.Add(item);
             }
 
-            // Update the GUI
+            // Generate the listView items for the history group
+            List<ListViewItem> historyItems = new List<ListViewItem>();
+            foreach (CTLTask task in historyTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem(task.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+                item.Group = View.activeListView.Groups["listViewGroup2"];
+
+                historyItems.Add(item);
+            }
+
+            // Update the UI
             View.activeListView.Invoke((Action)(() =>
             {
-                List<ListViewItem> itemsForDeletion = new List<ListViewItem>();
-                foreach (ListViewItem item in View.activeListView.Groups["listViewGroup1"].Items)
-                {
-                    itemsForDeletion.Add(item);
-                }
-                foreach (ListViewItem item in itemsForDeletion)
-                {
-                    View.activeListView.Items.Remove(item);
-                }
+                // Delete all items that may be present
+                View.activeListView.Items.Clear();
 
-                foreach (ListViewItem item in items)
+                // Add the generated items
+                foreach (ListViewItem item in activeItems.Union(historyItems))
                 {
                     View.activeListView.Items.Add(item);
                 }
