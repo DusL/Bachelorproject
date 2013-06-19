@@ -59,6 +59,7 @@ namespace CLESMonitor.Controller
                 String timeSpanFormat = @"%h\:mm\:ss";
                 item.SubItems.Add(ctlTask.startTime.ToString(timeSpanFormat));
                 item.SubItems.Add(ctlTask.endTime.ToString(timeSpanFormat));
+                item.Group = View.activeListView.Groups["listViewGroup1"];
 
                 items.Add(item);
             }
@@ -66,7 +67,15 @@ namespace CLESMonitor.Controller
             // Update the GUI
             View.activeListView.Invoke((Action)(() =>
             {
-                View.activeListView.Items.Clear();
+                List<ListViewItem> itemsForDeletion = new List<ListViewItem>();
+                foreach (ListViewItem item in View.activeListView.Groups["listViewGroup1"].Items)
+                {
+                    itemsForDeletion.Add(item);
+                }
+                foreach (ListViewItem item in itemsForDeletion)
+                {
+                    View.activeListView.Items.Remove(item);
+                }
 
                 foreach (ListViewItem item in items)
                 {
