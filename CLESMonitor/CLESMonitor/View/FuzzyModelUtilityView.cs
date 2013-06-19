@@ -42,12 +42,12 @@ namespace CLESMonitor.View
 
         private void hrSensorTypeRadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged(sender);
+            controller.hrSensorTypeChanged();
         }
 
         private void hrSensorTypeRadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged(sender);
+            controller.hrSensorTypeChanged();
         }
 
         private void gsrPlusButton_Click(object sender, EventArgs e)
@@ -77,7 +77,7 @@ namespace CLESMonitor.View
 
         private void FuzzyModelUtilityView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            controller.close();
+            controller.closeForm();
         }
 
 

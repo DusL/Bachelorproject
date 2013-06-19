@@ -19,6 +19,9 @@ namespace CLESMonitor.Model.CL
         // A internal timer that will periodically call updateTimerCallback
         private Timer updateTimer;
 
+        private XmlDocument xmlDoc;
+        private string reader;
+
         /// <summary>
         /// Load a TextReader into the parser. The data from this TextReader needs to be
         /// in the correct XML format.
@@ -26,8 +29,11 @@ namespace CLESMonitor.Model.CL
         /// <param name="textReader">The TextReader to load.</param>
         public void loadTextReader(TextReader textReader)
         {
+            // Save the current input source, so that a session can be restarted.
+            reader = textReader.ToString();
+
             // Load the data from the textReader
-            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc = new XmlDocument();
             xmlDoc.Load(textReader); 
 
             // Retrieve every second defined in the scenario
@@ -54,6 +60,12 @@ namespace CLESMonitor.Model.CL
             updateTimer.Dispose();
         }
 
+        public override void reset() 
+        {
+
+            secondIndex = 0;
+        }
+
         #endregion
 
         /// <summary>
@@ -64,7 +76,7 @@ namespace CLESMonitor.Model.CL
         public void updateTimerCallback(Object stateInfo)
         {
             List<InputElement> inputElements = elementsForSecond(secondIndex);
-
+            Console.WriteLine("scondIndex " + secondIndex);
             // Check whether the delegate is set and there are elements in the second-node
             if (this.delegateObject != null && inputElements.Count > 0)
             {

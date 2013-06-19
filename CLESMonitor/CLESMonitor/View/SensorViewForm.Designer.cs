@@ -73,10 +73,13 @@
             this.GSRChart.Legends.Add(legend1);
             this.GSRChart.Location = new System.Drawing.Point(299, 3);
             this.GSRChart.Name = "GSRChart";
+            series1.BorderWidth = 2;
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series1.Color = System.Drawing.Color.Blue;
             series1.Legend = "Legend1";
             series1.Name = "Series1";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.GSRChart.Series.Add(series1);
             this.GSRChart.Size = new System.Drawing.Size(291, 304);
             this.GSRChart.TabIndex = 5;
@@ -99,10 +102,13 @@
             this.HRChart.Legends.Add(legend2);
             this.HRChart.Location = new System.Drawing.Point(3, 3);
             this.HRChart.Name = "HRChart";
+            series2.BorderWidth = 2;
             series2.ChartArea = "ChartArea1";
             series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series2.Color = System.Drawing.Color.OrangeRed;
             series2.Legend = "Legend1";
             series2.Name = "Series1";
+            series2.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             this.HRChart.Series.Add(series2);
             this.HRChart.Size = new System.Drawing.Size(290, 304);
             this.HRChart.TabIndex = 4;

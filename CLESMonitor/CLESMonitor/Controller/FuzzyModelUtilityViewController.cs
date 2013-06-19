@@ -36,7 +36,6 @@ namespace CLESMonitor.Controller
         // TODO: waarom is dit een Forms timer?
         System.Windows.Forms.Timer timer;
         private TimeSpan timeSpanCounter;
-        private TimeSpan reductionSpan; // TODO: wat is dit?
         private SensorViewController sensorController;
         private Timer sensorTimer;
 
@@ -67,7 +66,13 @@ namespace CLESMonitor.Controller
             // Set the default sensor types
             fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
             fuzzyModel.gsrSensor.type = GSRSensorType.ManualInput;
+
+            // Makes sure that from the start a vlue is present (not being 0).
+            fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
+            fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
+
             sensorController = null;
+
             TimerCallback timerCallback = sensorTimerCallback;
             sensorTimer = new Timer(timerCallback, null, 1000, 1000);
 
@@ -81,6 +86,7 @@ namespace CLESMonitor.Controller
         {
             if (sensorTimer != null)
             {
+                //TODO: Dit gaat nog dood
 
                 View.Invoke((Action)(() =>
                     {
@@ -123,19 +129,28 @@ namespace CLESMonitor.Controller
         public void calibrateButtonClicked()
         {
             // When the button is first pressed, show the sensorForm and start calabration.
-            // FIXME: wat als we al gecalibreerd zijn?
+            if (currentState == State.Calibrated)
+            {
+                // The method does not proceed as long as this messagebox is open.
+                var result = MessageBox.Show("Weet u zeker dat u nog maal wilt kalibreren?", "Kalibratie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    currentState = State.Uncalibrated;
+                }
+                
+            }
             if (currentState == State.Uncalibrated)
             {
                 // Show the form
-                if (sensorController == null)
+                if (sensorController == null || sensorController.View.IsDisposed)
                 {
                     sensorController = new SensorViewController(fuzzyModel.hrSensor, fuzzyModel.gsrSensor);
                 }
-                sensorController.View.Show();
+                
+                sensorController.View.Show(); 
 
                 // Setup the countdown calibration timer 
                 timeSpanCounter = new TimeSpan(0, 5, 0);
-                reductionSpan = new TimeSpan(0, 0, 1);
                 timer = new System.Windows.Forms.Timer();
                 timer.Tick += new EventHandler(timer_Tick);
                 timer.Interval = 1000; // 1 second
@@ -153,10 +168,7 @@ namespace CLESMonitor.Controller
                     fuzzyModel.gsrSensor.sensorValue = gsrTrackbar.Value;
                 }
 
-                // FIXME: dit kan niet meer
-                //View.timeLable.Text = "Kalibratie tijd";
-
-                // Start calibrating
+                 // Start calibrating
                 fuzzyModel.startCalibration();
                 currentState = State.Calibrating;
                 Console.WriteLine("Calibratie gestart");
@@ -166,20 +178,13 @@ namespace CLESMonitor.Controller
             {
                 // Stop the countdown and set the form back to the original state
                 timer.Stop();
-                // FIXME: dit kan niet meer
-                //View.timeLable.Text = "Sessie tijd";
                 calibrateButton.Text = "Opnieuw calibreren";
 
                 fuzzyModel.stopCalibration();
                 currentState = State.Calibrated;
                 Console.WriteLine("Calibratie gestopt");
             }
-            else if (currentState == State.Calibrated)
-            {
-                //TODO: Functionaliteit
-
-                MessageBox.Show("Weet u zeker dat u nog maal wilt kalibreren?", "Kalibratie", MessageBoxButtons.YesNo);
-            }
+            
         }
 
         /// <summary>
@@ -189,7 +194,7 @@ namespace CLESMonitor.Controller
         /// <param name="e"></param>
         private void timer_Tick(object sender, EventArgs e)
         {
-            timeSpanCounter -= reductionSpan;
+            timeSpanCounter.Subtract(new TimeSpan(0, 0, 1));
             if (timeSpanCounter.TotalSeconds == 0)
             {
                 timer.Stop();
@@ -202,37 +207,32 @@ namespace CLESMonitor.Controller
         /// <summary>
         /// Action when the heart rate sensor type is being changed
         /// </summary>
-        /// <param name="sender">Radio buttons for the available types</param>
-        public void hrSensorTypeChanged(object sender)
+        public void hrSensorTypeChanged()
         {
-            RadioButton radioButton = (RadioButton)sender;
-            if (radioButton.Checked)
+            if (View.hrSensorTypeRadioButton1.Checked)
             {
-                //TODO: is dit vies?
-                if (radioButton.Name.Equals("hrSensorTypeRadioButton1"))
-                {
-                    fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
-                    hrTrackbar.Enabled = true;
-                    hrMinusButton.Enabled = true;
-                    hrPlusButton.Enabled = true;
-                }
-                else if (radioButton.Name.Equals("hrSensorTypeRadioButton2"))
-                {
-                    fuzzyModel.hrSensor.type = HRSensorType.BluetoothZephyr;
-                    hrTrackbar.Enabled = false;
-                    hrMinusButton.Enabled = false;
-                    hrPlusButton.Enabled = false;
-                }
+                fuzzyModel.hrSensor.type = HRSensorType.ManualInput;
+                hrTrackbar.Enabled = true;
+                hrMinusButton.Enabled = true;
+                hrPlusButton.Enabled = true;
+            }
+
+            if (View.hrSensorTypeRadioButton2.Checked)
+            {
+                fuzzyModel.hrSensor.type = HRSensorType.BluetoothZephyr;
+                hrTrackbar.Enabled = false;
+                hrMinusButton.Enabled = false;
+                hrPlusButton.Enabled = false;
             }
         }
 
-        // FIXME: bounds checking!
-
         public void increaseHRValueInManualContext()
         {
-            hrTrackbar.Value = hrTrackbar.Value + 10;
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-
+            if (hrTrackbar.Maximum < hrTrackbar.Value)
+            {
+                hrTrackbar.Value = hrTrackbar.Value + 1;
+                hrValueLabel.Text = hrTrackbar.Value.ToString();
+            }
             // Pass along simulated sensor-data
             if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
             {
@@ -240,13 +240,14 @@ namespace CLESMonitor.Controller
             }
         }
 
-        // FIXME: bounds checking!
 
         public void decreaseHRValueInManualContext()
         {
-            hrTrackbar.Value = hrTrackbar.Value - 10;
-            hrValueLabel.Text = hrTrackbar.Value.ToString();
-
+            if (hrTrackbar.Minimum > hrTrackbar.Value)
+            {
+                hrTrackbar.Value = hrTrackbar.Value - 1;
+                hrValueLabel.Text = hrTrackbar.Value.ToString();
+            }
             // Pass along simulated sensor-data
             if (fuzzyModel.hrSensor.type == HRSensorType.ManualInput)
             {
@@ -265,14 +266,13 @@ namespace CLESMonitor.Controller
                 fuzzyModel.hrSensor.sensorValue = hrTrackbar.Value;
             }
         }
-
-        // FIXME: bounds checking!
-
         public void increaseGSRValueInManualContext()
         {
-            gsrTrackbar.Value = gsrTrackbar.Value + 10;
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-
+            if (gsrTrackbar.Maximum < gsrTrackbar.Value)
+            {
+                gsrTrackbar.Value = gsrTrackbar.Value + 1;
+                gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+            }
             // Pass along simulated sensor-data
             if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
             {
@@ -280,13 +280,13 @@ namespace CLESMonitor.Controller
             }
         }
 
-        // FIXME: bounds checking!
-
         public void decreaseGSRValueInManualContext()
         {
-            gsrTrackbar.Value = gsrTrackbar.Value - 10;
-            gsrValueLabel.Text = gsrTrackbar.Value.ToString();
-
+            if (gsrTrackbar.Minimum > gsrTrackbar.Value)
+            {
+                gsrTrackbar.Value = gsrTrackbar.Value - 1;
+                gsrValueLabel.Text = gsrTrackbar.Value.ToString();
+            }
             // Pass along simulated sensor-data
             if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
             {
@@ -311,22 +311,18 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void sensorButtonClicked()
         {
-            if (sensorController == null)
+            if (sensorController == null || sensorController.View.IsDisposed)
             {
                 sensorController = new SensorViewController(fuzzyModel.hrSensor, fuzzyModel.gsrSensor);
+
                 sensorController.View.Show();
             }
-            else if (!sensorController.View.Visible)
-            {
-
-            }
-            
             
         }
 
-        internal void close()
+        internal void closeForm()
         {
-            View.Dispose();
+           View.Dispose();
         }
     }
 }
