@@ -46,10 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\CTLModelUtilityViewController.cs" />
-    <Compile Include="Controller\FuzzyModelUtilityViewController.cs" />
+    <Compile Include="Controller\CTLModelUtilityVC.cs" />
+    <Compile Include="Controller\FuzzyModelUtilityVC.cs" />
     <Compile Include="Controller\SensorViewController.cs" />
-    <Compile Include="Controller\CLESMonitorViewController.cs" />
+    <Compile Include="Controller\MainViewController.cs" />
     <Compile Include="Model\CL\CTLInputSource.cs" />
     <Compile Include="Model\CL\CTLDomain.cs" />
     <Compile Include="Model\CL\CTLMath.cs" />
@@ -65,11 +65,11 @@
     <Compile Include="Model\CL\PRLDomain.cs" />
     <Compile Include="Model\CL\Vector.cs" />
     <Compile Include="Model\CL\XMLParser.cs" />
-    <Compile Include="View\CLESMonitorViewForm.cs">
+    <Compile Include="View\MainView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\CLESMonitorViewForm.Designer.cs">
-      <DependentUpon>CLESMonitorViewForm.cs</DependentUpon>
+    <Compile Include="View\MainView.Designer.cs">
+      <DependentUpon>MainView.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -85,11 +85,11 @@
     <Compile Include="View\FuzzyModelUtilityView.Designer.cs">
       <DependentUpon>FuzzyModelUtilityView.cs</DependentUpon>
     </Compile>
-    <Compile Include="View\SensorViewForm.cs">
+    <Compile Include="View\SensorView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="View\SensorViewForm.Designer.cs">
-      <DependentUpon>SensorViewForm.cs</DependentUpon>
+    <Compile Include="View\SensorView.Designer.cs">
+      <DependentUpon>SensorView.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -100,8 +100,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="View\CLESMonitorViewForm.resx">
-      <DependentUpon>CLESMonitorViewForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\MainView.resx">
+      <DependentUpon>MainView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="View\CTLModelUtilityView.resx">
       <DependentUpon>CTLModelUtilityView.cs</DependentUpon>
@@ -109,8 +109,8 @@
     <EmbeddedResource Include="View\FuzzyModelUtilityView.resx">
       <DependentUpon>FuzzyModelUtilityView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="View\SensorViewForm.resx">
-      <DependentUpon>SensorViewForm.cs</DependentUpon>
+    <EmbeddedResource Include="View\SensorView.resx">
+      <DependentUpon>SensorView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

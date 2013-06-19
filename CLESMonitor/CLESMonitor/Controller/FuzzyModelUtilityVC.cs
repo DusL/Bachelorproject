@@ -13,7 +13,7 @@ using Timer = System.Threading.Timer;
 
 namespace CLESMonitor.Controller
 {
-    public class FuzzyModelUtilityViewController
+    public class FuzzyModelUtilityVC
     {
         /// <summary>ViewController states</summary>
         public enum State
@@ -51,7 +51,7 @@ namespace CLESMonitor.Controller
         /// The constructor method.
         /// </summary>
         /// <param name="fuzzyModel">A instance of the FuzzyModel class</param>
-        public FuzzyModelUtilityViewController(FuzzyModel fuzzyModel)
+        public FuzzyModelUtilityVC(FuzzyModel fuzzyModel)
         {
             this.View = new FuzzyModelUtilityView(this);
             this.fuzzyModel = fuzzyModel;

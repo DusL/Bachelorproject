@@ -26,7 +26,7 @@ namespace CLESMonitor.Controller
     /// <summary>
     /// CLESMonitorViewController is the main viewcontroller for the CLESMonitor application.
     /// </summary>
-    public class CLESMonitorViewController
+    public class MainViewController
     {
         private const double TIME_WINDOW = 0.5; //in minutes
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
@@ -55,7 +55,7 @@ namespace CLESMonitor.Controller
         TableLayoutPanel tableLayoutPanel2;
 
         /// <summary>The View this Controller manages</summary>
-        public CLESMonitorViewForm View { get; set; }
+        public MainView View { get; set; }
         
         /// <summary>A utility view for the CL aspect of the monitor</summary>
         public Form clUtilityView
@@ -92,9 +92,9 @@ namespace CLESMonitor.Controller
         /// </summary>
         /// <param name="clModel">The CL model to use.</param>
         /// <param name="esModel">The ES model to use.</param>
-        public CLESMonitorViewController(CLModel clModel, ESModel esModel)
+        public MainViewController(CLModel clModel, ESModel esModel)
         {
-            View = new CLESMonitorViewForm(this);
+            View = new MainView(this);
             this.clModel = clModel;
             this.esModel = esModel;
 

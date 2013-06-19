@@ -13,9 +13,9 @@ namespace CLESMonitor.View
 {
     public partial class CTLModelUtilityView : Form
     {
-        CTLModelUtilityViewController viewController;
+        CTLModelUtilityVC viewController;
 
-        public CTLModelUtilityView(CTLModelUtilityViewController viewController)
+        public CTLModelUtilityView(CTLModelUtilityVC viewController)
         {
             InitializeComponent();
 

@@ -30,14 +30,14 @@ namespace CLESMonitor
             FuzzyModel fuzzyModel = new FuzzyModel(hrSensor, gsrSensor);
 
             // Main viewcontroller setup
-            var controller = new CLESMonitorViewController(ctlModel,fuzzyModel);
+            var controller = new MainViewController(ctlModel,fuzzyModel);
 
             // Cognitive Load setup
-            CTLModelUtilityViewController ctlUtilityVC = new CTLModelUtilityViewController(ctlModel, parser);
+            CTLModelUtilityVC ctlUtilityVC = new CTLModelUtilityVC(ctlModel, parser);
             controller.clUtilityView = ctlUtilityVC.View;
 
             // Emotional State setup
-            FuzzyModelUtilityViewController esUtilityVC = new FuzzyModelUtilityViewController(fuzzyModel);
+            FuzzyModelUtilityVC esUtilityVC = new FuzzyModelUtilityVC(fuzzyModel);
             controller.esUtilityView = esUtilityVC.View;
 
             Application.Run(controller.View);

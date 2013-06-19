@@ -13,13 +13,13 @@ namespace CLESMonitor.View
 {
     public partial class FuzzyModelUtilityView : Form
     {
-        private FuzzyModelUtilityViewController controller;
+        private FuzzyModelUtilityVC controller;
 
         /// <summary>
         /// The Constructor method.
         /// </summary>
         /// <param name="controller">A viewController for this view.</param>
-        public FuzzyModelUtilityView(FuzzyModelUtilityViewController controller)
+        public FuzzyModelUtilityView(FuzzyModelUtilityVC controller)
         {
             InitializeComponent();
             this.controller = controller;

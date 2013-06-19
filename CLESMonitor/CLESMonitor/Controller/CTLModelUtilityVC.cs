@@ -16,7 +16,7 @@ namespace CLESMonitor.Controller
     /// The utility viewcontroller for CTLModel. Note that this viewcontrollers requires that
     /// the CTLInputSource of the CTLModel is implemented by a XMLParser.
     /// </summary>
-    public class CTLModelUtilityViewController
+    public class CTLModelUtilityVC
     {
         /// <summary>The view this viewcontroller manages</summary>
         public CTLModelUtilityView View { get; private set; }
@@ -38,7 +38,7 @@ namespace CLESMonitor.Controller
         /// </summary>
         /// <param name="ctlModel">A instance of the CTLModel class</param>
         /// <param name="parser">A instance of the XMLParser class</param>
-        public CTLModelUtilityViewController(CTLModel ctlModel, XMLParser parser)
+        public CTLModelUtilityVC(CTLModel ctlModel, XMLParser parser)
         {
             this.View = new CTLModelUtilityView(this);
             this.ctlModel = ctlModel;

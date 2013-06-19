@@ -1,6 +1,6 @@
 ﻿namespace CLESMonitor.View
 {
-    partial class SensorViewForm
+    partial class SensorView
     {
         /// <summary>
         /// Required designer variable.

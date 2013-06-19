@@ -11,11 +11,11 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.View
 {
-    public partial class CLESMonitorViewForm : Form
+    public partial class MainView : Form
     {
-        private CLESMonitorViewController controller;
+        private MainViewController controller;
 
-        public CLESMonitorViewForm(CLESMonitorViewController controller)
+        public MainView(MainViewController controller)
         {
             this.controller = controller;
             InitializeComponent();

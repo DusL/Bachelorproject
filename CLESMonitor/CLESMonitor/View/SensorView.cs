@@ -11,11 +11,11 @@ using CLESMonitor.Controller;
 
 namespace CLESMonitor.View
 {
-    public partial class SensorViewForm : Form
+    public partial class SensorView : Form
     {
         private SensorViewController _controller;
 
-        public SensorViewForm(SensorViewController controller)
+        public SensorView(SensorViewController controller)
         {
             _controller = controller;
             InitializeComponent();

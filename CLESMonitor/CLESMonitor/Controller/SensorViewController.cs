@@ -52,7 +52,7 @@ namespace CLESMonitor.Controller
         public delegate void UpdateDelegate();
 
         // Sets the Form of the controller
-        public SensorViewForm View { get; private set; }
+        public SensorView View { get; private set; }
 
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace CLESMonitor.Controller
         /// <param name="gsrSensor">The GSR input that is set manualy or through a sensor</param>
         public SensorViewController(HRSensor hrSensor, GSRSensor gsrSensor)
         {
-            View = new SensorViewForm(this);
+            View = new SensorView(this);
             startTime = DateTime.Now;
 
             this.hrSensor = hrSensor;
