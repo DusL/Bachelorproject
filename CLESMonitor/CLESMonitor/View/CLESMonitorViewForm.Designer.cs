@@ -29,14 +29,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend11 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series11 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title11 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend12 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series12 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title12 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.CLChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.ESChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.startButton = new System.Windows.Forms.Button();
@@ -45,9 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.clTextBox = new System.Windows.Forms.TextBox();
             this.esTextBox = new System.Windows.Forms.TextBox();
-            this.pauseButton = new System.Windows.Forms.Button();
             this.timeLable = new System.Windows.Forms.Label();
-            this.sessionTimeBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -56,9 +54,9 @@
             this.sessionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.pauzeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.stopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sessionTimeLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CLChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ESChart)).BeginInit();
             this.tableLayoutPanel1.SuspendLayout();
@@ -70,62 +68,68 @@
             this.CLChart.BorderlineColor = System.Drawing.Color.Gray;
             this.CLChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.CLChart.BorderlineWidth = 2;
-            chartArea11.AxisX.Interval = 2D;
-            chartArea11.AxisX.ScaleView.MinSize = 10D;
-            chartArea11.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea11.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
-            chartArea11.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea11.AxisX.Title = "Sessietijd";
-            chartArea11.AxisY.Maximum = 2D;
-            chartArea11.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
-            chartArea11.Name = "ChartArea1";
-            this.CLChart.ChartAreas.Add(chartArea11);
+            chartArea5.AxisX.Interval = 2D;
+            chartArea5.AxisX.ScaleView.MinSize = 10D;
+            chartArea5.AxisX.ScaleView.MinSizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.AxisX.ScrollBar.ButtonColor = System.Drawing.Color.Black;
+            chartArea5.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea5.AxisX.Title = "Sessietijd";
+            chartArea5.AxisY.Maximum = 2D;
+            chartArea5.AxisY.ScaleView.SizeType = System.Windows.Forms.DataVisualization.Charting.DateTimeIntervalType.Number;
+            chartArea5.Name = "ChartArea1";
+            this.CLChart.ChartAreas.Add(chartArea5);
             this.CLChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend11.Enabled = false;
-            legend11.Name = "Legend1";
-            this.CLChart.Legends.Add(legend11);
+            legend5.Enabled = false;
+            legend5.Name = "Legend1";
+            this.CLChart.Legends.Add(legend5);
             this.CLChart.Location = new System.Drawing.Point(3, 3);
             this.CLChart.Name = "CLChart";
-            series11.ChartArea = "ChartArea1";
-            series11.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series11.Legend = "Legend1";
-            series11.Name = "Series1";
-            this.CLChart.Series.Add(series11);
+            series5.BorderWidth = 2;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series5.Color = System.Drawing.Color.OrangeRed;
+            series5.Legend = "Legend1";
+            series5.Name = "Series1";
+            series5.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.CLChart.Series.Add(series5);
             this.CLChart.Size = new System.Drawing.Size(474, 279);
             this.CLChart.TabIndex = 0;
             this.CLChart.Text = "chart1";
-            title11.Name = "CL-Waarden";
-            title11.Text = "Cognitieve Belasting";
-            this.CLChart.Titles.Add(title11);
+            title5.Name = "CL-Waarden";
+            title5.Text = "Cognitieve Belasting";
+            this.CLChart.Titles.Add(title5);
             // 
             // ESChart
             // 
             this.ESChart.BorderlineColor = System.Drawing.Color.Gray;
             this.ESChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.ESChart.BorderlineWidth = 2;
-            chartArea12.AxisX.Interval = 2D;
-            chartArea12.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea12.AxisX.Title = "Sessietijd";
-            chartArea12.AxisY.Maximum = 5D;
-            chartArea12.Name = "ChartArea1";
-            this.ESChart.ChartAreas.Add(chartArea12);
+            chartArea6.AxisX.Interval = 2D;
+            chartArea6.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea6.AxisX.Title = "Sessietijd";
+            chartArea6.AxisY.Maximum = 5D;
+            chartArea6.Name = "ChartArea1";
+            this.ESChart.ChartAreas.Add(chartArea6);
             this.ESChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend12.Enabled = false;
-            legend12.Name = "Legend1";
-            this.ESChart.Legends.Add(legend12);
+            legend6.Enabled = false;
+            legend6.Name = "Legend1";
+            this.ESChart.Legends.Add(legend6);
             this.ESChart.Location = new System.Drawing.Point(483, 3);
             this.ESChart.Name = "ESChart";
-            series12.ChartArea = "ChartArea1";
-            series12.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series12.Legend = "Legend1";
-            series12.Name = "Series1";
-            this.ESChart.Series.Add(series12);
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series6.Color = System.Drawing.Color.Blue;
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            series6.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            this.ESChart.Series.Add(series6);
             this.ESChart.Size = new System.Drawing.Size(474, 279);
             this.ESChart.TabIndex = 1;
             this.ESChart.Text = "chart2";
-            title12.Name = "ES-waarden";
-            title12.Text = "Emotionele Toestand";
-            this.ESChart.Titles.Add(title12);
+            title6.Name = "ES-waarden";
+            title6.Text = "Emotionele Toestand";
+            this.ESChart.Titles.Add(title6);
             // 
             // startButton
             // 
@@ -188,35 +192,15 @@
             this.esTextBox.Size = new System.Drawing.Size(50, 20);
             this.esTextBox.TabIndex = 8;
             // 
-            // pauseButton
-            // 
-            this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pauseButton.Enabled = false;
-            this.pauseButton.Location = new System.Drawing.Point(264, 661);
-            this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(120, 40);
-            this.pauseButton.TabIndex = 11;
-            this.pauseButton.Text = "Pauze";
-            this.pauseButton.UseVisualStyleBackColor = true;
-            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
-            // 
             // timeLable
             // 
             this.timeLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.timeLable.AutoSize = true;
-            this.timeLable.Location = new System.Drawing.Point(826, 675);
+            this.timeLable.Location = new System.Drawing.Point(848, 675);
             this.timeLable.Name = "timeLable";
             this.timeLable.Size = new System.Drawing.Size(58, 13);
             this.timeLable.TabIndex = 13;
             this.timeLable.Text = "Sessie Tijd";
-            // 
-            // sessionTimeBox
-            // 
-            this.sessionTimeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.sessionTimeBox.Location = new System.Drawing.Point(890, 672);
-            this.sessionTimeBox.Name = "sessionTimeBox";
-            this.sessionTimeBox.Size = new System.Drawing.Size(82, 20);
-            this.sessionTimeBox.TabIndex = 14;
             // 
             // tableLayoutPanel1
             // 
@@ -285,7 +269,6 @@
             this.sessionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.startToolStripMenuItem,
             this.toolStripSeparator2,
-            this.pauzeToolStripMenuItem,
             this.toolStripSeparator1,
             this.stopToolStripMenuItem});
             this.sessionToolStripMenuItem.Name = "sessionToolStripMenuItem";
@@ -296,46 +279,46 @@
             // 
             this.startToolStripMenuItem.Name = "startToolStripMenuItem";
             this.startToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.startToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.startToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.startToolStripMenuItem.Text = "Start";
             this.startToolStripMenuItem.Click += new System.EventHandler(this.startToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(102, 6);
-            // 
-            // pauzeToolStripMenuItem
-            // 
-            this.pauzeToolStripMenuItem.Name = "pauzeToolStripMenuItem";
-            this.pauzeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Space)));
-            this.pauzeToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
-            this.pauzeToolStripMenuItem.Text = "Pauze";
-            this.pauzeToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(102, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(149, 6);
             // 
             // stopToolStripMenuItem
             // 
             this.stopToolStripMenuItem.Name = "stopToolStripMenuItem";
             this.stopToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.stopToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.stopToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.stopToolStripMenuItem.Text = "Stop";
             this.stopToolStripMenuItem.Click += new System.EventHandler(this.stopToolStripMenuItem_Click);
+            // 
+            // sessionTimeLabel
+            // 
+            this.sessionTimeLabel.AutoSize = true;
+            this.sessionTimeLabel.Location = new System.Drawing.Point(912, 675);
+            this.sessionTimeLabel.Name = "sessionTimeLabel";
+            this.sessionTimeLabel.Size = new System.Drawing.Size(43, 13);
+            this.sessionTimeLabel.TabIndex = 23;
+            this.sessionTimeLabel.Text = "0.00.00";
             // 
             // CLESMonitorViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(984, 712);
+            this.Controls.Add(this.sessionTimeLabel);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Controls.Add(this.sessionTimeBox);
             this.Controls.Add(this.timeLable);
-            this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.esTextBox);
             this.Controls.Add(this.clTextBox);
             this.Controls.Add(this.label2);
@@ -370,8 +353,6 @@
         public System.Windows.Forms.TextBox esTextBox;
         public System.Windows.Forms.Button startButton;
         public System.Windows.Forms.Button stopButton;
-        public System.Windows.Forms.Button pauseButton;
-        public System.Windows.Forms.TextBox sessionTimeBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         public System.Windows.Forms.Label timeLable;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -379,11 +360,11 @@
         private System.Windows.Forms.ToolStripMenuItem sessionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem pauzeToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem stopToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem bestandToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
+        public System.Windows.Forms.Label sessionTimeLabel;
 
     }
 }

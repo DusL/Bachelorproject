@@ -134,14 +134,13 @@
             // 
             this.hrTrackbar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrTrackbar.LargeChange = 10;
             this.hrTrackbar.Location = new System.Drawing.Point(6, 44);
             this.hrTrackbar.Maximum = 150;
             this.hrTrackbar.Minimum = 30;
             this.hrTrackbar.Name = "hrTrackbar";
             this.hrTrackbar.Size = new System.Drawing.Size(266, 45);
             this.hrTrackbar.TabIndex = 16;
-            this.hrTrackbar.TickFrequency = 10;
+            this.hrTrackbar.TickFrequency = 5;
             this.hrTrackbar.Value = 70;
             this.hrTrackbar.Scroll += new System.EventHandler(this.hrTrackbar_Scroll);
             // 
@@ -205,13 +204,12 @@
             // 
             this.gsrTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gsrTrackBar.LargeChange = 10;
             this.gsrTrackBar.Location = new System.Drawing.Point(6, 19);
             this.gsrTrackBar.Maximum = 100;
             this.gsrTrackBar.Name = "gsrTrackBar";
             this.gsrTrackBar.Size = new System.Drawing.Size(266, 45);
             this.gsrTrackBar.TabIndex = 16;
-            this.gsrTrackBar.TickFrequency = 10;
+            this.gsrTrackBar.TickFrequency = 5;
             this.gsrTrackBar.Value = 50;
             this.gsrTrackBar.Scroll += new System.EventHandler(this.gsrTrackBar_Scroll);
             // 
@@ -497,8 +495,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton hrSensorTypeRadioButton1;
-        private System.Windows.Forms.RadioButton hrSensorTypeRadioButton2;
         public System.Windows.Forms.Label hrValueLabel;
         private System.Windows.Forms.Label label3;
         public System.Windows.Forms.TrackBar hrTrackbar;
@@ -531,6 +527,8 @@
         public System.Windows.Forms.Label meanLabel;
         public System.Windows.Forms.Label maxLabel;
         public System.Windows.Forms.Label minLabel;
+        public System.Windows.Forms.RadioButton hrSensorTypeRadioButton1;
+        public System.Windows.Forms.RadioButton hrSensorTypeRadioButton2;
 
     }
 }

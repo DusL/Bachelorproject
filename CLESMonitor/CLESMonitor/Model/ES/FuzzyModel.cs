@@ -100,6 +100,7 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopSession()
         {
+
             hrSensor.stopMeasuring();
         }
 

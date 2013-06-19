@@ -71,23 +71,6 @@ namespace CLESMonitor.Controller
             HRChart = this.View.HRChart;
             GSRChart = this.View.GSRChart;
 
-            // Setup of chart1
-            HRChart.Series.Clear();
-            Series newSeries = new Series("Series1");
-            newSeries.ChartType = SeriesChartType.Spline;
-            newSeries.BorderWidth = 2;
-            newSeries.Color = Color.OrangeRed;
-            newSeries.XValueType = ChartValueType.Double;
-            HRChart.Series.Add(newSeries);
-
-            // Setup of chart2
-            GSRChart.Series.Clear();
-            Series newSeries2 = new Series("Series1");
-            newSeries2.ChartType = SeriesChartType.Spline;
-            newSeries2.BorderWidth = 2;
-            newSeries2.Color = Color.Blue;
-            newSeries2.XValueType = ChartValueType.Double;
-            GSRChart.Series.Add(newSeries2);
         }
 
         /// <summary>

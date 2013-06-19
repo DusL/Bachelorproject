@@ -85,10 +85,13 @@ namespace CLESMonitor.Model.CL
         public override void stopSession()
         {
             Console.WriteLine("CTLModel.stopSession()");
-
             inputSource.stopReceivingInput();
-
+            inputSource.reset();
             updateTimer.Dispose();
+
+            activeEvents = new List<CTLEvent>();
+            activeTasks = new List<CTLTask>();
+            tasksInCalculationFrame = new List<CTLTask>();
         }
 
         #endregion

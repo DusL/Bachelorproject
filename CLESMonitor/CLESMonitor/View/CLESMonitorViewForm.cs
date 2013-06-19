@@ -31,19 +31,9 @@ namespace CLESMonitor.View
             controller.stopButtonClicked();
         }
 
-        private void pauseButton_Click(object sender, EventArgs e)
-        {
-            controller.pauseButtonClicked();
-        }
-
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             controller.startButtonClicked(null, null);
-        }
-
-        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            controller.pauseButtonClicked();
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,11 +52,7 @@ namespace CLESMonitor.View
             {
                 controller.quit();
             }
-            else if (e.KeyCode == Keys.S)
-            {
-                controller.quit();
-            }
-
+            
         }
     }
 }

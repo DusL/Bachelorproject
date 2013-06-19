@@ -109,5 +109,8 @@ namespace CLESMonitor.Model.CL
 
         public abstract void startReceivingInput();
         public abstract void stopReceivingInput();
+
+        public abstract void reset();
+        
     }
 }
