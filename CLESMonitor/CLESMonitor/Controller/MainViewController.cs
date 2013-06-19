@@ -11,18 +11,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using Timer = System.Threading.Timer;
 
 namespace CLESMonitor.Controller
 {
-    public enum ViewControllerState
-    {
-        Unknown,
-        Started,
-        Paused,
-        Stopped,
-        Calibrating
-    }
-
     /// <summary>
     /// CLESMonitorViewController is the main viewcontroller for the CLESMonitor application.
     /// </summary>
@@ -33,26 +25,10 @@ namespace CLESMonitor.Controller
 
         private CLModel clModel;
         private ESModel esModel;
-        private Thread updateChartDataThread;
         private DateTime startTime;
         private TimeSpan emptyTimer;
         private TimeSpan currentSessionTime;
-        private ThreadStart updateChartDataThreadStart;
-
-        public delegate void UpdateDelegate();
-
-        /// <summary>The current state of the viewcontroller</summary>
-        public ViewControllerState currentState;
-
-        // Outlets
-        Chart CLChart;
-        Chart ESChart;
-        TextBox clTextBox;
-        TextBox esTextBox;
-        Label sessionTimeLabel;
-        Button startButton;
-        Button stopButton;
-        TableLayoutPanel tableLayoutPanel2;
+        private Timer updateTimer;
 
         /// <summary>The View this Controller manages</summary>
         public MainView View { get; set; }
@@ -67,7 +43,7 @@ namespace CLESMonitor.Controller
                 _clUtilityView.TopLevel = false;
                 _clUtilityView.Visible = true;
                 _clUtilityView.Dock = DockStyle.Fill;
-                tableLayoutPanel2.Controls.Add(_clUtilityView);
+                View.tableLayoutPanel2.Controls.Add(_clUtilityView);
             }
         }
         private Form _clUtilityView; //backing field
@@ -82,7 +58,7 @@ namespace CLESMonitor.Controller
                 _esUtilityView.TopLevel = false;
                 _esUtilityView.Visible = true;
                 _esUtilityView.Dock = DockStyle.Fill;
-                tableLayoutPanel2.Controls.Add(_esUtilityView);
+                View.tableLayoutPanel2.Controls.Add(_esUtilityView);
             }
         }
         private Form _esUtilityView; //backing field
@@ -98,92 +74,29 @@ namespace CLESMonitor.Controller
             this.clModel = clModel;
             this.esModel = esModel;
 
-            // Set outlets 
-            this.setupOutlets();
-
-            // Create a thread for the real-time graph - not yet starting
-            updateChartDataThreadStart = new ThreadStart(UpdateChartDataLoop);
-            updateChartDataThread = new Thread(updateChartDataThreadStart);
-            // A background thread will automatically stop before the program closes
-            updateChartDataThread.IsBackground = true;
-
             // Set timer initially to 0 seconds elapsed seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
-            sessionTimeLabel.Text = emptyTimer.ToString();
-
-            Console.WriteLine("ViewController State = Stopped");
-            this.currentState = ViewControllerState.Stopped;
+            View.sessionTimeLabel.Text = emptyTimer.ToString();
         }
 
-        /// <summary>
-        /// Sets the controller outlets
-        /// </summary>
-        private void setupOutlets()
+      private void updateCallback(Object stateInfo)
         {
-            CLChart = this.View.CLChart;
-            ESChart = this.View.ESChart;
-            clTextBox = this.View.clTextBox;
-            esTextBox = this.View.esTextBox;
-            sessionTimeLabel = this.View.sessionTimeLabel;
-            startButton = this.View.startButton;
-            stopButton = this.View.stopButton;
-            tableLayoutPanel2 = this.View.tableLayoutPanel2;
-        }
-
-        /// <summary>
-        /// The loop that updates everything each second
-        /// </summary>
-        private void UpdateChartDataLoop()
-        {
-            while (true)
+            View.Invoke((Action)(() =>
             {
-                // TODO: het updaten van de chart wordt hier gepauzeerd; je wilt
-                // eigenlijk dat er tijdelijk geen metingen/calculaties meer plaatsvinden!
-                if (this.currentState == ViewControllerState.Started)
-                {
-                    CLChart.Invoke(new UpdateDelegate(UpdateCLChartData));
-                    ESChart.Invoke(new UpdateDelegate(UpdateESChartData));
-                }
-                sessionTimeLabel.Invoke(new UpdateDelegate(UpdateSessionTime));
+                // Update the CL-graph and TextBox
+                double newCLDataPoint = clModel.calculateModelValue();
+                UpdateChartData(View.CLChart, newCLDataPoint, currentSessionTime);
+                View.clTextBox.Text = newCLDataPoint.ToString();
 
-                // TODO: vervangen met een timer
-                Thread.Sleep(LOOP_SLEEP_INTERVAL);
-            }
-        }
+                // Update the ES-graph and TextBox
+                double newESDataPoint = this.esModel.calculateModelValue();
+                this.UpdateChartData(View.ESChart, newESDataPoint, currentSessionTime);
+                View.esTextBox.Text = newESDataPoint.ToString();
 
-        /// <summary>
-        /// Keeps the session time up-to-date
-        /// </summary>
-        private void UpdateSessionTime()
-        {
-            currentSessionTime =  DateTime.Now - startTime;
-            sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
-        }
-
-
-        /// <summary>
-        /// Adjusts the CL-graph
-        /// </summary>
-        private void UpdateCLChartData()
-        {
-            // Calculate the most recent value
-            double newDataPoint = clModel.calculateModelValue();
-
-            // Update the graph and TextBox
-            this.UpdateChartData(CLChart, newDataPoint, currentSessionTime);
-            clTextBox.Text = newDataPoint.ToString();
-        }
-        /// <summary>
-        ///Adjusts the ES graph
-        /// </summary>
-        private void UpdateESChartData()
-        {
-            // Calculate the most recent de nieuwste waarde
-            double newDataPoint = this.esModel.calculateModelValue();
-
-            // Update the graph and TextBox
-            this.UpdateChartData(ESChart, newDataPoint, currentSessionTime);
-            esTextBox.Text = newDataPoint.ToString();
+                // Keep the session time up-to-date
+                currentSessionTime = DateTime.Now - startTime;
+                View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+            }));
         }
 
         /// <summary>
@@ -211,55 +124,39 @@ namespace CLESMonitor.Controller
 
         public void startButtonClicked(object sender, System.EventArgs e)
         {
-            // Predefine the viewing area of the chart
-            DateTime minValue = DateTime.Now;
-            DateTime maxValue = minValue.AddSeconds(TIME_WINDOW*60);
-            
-            CLChart.ChartAreas[0].AxisX.Minimum = minValue.ToOADate();
-            CLChart.ChartAreas[0].AxisX.Maximum = maxValue.ToOADate();
-            ESChart.ChartAreas[0].AxisX.Minimum = minValue.ToOADate();
-            ESChart.ChartAreas[0].AxisX.Maximum = maxValue.ToOADate();
-
+            // Cleanup / reset values
             startTime = DateTime.Now;
             currentSessionTime = emptyTimer;
-            CLChart.Series[0].Points.Clear();
-            ESChart.Series[0].Points.Clear();
+            View.CLChart.Series[0].Points.Clear();
+            View.ESChart.Series[0].Points.Clear();
 
-            if (this.currentState == ViewControllerState.Stopped)
-            {
-                clModel.startSession();
-                esModel.startSession();
+            // Start the update timer
+            updateTimer = new Timer(updateCallback, null, 0, 1000);
 
-                updateChartDataThread = new Thread(updateChartDataThreadStart);
-                updateChartDataThread.Start();
-                
-            }
+            // Pass the message to the models
+            clModel.startSession();
+            esModel.startSession();
 
             // Adjust buttons
-            startButton.Enabled = false;
-            stopButton.Enabled = true;
-
-            Console.WriteLine("ViewController State = Started");
-            this.currentState = ViewControllerState.Started;
+            View.startButton.Enabled = false;
+            View.stopButton.Enabled = true;
         }
         
         public void stopButtonClicked()
         {
-            if (this.currentState == ViewControllerState.Started)
-            {
-                clModel.stopSession();
-                esModel.stopSession();
-            }
+            clModel.stopSession();
+            esModel.stopSession();
 
-            //updateChartDataThread.Suspend();
-            updateChartDataThread.Abort();
-            stopButton.Enabled = false;
-            startButton.Enabled = true;
+            // Stop the update timer
+            updateTimer.Dispose();
 
-            Console.WriteLine("ViewController State = Stopped");
-            this.currentState = ViewControllerState.Stopped;
+            View.stopButton.Enabled = false;
+            View.startButton.Enabled = true;
         }
 
+        /// <summary>
+        /// This method is called by the view when the quit-shortcut is triggered.
+        /// </summary>
         internal void quit()
         {
             View.Dispose();

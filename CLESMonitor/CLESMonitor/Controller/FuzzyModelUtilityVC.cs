@@ -87,26 +87,22 @@ namespace CLESMonitor.Controller
                 //TODO: Dit gaat nog dood
 
                 View.Invoke((Action)(() =>
-                    {
-                        View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
-                        View.hrMeanLabel.Text = Math.Round(fuzzyModel.HRMean).ToString();
-                        View.hrSDLabel.Text = Math.Round(fuzzyModel.HRsd).ToString();
-                        View.hrMinLabel.Text = Math.Round(fuzzyModel.HRMin).ToString();
-                        View.hrMaxLabel.Text = Math.Round(fuzzyModel.HRMax).ToString();
-                    }));
+                {
+                    View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
+                    View.hrMeanLabel.Text = Math.Round(fuzzyModel.HRMean).ToString();
+                    View.hrSDLabel.Text = Math.Round(fuzzyModel.HRsd).ToString();
+                    View.hrMinLabel.Text = Math.Round(fuzzyModel.HRMin).ToString();
+                    View.hrMaxLabel.Text = Math.Round(fuzzyModel.HRMax).ToString();
+                }));
 
                 View.Invoke((Action)(() =>
-                    {
-                        View.gsrLevelLabel.Text = fuzzyModel.gsrLevel.ToString();
-                        View.gsrMeanLabel.Text = Math.Round(fuzzyModel.GSRMean).ToString();
-                        View.gsrSDLabel.Text = Math.Round(fuzzyModel.GSRsd).ToString();
-                        View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
-                        View.gsrMaxLabel.Text = Math.Round(fuzzyModel.GSRMax).ToString();
-                    }));
-
-               
-                // TODO: vervangen met een timer
-                Thread.Sleep(LOOP_SLEEP_INTERVAL);
+                {
+                    View.gsrLevelLabel.Text = fuzzyModel.gsrLevel.ToString();
+                    View.gsrMeanLabel.Text = Math.Round(fuzzyModel.GSRMean).ToString();
+                    View.gsrSDLabel.Text = Math.Round(fuzzyModel.GSRsd).ToString();
+                    View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
+                    View.gsrMaxLabel.Text = Math.Round(fuzzyModel.GSRMax).ToString();
+                }));
             }
         }
 
