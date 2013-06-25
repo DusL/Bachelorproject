@@ -1,15 +1,14 @@
-﻿using System;
+﻿using CLESMonitor.Model.ES;
+using CLESMonitor.View;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using CLESMonitor.View;
-using CLESMonitor.Model.ES;
-using System.Windows.Forms;
 using System.Threading;
-
-
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using Timer = System.Threading.Timer;
+using System.IO.Ports;
 
 namespace CLESMonitor.Controller
 {
@@ -58,6 +57,8 @@ namespace CLESMonitor.Controller
 
             setupOutlets();
 
+            setupComboBox();
+
             hrValueLabel.Text = View.hrTrackBar.Value.ToString();
             gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
 
@@ -75,6 +76,13 @@ namespace CLESMonitor.Controller
             sensorTimer = new Timer(timerCallback, null, 1000, 1000);
 
             this.currentState = State.Uncalibrated;
+        }
+
+        private void setupComboBox()
+        {
+            string[] portNames = SerialPort.GetPortNames();
+            View.comboBox1.Items.AddRange(portNames);
+            View.comboBox1.SelectedIndex = 0;
         }
 
         /// <summary>
@@ -207,6 +215,7 @@ namespace CLESMonitor.Controller
                 View.hrTrackBar.Enabled = true;
                 hrMinusButton.Enabled = true;
                 hrPlusButton.Enabled = true;
+                View.comboBox1.Enabled = false;
             }
 
             if (View.hrSensorTypeRadioButton2.Checked)
@@ -215,7 +224,13 @@ namespace CLESMonitor.Controller
                 View.hrTrackBar.Enabled = false;
                 hrMinusButton.Enabled = false;
                 hrPlusButton.Enabled = false;
+                View.comboBox1.Enabled = true;
             }
+        }
+
+        public void hrSensorComboBoxChanged()
+        {
+
         }
 
         /// <summary>

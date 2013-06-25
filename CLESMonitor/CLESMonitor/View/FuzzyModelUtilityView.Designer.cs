@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.hrSensorTypeRadioButton1 = new System.Windows.Forms.RadioButton();
             this.hrSensorTypeRadioButton2 = new System.Windows.Forms.RadioButton();
             this.hrValueLabel = new System.Windows.Forms.Label();
@@ -74,6 +75,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.comboBox1);
             this.groupBox1.Controls.Add(this.hrSensorTypeRadioButton1);
             this.groupBox1.Controls.Add(this.hrSensorTypeRadioButton2);
             this.groupBox1.Controls.Add(this.hrValueLabel);
@@ -87,6 +89,19 @@
             this.groupBox1.TabIndex = 22;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hartslagmeter";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Kies een COM poort.."});
+            this.comboBox1.Location = new System.Drawing.Point(204, 20);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(140, 21);
+            this.comboBox1.TabIndex = 23;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // hrSensorTypeRadioButton1
             // 
@@ -134,11 +149,11 @@
             // 
             this.hrTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrTrackBar.Location = new System.Drawing.Point(6, 44);
+            this.hrTrackBar.Location = new System.Drawing.Point(9, 47);
             this.hrTrackBar.Maximum = 150;
             this.hrTrackBar.Minimum = 30;
             this.hrTrackBar.Name = "hrTrackBar";
-            this.hrTrackBar.Size = new System.Drawing.Size(266, 45);
+            this.hrTrackBar.Size = new System.Drawing.Size(288, 45);
             this.hrTrackBar.TabIndex = 16;
             this.hrTrackBar.TickFrequency = 5;
             this.hrTrackBar.Value = 70;
@@ -147,7 +162,7 @@
             // hrMinusButton
             // 
             this.hrMinusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrMinusButton.Location = new System.Drawing.Point(278, 44);
+            this.hrMinusButton.Location = new System.Drawing.Point(303, 47);
             this.hrMinusButton.Name = "hrMinusButton";
             this.hrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.hrMinusButton.TabIndex = 18;
@@ -158,7 +173,7 @@
             // hrPlusButton
             // 
             this.hrPlusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrPlusButton.Location = new System.Drawing.Point(314, 44);
+            this.hrPlusButton.Location = new System.Drawing.Point(339, 47);
             this.hrPlusButton.Name = "hrPlusButton";
             this.hrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.hrPlusButton.TabIndex = 17;
@@ -204,10 +219,10 @@
             // 
             this.gsrTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gsrTrackBar.Location = new System.Drawing.Point(6, 19);
+            this.gsrTrackBar.Location = new System.Drawing.Point(9, 19);
             this.gsrTrackBar.Maximum = 100;
             this.gsrTrackBar.Name = "gsrTrackBar";
-            this.gsrTrackBar.Size = new System.Drawing.Size(266, 45);
+            this.gsrTrackBar.Size = new System.Drawing.Size(288, 45);
             this.gsrTrackBar.TabIndex = 16;
             this.gsrTrackBar.TickFrequency = 5;
             this.gsrTrackBar.Value = 50;
@@ -216,7 +231,7 @@
             // gsrMinusButton
             // 
             this.gsrMinusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gsrMinusButton.Location = new System.Drawing.Point(278, 19);
+            this.gsrMinusButton.Location = new System.Drawing.Point(303, 19);
             this.gsrMinusButton.Name = "gsrMinusButton";
             this.gsrMinusButton.Size = new System.Drawing.Size(30, 30);
             this.gsrMinusButton.TabIndex = 18;
@@ -227,7 +242,7 @@
             // gsrPlusButton
             // 
             this.gsrPlusButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gsrPlusButton.Location = new System.Drawing.Point(314, 19);
+            this.gsrPlusButton.Location = new System.Drawing.Point(339, 19);
             this.gsrPlusButton.Name = "gsrPlusButton";
             this.gsrPlusButton.Size = new System.Drawing.Size(30, 30);
             this.gsrPlusButton.TabIndex = 17;
@@ -529,6 +544,7 @@
         public System.Windows.Forms.Button gsrMinusButton;
         public System.Windows.Forms.Button gsrPlusButton;
         public System.Windows.Forms.TrackBar gsrTrackBar;
+        public System.Windows.Forms.ComboBox comboBox1;
 
     }
 }

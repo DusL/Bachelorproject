@@ -104,51 +104,137 @@ namespace XMLScenarioGenerator
             elements.Add(event2);
             elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
             */
-            addScenario1();
+            addScenario1b();
+            addScenario3();
+            
             // Add the (hardcoded) data to be generated here //
         }
 
-        public void addScenario1()
+        /// <summary>
+        /// Een (korte, 1 min bijvoorbeeld) vertraagde trein, zonder problemen voor een andere trein.
+        /// Deze andere trein zou bijvoorbeeld 3 min later het spoor van de eerste trein moeten kruisen.
+        /// </summary>
+        public void addScenario1a()
         {
-            scenarioLength = 160;
-
-            Event event1 = new Event("GESTRANDE_TREIN", 5, 150);
+            scenarioLength = 80;
+            Event event1 = new Event("VERTRAAGDE_TREIN", 10, 60);
             elements.Add(event1);
 
-            // Rijweginstelling trein verhinderen
-            elements.Add(new Task("SELECTEER_REGEL", 10, 1, event1));
-            elements.Add(new Task("VIND_TREIN", 11, 5, event1));
-            elements.Add(new Task("ARI_UIT", 16, 1, event1));
-            elements.Add(new Task("DESELECTEER_REGEL", 17, 3, event1));
+            elements.Add(new Task("SELECTEER_REGEL", 15, 3, event1));
+            elements.Add(new Task("KWIT_VERT_REGELS", 20, 5, event1));
+            elements.Add(new Task("VERWERK_VERT_REGELS", 45, 5, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 52, 3, event1));
+        }
+
+        /// <summary>
+        /// Een korte (3 min bijvoorbeeld) vertraagde trein, wat problemen oplevert voor een andere trein.
+        /// Deze andere trein zou direct na de eerste het spoor moeten kruisen. (sein)
+        /// </summary>
+        public void addScenario1b()
+        {
+            scenarioLength = 140;
+            Event event1 = new Event("VERTRAAGDE_TREIN", 10, 120);
+            elements.Add(event1);
+
+            elements.Add(new Task("SELECTEER_REGEL", 15, 3, event1));
+            elements.Add(new Task("KWIT_VERT_REGELS", 20, 5, event1));
+
+            elements.Add(new Task("ARI_UIT", 45, 3, event1));
+            elements.Add(new Task("HERROEP_SEIN", 50, 20, event1));
+            elements.Add(new Task("HAND_VERWERK_REGEL", 70, 20, event1));
+            elements.Add(new Task("ARI_IN", 95, 3, event1));
+            
+            elements.Add(new Task("VERWERK_VERT_REGELS", 100, 5, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 107, 3, event1));
+        }
+
+        /// <summary>
+        /// Multitask-scenario, waarop 1a en 1b tegelijkertijd plaatsvinden.
+        /// </summary>
+        public void addScenario1c()
+        {
+            
+            addScenario1a();
+            addScenario1b();
+            scenarioLength = 140;
+        }
+
+        /// <summary>
+        /// Een gestoorde wissel. Met twee treinen, waarvan de voorste niet over de (geklemde) wissel in de correcte richting kan,
+        /// en een tweede die hierachter voor een sein staat en wel over de wissel kan.
+        /// </summary>
+        public void addScenario2()
+        {
+            scenarioLength = 440;
+            Event event1 = new Event("GESTOORDE_WISSEL", 0, 420);
+            elements.Add(event1);
+
+            // Voor de trein die niet over de gestoorde wissel kan
+            elements.Add(new Task("SELECTEER_REGEL", 2, 5, event1));
+            elements.Add(new Task("VIND_TREIN", 5, 15, event1));
+            elements.Add(new Task("ARI_UIT", 20, 3, event1));
+            elements.Add(new Task("HERROEP_SEIN", 35, 20, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 58, 3, event1));
+            // Voor de trein aankomend achter de eerste 
+            elements.Add(new Task("SELECTEER_REGEL", 62, 3, event1));
+            elements.Add(new Task("VIND_TREIN", 65, 15, event1));
+            elements.Add(new Task("ARI_UIT", 80, 3, event1));
+            elements.Add(new Task("HERROEP_SEIN", 85, 20, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 113, 3, event1));
+
+            elements.Add(new Task("SELECTEER_REGEL", 115, 3, event1));
+            elements.Add(new Task("HAND_VERWERK_REGEL", 125, 35, event1));
+            elements.Add(new Task("VERWERK_VERT_REGELS", 170, 5, event1));
+            elements.Add(new Task("ARI_IN", 178, 3, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 184, 3, event1));
+
+            elements.Add(new Task("SELECTEER_REGEL", 190, 3, event1));
+            elements.Add(new Task("HAND_VERWERK_REGEL", 200, 35, event1));
+            elements.Add(new Task("VERWERK_VERT_REGELS", 245, 5, event1));
+            elements.Add(new Task("LASTGEVING", 310, 45, event1)); //over geklemde wissel
+            elements.Add(new Task("ARI_IN", 365, 3, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 370, 3, event1));
+        }
+
+        public void addScenario3()
+        {
+            scenarioLength = 610;
+
+            Event event1 = new Event("GESTRANDE_TREIN", 5, 600);
+            elements.Add(event1);
+
+            // Gesprek met machinist kapotte trein
+            elements.Add(new Task("COMMUNICATIE", 10, 90, event1));
+            // Gesprek met VKL
+            elements.Add(new Task("COMMUNICATIE", 110, 90, event1));
+
+            // Rijweginstelling kapotte trein verhinderen
+            elements.Add(new Task("SELECTEER_REGEL", 200, 3, event1));
+            elements.Add(new Task("VIND_TREIN", 205, 15, event1));
+            elements.Add(new Task("ARI_UIT", 220, 3, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 223, 2, event1));
+
+            // Sein herroepen bij de wissel
+            elements.Add(new Task("HERROEP_SEIN", 230, 20, event1));
 
             // Rijweginstelling trein verhinderen
-            elements.Add(new Task("SELECTEER_REGEL", 25, 1, event1));
-            elements.Add(new Task("VIND_TREIN", 26, 5, event1));
-            elements.Add(new Task("ARI_UIT", 31, 1, event1));
-            elements.Add(new Task("DESELECTEER_REGEL", 32, 3, event1));
+            elements.Add(new Task("SELECTEER_REGEL", 260, 3, event1));
+            elements.Add(new Task("VIND_TREIN", 265, 20, event1));
+            elements.Add(new Task("ARI_UIT", 285, 3, event1));
 
-            // Communicatie VKL, monteur
-            elements.Add(new Task("COMMUNICATIE", 40, 30, event1));
-            elements.Add(new Task("COMMUNICATIE", 80, 30, event1));
+            elements.Add(new Task("HAND_VERWERK_REGEL", 290, 60, event1));
+            elements.Add(new Task("ARI_IN", 350, 3, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 355, 3, event1));
+
+            // Communicatie monteur
+            elements.Add(new Task("COMMUNICATIE", 380, 60, event1));
 
             // Rijweginstelling trein herstellen
-            elements.Add(new Task("SELECTEER_REGEL", 120, 1, event1));
-            elements.Add(new Task("VIND_TREIN", 121, 5, event1));
-            elements.Add(new Task("ARI_IN", 126, 1, event1));
-            elements.Add(new Task("DESELECTEER_REGEL", 127, 3, event1));
-
-            // Muteer rijweg
-            elements.Add(new Task("SELECTEER_REGEL", 135, 2, event1));
-            elements.Add(new Task("REGEL_IN_MUTATIESCHERM", 137, 2, event1));
-            elements.Add(new Task("MUTEER_REGEL", 139, 11, event1));
-            elements.Add(new Task("REGEL_TERUG", 150, 2, event1));
-
-            Event event2 = new Event("VERTRAAGDE_TREIN", 20, 20);
-            elements.Add(event2);
-
-            elements.Add(new Task("SELECTEER_REGEL", 25, 1, event2));
-            elements.Add(new Task("KWIT_VERT_REGELS", 26, 2, event2));
-            elements.Add(new Task("VERWERK_VERT_REGELS", 38, 2, event2));
+            elements.Add(new Task("SELECTEER_REGEL", 440, 3, event1));
+            elements.Add(new Task("VIND_TREIN", 445, 20, event1));
+            elements.Add(new Task("HAND_VERWERK_REGEL", 470, 60, event1));
+            elements.Add(new Task("ARI_IN", 530, 3, event1));
+            elements.Add(new Task("DESELECTEER_REGEL", 535, 3, event1));
         }
 
         /// <summary>
