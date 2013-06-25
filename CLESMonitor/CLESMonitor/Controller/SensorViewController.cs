@@ -91,10 +91,12 @@ namespace CLESMonitor.Controller
             if (sensorTimer != null)
             {
                 currentSessionTime = DateTime.Now - startTime;
-
-                // FIXME: dit crasht als je de sensorvenster sluit
-                HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
-                GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
+                if (!HRChart.IsDisposed && !GSRChart.IsDisposed)
+                {
+                    // FIXME: dit crasht als je de sensorvenster sluit
+                    HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
+                    GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
+                }
             }
         }
 
@@ -146,8 +148,9 @@ namespace CLESMonitor.Controller
         /// </summary>
         public void formClosing()
         {
-            //Console.WriteLine("Disposing of the sensorTimer");
+            Console.WriteLine("Disposing of the sensorTimer");
             sensorTimer.Dispose();
+            //sensorTimer = null;
         }
 
        

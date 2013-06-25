@@ -124,7 +124,7 @@ namespace CLESMonitor.Controller
             if (currentState == State.Calibrated)
             {
                 // The method does not proceed as long as this messagebox is open.
-                var result = MessageBox.Show("Weet u zeker dat u nog maal wilt kalibreren?", "Kalibratie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var result = MessageBox.Show("Weet u zeker dat u nog maal wilt kalibreren?", "Kalibratie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button2);
                 if (result == DialogResult.Yes)
                 {
                     currentState = State.Uncalibrated;

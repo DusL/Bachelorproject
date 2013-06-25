@@ -81,22 +81,23 @@ namespace CLESMonitor.Controller
 
       private void updateCallback(Object stateInfo)
         {
-            View.Invoke((Action)(() =>
+            if (View != null)
             {
-                // Update the CL-graph and TextBox
-                double newCLDataPoint = clModel.calculateModelValue();
-                UpdateChartData(View.CLChart, newCLDataPoint, currentSessionTime);
-                View.clTextBox.Text = newCLDataPoint.ToString();
+                View.Invoke((Action)(() =>
+                {
+                    // Update the CL-graph and TextBox
+                    double newCLDataPoint = clModel.calculateModelValue();
+                    UpdateChartData(View.CLChart, newCLDataPoint, currentSessionTime);
 
-                // Update the ES-graph and TextBox
-                double newESDataPoint = this.esModel.calculateModelValue();
-                this.UpdateChartData(View.ESChart, newESDataPoint, currentSessionTime);
-                View.esTextBox.Text = newESDataPoint.ToString();
+                    // Update the ES-graph and TextBox
+                    double newESDataPoint = this.esModel.calculateModelValue();
+                    this.UpdateChartData(View.ESChart, newESDataPoint, currentSessionTime);
 
-                // Keep the session time up-to-date
-                currentSessionTime = DateTime.Now - startTime;
-                View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
-            }));
+                    // Keep the session time up-to-date
+                    currentSessionTime = DateTime.Now - startTime;
+                    View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+                }));
+            }
         }
 
         /// <summary>
@@ -108,18 +109,25 @@ namespace CLESMonitor.Controller
         private void UpdateChartData(Chart chart, double newDataPoint, TimeSpan currentSessionTime)
         {
             // Update chart
-            Series series = chart.Series["Series1"];
-            series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
-            chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
+            //Series series = chart.Series["Series1"];
+            double now = Math.Floor(currentSessionTime.TotalSeconds);
+            chart.Series["Series1"].Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
+            //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue +2;
+            if (chart.ChartAreas[0].AxisX.Maximum >= chart.ChartAreas[0].AxisX.ScaleView.Size)
+            {
+                chart.ChartAreas[0].AxisX.ScaleView.Scroll(chart.ChartAreas[0].AxisX.Maximum +1 );
+                //chart.ChartAreas[0].AxisX.ScaleView.Position;
+            }
+            //chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
+            //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
             chart.Invalidate(); //redraw
 
             // Remove old datapoints
-            double removeBefore = Math.Floor(currentSessionTime.TotalSeconds- ((double)(60) * (TIME_WINDOW)));
+           /* double removeBefore = Math.Floor(currentSessionTime.TotalSeconds- ((double)(60) * (TIME_WINDOW)));
             while (series.Points[0].XValue < removeBefore)
             {
                 series.Points.RemoveAt(0);
-            }
+            }*/
         }
 
         public void startButtonClicked(object sender, System.EventArgs e)
@@ -137,9 +145,6 @@ namespace CLESMonitor.Controller
             clModel.startSession();
             esModel.startSession();
 
-            // Adjust buttons
-            View.startButton.Enabled = false;
-            View.stopButton.Enabled = true;
         }
         
         public void stopButtonClicked()
@@ -149,9 +154,6 @@ namespace CLESMonitor.Controller
 
             // Stop the update timer
             updateTimer.Dispose();
-
-            View.stopButton.Enabled = false;
-            View.startButton.Enabled = true;
         }
 
         /// <summary>
@@ -160,6 +162,7 @@ namespace CLESMonitor.Controller
         internal void quit()
         {
             View.Dispose();
+            View = null;
         }
     }
 }
