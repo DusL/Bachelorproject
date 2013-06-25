@@ -87,11 +87,11 @@ namespace CLESMonitor.Controller
                 {
                     // Update the CL-graph and TextBox
                     double newCLDataPoint = clModel.calculateModelValue();
-                    UpdateChartData(View.CLChart, newCLDataPoint, currentSessionTime);
+                    UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
 
                     // Update the ES-graph and TextBox
                     double newESDataPoint = this.esModel.calculateModelValue();
-                    this.UpdateChartData(View.ESChart, newESDataPoint, currentSessionTime);
+                    this.UpdateChartData(View.clesChart.Series["Series1"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
 
                     // Keep the session time up-to-date
                     currentSessionTime = DateTime.Now - startTime;
@@ -106,21 +106,22 @@ namespace CLESMonitor.Controller
         /// </summary>
         /// <param name="chart"></param>
         /// <param name="newDataPoint"></param>
-        private void UpdateChartData(Chart chart, double newDataPoint, TimeSpan currentSessionTime)
+        private void UpdateChartData(Series series, ChartArea chartArea, double newDataPoint, TimeSpan currentSessionTime)
         {
             // Update chart
             //Series series = chart.Series["Series1"];
             double now = Math.Floor(currentSessionTime.TotalSeconds);
-            chart.Series["Series1"].Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
+            series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
             //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue +2;
-            if (chart.ChartAreas[0].AxisX.Maximum >= chart.ChartAreas[0].AxisX.ScaleView.Size)
+            if (chartArea.AxisX.Maximum >= chartArea.AxisX.ScaleView.Size)
             {
-                chart.ChartAreas[0].AxisX.ScaleView.Scroll(chart.ChartAreas[0].AxisX.Maximum +1 );
+                chartArea.AxisX.ScaleView.Scroll(chartArea.AxisX.Maximum );
                 //chart.ChartAreas[0].AxisX.ScaleView.Position;
             }
             //chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
             //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
-            chart.Invalidate(); //redraw
+            //chartArea.
+            View.clesChart.Invalidate(); //redraw
 
             // Remove old datapoints
            /* double removeBefore = Math.Floor(currentSessionTime.TotalSeconds- ((double)(60) * (TIME_WINDOW)));
@@ -135,8 +136,8 @@ namespace CLESMonitor.Controller
             // Cleanup / reset values
             startTime = DateTime.Now;
             currentSessionTime = emptyTimer;
-            View.CLChart.Series[0].Points.Clear();
-            View.ESChart.Series[0].Points.Clear();
+            View.clesChart.Series[0].Points.Clear();
+            View.clesChart.Series[1].Points.Clear();
 
             // Start the update timer
             updateTimer = new Timer(updateCallback, null, 0, 1000);

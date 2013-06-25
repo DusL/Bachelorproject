@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CLESMonitor.Controller;
+using System.Threading;
+using System.Globalization;
 
 namespace CLESMonitor.View
 {
@@ -17,6 +19,8 @@ namespace CLESMonitor.View
 
         public MainView(MainViewController controller)
         {
+            // TODO: Meertalig maken??
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
             this.controller = controller;
             InitializeComponent();
         }

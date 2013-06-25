@@ -31,5 +31,7 @@ namespace CLESMonitor.View
         {
             viewController.viewControllerIsShown();
         }
+
+
     }
 }
