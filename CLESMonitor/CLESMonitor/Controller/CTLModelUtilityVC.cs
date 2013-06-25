@@ -61,63 +61,69 @@ namespace CLESMonitor.Controller
         // TODO: dit draait ongeacht sessie-status -> bedoeling?
         private void listViewUpdateTimerCallback(Object stateInfo)
         {
+            // Compare the active tasks in the model to our own cached version
             IEnumerable<CTLTask> tasksUnion = cachedActiveTasks.Union(ctlModel.activeTasks);
             IEnumerable<CTLTask> tasksIntersect = cachedActiveTasks.Intersect(ctlModel.activeTasks);
+            bool displayTasksHaveChanged = false;
             foreach (CTLTask task in tasksUnion.Except(tasksIntersect))
             {
-                // The task has just become active
+                // A task has just become active
                 if (ctlModel.activeTasks.Contains(task))
                 {
                     activeTasksToDisplay.Insert(0, task);
+                    displayTasksHaveChanged = true;
                 }
-                // The task is no longer active
+                // A task is no longer active
                 else if (cachedActiveTasks.Contains(task))
                 {
                     activeTasksToDisplay.Remove(task);
                     historyTasksToDisplay.Insert(0, task);
+                    displayTasksHaveChanged = true;
                 }
             }
-            // TODO: muteert ctlModel.activeTasks als array of per taak?
-            cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks);
+            cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // TODO: mogelijk niet thread-safe
 
-            // Generate the listView items for the active group
-            List<ListViewItem> activeItems = new List<ListViewItem>();
-            foreach (CTLTask task in activeTasksToDisplay)
+            if (displayTasksHaveChanged)
             {
-                ListViewItem item = new ListViewItem(task.name);
-                String timeSpanFormat = @"%h\:mm\:ss";
-                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
-                item.Group = View.activeListView.Groups["listViewGroup1"];
-
-                activeItems.Add(item);
-            }
-
-            // Generate the listView items for the history group
-            List<ListViewItem> historyItems = new List<ListViewItem>();
-            foreach (CTLTask task in historyTasksToDisplay)
-            {
-                ListViewItem item = new ListViewItem(task.name);
-                String timeSpanFormat = @"%h\:mm\:ss";
-                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
-                item.Group = View.activeListView.Groups["listViewGroup2"];
-
-                historyItems.Add(item);
-            }
-
-            // Update the UI
-            View.activeListView.Invoke((Action)(() =>
-            {
-                // Delete all items that may be present
-                View.activeListView.Items.Clear();
-
-                // Add the generated items
-                foreach (ListViewItem item in activeItems.Union(historyItems))
+                // Generate the listView items for the active group
+                List<ListViewItem> activeItems = new List<ListViewItem>();
+                foreach (CTLTask task in activeTasksToDisplay)
                 {
-                    View.activeListView.Items.Add(item);
+                    ListViewItem item = new ListViewItem(task.name);
+                    String timeSpanFormat = @"%h\:mm\:ss";
+                    item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                    item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+                    item.Group = View.activeListView.Groups["listViewGroup1"];
+
+                    activeItems.Add(item);
                 }
-            }));
+
+                // Generate the listView items for the history group
+                List<ListViewItem> historyItems = new List<ListViewItem>();
+                foreach (CTLTask task in historyTasksToDisplay)
+                {
+                    ListViewItem item = new ListViewItem(task.name);
+                    String timeSpanFormat = @"%h\:mm\:ss";
+                    item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                    item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+                    item.Group = View.activeListView.Groups["listViewGroup2"];
+
+                    historyItems.Add(item);
+                }
+
+                // Update the UI
+                View.activeListView.Invoke((Action)(() =>
+                {
+                    // Delete all items that may be present
+                    View.activeListView.Items.Clear();
+
+                    // Add the generated active and history items
+                    foreach (ListViewItem item in activeItems.Union(historyItems))
+                    {
+                        View.activeListView.Items.Add(item);
+                    }
+                }));
+            }
         }
 
         /// <summary>
@@ -129,7 +135,8 @@ namespace CLESMonitor.Controller
             {
                 StreamReader streamReader = new StreamReader(File.Open(View.openFileDialog.FileName, FileMode.Open));
                 parser.loadTextReader(streamReader);
-                Console.WriteLine("Gekozen file: " + View.openFileDialog.FileName);
+                View.openScenarioFileButton.Text = "Verander Scenario";
+                Console.WriteLine("Gekozen Scenario: " + View.openFileDialog.FileName);
             }
         }
     }
