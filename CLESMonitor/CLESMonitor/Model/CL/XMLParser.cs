@@ -76,7 +76,7 @@ namespace CLESMonitor.Model.CL
         public void updateTimerCallback(Object stateInfo)
         {
             List<InputElement> inputElements = elementsForSecond(secondIndex);
-            Console.WriteLine("scondIndex " + secondIndex);
+
             // Check whether the delegate is set and there are elements in the second-node
             if (this.delegateObject != null && inputElements.Count > 0)
             {

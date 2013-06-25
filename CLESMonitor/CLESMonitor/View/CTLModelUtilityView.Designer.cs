@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup7 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup8 = new System.Windows.Forms.ListViewGroup("Geschiedenis", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem4 = new System.Windows.Forms.ListViewItem(new string[] {
+            System.Windows.Forms.ListViewGroup listViewGroup5 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup6 = new System.Windows.Forms.ListViewGroup("Geschiedenis", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem(new string[] {
             "Een taak die afgelopen is",
             "0:01",
             "9:59"}, -1);
@@ -45,11 +45,11 @@
             // openScenarioFileButton
             // 
             this.openScenarioFileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.openScenarioFileButton.Location = new System.Drawing.Point(12, 350);
+            this.openScenarioFileButton.Location = new System.Drawing.Point(0, 350);
             this.openScenarioFileButton.Name = "openScenarioFileButton";
             this.openScenarioFileButton.Size = new System.Drawing.Size(120, 40);
             this.openScenarioFileButton.TabIndex = 22;
-            this.openScenarioFileButton.Text = "Open Scenario File";
+            this.openScenarioFileButton.Text = "Open Scenario";
             this.openScenarioFileButton.UseVisualStyleBackColor = true;
             this.openScenarioFileButton.Click += new System.EventHandler(this.openScenarioFileButton_Click);
             // 
@@ -60,24 +60,25 @@
             // 
             // activeListView
             // 
-            this.activeListView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
+            this.activeListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.activeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3});
-            listViewGroup7.Header = "Actieve Taken";
-            listViewGroup7.Name = "listViewGroup1";
-            listViewGroup7.Tag = "";
-            listViewGroup8.Header = "Geschiedenis";
-            listViewGroup8.Name = "listViewGroup2";
-            listViewGroup8.Tag = "";
+            listViewGroup5.Header = "Actieve Taken";
+            listViewGroup5.Name = "listViewGroup1";
+            listViewGroup5.Tag = "";
+            listViewGroup6.Header = "Geschiedenis";
+            listViewGroup6.Name = "listViewGroup2";
+            listViewGroup6.Tag = "";
             this.activeListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
-            listViewGroup7,
-            listViewGroup8});
-            listViewItem4.Group = listViewGroup8;
+            listViewGroup5,
+            listViewGroup6});
+            listViewItem3.Group = listViewGroup6;
             this.activeListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem4});
+            listViewItem3});
             this.activeListView.Location = new System.Drawing.Point(0, 0);
             this.activeListView.Name = "activeListView";
             this.activeListView.Size = new System.Drawing.Size(442, 344);
@@ -118,11 +119,11 @@
         #endregion
 
         public System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.Button openScenarioFileButton;
         public System.Windows.Forms.ListView activeListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
+        public System.Windows.Forms.Button openScenarioFileButton;
 
 
     }
