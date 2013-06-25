@@ -12,12 +12,19 @@ namespace CLESMonitor.Model.CL
         public string identifier {get; private set;}
         public string name { get; private set; }
         public string eventIdentifier { get;  set; }
-        public TimeSpan startTime { get; set; }
-        public TimeSpan endTime { get; set; }
-        public double moValue { get; set; } //mental occupancy
-        public int lipValue { get; set; } //level of information processing
 
-        /// <summary>A list of integers representing different information domains.</summary>
+        /// <summary>The starting time of this task</summary>
+        public TimeSpan startTime { get; set; }
+        /// <summary>The ending time of this task</summary>
+        public TimeSpan endTime { get; set; }
+        /// <summary>The duration, derived from the starting and ending time</summary>
+        public TimeSpan duration { get { return endTime - startTime; } }
+
+        /// <summary>Mental Occupancy value</summary>
+        public double moValue { get; set; }
+        /// <summary>Level of Information Processing value</summary>
+        public int lipValue { get; set; }
+        /// <summary>The information domains this task belongs to</summary>
         public List<int> informationDomains { get; set; }
 
         public string description { get; set; }
@@ -27,7 +34,9 @@ namespace CLESMonitor.Model.CL
         /// <summary>
         /// Constructor method
         /// </summary>
-        /// <param name="_name"></param>
+        /// <param name="identifier">The identifier for this task</param>
+        /// <param name="name">The name, which is used as a short description</param>
+        /// <param name="eventIdentifier">The identifier of the event linked to this task</param>
         public CTLTask(string identifier, string name, string eventIdentifier)
         {
             this.identifier = identifier;
@@ -55,15 +64,6 @@ namespace CLESMonitor.Model.CL
             cloneTask.inProgress = this.inProgress;
 
             return cloneTask;
-        }
-
-        /// <summary>
-        /// Calculates the duration of a taks, using its start- and endtime
-        /// </summary>
-        /// <returns></returns>
-        public TimeSpan getDuration()
-        {
-            return endTime - startTime;
         }
 
         /// <summary>

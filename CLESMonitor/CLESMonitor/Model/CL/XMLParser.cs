@@ -113,9 +113,9 @@ namespace CLESMonitor.Model.CL
 
         /// <summary>
         /// Returns a list containing all the elements that have occured in the 
-        /// second represented by timeSpan. 
+        /// requested second. 
         /// </summary>
-        /// <param name="timeSpan">The time span</param>
+        /// <param name="second">The second requested</param>
         /// <returns>The list of elements in the same order as they occur in the xml-file</returns>
         public List<InputElement> elementsForSecond(int second)
         {

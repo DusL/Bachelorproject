@@ -90,7 +90,7 @@ namespace CLESMonitor.Model.CL
 
             for (int i = 0; i < tasks.Count; i++)
             {
-                lipValue += tasks[i].lipValue * tasks[i].getDuration().TotalSeconds;
+                lipValue += tasks[i].lipValue * tasks[i].duration.TotalSeconds;
             }
             lipValue = lipValue / lengthTimeframe.TotalSeconds;
 
@@ -109,7 +109,7 @@ namespace CLESMonitor.Model.CL
 
             for (int i = 0; i < tasks.Count; i++)
             {
-                moValue += tasks[i].moValue * tasks[i].getDuration().TotalSeconds;
+                moValue += tasks[i].moValue * tasks[i].duration.TotalSeconds;
             }
             moValue = moValue / lengthTimeframe.TotalSeconds;
 
