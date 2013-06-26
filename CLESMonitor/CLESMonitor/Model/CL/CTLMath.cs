@@ -181,5 +181,34 @@ namespace CLESMonitor.Model.CL
 
             return mwlValue;
         }
+
+        /// <summary>
+        /// Calculates the level of Metal Work Load based on the MWL-value
+        /// </summary>
+        /// <param name="mentalLoad">MWL-value</param>
+        /// <returns>A level of mental workload (0-4)</returns>
+        public static int categoriseWorkLoad(double mentalLoad)
+        {
+            int category = 0; // Unknown
+            if (mentalLoad < (Math.Sqrt(3) / .25))
+            {
+                category = 1; // Low
+            }
+            else if (mentalLoad > (Math.Sqrt(3) / .25) && mentalLoad < (Math.Sqrt(3) / .5))
+            {
+                category = 2; // MidLow
+            }
+            else if (mentalLoad > (Math.Sqrt(3) / .5) && mentalLoad < (Math.Sqrt(3) / .75))
+            {
+                category = 3; // Midhigh
+            }
+            else if (mentalLoad > (Math.Sqrt(3) / .75))
+            {
+                category = 4;
+            }
+
+            return category;
+
+        }
     }
 }

@@ -167,7 +167,7 @@ namespace CLESMonitor.Controller
         private void UpdateCLChartData()
         {
             // Calculate the most recent value
-            double newDataPoint = clModel.calculateModelValue();
+            double newDataPoint = CTLMath.categoriseWorkLoad(clModel.calculateModelValue());
 
             // Update the graph and TextBox
             this.UpdateChartData(CLChart, newDataPoint, currentSessionTime);
