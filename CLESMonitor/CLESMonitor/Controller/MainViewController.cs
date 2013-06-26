@@ -87,11 +87,11 @@ namespace CLESMonitor.Controller
                 {
                     // Update the CL-graph and TextBox
                     double newCLDataPoint = clModel.calculateModelValue();
-                    UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
-
+                    //UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
+                    UpdateChartData(View.clesChart.Series["clSeries"], View.clesChart.ChartAreas[0], newCLDataPoint, currentSessionTime);
                     // Update the ES-graph and TextBox
-                    double newESDataPoint = this.esModel.calculateModelValue();
-                    this.UpdateChartData(View.clesChart.Series["Series1"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
+                    double newESDataPoint = esModel.calculateModelValue();
+                    this.UpdateChartData(View.clesChart.Series["esSeries"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
 
                     // Keep the session time up-to-date
                     currentSessionTime = DateTime.Now - startTime;
@@ -111,7 +111,8 @@ namespace CLESMonitor.Controller
             // Update chart
             //Series series = chart.Series["Series1"];
             double now = Math.Floor(currentSessionTime.TotalSeconds);
-            series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
+            //series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
+            series.Points.AddY(newDataPoint);
             //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue +2;
             if (chartArea.AxisX.Maximum >= chartArea.AxisX.ScaleView.Size)
             {

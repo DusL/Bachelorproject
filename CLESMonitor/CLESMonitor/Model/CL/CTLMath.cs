@@ -86,13 +86,16 @@ namespace CLESMonitor.Model.CL
         /// It can attain values between 1 and 3 (only without overlapping tasks!).</returns>
         public static double calculateOverallLip(List<CTLTask> tasks, TimeSpan lengthTimeframe)
         {
-            double lipValue = 0;
-
-            for (int i = 0; i < tasks.Count; i++)
+            double lipValue = 1;
+            if (tasks.Count() != 0)
             {
-                lipValue += tasks[i].lipValue * tasks[i].duration.TotalSeconds;
+                lipValue = 0;
+                for (int i = 0; i < tasks.Count; i++)
+                {
+                    lipValue += tasks[i].lipValue * tasks[i].duration.TotalSeconds;
+                }
+                lipValue = lipValue / lengthTimeframe.TotalSeconds;
             }
-            lipValue = lipValue / lengthTimeframe.TotalSeconds;
 
             return lipValue;
         }
@@ -110,6 +113,7 @@ namespace CLESMonitor.Model.CL
             for (int i = 0; i < tasks.Count; i++)
             {
                 moValue += tasks[i].moValue * tasks[i].duration.TotalSeconds;
+                Console.WriteLine("Duration: " + tasks[i].duration.TotalSeconds);
             }
             moValue = moValue / lengthTimeframe.TotalSeconds;
 
@@ -143,22 +147,23 @@ namespace CLESMonitor.Model.CL
         /// <param name="lipValue">The level of information processing</param>
         /// <param name="moValue">The mental occupancy</param>
         /// <param name="tssValue">The task set switches</param>
+        /// <param name="frameCount">Number of tasks in the calculation frame</param>
         /// <returns>The calculated MWL-value</returns>
-        public static double calculateMentalWorkLoad(double lipValue, double moValue, double tssValue, List<CTLTask> tasksInCalculationFrame)
+        public static double calculateMentalWorkLoad(double lipValue, double moValue, double tssValue, int frameCount)
         {
-            //TODO: Moet nog getest??
-
+            Console.WriteLine("lip = " + lipValue + " mo = " + moValue + " tss = " + tssValue);
             double mwlValue = 0;
             double normalizedTssValue = 0;
 
             // Define the bounds as tuples (lower bound, upper bound)
-            Tuple<int, int> lipBounds = Tuple.Create(0, 3);
+            Tuple<int, int> lipBounds = Tuple.Create(1, 3);
             Tuple<int, int> moBounds = Tuple.Create(0, 1);
-            Tuple<int, int> tssBounds = Tuple.Create(0, Math.Max(tasksInCalculationFrame.Count - 1, 0));
+            Tuple<int, int> tssBounds = Tuple.Create(0, Math.Max(frameCount - 1, 0));
 
             // Project all metrics on the [0, 1] interval
             double normalizedLipValue = (lipValue - lipBounds.Item1) / lipBounds.Item2;
             double normalizedMoValue = (moValue - moBounds.Item1) / moBounds.Item2;
+           
             // Avoid NaN values!
             if (tssBounds.Item2 != 0)
             {
@@ -180,6 +185,37 @@ namespace CLESMonitor.Model.CL
             mwlValue = distanceToOrigin - (distanceToDiagonal/2);
 
             return mwlValue;
+        }
+
+        /// <summary>
+        /// Calculates the level of Metal Work Load based on the MWL-value
+        /// </summary>
+        /// <param name="mentalLoad">MWL-value</param>
+        /// <returns>A level of mental workload (0-4)</returns>
+        public static int categoriseWorkLoad(double mentalLoad)
+        {
+            int category = 0; // Unknown
+            Console.WriteLine("MWL = " + mentalLoad);
+            if (mentalLoad < (Math.Sqrt(3) * .25))
+            {
+                category = 1; // Low
+            }
+            else if (mentalLoad > (Math.Sqrt(3) * .25) && mentalLoad < (Math.Sqrt(3) * .5))
+            {
+                category = 2; // MidLow
+            }
+            else if (mentalLoad > (Math.Sqrt(3) * .5) && mentalLoad < (Math.Sqrt(3) * .75))
+            {
+                category = 3; // Midhigh
+            }
+            else if (mentalLoad > (Math.Sqrt(3) * .75))
+            {
+                category = 4;
+            }
+
+            Console.WriteLine("Category = " + category);
+            return category;
+
         }
     }
 }

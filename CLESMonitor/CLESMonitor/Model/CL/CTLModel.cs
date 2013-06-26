@@ -22,7 +22,7 @@ namespace CLESMonitor.Model.CL
         }
         private bool activeTasksHaveChanged;
         // The list of tasks that is used for model calculation 
-        private List<CTLTask> tasksInCalculationFrame;
+        public List<CTLTask> tasksInCalculationFrame { get; private set; }
 
         /// <summary>A list of events that are currently in progress</summary>
         public List<CTLEvent> activeEvents { get; private set; }
@@ -72,7 +72,7 @@ namespace CLESMonitor.Model.CL
             double mo = CTLMath.calculateOverallMo(tasksInCalculationFrame, lengthTimeframe);
             double tss = CTLMath.calculateTSS(tasksInCalculationFrame);
 
-            return CTLMath.calculateMentalWorkLoad(lip, mo, tss, tasksInCalculationFrame);
+            return CTLMath.categoriseWorkLoad(CTLMath.calculateMentalWorkLoad(lip, mo, tss, tasksInCalculationFrame.Count()));
         }
 
         /// <summary>
@@ -164,7 +164,6 @@ namespace CLESMonitor.Model.CL
 
                 activeTasks.Add(taskStarted);
 
-                //TODO: deze bool wisselen voor direct herberekenen (?)
                 activeTasksHaveChanged = true;
             }
         }
@@ -183,7 +182,6 @@ namespace CLESMonitor.Model.CL
             }
             activeTasks.Remove(taskToRemove);
 
-            //TODO: deze bool wisselen voor direct herberekenen (?)
             activeTasksHaveChanged = true;
         }
 
@@ -206,7 +204,8 @@ namespace CLESMonitor.Model.CL
             updateTasksInCalculationFrame(sessionTime);
         }
 
-        private void updateTasksInCalculationFrame(TimeSpan sessionTime)
+        //TODO: Moet nog getest 
+        private void removeTasksFromCalculationFrame(TimeSpan sessionTime)
         {
             List<CTLTask> tasksToRemove = new List<CTLTask>();
             foreach (CTLTask task in tasksInCalculationFrame)
@@ -226,16 +225,23 @@ namespace CLESMonitor.Model.CL
             {
                 tasksInCalculationFrame.Remove(task);
             }
+        }
+
+        //TODO: Moet nog getest
+        private void updateTasksInCalculationFrame(TimeSpan sessionTime)
+        {
+
+            removeTasksFromCalculationFrame(sessionTime);
 
             // When active tasks change, we need to edit the calculation frame
             if (activeTasksHaveChanged)
             {
-                // Stop the last task on the frame if still in progress
+                // Stop the last task on the frame (the one most recently added) if still in progress
                 if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
                 {
                     CTLTask lastTask = tasksInCalculationFrame.Last();
                     lastTask.endTime = sessionTime;
-                    lastTask.inProgress = false;
+                    lastTask.inProgress = false;   
                 }
 
                 // Put a cloned task on the frame if there is only one active task

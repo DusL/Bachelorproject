@@ -188,6 +188,7 @@ namespace UnitTest.Model.Cl
             Assert.IsNull(vector.orthogonalProjection(vector));
 
             Assert.IsNotNull(vector.orthogonalProjection((new Vector(1.0, 1.0, 1.0))));
+            Assert.AreEqual(new Vector(0.0, 0.0, 0.0), vector.orthogonalProjection((new Vector(1.0, 1.0, 1.0))));
         }
 
         /// <summary>

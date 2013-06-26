@@ -37,7 +37,7 @@ namespace UnitTest.Model.CL
         [Test]
         public void generateEvent_ExistingType()
         {
-            InputElement validInputElement = new InputElement("0", "VERTRAAGDE_TREIN", InputElement.Type.Event, InputElement.Action.Started);
+            InputElement validInputElement = new InputElement("0", "VERTRAAGDE_TREIN_OK", InputElement.Type.Event, InputElement.Action.Started);
             CTLEvent ctlEvent = domain.generateEvent(validInputElement);
             Assert.IsNotNull(ctlEvent);
             Assert.AreEqual(validInputElement.identifier, ctlEvent.identifier);

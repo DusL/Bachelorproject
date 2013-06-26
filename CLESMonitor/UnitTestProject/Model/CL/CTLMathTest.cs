@@ -199,14 +199,48 @@ namespace UnitTest.Model
             Assert.AreEqual(tss, CTLMath.calculateTSS(tasks));
         }
 
+
+        #region calculateMentalWorkLoad
+
+        /// <summary>
+        /// Test with all values set tp the lowest possible value and a variable amount of tasks in the calculationFrame
+        /// </summary>
         [Test]
-        public void calculateModelValue_AllZero()
+        public void calculateMentalWorkLoad_AllLowest()
         {
             double lip = 1.0;
             double mo = 0.0;
             double tss = 0.0;
+       
+            double MWL0 = CTLMath.calculateMentalWorkLoad(lip, mo, tss, 0);
+            double MWL1 = CTLMath.calculateMentalWorkLoad(lip, mo, tss, 1);
+            double MWL2 = CTLMath.calculateMentalWorkLoad(lip, mo, tss, 2);
 
+            Assert.AreEqual(0, MWL0);
+            Assert.AreEqual(0, MWL1);
+            Assert.AreEqual(0, MWL2);
 
         }
+
+        [Test]
+        public void calculateMentalWorkLoad_ValidInput()
+        {
+            double lip = 2.0;
+            double mo = 0.5;
+            double tss = 0.0;
+
+            double MWL1 = CTLMath.calculateMentalWorkLoad(lip, mo, tss, 1);
+            Assert.AreEqual(0.4209, Math.Round(MWL1, 4));
+
+            lip = 3.0;
+            mo = 0.5;
+            tss = 1.0;
+
+            double MWL2 = CTLMath.calculateMentalWorkLoad(lip, mo, tss, 2);
+            Assert.AreEqual(1.1217, Math.Round(MWL2, 4));
+        }
+
+
+        #endregion
     }
 }

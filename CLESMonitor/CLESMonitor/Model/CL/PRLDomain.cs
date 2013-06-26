@@ -42,7 +42,8 @@ namespace CLESMonitor.Model.CL
             Tuple<string, double, int>[] validValues =
             {Tuple.Create("GESTRANDE_TREIN", 0.6, 2),
              Tuple.Create("GESTOORDE_WISSEL", 0.8, 3),
-             Tuple.Create("VERTRAAGDE_TREIN", 0.1, 1)};
+             Tuple.Create("VERTRAAGDE_TREIN_OK", 0.2, 1),
+             Tuple.Create("VERTRAAGDE_TREIN_PROBLEEM", 0.3, 1)};
 
             if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
             {
