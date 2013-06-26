@@ -2,13 +2,13 @@
 using CLESMonitor.View;
 using System;
 using System.Collections.Generic;
+using System.IO.Ports;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Threading.Timer;
-using System.IO.Ports;
 
 namespace CLESMonitor.Controller
 {
@@ -189,7 +189,8 @@ namespace CLESMonitor.Controller
         /// <param name="e"></param>
         private void timer_Tick(object sender, EventArgs e)
         {
-            timeSpanCounter.Subtract(new TimeSpan(0, 0, 1));
+            timeSpanCounter = timeSpanCounter - new TimeSpan(0, 0, 1);
+
             if (timeSpanCounter.TotalSeconds == 0)
             {
                 timer.Stop();

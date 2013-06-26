@@ -79,7 +79,7 @@ namespace CLESMonitor.Controller
             View.sessionTimeLabel.Text = emptyTimer.ToString();
         }
 
-      private void updateCallback(Object stateInfo)
+        private void updateCallback(Object stateInfo)
         {
             if (View != null)
             {
