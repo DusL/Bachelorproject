@@ -39,11 +39,9 @@ namespace CLESMonitor.Model.ES
     /// </summary>
     public class FuzzyModel : ESModel
     {
-        // HR = heart rate
-        // GSR = skin conductance
-
-        // Sensors
-        public HRSensor hrSensor { get; private set; }
+        /// <summary>The Heart Rate sensor object</summary>
+        public HRSensor hrSensor { get; private set; } 
+        /// <summary>The Galvanic Skin Response sensor object</summary>
         public GSRSensor gsrSensor { get; private set; }
 
         // Data from calibration periode
@@ -63,25 +61,24 @@ namespace CLESMonitor.Model.ES
         private double normalisedGSR;
         private double normalisedHR;
 
-        // The current 'sensor' levels
+        /// <summary>The current Galvanic Skin Response sensor level</summary>
         public GSRLevel gsrLevel;
+        /// <summary>The current Heart Rate sensor level</summary>
         public HRLevel hrLevel;
 
         // The current arousal level
-        private  ArousalLevel[,] arousal;
+        private ArousalLevel[,] arousal;
 
         /// <summary>
         /// Constructor method that sets the sensors immediately
         /// </summary>
-        /// <param name="hrSensor"></param>
-        /// <param name="gsrSensor"></param>
-        public FuzzyModel(HRSensor hrSensor, GSRSensor gsrSensor)
+        public FuzzyModel()
         {
-            this.hrSensor = hrSensor;
-            this.gsrSensor = gsrSensor;
+            this.hrSensor = new HRSensor(HRSensor.Type.Unknown);
+            this.gsrSensor = new GSRSensor();
             arousal = createFuzzyMatrix(); // set the matrix for the arousal values
 
-
+            // TODO: init dit niet naar Unknown?
             gsrLevel = GSRLevel.Unknown;
             hrLevel = HRLevel.Unknown;
         }
@@ -100,7 +97,6 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopSession()
         {
-
             hrSensor.stopMeasuring();
         }
 
@@ -135,7 +131,6 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopCalibration()
         {
-
             //TODO: Ongetest
             Console.WriteLine("FuzzyModel.stopCalibration()");
 
@@ -204,38 +199,37 @@ namespace CLESMonitor.Model.ES
             // Create a 2-dimensional array of length 5, 4
             ArousalLevel[,] arousal = new ArousalLevel[(int)GSRLevel.High +1, (int)HRLevel.High+1];
 
-            // Set al values for which GSRLevel is unknown
+            // Set all values for which GSRLevel is unknown
             arousal[(int)GSRLevel.Unknown, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.Unknown, (int)HRLevel.Low] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.Unknown, (int)HRLevel.Mid] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.Unknown, (int)HRLevel.High] = ArousalLevel.Unknown;
 
-            // Set al values for which GSRLevel is Low
+            // Set all values for which GSRLevel is Low
             arousal[(int)GSRLevel.Low, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.Low, (int)HRLevel.Low] = ArousalLevel.Low;
             arousal[(int)GSRLevel.Low, (int)HRLevel.Mid] = ArousalLevel.Low;
             arousal[(int)GSRLevel.Low, (int)HRLevel.High] = ArousalLevel.MidLow;
 
-            // Set al values for which GSRLevel is MidLow
+            // Set all values for which GSRLevel is MidLow
             arousal[(int)GSRLevel.MidLow, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.MidLow, (int)HRLevel.Low] = ArousalLevel.MidLow;
             arousal[(int)GSRLevel.MidLow, (int)HRLevel.Mid] = ArousalLevel.MidLow;
             arousal[(int)GSRLevel.MidLow, (int)HRLevel.High] = ArousalLevel.MidLow;
 
-            // Set al values for which GSRLevel is MidHigh
+            // Set all values for which GSRLevel is MidHigh
             arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Low] = ArousalLevel.MidHigh;
             arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Mid] = ArousalLevel.MidHigh;
             arousal[(int)GSRLevel.MidHigh, (int)HRLevel.High] = ArousalLevel.MidHigh;
 
-            // Set al values for which GSRLevel is High
+            // Set all values for which GSRLevel is High
             arousal[(int)GSRLevel.High, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
             arousal[(int)GSRLevel.High, (int)HRLevel.Low] = ArousalLevel.MidHigh;
             arousal[(int)GSRLevel.High, (int)HRLevel.Mid] = ArousalLevel.High;
             arousal[(int)GSRLevel.High, (int)HRLevel.High] = ArousalLevel.High;
 
             return arousal;
-
         }
 
         /// <summary>
@@ -343,6 +337,18 @@ namespace CLESMonitor.Model.ES
             List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
 
             return HRValueList;
+        }
+
+        /// <summary>
+        /// Reloads the HRSensor with another one. Do not call HRSensor.startMeasuring() on the
+        /// passed sensor as this method will already do this.
+        /// </summary>
+        /// <param name="hrSensor">The HRSensor to replace with</param>
+        public void reloadWithHRSensor(HRSensor hrSensor)
+        {
+            this.hrSensor.stopMeasuring();
+            this.hrSensor = hrSensor;
+            this.hrSensor.startMeasuring();
         }
     }
 }

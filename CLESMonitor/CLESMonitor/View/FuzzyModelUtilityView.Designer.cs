@@ -130,9 +130,10 @@
             // hrValueLabel
             // 
             this.hrValueLabel.AutoSize = true;
-            this.hrValueLabel.Location = new System.Drawing.Point(178, 91);
+            this.hrValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.hrValueLabel.Location = new System.Drawing.Point(178, 89);
             this.hrValueLabel.Name = "hrValueLabel";
-            this.hrValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.hrValueLabel.Size = new System.Drawing.Size(15, 15);
             this.hrValueLabel.TabIndex = 20;
             this.hrValueLabel.Text = "0";
             // 
@@ -141,9 +142,9 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(6, 91);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(166, 13);
+            this.label3.Size = new System.Drawing.Size(159, 13);
             this.label3.TabIndex = 19;
-            this.label3.Text = "Gemeten hartslag (slagen/minuut)";
+            this.label3.Text = "Huidige hartslag (slagen/minuut)\r\n";
             // 
             // hrTrackBar
             // 
@@ -200,9 +201,10 @@
             // gsrValueLabel
             // 
             this.gsrValueLabel.AutoSize = true;
-            this.gsrValueLabel.Location = new System.Drawing.Point(178, 51);
+            this.gsrValueLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.gsrValueLabel.Location = new System.Drawing.Point(178, 49);
             this.gsrValueLabel.Name = "gsrValueLabel";
-            this.gsrValueLabel.Size = new System.Drawing.Size(13, 13);
+            this.gsrValueLabel.Size = new System.Drawing.Size(15, 15);
             this.gsrValueLabel.TabIndex = 20;
             this.gsrValueLabel.Text = "0";
             // 
@@ -211,9 +213,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(6, 51);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(162, 13);
+            this.label5.Size = new System.Drawing.Size(155, 13);
             this.label5.TabIndex = 19;
-            this.label5.Text = "Gemeten huidgeleiding (siemens)";
+            this.label5.Text = "Huidige huidgeleiding (siemens)";
             // 
             // gsrTrackBar
             // 

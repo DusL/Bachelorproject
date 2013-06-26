@@ -42,12 +42,12 @@ namespace CLESMonitor.View
 
         private void hrSensorTypeRadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged();
+            controller.hrSensorTypeChanged(sender);
         }
 
         private void hrSensorTypeRadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged();
+            controller.hrSensorTypeChanged(sender);
         }
 
         private void gsrPlusButton_Click(object sender, EventArgs e)

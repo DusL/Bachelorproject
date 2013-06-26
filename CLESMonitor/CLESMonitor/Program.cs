@@ -24,10 +24,7 @@ namespace CLESMonitor
             PRLDomain prlDomain = new PRLDomain();
             CTLModel ctlModel = new CTLModel(parser, prlDomain);
 
-            // TODO: kunnen deze sensoren (nu) niet gewoon in fuzzymodel worden geinstantieerd?
-            HRSensor hrSensor = new HRSensor();
-            GSRSensor gsrSensor = new GSRSensor();
-            FuzzyModel fuzzyModel = new FuzzyModel(hrSensor, gsrSensor);
+            FuzzyModel fuzzyModel = new FuzzyModel();
 
             // Main viewcontroller setup
             var controller = new MainViewController(ctlModel,fuzzyModel);
