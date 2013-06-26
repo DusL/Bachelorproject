@@ -22,38 +22,15 @@ namespace CLESMonitor.Controller
         private TimeSpan currentSessionTime;
         private DateTime startTime;
 
-        // References to sensors for manual input
-        private HRSensor _hrSensor;
-        public HRSensor hrSensor
-        {
-            get { return _hrSensor; }
-            set
-            {
-                _hrSensor = value;
-                _hrSensor.type = HRSensorType.ManualInput;
-            }
-        }
-        private GSRSensor _gsrSensor;
-        public GSRSensor gsrSensor
-        {
-            get { return _gsrSensor; }
-            set
-            {
-                _gsrSensor = value;
-                _gsrSensor.type = GSRSensorType.ManualInput;
-            }
-        }
-
-        // Outlets
-        Chart HRChart;
-        Chart GSRChart;
+        // References to sensors for getting the data
+        private HRSensor hrSensor { get; set; }
+        private GSRSensor gsrSensor { get; set; }
 
         // Needed to update the graphs on this thread
         public delegate void UpdateDelegate();
 
-        // Sets the Form of the controller
+        /// <summary>The view this viewcontroller manages</summary>
         public SensorView View { get; private set; }
-
 
         /// <summary>
         /// Constructor: Creates the Form, sets the inputsensors and contains the setup of both charts
@@ -67,10 +44,6 @@ namespace CLESMonitor.Controller
 
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
-
-            HRChart = this.View.HRChart;
-            GSRChart = this.View.GSRChart;
-
         }
 
         /// <summary>
@@ -91,11 +64,11 @@ namespace CLESMonitor.Controller
             if (sensorTimer != null)
             {
                 currentSessionTime = DateTime.Now - startTime;
-                if (!HRChart.IsDisposed && !GSRChart.IsDisposed)
+                if (!View.HRChart.IsDisposed && !View.GSRChart.IsDisposed)
                 {
                     // FIXME: dit crasht als je de sensorvenster sluit
-                    HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
-                    GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
+                    View.HRChart.Invoke(new UpdateDelegate(UpdateHRChart));
+                    View.GSRChart.Invoke(new UpdateDelegate(UpdateGSRChart));
                 }
             }
         }
@@ -106,7 +79,7 @@ namespace CLESMonitor.Controller
         private void UpdateHRChart()
         {
             double newDataPoint = hrSensor.sensorValue;
-            this.UpdateChartData(HRChart, newDataPoint, currentSessionTime); //DateTime.Now
+            this.UpdateChartData(View.HRChart, newDataPoint, currentSessionTime); //DateTime.Now
         }
 
         /// <summary>
@@ -115,7 +88,7 @@ namespace CLESMonitor.Controller
         private void UpdateGSRChart()
         {
             double newDataPoint2 = gsrSensor.sensorValue;
-            this.UpdateChartData(GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
+            this.UpdateChartData(View.GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
         }
 
         /// <summary>
@@ -152,7 +125,5 @@ namespace CLESMonitor.Controller
             sensorTimer.Dispose();
             //sensorTimer = null;
         }
-
-       
     }
 }

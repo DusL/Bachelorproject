@@ -6,61 +6,72 @@ using System.Threading;
 namespace CLESMonitor.Model.ES
 {
     /// <summary>
-    /// The way in which the HRSensor will recieve its raw data
-    /// </summary>
-    public enum HRSensorType
-    {
-        /// <summary>Initial unknown value</summary>
-        Unknown,
-        /// <summary>The sensor value is set from the outside (another class)</summary>
-        ManualInput,
-        /// <summary>Using a Zephyr Bluetooth monitor, linked to a SerialPort</summary>
-        BluetoothZephyr
-    }
-
-    /// <summary>
     /// The HRSensor class represents a Heart Rate sensor. With heart beat information,
     /// it can be used as a metric to measure emotional state.
     /// </summary>
     public class HRSensor
     {
+        /// <summary>
+        /// The way in which the HRSensor will receive its raw data
+        /// </summary>
+        public enum Type
+        {
+            /// <summary>Initial unknown value</summary>
+            Unknown,
+            /// <summary>The sensor value is set from the outside (another class)</summary>
+            ManualInput,
+            /// <summary>Using a Zephyr Bluetooth monitor, linked to a SerialPort</summary>
+            BluetoothZephyr
+        }
+
         /// <summary>The type of the sensor</summary>
-        public HRSensorType type { get; set; }
+        public Type type { get; set; }
         /// <summary>The value of the sensor, expressed in beats/minute</summary>
         public double sensorValue;
+        /// <summary>The serialport name to use, only valid in conjunction with Type.BluetoothZephyr</summary>
+        public string serialPortName;
 
         private const int DATA_MESSAGE_BYTE_COUNT = 60;
         private const int HEART_RATE_BYTE_INDEX = 12;
 
         private SerialPort serialPort;
+        private ManualResetEvent updateThreadStop; 
         private Thread updateThread;
         private int[] dataMessage; //representation of the last received package expressed in int(32) per byte
+
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        public HRSensor(Type type)
+        {
+            this.type = type;
+        }
 
         /// <summary>
         /// Indicate to start measuring values into sensorValue
         /// </summary>
         public void startMeasuring()
         {
-            if (type == HRSensorType.BluetoothZephyr)
+            if (type == Type.BluetoothZephyr && serialPortName != null)
             {
                 try
                 {
                     // Setup the COM connection
-                    String serialPortName = "COM3"; //FIXME: hardcoded!
-                    Console.WriteLine("Bezig met openen serialport {0}", serialPortName);
                     serialPort = new SerialPort(serialPortName);
-                    Console.WriteLine("Serialport {0} geopend", serialPortName);
+                    Console.WriteLine("Serialport " + serialPortName + " openen..");
                     serialPort.Open();
+                    Console.WriteLine("Serialport " + serialPortName + " geopend");                    
 
                     // Setup a runloop to listen for data packages
                     ThreadStart threadDelegate = new ThreadStart(updateRunLoop);
                     updateThread = new Thread(threadDelegate);
                     updateThread.IsBackground = true;
+                    updateThreadStop = new ManualResetEvent(false);
                     updateThread.Start();
                 }
                 catch (IOException)
                 {
-                    Console.WriteLine("SerialPort IOException");
+                    Console.WriteLine("IOException tijdens openen serialport " + serialPortName);
                 }
             }
         }
@@ -70,12 +81,9 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public void stopMeasuring()
         {
-            if (type == HRSensorType.BluetoothZephyr)
-            {
-                // Stop the runloop
-                updateThread.Abort();
-                // Close down the COM connection
-                serialPort.Close();
+            // Stop the runloop
+            if (updateThreadStop != null) {
+                updateThreadStop.Set();
             }
         }
 
@@ -90,9 +98,9 @@ namespace CLESMonitor.Model.ES
             int[] incomingDataMessage = new int[DATA_MESSAGE_BYTE_COUNT];
             int byteNumber = 0;
 
-            while (true)
+            while (serialPort.IsOpen)
             {
-                try
+                if (serialPort.BytesToRead > 0)
                 {
                     int byteInt = serialPort.ReadByte();
                     incomingDataMessage[byteNumber] = byteInt;
@@ -102,17 +110,17 @@ namespace CLESMonitor.Model.ES
                     {
                         dataMessage = incomingDataMessage;
                         sensorValue = dataMessage[HEART_RATE_BYTE_INDEX];
-                        Console.WriteLine("Heart rate = {0}", sensorValue);
                         byteNumber = 0;
                     }
-                    else
-                    {
+                    else {
                         byteNumber++;
                     }
                 }
-                catch (TimeoutException)
+
+                if (updateThreadStop.WaitOne(0))
                 {
-                    Console.WriteLine("SerialPort TimeoutException");
+                    serialPort.Close();
+                    Console.WriteLine("Serialport " + serialPortName + " gesloten");
                 }
             }
         }
