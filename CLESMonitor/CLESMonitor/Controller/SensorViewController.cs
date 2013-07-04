@@ -60,11 +60,11 @@ namespace CLESMonitor.Controller
         {
             currentSessionTime = DateTime.Now - startTime;
 
-            if (!View.IsDisposed)
+            try
             {
                 View.Invoke((Action)(() =>
                 {
-                    if (!View.IsDisposed)
+                    try
                     {
                         // Retrieve the current hr data from the sensor and update the corresponding chart
                         double newDataPoint = hrSensor.sensorValue;
@@ -74,8 +74,10 @@ namespace CLESMonitor.Controller
                         double newDataPoint2 = gsrSensor.sensorValue;
                         this.UpdateChartData(View.GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
                     }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
                 }));
             }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
         }
 
         /// <summary>

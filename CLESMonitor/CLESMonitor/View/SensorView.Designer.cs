@@ -117,14 +117,14 @@
             title2.Text = "Hartslag";
             this.HRChart.Titles.Add(title2);
             // 
-            // SensorViewForm
+            // SensorView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(593, 310);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "SensorViewForm";
-            this.Text = "HR en GSR waarden";
+            this.Name = "SensorView";
+            this.Text = "Sensor input";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SensorViewForm_FormClosing);
             this.Shown += new System.EventHandler(this.SensorViewForm_Shown);

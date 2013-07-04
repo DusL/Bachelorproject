@@ -13,7 +13,7 @@ namespace CLESMonitor.Model.CL
     /// </summary>
     public abstract class CLModel
     {
-        //Time frame in seconds
+        /// <summary>Time frame in seconds</summary>
         public TimeSpan lengthTimeframe;
 
         /// <summary>

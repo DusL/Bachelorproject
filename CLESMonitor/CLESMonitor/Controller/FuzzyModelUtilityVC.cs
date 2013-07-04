@@ -83,11 +83,11 @@ namespace CLESMonitor.Controller
         /// </summary>
         private void sensorTimerCallback(Object stateInfo)
         {
-            if (!View.IsDisposed)
+            try
             {
                 View.Invoke((Action)(() =>
                 {
-                    if (!View.IsDisposed)
+                    try
                     {
                         View.hrValueLabel.Text = fuzzyModel.hrSensor.sensorValue.ToString();
                         View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
@@ -103,8 +103,10 @@ namespace CLESMonitor.Controller
                         View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
                         View.gsrMaxLabel.Text = Math.Round(fuzzyModel.GSRMax).ToString();
                     }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
                 }));
             }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
         }
 
         private void setupOutlets()

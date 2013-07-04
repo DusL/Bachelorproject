@@ -94,11 +94,11 @@ namespace CLESMonitor.Controller
 
         private void updateCallback(Object stateInfo)
         {
-            if (!View.IsDisposed)
+            try
             {
                 View.Invoke((Action)(() =>
                 {
-                    if (!View.IsDisposed)
+                    try
                     {
                         // Update the CL-graph and TextBox
                         double newCLDataPoint = clModel.calculateModelValue();
@@ -111,10 +111,12 @@ namespace CLESMonitor.Controller
                         currentSessionTime = DateTime.Now - startTime;
                         View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
 
-                        compareValues(newCLDataPoint, newESDataPoint);
+                    compareValues(newCLDataPoint, newESDataPoint);
                     }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
                 }));
             }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
         }
 
         /// <summary>
