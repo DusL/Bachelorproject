@@ -29,11 +29,11 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.timeLable = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.clesChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
@@ -85,54 +85,54 @@
             this.clesChart.BorderlineColor = System.Drawing.Color.Gray;
             this.clesChart.BorderlineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
             this.clesChart.BorderlineWidth = 2;
-            chartArea2.AxisX.Interval = 1D;
-            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
-            chartArea2.AxisX.LabelStyle.IsEndLabelVisible = false;
-            chartArea2.AxisX.ScaleView.Position = 0D;
-            chartArea2.AxisX.ScaleView.Size = 15D;
-            chartArea2.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
-            chartArea2.AxisX.ScrollBar.IsPositionedInside = false;
-            chartArea2.AxisY.Maximum = 5D;
-            chartArea2.Name = "clesChartArea";
-            this.clesChart.ChartAreas.Add(chartArea2);
+            chartArea1.AxisX.Interval = 1D;
+            chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.LabelStyle.IsEndLabelVisible = false;
+            chartArea1.AxisX.ScaleView.Position = 0D;
+            chartArea1.AxisX.ScaleView.Size = 15D;
+            chartArea1.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
+            chartArea1.AxisX.ScrollBar.IsPositionedInside = false;
+            chartArea1.AxisY.Maximum = 5D;
+            chartArea1.Name = "clesChartArea";
+            this.clesChart.ChartAreas.Add(chartArea1);
             this.clesChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend2.DockedToChartArea = "clesChartArea";
-            legend2.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
-            legend2.IsDockedInsideChartArea = false;
-            legend2.Name = "Legend1";
-            this.clesChart.Legends.Add(legend2);
+            legend1.DockedToChartArea = "clesChartArea";
+            legend1.Docking = System.Windows.Forms.DataVisualization.Charting.Docking.Top;
+            legend1.IsDockedInsideChartArea = false;
+            legend1.Name = "Legend1";
+            this.clesChart.Legends.Add(legend1);
             this.clesChart.Location = new System.Drawing.Point(3, 3);
             this.clesChart.Name = "clesChart";
-            series3.BorderWidth = 2;
-            series3.ChartArea = "clesChartArea";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Blue;
-            series3.Legend = "Legend1";
-            series3.LegendText = "Emotionele Toestand";
-            series3.MarkerBorderColor = System.Drawing.Color.Blue;
-            series3.MarkerColor = System.Drawing.Color.Magenta;
-            series3.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
-            series3.Name = "esSeries";
-            series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
-            series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
-            series4.BorderWidth = 2;
-            series4.ChartArea = "clesChartArea";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.OrangeRed;
-            series4.Legend = "Legend1";
-            series4.LegendText = "Cognitieve Belasting";
-            series4.MarkerBorderColor = System.Drawing.Color.DarkRed;
-            series4.MarkerColor = System.Drawing.Color.OrangeRed;
-            series4.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
-            series4.Name = "clSeries";
-            this.clesChart.Series.Add(series3);
-            this.clesChart.Series.Add(series4);
+            series1.BorderWidth = 2;
+            series1.ChartArea = "clesChartArea";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.Blue;
+            series1.Legend = "Legend1";
+            series1.LegendText = "Emotionele Toestand";
+            series1.MarkerBorderColor = System.Drawing.Color.Blue;
+            series1.MarkerColor = System.Drawing.Color.Magenta;
+            series1.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Square;
+            series1.Name = "esSeries";
+            series1.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
+            series1.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
+            series2.BorderWidth = 2;
+            series2.ChartArea = "clesChartArea";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.OrangeRed;
+            series2.Legend = "Legend1";
+            series2.LegendText = "Cognitieve Belasting";
+            series2.MarkerBorderColor = System.Drawing.Color.DarkRed;
+            series2.MarkerColor = System.Drawing.Color.OrangeRed;
+            series2.MarkerStyle = System.Windows.Forms.DataVisualization.Charting.MarkerStyle.Triangle;
+            series2.Name = "clSeries";
+            this.clesChart.Series.Add(series1);
+            this.clesChart.Series.Add(series2);
             this.clesChart.Size = new System.Drawing.Size(651, 323);
             this.clesChart.TabIndex = 1;
             this.clesChart.Text = "chart2";
-            title2.Name = "clesValues";
-            title2.Text = "Emotionele Toestand & Cognitieve Belasting";
-            this.clesChart.Titles.Add(title2);
+            title1.Name = "clesValues";
+            title1.Visible = false;
+            this.clesChart.Titles.Add(title1);
             // 
             // clesRichTextBox
             // 
@@ -141,7 +141,7 @@
             this.clesRichTextBox.ReadOnly = true;
             this.clesRichTextBox.Size = new System.Drawing.Size(297, 323);
             this.clesRichTextBox.TabIndex = 2;
-            this.clesRichTextBox.Text = "Test";
+            this.clesRichTextBox.Text = "";
             // 
             // tableLayoutPanel2
             // 
