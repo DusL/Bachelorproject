@@ -58,7 +58,6 @@ namespace CLESMonitor.Controller
             listViewUpdateTimer = new Timer(timerCallback, null, 0, 1000);
         }
 
-        // TODO: dit draait ongeacht sessie-status -> bedoeling?
         private void listViewUpdateTimerCallback(Object stateInfo)
         {
             // Compare the active tasks in the model to our own cached version
@@ -81,7 +80,7 @@ namespace CLESMonitor.Controller
                     displayTasksHaveChanged = true;
                 }
             }
-            cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // TODO: mogelijk niet thread-safe
+            cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // FIXME: mogelijk niet thread-safe
 
             if (displayTasksHaveChanged)
             {

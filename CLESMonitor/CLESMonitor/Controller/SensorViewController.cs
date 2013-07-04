@@ -60,10 +60,9 @@ namespace CLESMonitor.Controller
         {
             currentSessionTime = DateTime.Now - startTime;
 
-            // FIXME: dit crasht als je de sensorvenster sluit
-            if (!View.IsDisposed && !View.HRChart.IsDisposed && !View.GSRChart.IsDisposed)
+            View.Invoke((Action)(() =>
             {
-                View.Invoke((Action)(() =>
+                if (!View.IsDisposed)
                 {
                     // Retrieve the current hr data from the sensor and update the corresponding chart
                     double newDataPoint = hrSensor.sensorValue;
@@ -72,8 +71,8 @@ namespace CLESMonitor.Controller
                     // Retrieve the current gsr data from the sensor and update the corresponding chart
                     double newDataPoint2 = gsrSensor.sensorValue;
                     this.UpdateChartData(View.GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
-                }));
-            }
+                }
+            }));
         }
 
         /// <summary>

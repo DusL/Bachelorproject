@@ -81,9 +81,9 @@ namespace CLESMonitor.Controller
 
         private void updateCallback(Object stateInfo)
         {
-            if (View != null)
+            View.Invoke((Action)(() =>
             {
-                View.Invoke((Action)(() =>
+                if (!View.IsDisposed)
                 {
                     // Update the CL-graph and TextBox
                     double newCLDataPoint = clModel.calculateModelValue();
@@ -96,8 +96,8 @@ namespace CLESMonitor.Controller
                     // Keep the session time up-to-date
                     currentSessionTime = DateTime.Now - startTime;
                     View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
-                }));
-            }
+                }
+            }));
         }
 
         /// <summary>

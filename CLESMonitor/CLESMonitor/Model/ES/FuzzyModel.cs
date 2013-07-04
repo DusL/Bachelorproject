@@ -77,10 +77,6 @@ namespace CLESMonitor.Model.ES
             this.hrSensor = new HRSensor(HRSensor.Type.Unknown);
             this.gsrSensor = new GSRSensor();
             arousal = createFuzzyMatrix(); // set the matrix for the arousal values
-
-            // TODO: init dit niet naar Unknown?
-            gsrLevel = GSRLevel.Unknown;
-            hrLevel = HRLevel.Unknown;
         }
 
         /// <summary>
@@ -131,7 +127,6 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopCalibration()
         {
-            //TODO: Ongetest
             Console.WriteLine("FuzzyModel.stopCalibration()");
 
             calibrationTimer.Dispose();
@@ -157,7 +152,6 @@ namespace CLESMonitor.Model.ES
             }
             Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
-
         
         /// <summary>
         /// When calibrating this callback function adds an GSR and HR value every x time
@@ -183,6 +177,8 @@ namespace CLESMonitor.Model.ES
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
             normalisedHR = FuzzyMath.normalisedHR(currentHR, HRMin, HRMax);
             normalisedGSR = FuzzyMath.normalisedGSR(currentGSR, GSRMin, GSRMax);
+
+            Console.WriteLine(normalisedHR + " " + normalisedGSR);
             
             // Find the current GSR and HR Levels
             findGSRLevel(fuzzyGSR());

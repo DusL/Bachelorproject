@@ -31,7 +31,7 @@ namespace CLESMonitor.Controller
         /// <summary>The FuzzyModel that this utility-viewcontroller interacts with</summary>
         private FuzzyModel fuzzyModel;
 
-        System.Windows.Forms.Timer timer; //TODO: waarom is dit een Forms timer?
+        System.Windows.Forms.Timer timer; //TODO: dit vervangen met System.Threading.Timer
         private TimeSpan timeSpanCounter;
         private SensorViewController sensorController;
         private Timer sensorTimer;
@@ -83,11 +83,9 @@ namespace CLESMonitor.Controller
         /// </summary>
         private void sensorTimerCallback(Object stateInfo)
         {
-            if (sensorTimer != null)
+            View.Invoke((Action)(() =>
             {
-                //TODO: Dit gaat nog dood
-
-                View.Invoke((Action)(() =>
+                if (!View.IsDisposed)
                 {
                     View.hrValueLabel.Text = fuzzyModel.hrSensor.sensorValue.ToString();
                     View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
@@ -95,18 +93,15 @@ namespace CLESMonitor.Controller
                     View.hrSDLabel.Text = Math.Round(fuzzyModel.HRsd).ToString();
                     View.hrMinLabel.Text = Math.Round(fuzzyModel.HRMin).ToString();
                     View.hrMaxLabel.Text = Math.Round(fuzzyModel.HRMax).ToString();
-                }));
 
-                View.Invoke((Action)(() =>
-                {
                     View.gsrValueLabel.Text = fuzzyModel.gsrSensor.sensorValue.ToString();
                     View.gsrLevelLabel.Text = fuzzyModel.gsrLevel.ToString();
                     View.gsrMeanLabel.Text = Math.Round(fuzzyModel.GSRMean).ToString();
                     View.gsrSDLabel.Text = Math.Round(fuzzyModel.GSRsd).ToString();
                     View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
                     View.gsrMaxLabel.Text = Math.Round(fuzzyModel.GSRMax).ToString();
-                }));
-            }
+                }
+            }));
         }
 
         private void setupOutlets()

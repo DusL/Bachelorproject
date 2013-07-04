@@ -19,7 +19,7 @@ namespace CLESMonitor.View
 
         public MainView(MainViewController controller)
         {
-            // TODO: Meertalig maken??
+            // TODO: Meertalig maken -> zou leuk zijn
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
             this.controller = controller;
             InitializeComponent();
