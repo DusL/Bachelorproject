@@ -20,20 +20,20 @@ namespace CLESMonitor.Model.CL
         {
             get { return (DateTime.Now - startSessionTime); }
         }
-        public bool activeTasksHaveChanged;
-        /// <summary> The list of tasks that is used for model calculation</summary>
-        public List<CTLTask> tasksInCalculationFrame { get; private set; }
+        private bool activeTasksHaveChanged;
 
         /// <summary>A list of events that are currently in progress</summary>
         public List<CTLEvent> activeEvents { get; private set; }
         /// <summary>A list of tasks that are currently in progress</summary>
         public List<CTLTask> activeTasks { get; private set; }
+        /// <summary> The list of tasks that is used for model calculation</summary>
+        public List<CTLTask> tasksInCalculationFrame { get; private set; }
 
         /// <summary>
-        /// The CTLModel constructor.
+        /// The constructor method.
         /// </summary>
-        /// <param name="inputSource">a input source for the model</param>
-        /// <param name="domain">the domain in which the model will work</param>
+        /// <param name="inputSource">An input source for the model</param>
+        /// <param name="domain">The domain in which the model will work</param>
         public CTLModel(CTLInputSource inputSource, CTLDomain domain)
         {
             this.inputSource = inputSource;
@@ -56,9 +56,12 @@ namespace CLESMonitor.Model.CL
             startSession(0, 500);
         }
 
+        /// <summary>
+        /// Starts a new session with the given Timer-parameters, 
+        /// calculateModelValue() will now produce valid values.
+        /// </summary>
         public void startSession(int dueTime, int period)
         {
-            Console.WriteLine("CTLModel.startSession()");
             startSessionTime = DateTime.Now;
             inputSource.startReceivingInput();
 
@@ -85,7 +88,6 @@ namespace CLESMonitor.Model.CL
         /// </summary>
         public override void stopSession()
         {
-            Console.WriteLine("CTLModel.stopSession()");
             inputSource.stopReceivingInput();
             inputSource.reset();
             updateTimer.Dispose();
@@ -291,7 +293,7 @@ namespace CLESMonitor.Model.CL
         /// <param name="task1">the first task</param>
         /// <param name="task2">the second task</param>
         /// <returns>the multitask</returns>
-        private CTLTask createMultitask(CTLTask task1, CTLTask task2)
+        private static CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             // Create a new CTLTask
             CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);

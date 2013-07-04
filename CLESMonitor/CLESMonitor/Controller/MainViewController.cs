@@ -81,11 +81,11 @@ namespace CLESMonitor.Controller
 
         private void updateCallback(Object stateInfo)
         {
-            if (!View.IsDisposed)
+            try
             {
                 View.Invoke((Action)(() =>
                 {
-                    if (!View.IsDisposed)
+                    try
                     {
                         // Update the CL-graph and TextBox
                         double newCLDataPoint = clModel.calculateModelValue();
@@ -95,13 +95,16 @@ namespace CLESMonitor.Controller
                         double newESDataPoint = esModel.calculateModelValue();
                         this.UpdateChartData(View.clesChart.Series["esSeries"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
 
-                    // Keep the session time up-to-date
-                    currentSessionTime = DateTime.Now - startTime;
-                    View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+                        // Keep the session time up-to-date
+                        currentSessionTime = DateTime.Now - startTime;
+                        View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
 
                     compareValues(newCLDataPoint, newESDataPoint);
-                }
-            }));
+                    }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+                }));
+            }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
         }
 
         /// <summary>
