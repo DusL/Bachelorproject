@@ -20,8 +20,8 @@ namespace CLESMonitor.Model.CL
         {
             get { return (DateTime.Now - startSessionTime); }
         }
-        private bool activeTasksHaveChanged;
-        // The list of tasks that is used for model calculation 
+        public bool activeTasksHaveChanged;
+        /// <summary> The list of tasks that is used for model calculation</summary>
         public List<CTLTask> tasksInCalculationFrame { get; private set; }
 
         /// <summary>A list of events that are currently in progress</summary>
@@ -53,12 +53,17 @@ namespace CLESMonitor.Model.CL
         /// </summary>
         public override void startSession()
         {
+            startSession(0, 500);
+        }
+
+        public void startSession(int dueTime, int period)
+        {
             Console.WriteLine("CTLModel.startSession()");
             startSessionTime = DateTime.Now;
             inputSource.startReceivingInput();
 
             // Create and start a timer to update the model input values
-            updateTimer = new Timer(updateTimerCallback, null, 0, 500);
+            updateTimer = new Timer(updateTimerCallback, null, dueTime, period);
         }
 
         /// <summary>
@@ -187,7 +192,7 @@ namespace CLESMonitor.Model.CL
 
         #endregion
 
-        private void updateTimerCallback(Object stateInfo)
+        public void updateTimerCallback(Object stateInfo)
         {
             // Update the 'end time' for all active events
             foreach (CTLEvent ctlEvent in activeEvents)
