@@ -27,7 +27,7 @@ namespace CLESMonitor.View
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            controller.startButtonClicked(null, null);
+            controller.startButtonClicked(); //TODO: Waarom geven we hier argumenten mee?
         }
 
         private void stopButton_Click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace CLESMonitor.View
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            controller.startButtonClicked(null, null);
+            controller.startButtonClicked(); //TODO: Waarom geven we hier argumenten mee?
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)

@@ -59,7 +59,7 @@ namespace CLESMonitor.Controller
         private void sensorTimerCallback(Object stateInfo)
         {
             currentSessionTime = DateTime.Now - startTime;
-
+            //TODO: Dit gaat nogaltijd stuk!!
             View.Invoke((Action)(() =>
             {
                 if (!View.IsDisposed)

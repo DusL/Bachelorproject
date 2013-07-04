@@ -87,7 +87,6 @@ namespace CLESMonitor.Controller
                 {
                     // Update the CL-graph and TextBox
                     double newCLDataPoint = clModel.calculateModelValue();
-                    //UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
                     UpdateChartData(View.clesChart.Series["clSeries"], View.clesChart.ChartAreas[0], newCLDataPoint, currentSessionTime);
                     // Update the ES-graph and TextBox
                     double newESDataPoint = esModel.calculateModelValue();
@@ -96,6 +95,8 @@ namespace CLESMonitor.Controller
                     // Keep the session time up-to-date
                     currentSessionTime = DateTime.Now - startTime;
                     View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+
+                    compareValues(newCLDataPoint, newESDataPoint);
                 }
             }));
         }
@@ -104,35 +105,74 @@ namespace CLESMonitor.Controller
         /// Pre: graph contains a series named "Series1"
         /// Adjusts "Series1" 
         /// </summary>
-        /// <param name="chart"></param>
+        /// <param name="chart">The chart in question</param>
         /// <param name="newDataPoint"></param>
         private void UpdateChartData(Series series, ChartArea chartArea, double newDataPoint, TimeSpan currentSessionTime)
         {
             // Update chart
-            //Series series = chart.Series["Series1"];
             double now = Math.Floor(currentSessionTime.TotalSeconds);
-            //series.Points.AddXY(Math.Floor(currentSessionTime.TotalSeconds), newDataPoint);
             series.Points.AddY(newDataPoint);
-            //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue +2;
+         
             if (chartArea.AxisX.Maximum >= chartArea.AxisX.ScaleView.Size)
             {
                 chartArea.AxisX.ScaleView.Scroll(chartArea.AxisX.Maximum );
-                //chart.ChartAreas[0].AxisX.ScaleView.Position;
             }
-            //chart.ChartAreas[0].AxisX.Minimum = series.Points[0].XValue;
-            //chart.ChartAreas[0].AxisX.Maximum = series.Points[0].XValue + ((double)(60) * (TIME_WINDOW));
-            //chartArea.
+         
             View.clesChart.Invalidate(); //redraw
-
-            // Remove old datapoints
-           /* double removeBefore = Math.Floor(currentSessionTime.TotalSeconds- ((double)(60) * (TIME_WINDOW)));
-            while (series.Points[0].XValue < removeBefore)
-            {
-                series.Points.RemoveAt(0);
-            }*/
         }
 
-        public void startButtonClicked(object sender, System.EventArgs e)
+        /// <summary>
+        /// Compares the new CL and ES values and reports the situation
+        /// </summary>
+        /// <param name="CL">The most recently calculated CL-value</param>
+        /// <param name="ES">The most recently calculated ES-value</param>
+        private void compareValues(double CL, double ES)
+        {
+            string[] textToPrint = {"LET OP: De cognitieve belasting is veel hoger dan de emoitionele toestand",
+                                       "LET OP: De emoitionele toestand is veel hoger dan de cognitieve belasting",
+                                       "De emotionele toestand wijkt aanzienlijk af van de gemeten cognitieve belasting",
+                                       "De cognitieve belasting wijkt aanzienlijk af van de gemeten emotionele toestand",
+                                       "De gemeten waarde voor de cognitieve belasting en emotionele toestand komen overeen"};
+            
+            string previousText = View.clesRichTextBox.Lines[0];
+
+            View.clesRichTextBox.SelectionStart = 0;
+            View.clesRichTextBox.SelectionLength = 0;
+            
+            if (CL - ES >= 3 && !previousText.Equals(textToPrint[0]))
+            {
+                View.clesRichTextBox.SelectionColor = Color.DarkRed;
+                View.clesRichTextBox.SelectedText = "\n" + textToPrint[0];
+            }
+
+            else if (ES - CL >= 3 && !previousText.Equals(textToPrint[1]))
+            {
+                View.clesRichTextBox.SelectionColor = Color.DarkBlue;
+                View.clesRichTextBox.SelectedText = "\n" + textToPrint[1];
+            }
+            else if (ES - CL == 2 && !previousText.Equals(textToPrint[2]))
+            {
+                View.clesRichTextBox.SelectionColor = Color.Blue;
+                View.clesRichTextBox.SelectedText = "\n" + textToPrint[2];
+            }
+
+            else if (CL - ES == 2 && !previousText.Equals(textToPrint[3]))
+            {
+                View.clesRichTextBox.SelectionColor = Color.Red;
+                View.clesRichTextBox.SelectedText = "\n" + textToPrint[3];
+            }
+
+            else if (!previousText.Equals(textToPrint[4]))
+            {
+                View.clesRichTextBox.SelectionColor = Color.Black;
+                View.clesRichTextBox.SelectedText = "\n" + textToPrint[4];
+            }
+        }
+
+        /// <summary>
+        /// The actionmethode for selecting the startfunction in the menustrip
+        /// </summary>
+        public void startButtonClicked()
         {
             // Cleanup / reset values
             startTime = DateTime.Now;
@@ -164,7 +204,6 @@ namespace CLESMonitor.Controller
         internal void quit()
         {
             View.Dispose();
-            View = null;
         }
     }
 }

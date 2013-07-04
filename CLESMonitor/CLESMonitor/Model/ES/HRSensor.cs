@@ -90,7 +90,6 @@ namespace CLESMonitor.Model.ES
         /// <summary>
         /// The sensor run loop. This will keep checking for incoming data packets
         /// from the sensor and update the sensor value.
-        /// Packet size is assumed fixed at 60 bytes -> FIXME: hardcoded!
         /// </summary>
         private void updateRunLoop()
         {
