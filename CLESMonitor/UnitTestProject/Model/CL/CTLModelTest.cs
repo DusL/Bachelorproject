@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace UnitTest.Model.CL
 {
@@ -52,6 +53,20 @@ namespace UnitTest.Model.CL
             validTask2 = new CTLTask("3", "COMMUNICATIE", "1");
 
             usedDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUnknown });
+        }
+
+        public void CallBack()
+        {
+            ctlModel.startSession(Timeout.Infinite, Timeout.Infinite);
+            List<CTLTask> tasksInCalculationFrame = new List<CTLTask>(new CTLTask[] { generatedTask});
+            TimeSpan sessionTime = new TimeSpan(0, 0, 15);
+            TimeSpan lengthTimeFrame = new TimeSpan(0, 0, 10);
+
+            generatedTask.endTime = new TimeSpan(0, 0, 4);
+
+            ctlModel.updateTimerCallback(null);
+
+
         }
 
         #region CTLInputSourceDelegate methods

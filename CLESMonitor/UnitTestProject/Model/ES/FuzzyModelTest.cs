@@ -116,13 +116,5 @@ namespace UnitTest.Model.ES
             Assert.AreEqual(GSRLevel.MidLow, model.gsrLevel);
         }
 
-        [Test]
-        public void fuzzyArousalRules()
-        {
-            GSRLevel gsrLevel = GSRLevel.High;
-            HRLevel hrLevel = HRLevel.Low;
-            
-            // TODO: Hier was ik gebleven.
-        }
     }
 }
