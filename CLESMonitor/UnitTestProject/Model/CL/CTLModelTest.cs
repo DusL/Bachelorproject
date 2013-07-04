@@ -58,12 +58,7 @@ namespace UnitTest.Model.CL
         public void CallBack()
         {
             ctlModel.startSession(Timeout.Infinite, Timeout.Infinite);
-            List<CTLTask> tasksInCalculationFrame = new List<CTLTask>(new CTLTask[] { generatedTask});
-            TimeSpan sessionTime = new TimeSpan(0, 0, 15);
-            TimeSpan lengthTimeFrame = new TimeSpan(0, 0, 10);
-
-            generatedTask.endTime = new TimeSpan(0, 0, 4);
-
+            ctlModel.eventHasStarted(startedEvent);
             ctlModel.updateTimerCallback(null);
 
 
