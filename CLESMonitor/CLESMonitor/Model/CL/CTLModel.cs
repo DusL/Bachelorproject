@@ -39,7 +39,7 @@ namespace CLESMonitor.Model.CL
             this.inputSource = inputSource;
             inputSource.delegateObject = this;
             this.domain = domain;
-            lengthTimeframe = new TimeSpan(0, 0, 10); //hours, minutes, seconds
+            lengthTimeframe = new TimeSpan(0, 0, 10);
             activeEvents = new List<CTLEvent>();
             activeTasks = new List<CTLTask>();
             tasksInCalculationFrame = new List<CTLTask>();
@@ -100,9 +100,9 @@ namespace CLESMonitor.Model.CL
         #region CTLInputSourceDelegate methods
 
         /// <summary>
-        /// Proces events that have started
+        /// Proces events that have started.
         /// </summary>
-        /// <param name="eventElement"></param>
+        /// <param name="eventElement">The (parsed) event data</param>
         public void eventHasStarted(InputElement eventElement)
         {
             Console.WriteLine("CTLModel.eventHasStarted()");
@@ -115,9 +115,9 @@ namespace CLESMonitor.Model.CL
         }
 
         /// <summary>
-        /// Proces events that have stopped
+        /// Proces events that have stopped.
         /// </summary>
-        /// <param name="eventElement"></param>
+        /// <param name="eventElement">The (parsed) event data</param>
         public void eventHasStopped(InputElement eventElement)
         {
             Console.WriteLine("CTLModel.eventHasStopped()");
@@ -135,9 +135,9 @@ namespace CLESMonitor.Model.CL
         }
 
         /// <summary>
-        /// Proces the tasks that have started
+        /// Proces the tasks that have started.
         /// </summary>
-        /// <param name="taskElement"></param>
+        /// <param name="taskElement">The (parsed) task data</param>
         public void taskHasStarted(InputElement taskElement)
         {
             Console.WriteLine("CTLModel.taskHasStarted()");
@@ -173,6 +173,10 @@ namespace CLESMonitor.Model.CL
             }
         }
 
+        /// <summary>
+        /// Proces the tasks that have stopped.
+        /// </summary>
+        /// <param name="taskElement">The (parsed) task data</param>
         public void taskHasStopped(InputElement taskElement)
         {
             Console.WriteLine("CTLModel.taskHasStopped()");
@@ -206,10 +210,11 @@ namespace CLESMonitor.Model.CL
                 task.endTime = sessionTime;
             }
 
+            removeTasksFromCalculationFrame(sessionTime);
             updateTasksInCalculationFrame(sessionTime);
         }
 
-        //TODO: Moet nog getest 
+        //TODO: Moet nog getest worden
         private void removeTasksFromCalculationFrame(TimeSpan sessionTime)
         {
             List<CTLTask> tasksToRemove = new List<CTLTask>();
@@ -232,12 +237,9 @@ namespace CLESMonitor.Model.CL
             }
         }
 
-        //TODO: Moet nog getest
+        //TODO: Moet nog getest worden
         private void updateTasksInCalculationFrame(TimeSpan sessionTime)
         {
-
-            removeTasksFromCalculationFrame(sessionTime);
-
             // When active tasks change, we need to edit the calculation frame
             if (activeTasksHaveChanged)
             {
@@ -249,7 +251,7 @@ namespace CLESMonitor.Model.CL
                     lastTask.inProgress = false;   
                 }
 
-                // Put a cloned task on the frame if there is only one active task
+                // Put a cloned task on the frame
                 if (activeTasks.Count == 1)
                 {
                     CTLTask newTask = (CTLTask)activeTasks[0].Clone();
@@ -259,13 +261,12 @@ namespace CLESMonitor.Model.CL
 
                     tasksInCalculationFrame.Add(newTask);
                 }
-
-                // Put a multitask on the frame if there are multiple active tasks
-                if (activeTasks.Count > 1)
+                // Put a multitask on the frame
+                else if (activeTasks.Count > 1)
                 {
                     CTLTask multitask = activeTasks[0];
 
-                    // Because of the checked count, this will loop at least once
+                    // This will loop at least once
                     for (int i = 1; i < activeTasks.Count; i++)
                     {
                         multitask = createMultitask(multitask, activeTasks[i]);

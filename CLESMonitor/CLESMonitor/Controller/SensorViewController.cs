@@ -60,19 +60,22 @@ namespace CLESMonitor.Controller
         {
             currentSessionTime = DateTime.Now - startTime;
 
-            View.Invoke((Action)(() =>
+            if (!View.IsDisposed)
             {
-                if (!View.IsDisposed)
+                View.Invoke((Action)(() =>
                 {
-                    // Retrieve the current hr data from the sensor and update the corresponding chart
-                    double newDataPoint = hrSensor.sensorValue;
-                    this.UpdateChartData(View.HRChart, newDataPoint, currentSessionTime); //DateTime.Now
+                    if (!View.IsDisposed)
+                    {
+                        // Retrieve the current hr data from the sensor and update the corresponding chart
+                        double newDataPoint = hrSensor.sensorValue;
+                        this.UpdateChartData(View.HRChart, newDataPoint, currentSessionTime); //DateTime.Now
 
-                    // Retrieve the current gsr data from the sensor and update the corresponding chart
-                    double newDataPoint2 = gsrSensor.sensorValue;
-                    this.UpdateChartData(View.GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
-                }
-            }));
+                        // Retrieve the current gsr data from the sensor and update the corresponding chart
+                        double newDataPoint2 = gsrSensor.sensorValue;
+                        this.UpdateChartData(View.GSRChart, newDataPoint2, currentSessionTime);//DateTime.Now
+                    }
+                }));
+            }
         }
 
         /// <summary>

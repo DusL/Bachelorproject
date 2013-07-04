@@ -111,7 +111,8 @@ namespace CLESMonitor.Controller
                 }
 
                 // Update the UI
-                View.activeListView.Invoke((Action)(() =>
+                // TODO: moet hier dezelfde check voor disposed gedaan worden?
+                View.Invoke((Action)(() =>
                 {
                     // Delete all items that may be present
                     View.activeListView.Items.Clear();

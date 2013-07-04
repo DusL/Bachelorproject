@@ -81,23 +81,26 @@ namespace CLESMonitor.Controller
 
         private void updateCallback(Object stateInfo)
         {
-            View.Invoke((Action)(() =>
+            if (!View.IsDisposed)
             {
-                if (!View.IsDisposed)
+                View.Invoke((Action)(() =>
                 {
-                    // Update the CL-graph and TextBox
-                    double newCLDataPoint = clModel.calculateModelValue();
-                    //UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
-                    UpdateChartData(View.clesChart.Series["clSeries"], View.clesChart.ChartAreas[0], newCLDataPoint, currentSessionTime);
-                    // Update the ES-graph and TextBox
-                    double newESDataPoint = esModel.calculateModelValue();
-                    this.UpdateChartData(View.clesChart.Series["esSeries"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
+                    if (!View.IsDisposed)
+                    {
+                        // Update the CL-graph and TextBox
+                        double newCLDataPoint = clModel.calculateModelValue();
+                        //UpdateChartData(View.clesChart.Series["Series2"],View.clesChart.ChartAreas[1], newCLDataPoint, currentSessionTime);
+                        UpdateChartData(View.clesChart.Series["clSeries"], View.clesChart.ChartAreas[0], newCLDataPoint, currentSessionTime);
+                        // Update the ES-graph and TextBox
+                        double newESDataPoint = esModel.calculateModelValue();
+                        this.UpdateChartData(View.clesChart.Series["esSeries"], View.clesChart.ChartAreas[0], newESDataPoint, currentSessionTime);
 
-                    // Keep the session time up-to-date
-                    currentSessionTime = DateTime.Now - startTime;
-                    View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
-                }
-            }));
+                        // Keep the session time up-to-date
+                        currentSessionTime = DateTime.Now - startTime;
+                        View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
+                    }
+                }));
+            }
         }
 
         /// <summary>
