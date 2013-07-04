@@ -175,8 +175,8 @@ namespace CLESMonitor.Model.ES
             currentGSR = gsrSensor.sensorValue;
 
             // TODO: Blijft 0 totdat je de slider een keer beweegt.
-            normalisedHR = FuzzyMath.normalisedHR(currentHR, HRMin, HRMax);
-            normalisedGSR = FuzzyMath.normalisedGSR(currentGSR, GSRMin, GSRMax);
+            normalisedHR = FuzzyMath.normalised(currentHR, HRMin, HRMax);
+            normalisedGSR = FuzzyMath.normalised(currentGSR, GSRMin, GSRMax);
 
             Console.WriteLine(normalisedHR + " " + normalisedGSR);
             

@@ -111,7 +111,7 @@ namespace CLESMonitor.Controller
                         currentSessionTime = DateTime.Now - startTime;
                         View.sessionTimeLabel.Text = currentSessionTime.ToString(@"%h\:mm\:ss");
 
-                    compareValues(newCLDataPoint, newESDataPoint);
+                        compareValues(newCLDataPoint, newESDataPoint);
                     }
                     catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
                 }));

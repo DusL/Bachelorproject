@@ -30,17 +30,15 @@
         {
             System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Geschiedenis", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem(new string[] {
-            "Een taak die afgelopen is.",
-            "0:01",
-            "9:59"}, -1);
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("Een taak die actief is.");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.activeListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // openScenarioFileButton
@@ -67,7 +65,8 @@
             this.activeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
-            this.columnHeader3});
+            this.columnHeader3,
+            this.columnHeader4});
             listViewGroup1.Header = "Actieve Taken";
             listViewGroup1.Name = "listViewGroup1";
             listViewGroup1.Tag = "";
@@ -77,8 +76,8 @@
             this.activeListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
             listViewGroup2});
-            listViewItem1.Group = listViewGroup2;
-            listViewItem2.Group = listViewGroup1;
+            listViewItem1.Group = listViewGroup1;
+            listViewItem2.Group = listViewGroup2;
             this.activeListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
             listViewItem2});
@@ -92,17 +91,22 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Naam";
-            this.columnHeader1.Width = 180;
+            this.columnHeader1.Width = 144;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Starttijd";
-            this.columnHeader2.Width = 80;
+            this.columnHeader2.Width = 70;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Eindtijd";
-            this.columnHeader3.Width = 80;
+            this.columnHeader3.Width = 64;
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Gebeurtenis";
+            this.columnHeader4.Width = 160;
             // 
             // CTLModelUtilityView
             // 
@@ -122,11 +126,12 @@
         #endregion
 
         public System.Windows.Forms.OpenFileDialog openFileDialog;
-        public System.Windows.Forms.ListView activeListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         public System.Windows.Forms.Button openScenarioFileButton;
+        public System.Windows.Forms.ListView activeListView;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
 
 
     }
