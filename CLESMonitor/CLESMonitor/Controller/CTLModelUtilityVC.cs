@@ -82,6 +82,7 @@ namespace CLESMonitor.Controller
             }
             cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // FIXME: mogelijk niet thread-safe
 
+            //TODO: er wordt niet altijd een eventnaam geprint
             if (displayTasksHaveChanged)
             {
                 // Generate the listView items for the active group
@@ -90,8 +91,17 @@ namespace CLESMonitor.Controller
                 {
                     ListViewItem item = new ListViewItem(task.name);
                     String timeSpanFormat = @"%h\:mm\:ss";
+                   
                     item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
                     item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+
+                    foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
+                    {
+                        if (ctlEvent.identifier == task.eventIdentifier)
+                        {
+                            item.SubItems.Add(ctlEvent.name);
+                        }
+                    }
                     item.Group = View.activeListView.Groups["listViewGroup1"];
 
                     activeItems.Add(item);
@@ -103,26 +113,50 @@ namespace CLESMonitor.Controller
                 {
                     ListViewItem item = new ListViewItem(task.name);
                     String timeSpanFormat = @"%h\:mm\:ss";
+                    
                     item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
                     item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+
+                    foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
+                    {
+                        if (ctlEvent.identifier == task.eventIdentifier)
+                        {
+                            item.SubItems.Add(ctlEvent.name);
+                        }
+                    }
                     item.Group = View.activeListView.Groups["listViewGroup2"];
 
                     historyItems.Add(item);
                 }
 
                 // Update the UI
-                // TODO: moet hier dezelfde check voor disposed gedaan worden?
-                View.Invoke((Action)(() =>
+                try
                 {
-                    // Delete all items that may be present
-                    View.activeListView.Items.Clear();
-
-                    // Add the generated active and history items
-                    foreach (ListViewItem item in activeItems.Union(historyItems))
+                    View.Invoke((Action)(() =>
                     {
-                        View.activeListView.Items.Add(item);
-                    }
-                }));
+                        try
+                        {
+                            // Delete all items that may be present
+                            View.activeListView.Items.Clear();
+
+                            // Add the generated active and history items
+                            foreach (ListViewItem item in activeItems.Union(historyItems))
+                            {
+                                View.activeListView.Items.Add(item);
+                            }
+                            // If no item is present in a group add a bogus item without text to ensure the groupnames remain visible.
+                            foreach (ListViewGroup group in View.activeListView.Groups)
+                            {
+                                if (group.Items.Count == 0)
+                                {
+                                    View.activeListView.Items.Add(new ListViewItem(group));
+                                }
+                            }
+                        }
+                        catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+                    }));
+                }
+                catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
             }
         }
 

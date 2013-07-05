@@ -55,12 +55,20 @@ namespace CLESMonitor.Model.ES
             {
                 //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
                 value = (normalised - leftBoundary) / ((mean - SD) - leftBoundary);
+                if(SD == 0)
+                {
+                    value = 0;
+                }
             }
             // If the value falls on the right side
             else if (normalised >= (mean - SD) && rightBoundary >= normalised)
             {
                 // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
                 value = (rightBoundary - normalised) / (rightBoundary - (mean - SD));
+                if (SD == 0)
+                {
+                    value = 0;
+                }
             }
 
             return value;
@@ -81,11 +89,19 @@ namespace CLESMonitor.Model.ES
             if (leftBoundary <= normalised && normalised <= mean)
             {
                 value = (normalised - leftBoundary) / (mean - leftBoundary);
+                if (leftBoundary == mean)
+                {
+                    value = 0;
+                }
             }
             // If the value falls on the right side
             else if (normalised >= mean && rightBoundary >= normalised)
             {
                 value = (rightBoundary - normalised) / (rightBoundary - mean);
+                if (rightBoundary == mean)
+                {
+                    value = 0;
+                }
             }
 
             return value;
@@ -104,6 +120,10 @@ namespace CLESMonitor.Model.ES
             if (normalised >= leftBoundary && normalised <= (mean + SD))
             {
                 value = (normalised - leftBoundary) / ((mean + SD) - leftBoundary);
+                if (SD == 0)
+                {
+                    value = 0;
+                }
             }
             // If the value is greater the mean + 1SD, the value high = 1
             else if (normalised >= (mean + SD))
@@ -121,12 +141,16 @@ namespace CLESMonitor.Model.ES
         public static double lowHRValue(double mean, double SD, double normalised)
         {
             double value = 0;
-            double rightBoudary = mean - SD;
+            double rightBoundary = mean - SD;
 
             // If the normalised value falls within the boundaries, calculate the value
-            if (normalised >= 0 && normalised <= rightBoudary)
+            if (normalised >= 0 && normalised <= rightBoundary)
             {
-                value = (rightBoudary - normalised) / rightBoudary;
+                value = (rightBoundary - normalised) / rightBoundary;
+                if (rightBoundary == mean)
+                {
+                    value = 0;
+                }
             }
 
             return value;
@@ -147,11 +171,19 @@ namespace CLESMonitor.Model.ES
             if (leftBoundary <= normalised && normalised <= mean)
             {
                 value = (normalised - leftBoundary) / (mean - leftBoundary);
+                if (rightBoundary == mean)
+                {
+                    value = 0;
+                }
             }
             // If the value falls on the right side
             else if (normalised >= mean && rightBoundary >= normalised)
             {
                 value = (rightBoundary - normalised) / (rightBoundary - mean);
+                if (rightBoundary == mean)
+                {
+                    value = 0;
+                }
             }
 
             return value;
@@ -196,21 +228,11 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         /// <param name="HRValue"></param>
         /// <param name="HRMin"></param>
-        /// <param name="HRMax"></param>
+        /// <param name="maxValue"></param>
         /// <returns>The normalised hartrate (double)</returns>
-        public static double normalisedHR(double HRValue, double HRMin, double HRMax)
+        public static double normalised(double currentValue, double minValue, double maxValue)
         {
-            return ((HRValue - HRMin) / (HRMax - HRMin)) * 100;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="GSRValue"></param>
-        /// <returns>The normalised skin conductance (double)</returns>
-        public static double normalisedGSR(double GSRValue, double GSRMin, double GSRMax)
-        {
-            return ((GSRValue - GSRMin) / (GSRMax - GSRMin)) * 100;
+            return ((currentValue - minValue) / (maxValue - minValue)) * 100;
         }
     }
 }
