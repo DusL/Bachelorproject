@@ -106,10 +106,10 @@ namespace UnitTest.Model
             validTask1.moValue = .5;
             validTask2.moValue = .2;
 
-            Assert.AreEqual(1.0, CTLMath.multitaskMO(validTask1, validTask2));
+            Assert.AreEqual(0.7, CTLMath.multitaskMO(validTask1, validTask2));
 
             validTask2.moValue = .7;
-            Assert.AreEqual(1.2, CTLMath.multitaskMO(validTask1, validTask2));
+            Assert.AreEqual(1, CTLMath.multitaskMO(validTask1, validTask2));
         }
 
         #endregion

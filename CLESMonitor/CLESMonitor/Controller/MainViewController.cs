@@ -220,6 +220,9 @@ namespace CLESMonitor.Controller
             currentSessionTime = emptyTimer;
             View.clesChart.Series[0].Points.Clear();
             View.clesChart.Series[1].Points.Clear();
+            View.clesChart.ChartAreas[0].AxisX.ScaleView.Scroll(0.0); // Reset scrollbar to the begining of the chart
+
+            //TODO: Legen van de lijst wanneer opnieuw wordt gestart
 
             // Start the update timer
             updateTimer = new Timer(updateCallback, null, 0, 1000);

@@ -80,6 +80,7 @@ namespace CLESMonitor.Controller
                     displayTasksHaveChanged = true;
                 }
             }
+            //TODO: De eindtijden worden niet bijgewerkt in het lijstje.
             cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // FIXME: mogelijk niet thread-safe
 
             //TODO: er wordt niet altijd een eventnaam geprint

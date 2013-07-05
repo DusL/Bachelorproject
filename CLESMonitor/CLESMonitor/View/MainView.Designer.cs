@@ -57,7 +57,7 @@
             // 
             this.timeLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.timeLable.AutoSize = true;
-            this.timeLable.Location = new System.Drawing.Point(858, 9);
+            this.timeLable.Location = new System.Drawing.Point(893, 9);
             this.timeLable.Name = "timeLable";
             this.timeLable.Size = new System.Drawing.Size(59, 13);
             this.timeLable.TabIndex = 13;
@@ -77,7 +77,7 @@
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(960, 329);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(995, 339);
             this.tableLayoutPanel1.TabIndex = 15;
             // 
             // clesChart
@@ -95,10 +95,9 @@
             chartArea1.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
             chartArea1.AxisX.ScrollBar.IsPositionedInside = false;
             chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
+            chartArea1.AxisY.Interval = 1D;
             chartArea1.AxisY.Maximum = 5D;
             chartArea1.AxisY.Minimum = 0D;
-            chartArea1.AxisY.ScaleView.MinSize = 5D;
-            chartArea1.AxisY.ScaleView.Size = 6D;
             chartArea1.Name = "clesChartArea";
             this.clesChart.ChartAreas.Add(chartArea1);
             this.clesChart.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -133,7 +132,7 @@
             series2.Name = "clSeries";
             this.clesChart.Series.Add(series1);
             this.clesChart.Series.Add(series2);
-            this.clesChart.Size = new System.Drawing.Size(651, 323);
+            this.clesChart.Size = new System.Drawing.Size(674, 333);
             this.clesChart.TabIndex = 1;
             this.clesChart.Text = "chart2";
             title1.Name = "clesValues";
@@ -142,7 +141,7 @@
             // 
             // clesRichTextBox
             // 
-            this.clesRichTextBox.Location = new System.Drawing.Point(660, 3);
+            this.clesRichTextBox.Location = new System.Drawing.Point(683, 3);
             this.clesRichTextBox.Name = "clesRichTextBox";
             this.clesRichTextBox.ReadOnly = true;
             this.clesRichTextBox.Size = new System.Drawing.Size(297, 323);
@@ -158,11 +157,11 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 362);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(12, 372);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(960, 338);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(995, 338);
             this.tableLayoutPanel2.TabIndex = 21;
             // 
             // menuStrip1
@@ -237,7 +236,7 @@
             // 
             this.sessionTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.sessionTimeLabel.AutoSize = true;
-            this.sessionTimeLabel.Location = new System.Drawing.Point(922, 9);
+            this.sessionTimeLabel.Location = new System.Drawing.Point(957, 9);
             this.sessionTimeLabel.Name = "sessionTimeLabel";
             this.sessionTimeLabel.Size = new System.Drawing.Size(43, 13);
             this.sessionTimeLabel.TabIndex = 23;
@@ -247,7 +246,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 712);
+            this.ClientSize = new System.Drawing.Size(1019, 722);
             this.Controls.Add(this.sessionTimeLabel);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
@@ -255,7 +254,7 @@
             this.Controls.Add(this.menuStrip1);
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(825, 600);
+            this.MinimumSize = new System.Drawing.Size(1035, 760);
             this.Name = "MainView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Monitor voor Cognitieve Belasting en Emotionele Toestand";

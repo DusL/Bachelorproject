@@ -222,7 +222,7 @@ namespace CLESMonitor.Model.ES
         {
             double returnValue = 1;
             if (currentValue < minValue)
-            {
+            { 
                 returnValue = 0;
             }
             else if (currentValue < maxValue)
