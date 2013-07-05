@@ -176,9 +176,14 @@ namespace CLESMonitor.Model.ES
 
             Console.WriteLine(normalisedHR + " " + normalisedGSR);
             
-            // Find the current GSR and HR Levels
-            findGSRLevel(fuzzyGSR());
-            findHRLevel(fuzzyHR());
+            // Check to see if the normalised values are valid (not NaN or otherwise invalid)
+            if(normalisedGSR >= 0 && normalisedGSR <= 1 && normalisedHR >= 0 && normalisedHR <= 1)
+            {
+                // Find the current GSR and HR Levels
+                findGSRLevel(fuzzyGSR());
+                findHRLevel(fuzzyHR());
+            }
+
 
             return (double)getArousalLevel(gsrLevel, hrLevel); 
         }
@@ -250,6 +255,7 @@ namespace CLESMonitor.Model.ES
             double maxTemp = lowValue;
             GSRLevel tempLevel = GSRLevel.Low;
 
+           
             if (midLowValue > maxTemp)
             {
                 maxTemp = midLowValue;

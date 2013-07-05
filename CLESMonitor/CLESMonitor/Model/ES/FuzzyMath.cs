@@ -51,26 +51,23 @@ namespace CLESMonitor.Model.ES
 
             // Since the midLow fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalised && normalised <= (mean - SD))
+            if (SD == 0)
+            {
+                value = 0;
+            }
+            else if (leftBoundary <= normalised && normalised <= (mean - SD))
             {
                 //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
                 value = (normalised - leftBoundary) / ((mean - SD) - leftBoundary);
-                if(SD == 0)
-                {
-                    value = 0;
-                }
             }
             // If the value falls on the right side
             else if (normalised >= (mean - SD) && rightBoundary >= normalised)
             {
                 // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
                 value = (rightBoundary - normalised) / (rightBoundary - (mean - SD));
-                if (SD == 0)
-                {
-                    value = 0;
-                }
             }
 
+            
             return value;
         }
 
@@ -86,23 +83,20 @@ namespace CLESMonitor.Model.ES
 
             // Since the midHigh fuzzyArea is triangular, two different calculations are necessary
             // If the normalised value falls on the left side of the triangle
-            if (leftBoundary <= normalised && normalised <= mean)
+            if (SD == 0)
+            {
+                value = 0;
+            }            
+            else if (leftBoundary <= normalised && normalised <= mean)
             {
                 value = (normalised - leftBoundary) / (mean - leftBoundary);
-                if (leftBoundary == mean)
-                {
-                    value = 0;
-                }
             }
             // If the value falls on the right side
             else if (normalised >= mean && rightBoundary >= normalised)
             {
                 value = (rightBoundary - normalised) / (rightBoundary - mean);
-                if (rightBoundary == mean)
-                {
-                    value = 0;
-                }
             }
+
 
             return value;
         }
@@ -147,10 +141,6 @@ namespace CLESMonitor.Model.ES
             if (normalised >= 0 && normalised <= rightBoundary)
             {
                 value = (rightBoundary - normalised) / rightBoundary;
-                if (rightBoundary == mean)
-                {
-                    value = 0;
-                }
             }
 
             return value;
@@ -171,19 +161,17 @@ namespace CLESMonitor.Model.ES
             if (leftBoundary <= normalised && normalised <= mean)
             {
                 value = (normalised - leftBoundary) / (mean - leftBoundary);
-                if (rightBoundary == mean)
-                {
-                    value = 0;
-                }
             }
             // If the value falls on the right side
             else if (normalised >= mean && rightBoundary >= normalised)
             {
                 value = (rightBoundary - normalised) / (rightBoundary - mean);
-                if (rightBoundary == mean)
-                {
-                    value = 0;
-                }
+                
+            }
+
+            if (SD == 0)
+            {
+                value = 0;
             }
 
             return value;
@@ -224,15 +212,25 @@ namespace CLESMonitor.Model.ES
         }
 
         /// <summary>
-        /// 
+        /// Returns the normalised value
         /// </summary>
-        /// <param name="HRValue"></param>
-        /// <param name="HRMin"></param>
+        /// <param name="currentValue"></param>
+        /// <param name="minValue"></param>
         /// <param name="maxValue"></param>
-        /// <returns>The normalised hartrate (double)</returns>
+        /// <returns>The normalised hartrate or gsrvalue (double)</returns>
         public static double normalised(double currentValue, double minValue, double maxValue)
         {
-            return ((currentValue - minValue) / (maxValue - minValue)) * 100;
+            double returnValue = 1;
+            if (currentValue < minValue)
+            {
+                returnValue = 0;
+            }
+            else if (currentValue < maxValue)
+            {
+                returnValue = ((currentValue - minValue) / (maxValue - minValue)) * 100;
+            }
+            
+            return returnValue;
         }
     }
 }
