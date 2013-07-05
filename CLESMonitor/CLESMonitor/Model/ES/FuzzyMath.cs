@@ -14,7 +14,6 @@ namespace CLESMonitor.Model.ES
     /// </summary>
     public static class FuzzyMath
     {
-        
         /// <summary>
         /// Calculate the fuzzy 'truth-value' of the GSR-level 'low'.
         /// </summary>
@@ -57,16 +56,13 @@ namespace CLESMonitor.Model.ES
             }
             else if (leftBoundary <= normalised && normalised <= (mean - SD))
             {
-                //(GSRMean - GSRStandardDeviation) - leftBoundary = -3 * GSRStandardDeviation
                 value = (normalised - leftBoundary) / ((mean - SD) - leftBoundary);
             }
             // If the value falls on the right side
             else if (normalised >= (mean - SD) && rightBoundary >= normalised)
             {
-                // (rightBoundary - (GSRMean - GSRStandardDeviation) = GSRMean - GSRMean - GSRStandardDeviation = GSRStandardDeviation
                 value = (rightBoundary - normalised) / (rightBoundary - (mean - SD));
             }
-
             
             return value;
         }
@@ -96,7 +92,6 @@ namespace CLESMonitor.Model.ES
             {
                 value = (rightBoundary - normalised) / (rightBoundary - mean);
             }
-
 
             return value;
         }
@@ -212,24 +207,30 @@ namespace CLESMonitor.Model.ES
         }
 
         /// <summary>
-        /// Returns the normalised value
+        /// Returns the normalised value using two bounds. Note that this method will only
+        /// return values between [0,100] and will clip when currentValue is out of bounds.
         /// </summary>
-        /// <param name="currentValue"></param>
-        /// <param name="minValue"></param>
-        /// <param name="maxValue"></param>
-        /// <returns>The normalised hartrate or gsrvalue (double)</returns>
+        /// <param name="currentValue">The value to normalize</param>
+        /// <param name="minValue">The minimal value</param>
+        /// <param name="maxValue">The maximum value</param>
+        /// <returns>The normalised value</returns>
         public static double normalised(double currentValue, double minValue, double maxValue)
         {
-            double returnValue = 1;
+            double returnValue = -1;
+
             if (currentValue < minValue)
             { 
                 returnValue = 0;
             }
-            else if (currentValue < maxValue)
+            else if (currentValue > maxValue)
+            {
+                returnValue = 100;
+            }
+            else if (minValue != maxValue)
             {
                 returnValue = ((currentValue - minValue) / (maxValue - minValue)) * 100;
             }
-            
+
             return returnValue;
         }
     }

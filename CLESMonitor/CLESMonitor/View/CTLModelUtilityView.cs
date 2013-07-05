@@ -32,6 +32,9 @@ namespace CLESMonitor.View
             viewController.viewControllerIsShown();
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            viewController.clearList();
+        }
     }
 }

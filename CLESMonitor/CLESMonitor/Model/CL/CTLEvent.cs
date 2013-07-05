@@ -23,7 +23,6 @@ namespace CLESMonitor.Model.CL
             lipValue = _lipValue;
         }
 
-
         /// <summary>
         /// ToString method
         /// </summary>

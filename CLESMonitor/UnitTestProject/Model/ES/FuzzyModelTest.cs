@@ -24,7 +24,7 @@ namespace UnitTest.Model.ES
 
             model = new FuzzyModel();
             model.hrSensor.type = HRSensor.Type.ManualInput;
-            model.gsrSensor.type = GSRSensorType.ManualInput;
+            model.gsrSensor.type = GSRSensor.Type.ManualInput;
         }
 
         [TearDown]

@@ -62,7 +62,6 @@ namespace CLESMonitor.Model.CL
 
         public override void reset() 
         {
-
             secondIndex = 0;
         }
 

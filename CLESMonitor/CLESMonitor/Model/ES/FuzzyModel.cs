@@ -51,7 +51,7 @@ namespace CLESMonitor.Model.ES
         public double HRMax, HRMin;
         public double GSRMax, GSRMin;
         public double GSRMean, HRMean;
-        public double GSRsd, HRsd;
+        public double GSRsd, HRsd; 
 
         // Current values
         private double currentHR;
@@ -174,16 +174,13 @@ namespace CLESMonitor.Model.ES
             normalisedHR = FuzzyMath.normalised(currentHR, HRMin, HRMax);
             normalisedGSR = FuzzyMath.normalised(currentGSR, GSRMin, GSRMax);
 
-            //Console.WriteLine(normalisedHR + " " + normalisedGSR);
-            
             // Check to see if the normalised values are valid (not NaN or otherwise invalid)
-            if(normalisedGSR >= 0 && normalisedGSR <= 1 && normalisedHR >= 0 && normalisedHR <= 1)
+            if(normalisedGSR >= 0 && normalisedGSR <= 100 && normalisedHR >= 0 && normalisedHR <= 100)
             {
                 // Find the current GSR and HR Levels
                 findGSRLevel(fuzzyGSR());
                 findHRLevel(fuzzyHR());
             }
-
 
             return (double)getArousalLevel(gsrLevel, hrLevel); 
         }
@@ -255,7 +252,6 @@ namespace CLESMonitor.Model.ES
             double maxTemp = lowValue;
             GSRLevel tempLevel = GSRLevel.Low;
 
-           
             if (midLowValue > maxTemp)
             {
                 maxTemp = midLowValue;
@@ -274,7 +270,6 @@ namespace CLESMonitor.Model.ES
             }
 
             gsrLevel = tempLevel;
-
         }
 
         /// <summary>

@@ -4,9 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Timer = System.Threading.Timer;
 
@@ -80,7 +78,6 @@ namespace CLESMonitor.Controller
                     displayTasksHaveChanged = true;
                 }
             }
-            //TODO: De eindtijden worden niet bijgewerkt in het lijstje.
             cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // FIXME: mogelijk niet thread-safe
 
             //TODO: er wordt niet altijd een eventnaam geprint
@@ -94,7 +91,7 @@ namespace CLESMonitor.Controller
                     String timeSpanFormat = @"%h\:mm\:ss";
                    
                     item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                    item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+                    item.SubItems.Add("");
 
                     foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
                     {
@@ -173,6 +170,22 @@ namespace CLESMonitor.Controller
                 View.openScenarioFileButton.Text = "Verander Scenario";
                 Console.WriteLine("Gekozen Scenario: " + View.openFileDialog.FileName);
             }
+        }
+
+        public void clearList()
+        {
+            View.activeListView.Items.Clear();
+            // Add a bogus item without text to ensure the groupnames remain visible.
+            foreach (ListViewGroup group in View.activeListView.Groups)
+            {
+                if (group.Items.Count == 0)
+                {
+                    View.activeListView.Items.Add(new ListViewItem(group));
+                }
+            }
+            cachedActiveTasks.Clear();
+            activeTasksToDisplay.Clear();
+            historyTasksToDisplay.Clear();
         }
     }
 }

@@ -64,7 +64,7 @@ namespace CLESMonitor.Controller
 
             // Set the default sensor types
             fuzzyModel.hrSensor.type = HRSensor.Type.ManualInput;
-            fuzzyModel.gsrSensor.type = GSRSensorType.ManualInput;
+            fuzzyModel.gsrSensor.type = GSRSensor.Type.ManualInput;
 
             // Makes sure that from the start a value is present (not being 0).
             fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
@@ -132,7 +132,6 @@ namespace CLESMonitor.Controller
                 {
                     currentState = State.Uncalibrated;
                 }
-                
             }
             if (currentState == State.Uncalibrated)
             {
@@ -158,7 +157,7 @@ namespace CLESMonitor.Controller
                 {
                     fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
                 }
-                if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
+                if (fuzzyModel.gsrSensor.type == GSRSensor.Type.ManualInput)
                 {
                     fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
                 }
@@ -179,7 +178,6 @@ namespace CLESMonitor.Controller
                 currentState = State.Calibrated;
                 Console.WriteLine("Calibratie gestopt");
             }
-            
         }
 
         /// <summary>
@@ -282,7 +280,6 @@ namespace CLESMonitor.Controller
             }
         }
 
-
         public void HRValueChangedInManualContext(object sender)
         {
             TrackBar trackBar = (TrackBar)sender;
@@ -294,6 +291,7 @@ namespace CLESMonitor.Controller
                 fuzzyModel.hrSensor.sensorValue = View.hrTrackBar.Value;
             }
         }
+
         /// <summary>
         /// Event method for a change in HRvalue by pressing the plus or minus button
         /// </summary>
@@ -318,7 +316,7 @@ namespace CLESMonitor.Controller
             View.gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
            
             // Pass along simulated sensor-data
-            if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
+            if (fuzzyModel.gsrSensor.type == GSRSensor.Type.ManualInput)
             {
                 fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
             }
@@ -330,7 +328,7 @@ namespace CLESMonitor.Controller
             gsrValueLabel.Text = trackBar.Value.ToString();
 
             // Pass along simulated sensor-data
-            if (fuzzyModel.gsrSensor.type == GSRSensorType.ManualInput)
+            if (fuzzyModel.gsrSensor.type == GSRSensor.Type.ManualInput)
             {
                 fuzzyModel.gsrSensor.sensorValue = View.gsrTrackBar.Value;
             }

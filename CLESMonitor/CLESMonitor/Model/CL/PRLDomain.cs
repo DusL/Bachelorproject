@@ -161,8 +161,8 @@ namespace CLESMonitor.Model.CL
                     ctlTask.description = "Communicatie met andere processleiders en externe partijen";
                     ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
                 }
-
             }
+
             return ctlTask;
         }
 

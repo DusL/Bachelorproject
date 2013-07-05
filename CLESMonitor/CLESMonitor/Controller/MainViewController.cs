@@ -20,7 +20,6 @@ namespace CLESMonitor.Controller
     /// </summary>
     public class MainViewController
     {
-
         public enum State
         {
             Unkown,
@@ -30,7 +29,6 @@ namespace CLESMonitor.Controller
             MidHighES,
             Normal
         }
-
 
         private const double TIME_WINDOW = 0.5; //in minutes
         private const int LOOP_SLEEP_INTERVAL = 1000; //in milliseconds
@@ -155,7 +153,6 @@ namespace CLESMonitor.Controller
             View.clesRichTextBox.SelectionStart = 0;
             View.clesRichTextBox.SelectionLength = 0;
             
-
             int dif = (int)(CL-ES);
             State newState;
 
