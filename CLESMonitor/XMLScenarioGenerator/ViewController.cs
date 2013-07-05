@@ -93,21 +93,8 @@ namespace XMLScenarioGenerator
             // Set outlets
             saveFileDialog = this.view.saveFileDialog;
 
-            // Add the (hardcoded) data to be generated here //
-            /*
-            scenarioLength = 60;
-            Event event1 = new Event("EVENT_IDENTIFIER_1", 5, 30);
-            elements.Add(event1);
-            elements.Add(new Task("TASK_IDENTIFIER_1", 15, 2, event1));
-            elements.Add(new Task("TASK_IDENTIFIER_2", 20, 3, event1));
-            Event event2 = new Event("EVENT_IDENTIFIER_2", 30, 6);
-            elements.Add(event2);
-            elements.Add(new Task("TASK_IDENTIFIER_3", 31, 2, event2));
-            */
-            addScenario1b();
-            addScenario3();
-            
-            // Add the (hardcoded) data to be generated here //
+            // Add the (hardcoded) data to be generated here
+            addScenario1d();
         }
 
         /// <summary>
@@ -117,7 +104,7 @@ namespace XMLScenarioGenerator
         public void addScenario1a()
         {
             scenarioLength = 80;
-            Event event1 = new Event("VERTRAAGDE_TREIN", 10, 60);
+            Event event1 = new Event("VERTRAAGDE_TREIN_OK", 10, 60);
             elements.Add(event1);
 
             elements.Add(new Task("SELECTEER_REGEL", 15, 3, event1));
@@ -133,7 +120,7 @@ namespace XMLScenarioGenerator
         public void addScenario1b()
         {
             scenarioLength = 140;
-            Event event1 = new Event("VERTRAAGDE_TREIN", 10, 120);
+            Event event1 = new Event("VERTRAAGDE_TREIN_PROBLEEM", 10, 120);
             elements.Add(event1);
 
             elements.Add(new Task("SELECTEER_REGEL", 15, 3, event1));
@@ -153,8 +140,18 @@ namespace XMLScenarioGenerator
         /// </summary>
         public void addScenario1c()
         {
-            
             addScenario1a();
+            addScenario1b();
+            scenarioLength = 140;
+        }
+
+        /// <summary>
+        /// Multitask-scenario, waarop 1a en 1b tegelijkertijd plaatsvinden.
+        /// </summary>
+        public void addScenario1d()
+        {
+            addScenario1a();
+            addScenario1b();
             addScenario1b();
             scenarioLength = 140;
         }

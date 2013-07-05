@@ -12,6 +12,8 @@ namespace CLESMonitor.Model.CL
     /// </summary>
     public class CTLModel : CLModel, CTLInputSourceDelegate
     {
+        private static int multiTaskCounter = 0;
+
         private CTLInputSource inputSource;
         private CTLDomain domain;
         private Timer updateTimer;
@@ -47,13 +49,15 @@ namespace CLESMonitor.Model.CL
 
         #region Abstract CLModel implementation
 
+        private const int DEFAULT_TIMER_INTERVAL = 1000;
+
         /// <summary>
         /// Starts a new session, calculateModelValue() will
         /// now produce valid values.
         /// </summary>
         public override void startSession()
         {
-            startSession(0, 500);
+            startSession(0, DEFAULT_TIMER_INTERVAL);
         }
 
         /// <summary>
@@ -216,9 +220,10 @@ namespace CLESMonitor.Model.CL
             updateTasksInCalculationFrame(sessionTime);
 
             // DEBUG
+            Console.WriteLine(sessionTime.TotalSeconds);
             foreach (CTLTask task in tasksInCalculationFrame)
             {
-                Console.WriteLine(sessionTime.TotalSeconds + ": " + task);
+                Console.WriteLine("# " + task);
             }
         }
 
@@ -280,6 +285,7 @@ namespace CLESMonitor.Model.CL
                         multitask = createMultitask(multitask, activeTasks[i]);
                     }
 
+                    multitask.startTime = multitask.endTime = sessionTime;
                     multitask.inProgress = true;
                     tasksInCalculationFrame.Add(multitask);
                 }
@@ -302,7 +308,7 @@ namespace CLESMonitor.Model.CL
         private static CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             // Create a new CTLTask
-            CTLTask multiTask = new CTLTask(task1.identifier + "+" + task2.identifier, task1.name + task2.name, null);
+            CTLTask multiTask = new CTLTask("m"+multiTaskCounter+"("+task1.identifier+"+"+task2.identifier+")", task1.name + task2.name, null);
             // Set its values
             if (task1 != null && task2 != null)
             {
@@ -310,6 +316,7 @@ namespace CLESMonitor.Model.CL
                 multiTask.lipValue = CTLMath.multitaskLip(task1, task2);
                 multiTask.informationDomains = CTLMath.multitaskDomain(task1, task2);
             }
+            multiTaskCounter++;
             return multiTask;
         }
     }

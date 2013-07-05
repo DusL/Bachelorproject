@@ -174,7 +174,7 @@ namespace CLESMonitor.Model.ES
             normalisedHR = FuzzyMath.normalised(currentHR, HRMin, HRMax);
             normalisedGSR = FuzzyMath.normalised(currentGSR, GSRMin, GSRMax);
 
-            Console.WriteLine(normalisedHR + " " + normalisedGSR);
+            //Console.WriteLine(normalisedHR + " " + normalisedGSR);
             
             // Find the current GSR and HR Levels
             findGSRLevel(fuzzyGSR());

@@ -72,7 +72,7 @@ namespace CLESMonitor.Model.CL
         /// <returns>A string-representation of the CTLTask object</returns>
         public override string ToString()
         {
-            return String.Format("Task: Identifier={0}, Type={1}, startTime={2}, endTime={3}, eventID={4}, moValue={5}, lipValue={6}", identifier, name, startTime.TotalSeconds, endTime.TotalSeconds, eventIdentifier, moValue, lipValue);
+            return String.Format("Task: Identifier={0}, startTime={1}, endTime={2}, eventID={3}, moValue={4}, lipValue={5}, Type={6}", identifier, startTime.TotalSeconds, endTime.TotalSeconds, eventIdentifier, moValue, lipValue, name);
         }
     }
 }

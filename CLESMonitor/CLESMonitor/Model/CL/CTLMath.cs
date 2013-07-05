@@ -41,19 +41,16 @@ namespace CLESMonitor.Model.CL
         /// </summary>
         /// <param name="task1">The first task that overlaps</param>
         /// <param name="task2">The task that overlaps with task1</param>
-        /// <returns>A double representing the MO value of the new multitask (value between 1 and 2)</returns>
+        /// <returns>A double representing the MO value of the new multitask</returns>
         public static double multitaskMO(CTLTask task1, CTLTask task2)
         {
-            double MO1 = 0.0;
-            double MO2 = 0.0;
             double returnMO = 0.0;
 
             if (task1 != null && task2 != null)
             {
-                MO1 = task1.moValue;
-                MO2 = task2.moValue;
-                returnMO = Math.Max(MO1 + MO2, 1);
+                returnMO = Math.Min(task1.moValue + task2.moValue, 1);
             }
+
             return returnMO;
         }
 
@@ -65,16 +62,13 @@ namespace CLESMonitor.Model.CL
         /// <returns>The Lip value for a new task</returns>
         public static int multitaskLip(CTLTask task1, CTLTask task2)
         {
-            int lip1 = 0;
-            int lip2 = 0;
             int returnLip = 0;
 
             if (task1 != null && task2 != null)
             {
-                lip1 = task1.lipValue;
-                lip2 = task2.lipValue;
-                returnLip = Math.Max(lip1, lip2);
+                returnLip = Math.Max(task1.lipValue, task2.lipValue);
             }
+
             return returnLip;
         }
 
