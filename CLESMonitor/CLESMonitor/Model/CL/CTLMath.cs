@@ -113,7 +113,7 @@ namespace CLESMonitor.Model.CL
             for (int i = 0; i < tasks.Count; i++)
             {
                 moValue += tasks[i].moValue * tasks[i].duration.TotalSeconds;
-                Console.WriteLine("Duration: " + tasks[i].duration.TotalSeconds);
+                //Console.WriteLine("Duration: " + tasks[i].duration.TotalSeconds);
             }
             moValue = moValue / lengthTimeframe.TotalSeconds;
 
@@ -151,7 +151,7 @@ namespace CLESMonitor.Model.CL
         /// <returns>The calculated MWL-value</returns>
         public static double calculateMentalWorkLoad(double lipValue, double moValue, double tssValue, int frameCount)
         {
-            Console.WriteLine("lip = " + lipValue + " mo = " + moValue + " tss = " + tssValue);
+            //Console.WriteLine("lip = " + lipValue + " mo = " + moValue + " tss = " + tssValue);
             double mwlValue = 0;
             double normalizedTssValue = 0;
 
@@ -195,7 +195,7 @@ namespace CLESMonitor.Model.CL
         public static int categoriseWorkLoad(double mentalLoad)
         {
             int category = 0; // Unknown
-            Console.WriteLine("MWL = " + mentalLoad);
+            //Console.WriteLine("MWL = " + mentalLoad);
             if (mentalLoad < (Math.Sqrt(3) * .25))
             {
                 category = 1; // Low
@@ -213,9 +213,8 @@ namespace CLESMonitor.Model.CL
                 category = 4;
             }
 
-            Console.WriteLine("Category = " + category);
+            //Console.WriteLine("Category = " + category);
             return category;
-
         }
     }
 }

@@ -82,8 +82,6 @@ namespace CLESMonitor.Model.CL
             {
                 foreach (InputElement inputElement in inputElements)
                 {
-                    Console.WriteLine(secondIndex + ": Found -> " + inputElement);
-
                     // A starting event 
                     if (inputElement.type == InputElement.Type.Event && inputElement.action == InputElement.Action.Started)
                     {

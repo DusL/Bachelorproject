@@ -214,6 +214,12 @@ namespace CLESMonitor.Model.CL
 
             removeTasksFromCalculationFrame(sessionTime);
             updateTasksInCalculationFrame(sessionTime);
+
+            // DEBUG
+            foreach (CTLTask task in tasksInCalculationFrame)
+            {
+                Console.WriteLine(sessionTime.TotalSeconds + ": " + task);
+            }
         }
 
         //TODO: Moet nog getest worden

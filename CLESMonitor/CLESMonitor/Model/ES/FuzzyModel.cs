@@ -112,8 +112,6 @@ namespace CLESMonitor.Model.ES
         /// <param name="period">The time interval between invokes</param>
         public void startCalibrationWithTimerParameters(int dueTime, int period)
         {
-            Console.WriteLine("FuzzyModel.startCalibration()");
-
             calibrationHR = new List<double>();
             calibrationGSR = new List<double>();
 
@@ -127,8 +125,6 @@ namespace CLESMonitor.Model.ES
         /// </summary>
         public override void stopCalibration()
         {
-            Console.WriteLine("FuzzyModel.stopCalibration()");
-
             calibrationTimer.Dispose();
 
             // Set values derived from calibration

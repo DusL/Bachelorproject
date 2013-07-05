@@ -106,11 +106,10 @@ namespace CLESMonitor.Controller
         }
 
         /// <summary>
-        /// When the SensorViewForm closses, the TimerCallback needs to be disposed
+        /// When the SensorView closes, the TimerCallback needs to be disposed
         /// </summary>
         public void formClosing()
         {
-            Console.WriteLine("Disposing of the sensorTimer");
             sensorTimer.Dispose();
         }
     }

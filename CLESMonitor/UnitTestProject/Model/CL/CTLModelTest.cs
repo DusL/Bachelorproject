@@ -55,13 +55,19 @@ namespace UnitTest.Model.CL
             usedDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUnknown });
         }
 
-        public void CallBack()
+        // FIXME: Test case is niet af!
+        [Test]
+        public void updateTimerCallback()
         {
             ctlModel.startSession(Timeout.Infinite, Timeout.Infinite);
             ctlModel.eventHasStarted(startedEvent);
             ctlModel.updateTimerCallback(null);
 
+            ctlModel.taskHasStarted(startedTask);
+            ctlModel.updateTimerCallback(null);
 
+            Assert.AreEqual(2, ctlModel.tasksInCalculationFrame);
+            Assert.AreEqual(generatedTask.identifier, ctlModel.tasksInCalculationFrame[0].identifier);
         }
 
         #region CTLInputSourceDelegate methods

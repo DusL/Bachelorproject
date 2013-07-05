@@ -13,8 +13,6 @@ namespace UnitTest.Model.ES
         FuzzyModel model;
         Mock<HRSensor> mockedHRSensor;
         Mock<GSRSensor> mockedGSRSensor;
-        HRSensor hrSensor;
-        GSRSensor gsrSensor;
 
         double hrValue, gsrValue;
 
@@ -24,21 +22,14 @@ namespace UnitTest.Model.ES
             mockedHRSensor = new Mock<HRSensor>();
             mockedGSRSensor = new Mock<GSRSensor>();
 
-            hrSensor = new HRSensor();
-            gsrSensor = new GSRSensor();
-
-            hrSensor.type = HRSensorType.ManualInput;
-            gsrSensor.type = GSRSensorType.ManualInput;
-
-            model = new FuzzyModel(hrSensor, gsrSensor);
+            model = new FuzzyModel();
+            model.hrSensor.type = HRSensor.Type.ManualInput;
+            model.gsrSensor.type = GSRSensorType.ManualInput;
         }
 
         [TearDown]
         public void tearDown()
         {
-            hrSensor = null;
-            gsrSensor = null;
-
             model = null;
         }
 
@@ -49,17 +40,17 @@ namespace UnitTest.Model.ES
                 
             List<double> hrList = new List<double>(new double[] { 3.0});
             List<double> gsrList = new List<double>(new double[] {5.0});
-            
-            hrSensor.sensorValue = hrValue = 3.0;
-            gsrSensor.sensorValue = gsrValue = 5.0;
+
+            model.hrSensor.sensorValue = hrValue = 3.0;
+            model.gsrSensor.sensorValue = gsrValue = 5.0;
             
             model.calibrationTimerCallback(null);
 
             Assert.AreEqual(hrList, model.calibrationHR);
             Assert.AreEqual(gsrList, model.calibrationGSR);
 
-            hrSensor.sensorValue = hrValue = 8.0;
-            gsrSensor.sensorValue = gsrValue = 6.0;
+            model.hrSensor.sensorValue = hrValue = 8.0;
+            model.gsrSensor.sensorValue = gsrValue = 6.0;
 
             hrList.Add(hrValue);
             gsrList.Add(gsrValue);
