@@ -11,6 +11,7 @@ namespace UnitTest.Model.ES
     {
         double mean;
         double sd;
+        double sd2;
         double normalised;
         double normalised2;
 
@@ -26,6 +27,7 @@ namespace UnitTest.Model.ES
         {
             mean = 20;
             sd = 4;
+            sd2 = 0;
         }
 
 
