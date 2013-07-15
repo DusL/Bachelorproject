@@ -15,70 +15,50 @@ namespace CLESMonitor.View
 {
     public partial class MainView : Form
     {
-        public delegate void EventHandler();
-        public delegate void EventHandlerWithArguments(object sender, EventArgs e);
-        public event EventHandler startButtonClickedHandler;
-        public event EventHandler stopButtonClickedHandler;
-        public event EventHandler clearListButtonClickedHandler;
-        public event EventHandler startToolStripMenuItemClickedHandler;
-        public event EventHandler stopToolStripMenuItemClickedHandler;
-        public event EventHandler quitToolStripMenuItemClickedHandler;
-        public event EventHandlerWithArguments formKeyDownHandler;
+        private MainViewController controller;
+        public event EventHandler startClicked;
 
-        /// <summary>
-        /// Constructor method.
-        /// </summary>
-        public MainView()
+        public MainView(MainViewController controller)
         {
+            // TODO: Meertalig maken -> zou leuk zijn
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("nl-NL");
+            this.controller = controller;
             InitializeComponent();
         }
 
         private void startButton_Click(object sender, EventArgs e)
         {
-            if (startButtonClickedHandler != null)
-            {
-                startButtonClickedHandler();
-            }
+            controller.startButtonClicked();
         }
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-            if (stopButtonClickedHandler != null)
-            {
-                stopButtonClickedHandler();
-            }
+            controller.stopButtonClicked();
         }
 
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (startToolStripMenuItemClickedHandler != null)
-            {
-                startToolStripMenuItemClickedHandler();
-            }
+            controller.startButtonClicked();
         }
 
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (stopToolStripMenuItemClickedHandler != null)
-            {
-                stopToolStripMenuItemClickedHandler();
-            }
+            controller.stopButtonClicked();
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (quitToolStripMenuItemClickedHandler != null)
-            {
-                quitToolStripMenuItemClickedHandler();
-            }
+            controller.quit();
         }
 
         private void CLESMonitorViewForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (formKeyDownHandler != null)
+            if (e.Alt && e.KeyCode == Keys.F4)
             {
-                formKeyDownHandler(sender, e);
+                controller.quit();
             }
+            
         }
+
     }
 }

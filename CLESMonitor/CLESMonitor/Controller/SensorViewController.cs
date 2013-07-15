@@ -39,6 +39,9 @@ namespace CLESMonitor.Controller
             View = new SensorView(this);
             startTime = DateTime.Now;
 
+            View.formClosingHandler += new SensorView.EventHandler(formClosing);
+            View.sensorViewFormShownHandler += new SensorView.EventHandler(shown);
+
             this.hrSensor = hrSensor;
             this.gsrSensor = gsrSensor;
         }

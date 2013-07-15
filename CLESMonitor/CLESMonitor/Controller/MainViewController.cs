@@ -92,6 +92,7 @@ namespace CLESMonitor.Controller
             this.clModel = clModel;
             this.esModel = esModel;
 
+
             // Set timer initially to 0 seconds elapsed seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
             View.sessionTimeLabel.Text = emptyTimer.ToString();

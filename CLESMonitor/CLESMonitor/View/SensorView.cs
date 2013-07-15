@@ -13,32 +13,30 @@ namespace CLESMonitor.View
 {
     public partial class SensorView : Form
     {
-        private SensorViewController _controller;
+        public delegate void EventHandler();
+        public event EventHandler formClosingHandler;
+        public event EventHandler sensorViewFormShownHandler;
 
         public SensorView(SensorViewController controller)
         {
-            _controller = controller;
             InitializeComponent();
         }
 
-        private void ESChart_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void SensorViewForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            _controller.formClosing();
+            if (formClosingHandler != null)
+            {
+                formClosingHandler();
+            }
         }
 
         private void SensorViewForm_Shown(object sender, EventArgs e)
         {
-            _controller.shown();
+            if (sensorViewFormShownHandler != null)
+            {
+                sensorViewFormShownHandler();
+            }
         }
 
 
