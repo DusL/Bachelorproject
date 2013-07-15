@@ -38,7 +38,11 @@ namespace CLESMonitor.Controller
         /// <param name="parser">A instance of the XMLParser class</param>
         public CTLModelUtilityVC(CTLModel ctlModel, XMLParser parser)
         {
-            this.View = new CTLModelUtilityView(this);
+            this.View = new CTLModelUtilityView();
+            this.View.openScenarioFileButtonClickedHandler += new CTLModelUtilityView.EventHandler(openScenarioFileDialog);
+            this.View.CTLModelUtilityViewShownHandler += new CTLModelUtilityView.EventHandler(viewControllerIsShown);
+            this.View.clearListButtonClickedHandler += new CTLModelUtilityView.EventHandler(clearList);
+
             this.ctlModel = ctlModel;
             this.parser = parser;
             this.cachedActiveTasks = new List<CTLTask>();
