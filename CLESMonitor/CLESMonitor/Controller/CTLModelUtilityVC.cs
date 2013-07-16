@@ -98,43 +98,6 @@ namespace CLESMonitor.Controller
             }
         }
 
-        /// <summary>
-        /// Updates the listView using the activecItems and historyItems
-        /// </summary>
-        /// <param name="activeItems">A list of tasks that are currently active</param>
-        /// <param name="historyItems">A list of tasks that have ended</param>
-        public void updateUI(List<ListViewItem> activeItems, List<ListViewItem> historyItems)
-        {
-            try
-            {
-                View.Invoke((Action)(() =>
-                {
-                    try
-                    {
-                        // Delete all items that may be present
-                        View.activeListView.Items.Clear();
-
-                        // Add the generated active and history items
-                        foreach (ListViewItem item in activeItems.Union(historyItems))
-                        {
-                            View.activeListView.Items.Add(item);
-                        }
-                        // If no item is present in a group add a bogus item without text to ensure the groupnames remain visible.
-                        foreach (ListViewGroup group in View.activeListView.Groups)
-                        {
-                            if (group.Items.Count == 0)
-                            {
-                                View.activeListView.Items.Add(new ListViewItem(group));
-                            }
-                        }
-                    }
-                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
-                }));
-            }
-            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
-        }
-
-
         public List<ListViewItem> generateActiveItemList()
         {
             List<ListViewItem> activeItems = new List<ListViewItem>();
@@ -186,6 +149,41 @@ namespace CLESMonitor.Controller
             return historyItems;
         }
 
+        /// <summary>
+        /// Updates the listView using the activecItems and historyItems
+        /// </summary>
+        /// <param name="activeItems">A list of tasks that are currently active</param>
+        /// <param name="historyItems">A list of tasks that have ended</param>
+        public void updateUI(List<ListViewItem> activeItems, List<ListViewItem> historyItems)
+        {
+            try
+            {
+                View.Invoke((Action)(() =>
+                {
+                    try
+                    {
+                        // Delete all items that may be present
+                        View.activeListView.Items.Clear();
+
+                        // Add the generated active and history items
+                        foreach (ListViewItem item in activeItems.Union(historyItems))
+                        {
+                            View.activeListView.Items.Add(item);
+                        }
+                        // If no item is present in a group add a bogus item without text to ensure the groupnames remain visible.
+                        foreach (ListViewGroup group in View.activeListView.Groups)
+                        {
+                            if (group.Items.Count == 0)
+                            {
+                                View.activeListView.Items.Add(new ListViewItem(group));
+                            }
+                        }
+                    }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+                }));
+            }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+        }
         /// <summary>
         /// Action method when the openScenarioFileButton is clicked.
         /// </summary>
