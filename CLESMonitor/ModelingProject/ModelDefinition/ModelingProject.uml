@@ -24,59 +24,7 @@
         name="CLModel"
         isAbstract="true"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="faef155f-95c7-40f7-ae15-545d040a519c"
-            name="calculateModelValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8a3cdd4b-71f0-4f97-bd9b-46af63bd34b1"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="5104bcb2-1442-42f3-9f2d-18524286da22"
-                  name="TimeSpan time"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="1f4c95cd-ac88-454a-9b89-ad3abbb59fc5"
-            name="setPathForParser"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8074bd72-170e-4e51-9f44-e1ce4b189c22"
-                  name="string filePath"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -84,42 +32,7 @@
         name="ESModel"
         isAbstract="true"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="4e14c603-0873-4d20-abb8-9562572202fc"
-            name="calculateModelValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="d13320e3-f149-4278-b130-1ab780dae016"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="a66f0e5f-07dc-4edb-8104-a04f37cab20d"
-            name="startSession"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -150,6 +63,13 @@
               LastKnownName="CTLInputSource"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
+          <dependency
+            Id="eeaad2b6-b448-47ea-a3f5-2c6216510c7b">
+            <classMoniker
+              Id="2e44645c-c504-4041-84de-531d02a47618"
+              LastKnownName="CTLMath"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
         </suppliersInternal>
         <generalsInternal>
           <generalization
@@ -161,63 +81,12 @@
               LastKnownLocation="ModelingProject.uml" />
           </generalization>
         </generalsInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="0499d9f9-ee30-4d98-9467-fc5f1e86de55"
-            name="setPathForParser"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="5222bf9e-5794-4e59-8899-7adbb49d7120"
-                  name="string filePath"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="94368706-8072-4476-97fd-a7e0470ed4cf"
-            name="calculateModelValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="abb46ad2-e06e-483e-b345-df0e2fa71b2b"
-                  name="TimeSpan time"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f8e4bba5-b615-430d-ac36-c776892c2cef"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
         Id="a289451d-4604-4bcd-acb2-669ce1563cb8"
-        name="ViewController"
+        name="MainViewController"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -237,107 +106,125 @@
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
         </suppliersInternal>
-        <ownedAttributesInternal>
-          <property
-            Id="9c189e9c-83e7-41fd-9117-6e1e5d468d05"
-            name="CLModel clModel"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
+        <targetEnds>
+          <association
+            Id="5cd87a97-95c4-4c27-8053-24cb1c39a48c"
             isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false" />
-          <property
-            Id="dd9edbb1-4187-49db-aade-9d42959a440f"
-            name="ESModel esModel"
+            sourceEndRoleName="MainViewController"
+            targetEndRoleName="MainView"
             isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
+            isAbstract="false">
+            <classMoniker
+              Id="52b4c57d-2c6e-4f72-b2d7-394139ad1f42"
+              LastKnownName="MainView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="875e6f4f-d77e-4c9c-9615-f330e355bc5a"
+                  name="MainViewController"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b89a124b-81a9-493d-94ab-d89d09aaaf2b"
+                  name="MainView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="55dbc47d-ab50-4e5a-abc4-f192eb08bf8d"
             isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false" />
-        </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="68fb88e6-a4f9-4aa8-8e17-5aa8b2672ec0"
-            name="UpdateESChartData"
+            sourceEndRoleName="MainViewController"
+            targetEndRoleName="FuzzyModelUtilityView"
             isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="2dd03d96-283f-4146-983b-0c199116770f"
-            name="UpdateCLChartData"
+            isAbstract="false">
+            <classMoniker
+              Id="9278172c-247d-4f83-98f0-2c3b3ea910f4"
+              LastKnownName="FuzzyModelUtilityView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="590a31b2-04a1-48d4-916a-1f0295a07493"
+                  name="MainViewController"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f126fad1-0caa-45a2-8c67-18a872a0fe09"
+                  name="FuzzyModelUtilityView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="155e1d46-be42-4911-99a5-3ed571829a42"
+            isDerived="false"
+            sourceEndRoleName="MainViewController"
+            targetEndRoleName="CTLModelUtilityView"
             isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="b0645331-f887-4ffa-a1d3-24bbdedb133d"
-                  name=")"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="acaee6db-c129-4936-8515-d1f28f7910d1"
-            name="startButtonClicked"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8dd7434e-467b-41d1-9066-ceb6c8b6f929"
-                  name="object sender"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="31e52d2b-0e21-4eec-8e9f-dbe4df0a5bf8"
-                  name="System.EventArgs e"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="c50fdd51-b321-45b1-ad17-d6bdeb37d261"
-            name="pauseButtonClicked"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="2efb571a-a8a0-42eb-a5ca-c58d176ebb47"
-            name="stopButtonClicked"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="e1e98625-bb3d-41f1-b6b5-e977f360fac8"
-            name="openScenarioFileDialog"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
+            isAbstract="false">
+            <classMoniker
+              Id="c1865700-b0d1-4d36-8c23-8445b104e2c7"
+              LastKnownName="CTLModelUtilityView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e9f1ee65-847c-4dc5-8e3f-4845839eba34"
+                  name="MainViewController"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e4cc89da-438c-425e-a7b2-f4373cc6156e"
+                  name="CTLModelUtilityView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -357,82 +244,6 @@
               LastKnownLocation="ModelingProject.uml" />
           </generalization>
         </generalsInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="199e3d49-e92d-4ea2-b882-5814d831cbde"
-            name="generateTask"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="fd7ee6c9-10c4-4c64-8d6c-ca0bb6c871be"
-                  name="parsedTask"
-                  direction="In"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="06721d72-0ddc-43d8-b7ca-8baa313928f5"
-                      LastKnownName="ParsedTask"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8b954d75-c3f8-4505-becc-5ccb772c5196"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <classMoniker
-                      Id="9a3414c3-77ed-417a-b7a3-eaf316daf4d0"
-                      LastKnownName="CTLTask"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="abb7508f-3e7e-4389-85d2-8b08ba6d33ef"
-            name="generateEvent"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="1eda8995-6e5b-4f0f-ad39-90edff106cb3"
-                  name="parsedEvent"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="061d2717-6189-4120-930e-a71d638c8808"
-                      LastKnownName="ParsedEvent"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="b1b5ceeb-7e26-4a7c-baf0-72b99a64d8bc"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="86e8d39a-ec76-44da-a602-61a7da84beff"
-                      LastKnownName="CTLEvent"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -447,7 +258,21 @@
             Id="0aba264e-b6ef-448c-886e-70610d32a1ce">
             <classMoniker
               Id="fb02ec03-d20e-473e-8847-ccb0d77d2874"
-              LastKnownName="FuzzyCalculate"
+              LastKnownName="FuzzyMath"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="61a26de8-4d72-4113-86a1-f60079bb1d2c">
+            <classMoniker
+              Id="0862e8fd-5bf4-42dc-a2ac-e40df0da9cbd"
+              LastKnownName="HRSensor"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="ad32665c-116e-4abb-a264-04958512fe32">
+            <classMoniker
+              Id="36d5b9c0-a723-457a-b3df-8d59f841f3ce"
+              LastKnownName="GSRSensor"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
         </suppliersInternal>
@@ -461,39 +286,6 @@
               LastKnownLocation="ModelingProject.uml" />
           </generalization>
         </generalsInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="87b9ad82-58ec-4efc-be7f-471a124884a9"
-            name="calculateModelValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e98e5f14-5739-4ff4-aa60-9a7594fa57c4"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="449557e1-a1d8-43ce-9a28-07902c21f30a"
-            name="startSession"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -510,54 +302,12 @@
         name="GSRSensor"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <targetEnds>
-          <association
-            Id="d3e2a56e-de8b-4a3c-80f1-0d367bb9127b"
-            isDerived="false"
-            sourceEndRoleName="GSRSensor"
-            targetEndRoleName="FuzzyModel"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="aa9ceb99-7ba0-4d56-93aa-b27c155565b4"
-              LastKnownName="FuzzyModel"
-              LastKnownLocation="ModelingProject.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="f9b5f272-6339-4348-84c9-2776243728dc"
-                  name="GSRSensor"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="b0062788-5f1c-4e7a-acf5-54dab2aff50f"
-                  name="FuzzyModel"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
         Id="52b4c57d-2c6e-4f72-b2d7-394139ad1f42"
-        name="CLESMonitorViewForm"
+        name="MainView"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false" />
@@ -565,7 +315,7 @@
     <packageHasNamedElement>
       <class
         Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded"
-        name="XMLFileTaskParser"
+        name="XMLParser"
         isAbstract="false"
         isLeaf="false"
         isActiveClass="false">
@@ -579,80 +329,6 @@
               LastKnownLocation="ModelingProject.uml" />
           </generalization>
         </generalsInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="daae9a06-18b6-4634-988d-7c1982507a23"
-            name="loadTextReader"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="96a45fc6-50ac-4519-b69c-ca0af0dd1f6f"
-                  name="TextReader textReader"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="d8334308-f2ac-48cb-aef1-bd661f93b174"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="a0b4694b-1e98-49da-bcea-1f881d9b6056"
-                      LastKnownName="List&lt;InputElement&gt;"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="7e9a8b3b-c17b-4444-bf76-ccd22502ca82"
-            name="startReceivingInput"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="96bbd9d6-cd30-4698-be7a-d92f6878773e"
-            name="stopReceivingInput"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="d6ab253c-0db3-4219-8c90-67e9af74fd5e"
-            name="elementsForTime"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e906cd46-e969-42e4-9583-5336e29b27c0"
-                  name="TimeSpan timeSpan"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="3391b956-30c5-4ee8-af04-529855dfa778"
-            name="XMLFileTaskParser"
-            isLeaf="false"
-            isStatic="true"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -661,18 +337,7 @@
         name="CTLTask"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="09d681c9-c17c-4eb5-83a2-828118f7cb62"
-            name="toString"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -680,59 +345,7 @@
         name="HRSensor"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <targetEnds>
-          <association
-            Id="ca55972b-1806-45e3-afbe-fc102dac142b"
-            isDerived="false"
-            sourceEndRoleName="HRSensor"
-            targetEndRoleName="FuzzyModel"
-            isLeaf="false"
-            isAbstract="false">
-            <classMoniker
-              Id="aa9ceb99-7ba0-4d56-93aa-b27c155565b4"
-              LastKnownName="FuzzyModel"
-              LastKnownLocation="ModelingProject.uml" />
-            <relationshipOwnedElementsInternal>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="d346d7e4-e575-4f8f-ba3f-5301bdf50fb2"
-                  name="HRSensor"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false"
-                  isNavigableOwned="false" />
-              </associationHasOwnedEnds>
-              <associationHasOwnedEnds>
-                <memberEnd
-                  Id="f80d649b-54c9-4d99-aecd-e91be8b422d9"
-                  name="FuzzyModel"
-                  isLeaf="false"
-                  isStatic="false"
-                  isReadOnly="false"
-                  isDerived="false"
-                  isDerivedUnion="false"
-                  aggregation="None"
-                  isComposite="false" />
-              </associationHasOwnedEnds>
-            </relationshipOwnedElementsInternal>
-          </association>
-        </targetEnds>
-        <ownedOperationsInternal>
-          <operation
-            Id="c3af92cf-370b-4061-9c9d-8da97dbccc17"
-            name="setUpSerialPort"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <undefinedType
@@ -772,402 +385,10 @@
     <packageHasNamedElement>
       <class
         Id="fb02ec03-d20e-473e-8847-ccb0d77d2874"
-        name="FuzzyCalculate"
+        name="FuzzyMath"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="ab1d49c9-89c2-4489-8130-3996eee4068b"
-            name="lowGSRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="37b1bffb-cc1d-485e-87fa-b2dc3e590e7b"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e4ef4287-40ac-4af7-908e-b8ef669588b2"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8600b51b-c823-4c75-9ed4-504931d1f8f3"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="7f891986-a0c5-4302-86e3-aa539e9642fb"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="7e7302c5-13ac-4348-9709-26747bdab3a2"
-            name="midLowGSRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="143c6380-66f7-4d68-baf7-0c9678ee7349"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="1e13e5d6-7420-4aaf-bf75-14f9d3c5c364"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="407f6004-5cc5-49f6-bd44-e4ed25fdb941"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="6dbbe158-eb17-4dcb-b895-9bc21346f0fc"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="bffb48a9-6759-4fb4-b78f-e22358b194dc"
-            name="midHighGSRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="4a8b03e6-e48e-431a-9138-84b4266df932"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e3ecb486-af88-4993-b9eb-013d78e70cd6"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="fd0ca4d5-94c0-4843-904f-e08d41a579c9"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="189f2928-fe8a-4a5c-b034-b9463bb0e44f"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="64bbeb93-0430-41d1-aa67-ec7e179378e6"
-            name="highGSRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="6c132ab3-a206-4b9a-b911-143b46250dcb"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="629bf170-f0b9-44b6-9d12-43bf828837a6"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f94b5bb7-8134-4b0c-bc49-e2b7fc3290eb"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="139d823f-df73-41ed-a6b4-02dfffc7e307"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="6a042432-ac8f-46d6-926a-571ac591894e"
-            name="lowHRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e442c8d2-854a-418c-bd70-53c510698613"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="84dda7f4-3d02-446e-9eb9-9f7ead034987"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="fa589340-7308-4397-bf74-40b743915276"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="315810cd-6664-447c-81b7-dfe14f59aebe"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="3ae29080-b7c3-46f7-b46c-23398e50abaf"
-            name="midHRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="a404271d-1a59-4737-b0ba-2b9709e0bebe"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="ff4295a8-feb5-4e7b-8a8a-fe6779e25fcb"
-                  name="double SD"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="e209346d-ad55-4785-8a4e-8a643a9a24c9"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="fa14fa06-5d94-484a-9499-0fda2004b0c4"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="e9a3c25e-8370-408b-9544-488487277c96"
-            name="highHRValue"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="6cc47117-27d9-46be-b4ab-c5de0cc28b0a"
-                  name="double mean"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="da40decb-bf31-4315-ba0a-279c779ed8eb"
-                  name="double normalised"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="8c9cab56-a0b5-4119-889c-d3a6aa0bb223"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="15ab369b-761b-4345-babf-686fa233f369"
-            name="normalisedHR"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="346d4eea-78b8-4f1e-8392-a23971b0a7b6"
-                  name="double HRValue"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="d7e0a895-f14d-4ca6-a191-74c0ce50910c"
-                  name="double HRMin"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="51030702-ab14-4661-ab02-1b853c8d0705"
-                  name="double HRMax"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="84d1a28f-6d10-4609-83fb-7f02827db035"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="3360f97f-843a-42af-9a9c-68b535576e75"
-            name="normalisedGSR"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="1ba88da8-7ee6-46a9-936a-e4740621aa90"
-                  name="double GSRValue"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="c9f9b9ca-3b51-46a6-934d-414ba05f4e7c"
-                  name="double GSRMin"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="fe819ff0-48ef-497b-b444-d86f0eee3429"
-                  name="double GSRMax"
-                  direction="In"
-                  isUnique="false" />
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="ef1a64ba-bb33-4922-9195-a92ba76c0ab9"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="24c6b52f-bf99-4295-9b6f-394e2e90fee9"
-                      LastKnownName="double"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <undefinedType
@@ -1190,39 +411,7 @@
         name="CTLInputSource"
         isAbstract="true"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedAttributesInternal>
-          <property
-            Id="467c3222-2f23-457d-89aa-e91e5f36e72a"
-            name="CTLInputSourceDelegate delegateObject"
-            isLeaf="false"
-            isStatic="false"
-            isReadOnly="false"
-            isUnique="false"
-            isDerived="false"
-            isDerivedUnion="false"
-            aggregation="None"
-            isComposite="false" />
-        </ownedAttributesInternal>
-        <ownedOperationsInternal>
-          <operation
-            Id="183fb075-792d-4cca-86a7-b67f5042496f"
-            name="stopReceivingInput"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-          <operation
-            Id="a70ff281-02c6-4eb5-8ba8-7b98fa914358"
-            name="startReceivingInput"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
@@ -1231,82 +420,29 @@
         isAbstract="true"
         isLeaf="false"
         isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="eb0d67d0-69cf-4792-a743-22ef935ea576"
-            name="generateEvent"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="d066c874-07ed-4da0-8ef7-aac12e086779"
-                  name="parsedEvent"
-                  direction="In">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c"
-                      LastKnownName="InputElement"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="f08be975-71e3-4a0e-a020-e5fd59daddf2"
-                  direction="Return">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="86e8d39a-ec76-44da-a602-61a7da84beff"
-                      LastKnownName="CTLEvent"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-          <operation
-            Id="4da5693e-d14d-4412-9915-77a5327564bb"
-            name="generateTask"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false">
-            <ownedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="7109702e-da5c-4201-8640-1df44a496fb0"
-                  name="parsedTask"
-                  direction="In"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <undefinedTypeMoniker
-                      Id="954c3f91-2994-4c8d-b38d-50ad05c58e3c"
-                      LastKnownName="InputElement"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-              <operationHasOwnedParameters>
-                <parameter
-                  Id="877dfaaa-e01d-4f2a-8224-ef35f810b2c4"
-                  direction="Return"
-                  isUnique="false">
-                  <type_NamedElement>
-                    <classMoniker
-                      Id="9a3414c3-77ed-417a-b7a3-eaf316daf4d0"
-                      LastKnownName="CTLTask"
-                      LastKnownLocation="ModelingProject.uml" />
-                  </type_NamedElement>
-                </parameter>
-              </operationHasOwnedParameters>
-            </ownedParameters>
-          </operation>
-        </ownedOperationsInternal>
+        <suppliersInternal>
+          <dependency
+            Id="a75893b2-b45c-4074-bf2b-cbcb915b348c">
+            <classMoniker
+              Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b"
+              LastKnownName="CTLTask"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="eca1583b-2f58-4522-b1ae-8e992310952b">
+            <classMoniker
+              Id="f7203876-6c12-447c-beb4-0ee25b1e6b10"
+              LastKnownName="CTLEvent"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="e37b0ec1-9b6b-487e-875d-b16da30147ac">
+            <classMoniker
+              Id="6714bbde-24cf-4e22-905c-277f87121ed0"
+              LastKnownName="InputElement"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
       </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1328,25 +464,14 @@
         name="CTLEvent"
         isAbstract="false"
         isLeaf="false"
-        isActiveClass="false">
-        <ownedOperationsInternal>
-          <operation
-            Id="ab9091f2-5838-499b-be08-3d063fbd8f8f"
-            name="toString"
-            isLeaf="false"
-            isStatic="false"
-            isAbstract="false"
-            concurrency="Sequential"
-            isQuery="false" />
-        </ownedOperationsInternal>
-      </class>
+        isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
         Id="6714bbde-24cf-4e22-905c-277f87121ed0"
         name="InputElement"
         isAbstract="false"
-        isLeaf="false"
+        isLeaf="true"
         isActiveClass="false" />
     </packageHasNamedElement>
     <packageHasNamedElement>
@@ -1362,6 +487,266 @@
         name="CTLInputSourceDelegate"
         isAbstract="false"
         isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="b4bdf34e-94a8-47be-ab98-1910d83b659e"
+        name="CTLModelUtilityVC"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="36547181-4e94-4369-a4db-e7ae7d91bc2a">
+            <classMoniker
+              Id="9f3b8cf1-e2f4-4306-b445-a41f04f2d024"
+              LastKnownName="CTLModel"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="d7d0698b-dfbb-45a9-b4c9-ca896aa223a1">
+            <classMoniker
+              Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b"
+              LastKnownName="CTLTask"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="f33929b2-08b1-4b40-8af6-007257430151">
+            <classMoniker
+              Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded"
+              LastKnownName="XMLParser"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="96a9f8d0-3e08-4250-aab5-241f229d1469"
+            isDerived="false"
+            sourceEndRoleName="CTLModelUtilityVC"
+            targetEndRoleName="CTLModelUtilityView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="c1865700-b0d1-4d36-8c23-8445b104e2c7"
+              LastKnownName="CTLModelUtilityView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e4993ee4-7394-4ef8-a009-d011d2674d8b"
+                  name="CTLModelUtilityVC"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="435faac8-a716-4c3b-892f-1a0230555fe2"
+                  name="CTLModelUtilityView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="c1865700-b0d1-4d36-8c23-8445b104e2c7"
+        name="CTLModelUtilityView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="fe6d949a-6523-486e-8b69-6fb23c203a5a"
+        name="FuzzyModelUtilityVC"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="9b7a8318-bf1c-4f9a-8b5c-a9f485541880">
+            <classMoniker
+              Id="aa9ceb99-7ba0-4d56-93aa-b27c155565b4"
+              LastKnownName="FuzzyModel"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="1352c955-13e2-475d-946e-831cbad59cdd">
+            <classMoniker
+              Id="1a0be175-50be-44ca-a965-37dcba5f4c49"
+              LastKnownName="SensorViewController"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="e28be4c1-52cf-4d27-bf07-31e07f2022ef"
+            isDerived="false"
+            sourceEndRoleName="FuzzyModelUtilityVC"
+            targetEndRoleName="FuzzyModelUtilityView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="9278172c-247d-4f83-98f0-2c3b3ea910f4"
+              LastKnownName="FuzzyModelUtilityView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="082fde97-5b7f-4dec-bb8a-1c2221ac8cba"
+                  name="FuzzyModelUtilityVC"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="f4c03290-e2ae-4c11-8c5f-c357d176f9c2"
+                  name="FuzzyModelUtilityView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="9278172c-247d-4f83-98f0-2c3b3ea910f4"
+        name="FuzzyModelUtilityView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="1a0be175-50be-44ca-a965-37dcba5f4c49"
+        name="SensorViewController"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="fc3f95e5-b418-46a9-8415-10681cf20185">
+            <classMoniker
+              Id="0862e8fd-5bf4-42dc-a2ac-e40df0da9cbd"
+              LastKnownName="HRSensor"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="7ee05533-333f-4661-b973-b5c120a935e9">
+            <classMoniker
+              Id="36d5b9c0-a723-457a-b3df-8d59f841f3ce"
+              LastKnownName="GSRSensor"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
+        <targetEnds>
+          <association
+            Id="3685348d-d6b3-47b9-8acc-8d23d922f1ea"
+            isDerived="false"
+            sourceEndRoleName="SensorViewController"
+            targetEndRoleName="SensorView"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="8a25a312-61dc-44d3-aaf7-3555133ded0c"
+              LastKnownName="SensorView"
+              LastKnownLocation="ModelingProject.uml" />
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="6a5ec0b8-86f9-4817-a213-16dba625a481"
+                  name="SensorViewController"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false" />
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="bcd3b9f6-a26c-4014-a729-6befb8ade069"
+                  name="SensorView"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false" />
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="8a25a312-61dc-44d3-aaf7-3555133ded0c"
+        name="SensorView"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2e44645c-c504-4041-84de-531d02a47618"
+        name="CTLMath"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="b28aa079-6fbf-4f0f-b618-981748d6e9f2">
+            <classMoniker
+              Id="044e4edc-ac39-4d44-bc42-05e83a237094"
+              LastKnownName="Vector"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="2beb45a6-27e7-4abe-b5a9-bc980dd578cb">
+            <classMoniker
+              Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b"
+              LastKnownName="CTLTask"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="0556f4ee-e165-4eec-aa42-17ae73662c83"
+        LastKnownName="Package1"
+        LastKnownLocation="Package_1140.uml" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

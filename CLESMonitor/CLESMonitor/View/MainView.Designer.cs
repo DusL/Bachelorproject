@@ -57,9 +57,10 @@
             // 
             this.timeLable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.timeLable.AutoSize = true;
-            this.timeLable.Location = new System.Drawing.Point(893, 9);
+            this.timeLable.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.timeLable.Location = new System.Drawing.Point(863, 5);
             this.timeLable.Name = "timeLable";
-            this.timeLable.Size = new System.Drawing.Size(59, 13);
+            this.timeLable.Size = new System.Drawing.Size(82, 18);
             this.timeLable.TabIndex = 13;
             this.timeLable.Text = "Sessieduur";
             // 
@@ -141,10 +142,11 @@
             // 
             // clesRichTextBox
             // 
+            this.clesRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.clesRichTextBox.Location = new System.Drawing.Point(683, 3);
             this.clesRichTextBox.Name = "clesRichTextBox";
             this.clesRichTextBox.ReadOnly = true;
-            this.clesRichTextBox.Size = new System.Drawing.Size(297, 323);
+            this.clesRichTextBox.Size = new System.Drawing.Size(309, 333);
             this.clesRichTextBox.TabIndex = 2;
             this.clesRichTextBox.Text = "";
             // 
@@ -236,9 +238,10 @@
             // 
             this.sessionTimeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.sessionTimeLabel.AutoSize = true;
-            this.sessionTimeLabel.Location = new System.Drawing.Point(957, 9);
+            this.sessionTimeLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sessionTimeLabel.Location = new System.Drawing.Point(951, 5);
             this.sessionTimeLabel.Name = "sessionTimeLabel";
-            this.sessionTimeLabel.Size = new System.Drawing.Size(43, 13);
+            this.sessionTimeLabel.Size = new System.Drawing.Size(56, 18);
             this.sessionTimeLabel.TabIndex = 23;
             this.sessionTimeLabel.Text = "0.00.00";
             // 
