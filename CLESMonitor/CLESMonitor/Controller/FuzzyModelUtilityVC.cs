@@ -56,8 +56,13 @@ namespace CLESMonitor.Controller
 
             // Setup the combobox
             string[] portNames = SerialPort.GetPortNames();
-            View.comboBox1.Items.AddRange(portNames);
-            View.comboBox1.SelectedIndex = 0;
+            View.HRSensorComboBox.Items.AddRange(portNames);
+            View.HRSensorComboBox.SelectedIndex = 0;
+
+
+            subscribe();
+
+            
 
             hrValueLabel.Text = View.hrTrackBar.Value.ToString();
             gsrValueLabel.Text = View.gsrTrackBar.Value.ToString();
@@ -76,6 +81,22 @@ namespace CLESMonitor.Controller
             sensorTimer = new Timer(timerCallback, null, 1000, 1000);
 
             this.currentState = State.Uncalibrated;
+        }
+
+        // 
+        private void subscribe()
+        {
+            View.calibrateClickedHandler += new FuzzyModelUtilityView.EventHandler(calibrateButtonClicked);
+            View.sensorButtonClickedHandler += new FuzzyModelUtilityView.EventHandler(sensorButtonClicked);
+            View.formClosingHandler += new FuzzyModelUtilityView.EventHandler(closeForm);
+            View.HRSensorComboBoxSelectedIndexChangedHandler += new FuzzyModelUtilityView.EventHandler(HRSensorComboBoxChanged);
+
+            View.HRValueChangeByButtonHandler += new FuzzyModelUtilityView.EventHandlerWithArgs(HRValueChangeByButton);
+            View.HRTrackbarScrollHandler += new FuzzyModelUtilityView.EventHandlerWithArgs(HRValueChangedInManualContext);
+            View.HRSensorTypeChangedHandler += new FuzzyModelUtilityView.EventHandlerWithArgs(HRSensorTypeChanged);
+
+            View.GSRValueChangeByButtonHandler += new FuzzyModelUtilityView.EventHandlerWithArgs(GSRValueChangeByButton);
+            View.GSRTrackbarScrollHandler += new FuzzyModelUtilityView.EventHandlerWithArgs(GSRValueChangedInManualContext);
         }
 
         /// <summary>
@@ -201,7 +222,7 @@ namespace CLESMonitor.Controller
         /// <summary>
         /// Action when the heart rate sensor type is being changed
         /// </summary>
-        public void hrSensorTypeChanged(object sender)
+        public void HRSensorTypeChanged(object sender, EventArgs e)
         {
             RadioButton radioButton = (RadioButton)sender;
 
@@ -216,21 +237,21 @@ namespace CLESMonitor.Controller
                     View.hrTrackBar.Enabled = true;
                     hrMinusButton.Enabled = true;
                     hrPlusButton.Enabled = true;
-                    View.comboBox1.Enabled = false;
+                    View.HRSensorComboBox.Enabled = false;
                 }
                 else if (radioButton == View.hrSensorTypeRadioButton2)
                 {
                     HRSensor hrSensor = new HRSensor(HRSensor.Type.BluetoothZephyr);
-                    if (View.comboBox1.SelectedIndex != 0)
+                    if (View.HRSensorComboBox.SelectedIndex != 0)
                     {
-                        hrSensor.serialPortName = View.comboBox1.Text;
+                        hrSensor.serialPortName = View.HRSensorComboBox.Text;
                     }
                     fuzzyModel.reloadWithHRSensor(hrSensor);
 
                     View.hrTrackBar.Enabled = false;
                     hrMinusButton.Enabled = false;
                     hrPlusButton.Enabled = false;
-                    View.comboBox1.Enabled = true;
+                    View.HRSensorComboBox.Enabled = true;
                 }
             }
         }
@@ -239,13 +260,13 @@ namespace CLESMonitor.Controller
         /// Action method for when the value for the dropdown box with available
         /// serialports for the bluetooth heart rate monitor is changed.
         /// </summary>
-        public void hrSensorComboBoxChanged()
+        public void HRSensorComboBoxChanged()
         {
             // Index 0 contains the filler text
-            if (View.comboBox1.SelectedIndex != 0)
+            if (View.HRSensorComboBox.SelectedIndex != 0)
             {
                 HRSensor hrSensor = new HRSensor(HRSensor.Type.BluetoothZephyr);
-                hrSensor.serialPortName = View.comboBox1.Text;
+                hrSensor.serialPortName = View.HRSensorComboBox.Text;
                 fuzzyModel.reloadWithHRSensor(hrSensor); //replace the sensor in FuzzyModel
             }
         }
@@ -253,7 +274,7 @@ namespace CLESMonitor.Controller
         /// <summary>
         /// Event method for a change in HRvalue by pressing the plus or minus button
         /// </summary>
-        public void HRValueChangeByButton(object sender)
+        public void HRValueChangeByButton(object sender, EventArgs e)
         {
             int changeValue = 1;
             Button buttonPressed = (Button)sender;
@@ -280,7 +301,7 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public void HRValueChangedInManualContext(object sender)
+        public void HRValueChangedInManualContext(object sender, EventArgs e)
         {
             TrackBar trackBar = (TrackBar)sender;
             hrValueLabel.Text = trackBar.Value.ToString();
@@ -295,7 +316,7 @@ namespace CLESMonitor.Controller
         /// <summary>
         /// Event method for a change in HRvalue by pressing the plus or minus button
         /// </summary>
-        public void GSRValueChangeByButton(object sender)
+        public void GSRValueChangeByButton(object sender, EventArgs e)
         {
             Button buttonPressed = (Button)sender;
             if (buttonPressed.Equals(View.gsrPlusButton))
@@ -322,7 +343,7 @@ namespace CLESMonitor.Controller
             }
         }
 
-        public void GSRValueChangedInManualContext(object sender)
+        public void GSRValueChangedInManualContext(object sender, EventArgs e)
         {
             TrackBar trackBar = (TrackBar)sender;
             gsrValueLabel.Text = trackBar.Value.ToString();

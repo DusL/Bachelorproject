@@ -135,31 +135,18 @@ namespace CLESMonitor.Model.CL
                 foreach (XmlNode node in childNodeList)
                 {
                     // Determine the InputElement type
-                    InputElement.Type elementType = InputElement.Type.Unknown;
+                    InputElement.Type elementType;
                     string secondaryIdentifier = null;
-                    if (node.Name.Equals("task"))
+                    elementType = determineType(node);
+
+                    if(elementType.Equals(InputElement.Type.Task))
                     {
-                        elementType = InputElement.Type.Task;
                         secondaryIdentifier = node.Attributes["eventID"].Value;
-                    }
-                    else if (node.Name.Equals("event"))
-                    {
-                        elementType = InputElement.Type.Event;
                     }
 
                     // Determine the InputElement action
-                    InputElement.Action elementAction = InputElement.Action.Unknown;
-                    foreach (XmlNode childNode in node.ChildNodes)
-                    {
-                        if (childNode.InnerText.Equals("started"))
-                        {
-                            elementAction = InputElement.Action.Started;
-                        }
-                        else if (childNode.InnerText.Equals("stopped"))
-                        {
-                            elementAction = InputElement.Action.Stopped;
-                        }
-                    }
+                    InputElement.Action elementAction;
+                    elementAction = determineAction(node);
 
                     // Determine the remaining values
                     string identifier = node.Attributes["id"].Value;
@@ -173,6 +160,39 @@ namespace CLESMonitor.Model.CL
             }
 
             return elements;
+        }
+
+        public InputElement.Action determineAction(XmlNode node)
+        {
+            InputElement.Action elementAction = InputElement.Action.Unknown;
+            foreach (XmlNode childNode in node.ChildNodes)
+            {
+                if (childNode.InnerText.Equals("started"))
+                {
+                    elementAction = InputElement.Action.Started;
+                }
+                else if (childNode.InnerText.Equals("stopped"))
+                {
+                    elementAction = InputElement.Action.Stopped;
+                }
+            }
+            return elementAction;
+        }
+
+        public InputElement.Type determineType(XmlNode node)
+        {
+            InputElement.Type elementType = InputElement.Type.Unknown;
+            
+            if (node.Name.Equals("task"))
+            {
+                elementType = InputElement.Type.Task;
+                
+            }
+            else if (node.Name.Equals("event"))
+            {
+                elementType = InputElement.Type.Event;
+            }
+            return elementType;
         }
     }
 }

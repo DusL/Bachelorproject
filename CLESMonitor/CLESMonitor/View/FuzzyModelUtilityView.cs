@@ -13,7 +13,20 @@ namespace CLESMonitor.View
 {
     public partial class FuzzyModelUtilityView : Form
     {
-        private FuzzyModelUtilityVC controller;
+        public delegate void EventHandler();
+        public delegate void EventHandlerWithArgs(object sender, EventArgs e);
+        
+        public event EventHandler calibrateClickedHandler;
+        public event EventHandler sensorButtonClickedHandler;
+        public event EventHandler formClosingHandler;
+        public event EventHandler HRSensorComboBoxSelectedIndexChangedHandler;
+
+        public event EventHandlerWithArgs HRValueChangeByButtonHandler;
+        public event EventHandlerWithArgs HRTrackbarScrollHandler;
+        public event EventHandlerWithArgs HRSensorTypeChangedHandler;
+
+        public event EventHandlerWithArgs GSRValueChangeByButtonHandler;
+        public event EventHandlerWithArgs GSRTrackbarScrollHandler;
 
         /// <summary>
         /// The Constructor method.
@@ -22,67 +35,102 @@ namespace CLESMonitor.View
         public FuzzyModelUtilityView(FuzzyModelUtilityVC controller)
         {
             InitializeComponent();
-            this.controller = controller;
         }
 
         private void hrPlusButton_Click(object sender, EventArgs e)
         {
-            controller.HRValueChangeByButton(sender);
+            if (HRValueChangeByButtonHandler != null)
+            {
+                HRValueChangeByButtonHandler(sender, e);
+            }
         }
 
         private void hrMinusButton_Click(object sender, EventArgs e)
         {
-            controller.HRValueChangeByButton(sender);
+            if (HRValueChangeByButtonHandler != null)
+            {
+                HRValueChangeByButtonHandler(sender, e);
+            }
         }
 
         private void hrTrackbar_Scroll(object sender, EventArgs e)
         {
-            controller.HRValueChangedInManualContext(sender);
+            if (HRTrackbarScrollHandler != null)
+            {
+                HRTrackbarScrollHandler(sender, e);
+            }
         }
 
         private void hrSensorTypeRadioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged(sender);
+            if (HRSensorTypeChangedHandler != null)
+            {
+                HRSensorTypeChangedHandler(sender, e);
+            }
         }
 
         private void hrSensorTypeRadioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            controller.hrSensorTypeChanged(sender);
+            if (HRSensorTypeChangedHandler != null)
+            {
+                HRSensorTypeChangedHandler(sender, e);
+            }
         }
 
         private void gsrPlusButton_Click(object sender, EventArgs e)
         {
-            controller.GSRValueChangeByButton(sender);
+            if (GSRValueChangeByButtonHandler != null)
+            {
+                GSRValueChangeByButtonHandler(sender, e);
+            }
         }
 
         private void gsrMinusButton_Click(object sender, EventArgs e)
         {
-            controller.GSRValueChangeByButton(sender);
+           if (GSRValueChangeByButtonHandler != null)
+           {
+               GSRValueChangeByButtonHandler(sender, e);
+           }
         }
 
         private void gsrTrackBar_Scroll(object sender, EventArgs e)
         {
-            controller.GSRValueChangedInManualContext(sender);
+            if (HRTrackbarScrollHandler != null)
+            {
+                HRTrackbarScrollHandler(sender, e);
+            }
         }
 
         private void calibrateButton_Click(object sender, EventArgs e)
         {
-            controller.calibrateButtonClicked();
+            if (calibrateClickedHandler != null)
+            {
+                calibrateClickedHandler();
+            }
         }
 
         private void sensorButton_Click(object sender, EventArgs e)
         {
-            controller.sensorButtonClicked();
+            if (sensorButtonClickedHandler != null)
+            {
+                sensorButtonClickedHandler();
+            }
+        }
+
+        private void HRSensorComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (HRSensorComboBoxSelectedIndexChangedHandler != null)
+            {
+                HRSensorComboBoxSelectedIndexChangedHandler();
+            }
         }
 
         private void FuzzyModelUtilityView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            controller.closeForm();
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            controller.hrSensorComboBoxChanged();
+            if (formClosingHandler != null)
+            {
+                formClosingHandler();
+            }
         }
 
 

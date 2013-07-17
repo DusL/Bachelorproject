@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.HRSensorComboBox = new System.Windows.Forms.ComboBox();
             this.hrSensorTypeRadioButton1 = new System.Windows.Forms.RadioButton();
             this.hrSensorTypeRadioButton2 = new System.Windows.Forms.RadioButton();
             this.hrValueLabel = new System.Windows.Forms.Label();
@@ -75,7 +75,7 @@
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.groupBox1.Controls.Add(this.comboBox1);
+            this.groupBox1.Controls.Add(this.HRSensorComboBox);
             this.groupBox1.Controls.Add(this.hrSensorTypeRadioButton1);
             this.groupBox1.Controls.Add(this.hrSensorTypeRadioButton2);
             this.groupBox1.Controls.Add(this.hrValueLabel);
@@ -90,18 +90,18 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Hartslagmeter";
             // 
-            // comboBox1
+            // HRSensorComboBox
             // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.Enabled = false;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.HRSensorComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.HRSensorComboBox.Enabled = false;
+            this.HRSensorComboBox.FormattingEnabled = true;
+            this.HRSensorComboBox.Items.AddRange(new object[] {
             "Kies een COM poort.."});
-            this.comboBox1.Location = new System.Drawing.Point(204, 20);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(140, 21);
-            this.comboBox1.TabIndex = 23;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            this.HRSensorComboBox.Location = new System.Drawing.Point(204, 20);
+            this.HRSensorComboBox.Name = "HRSensorComboBox";
+            this.HRSensorComboBox.Size = new System.Drawing.Size(140, 21);
+            this.HRSensorComboBox.TabIndex = 23;
+            this.HRSensorComboBox.SelectedIndexChanged += new System.EventHandler(this.HRSensorComboBox_SelectedIndexChanged);
             // 
             // hrSensorTypeRadioButton1
             // 
@@ -546,7 +546,7 @@
         public System.Windows.Forms.Button gsrMinusButton;
         public System.Windows.Forms.Button gsrPlusButton;
         public System.Windows.Forms.TrackBar gsrTrackBar;
-        public System.Windows.Forms.ComboBox comboBox1;
+        public System.Windows.Forms.ComboBox HRSensorComboBox;
 
     }
 }
