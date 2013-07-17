@@ -44,13 +44,13 @@ namespace UnitTest.Model.CL
             // Setup task-related data
             startedTask = new InputElement("2", "TEST", InputElement.Type.Task, InputElement.Action.Started);
             startedTask.secondaryIndentifier = "1";
-            generatedTask = new CTLTask("2", "TEST", "1");
+            generatedTask = new CTLTask("2", "TEST");
             mockedDomain.Setup(domain => domain.generateTask(startedTask)).Returns(generatedTask);
             stoppedTask = new InputElement("2", "TEST", InputElement.Type.Task, InputElement.Action.Stopped);
 
             // Setup validTasks with which to calculate multitask elements
-            validTask1 = new CTLTask("2", "ARI_IN", "1");
-            validTask2 = new CTLTask("3", "COMMUNICATIE", "1");
+            validTask1 = new CTLTask("2", "ARI_IN");
+            validTask2 = new CTLTask("3", "COMMUNICATIE");
 
             usedDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUnknown });
         }
@@ -66,7 +66,7 @@ namespace UnitTest.Model.CL
             ctlModel.taskHasStarted(startedTask);
             ctlModel.updateTimerCallback(null);
 
-            Assert.AreEqual(2, ctlModel.tasksInCalculationFrame);
+            Assert.AreEqual(1, ctlModel.tasksInCalculationFrame.Count);
             Assert.AreEqual(generatedTask.identifier, ctlModel.tasksInCalculationFrame[0].identifier);
         }
 

@@ -74,7 +74,7 @@ namespace CLESMonitor.Model.CL
             {
                 if (taskData.Item1.Equals(inputElement.name))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, inputElement.name, inputElement.secondaryIndentifier);
+                    ctlTask = new CTLTask(inputElement.identifier, inputElement.name);
                     ctlTask.description = taskData.Item2;
                     ctlTask.informationDomains = taskData.Item3;
                     break;

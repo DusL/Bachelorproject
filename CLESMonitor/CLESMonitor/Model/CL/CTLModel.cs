@@ -18,10 +18,7 @@ namespace CLESMonitor.Model.CL
         private CTLDomain domain;
         private Timer updateTimer;
         private DateTime startSessionTime;
-        private TimeSpan sessionTime
-        {
-            get { return (DateTime.Now - startSessionTime); }
-        }
+        private TimeSpan sessionTime { get { return (DateTime.Now - startSessionTime); } }
         private bool activeTasksHaveChanged;
 
         /// <summary>A list of events that are currently in progress</summary>
@@ -96,9 +93,9 @@ namespace CLESMonitor.Model.CL
             inputSource.reset();
             updateTimer.Dispose();
 
-            activeEvents = new List<CTLEvent>();
-            activeTasks = new List<CTLTask>();
-            tasksInCalculationFrame = new List<CTLTask>();
+            activeEvents.Clear();
+            activeTasks.Clear();
+            tasksInCalculationFrame.Clear();
         }
 
         #endregion
@@ -112,11 +109,11 @@ namespace CLESMonitor.Model.CL
         public void eventHasStarted(InputElement eventElement)
         {
             Console.WriteLine("CTLModel.eventHasStarted()");
-            CTLEvent eventStarted = domain.generateEvent(eventElement);
-            if (eventStarted != null)
+            CTLEvent ctlEvent = domain.generateEvent(eventElement);
+            if (ctlEvent != null)
             {
-                eventStarted.startTime = sessionTime;
-                activeEvents.Add(eventStarted);
+                ctlEvent.startEvent(sessionTime);
+                activeEvents.Add(ctlEvent);
             }
         }
 
@@ -133,6 +130,7 @@ namespace CLESMonitor.Model.CL
             {
                 if (ctlEvent.identifier.Equals(eventElement.identifier))
                 {
+                    ctlEvent.stopEvent(sessionTime);
                     ctlEventToRemove = ctlEvent;
                 }
             }
@@ -151,13 +149,14 @@ namespace CLESMonitor.Model.CL
             CTLTask taskStarted = domain.generateTask(taskElement);
             if (taskStarted != null)
             {
-                taskStarted.eventIdentifier = taskElement.secondaryIndentifier;
                 taskStarted.startTime = taskStarted.endTime = sessionTime;
 
                 foreach (CTLEvent ctlEvent in activeEvents)
                 {
-                    if (ctlEvent.identifier.Equals(taskStarted.eventIdentifier))
+                    if (ctlEvent.identifier.Equals(taskElement.secondaryIndentifier))
                     {
+                        taskStarted.ctlEvent = ctlEvent;
+
                         // If the task's mo value is not set, fallback by grabbing it from
                         // the event it belongs to.
                         if (taskStarted.moValue == -1)
@@ -204,12 +203,6 @@ namespace CLESMonitor.Model.CL
 
         public void updateTimerCallback(Object stateInfo)
         {
-            // Update the 'end time' for all active events
-            foreach (CTLEvent ctlEvent in activeEvents)
-            {
-                ctlEvent.endTime = sessionTime;
-            }
-
             // Update the 'end time' for all active tasks
             foreach (CTLTask task in activeTasks)
             {
@@ -308,7 +301,7 @@ namespace CLESMonitor.Model.CL
         private static CTLTask createMultitask(CTLTask task1, CTLTask task2)
         {
             // Create a new CTLTask
-            CTLTask multiTask = new CTLTask("m"+multiTaskCounter+"("+task1.identifier+"+"+task2.identifier+")", task1.name + task2.name, null);
+            CTLTask multiTask = new CTLTask("m"+multiTaskCounter+"("+task1.identifier+"+"+task2.identifier+")", task1.name + task2.name);
             // Set its values
             if (task1 != null && task2 != null)
             {

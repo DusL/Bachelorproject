@@ -20,8 +20,8 @@ namespace UnitTest.Model
         public void Setup()
         {
             // Setup validTasks with which to calculate multitask elements
-            validTask1 = new CTLTask("2", "ARI_IN", "1");
-            validTask2 = new CTLTask("3", "COMMUNICATIE", "1");
+            validTask1 = new CTLTask("2", "ARI_IN");
+            validTask2 = new CTLTask("3", "COMMUNICATIE");
 
             usedDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUnknown });
         }
@@ -60,7 +60,7 @@ namespace UnitTest.Model
 
             // The tasks have 1 domain in common, all 3 domains are in usedDomains
             usedDomains.Add((int)InformationDomain.InformationDomainUsingInterface);
-            CTLTask validTask3 = new CTLTask("4", "ARI_UIT", "1");
+            CTLTask validTask3 = new CTLTask("4", "ARI_UIT");
             validTask3.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface, (int)InformationDomain.InformationDomainExternalContact });
 
             Assert.AreEqual(usedDomains, CTLMath.multitaskDomain(validTask1, validTask3));

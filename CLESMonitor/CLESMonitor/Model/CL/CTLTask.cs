@@ -9,15 +9,22 @@ namespace CLESMonitor.Model.CL
 {
     public class CTLTask : Object, ICloneable
     {
-        public string identifier {get; private set;}
+        public string identifier { get; private set; }
         public string name { get; private set; }
-        public string eventIdentifier { get;  set; }
+        //public string eventIdentifier { get;  set; }
+        /// <summary>A short description of the task</summary>
+        public string description { get; set; }
 
-        /// <summary>The starting time of this task</summary>
+        /// <summary>A CTLTask can be performed in the context of a CTLEvent. If so, this will be set.</summary>
+        public CTLEvent ctlEvent { get; set; }
+
+        /// <summary>The starting time of the task</summary>
         public TimeSpan startTime { get; set; }
-        /// <summary>The ending time of this task</summary>
+        /// <summary>Denotes whether the task is currently in progress</summary>
+        public bool inProgress { get; set; }
+        /// <summary>The ending time of the task</summary>
         public TimeSpan endTime { get; set; }
-        /// <summary>The duration, derived from the starting and ending time</summary>
+        /// <summary>The duration of the task</summary>
         public TimeSpan duration { get { return endTime - startTime; } }
 
         /// <summary>Mental Occupancy value</summary>
@@ -27,43 +34,42 @@ namespace CLESMonitor.Model.CL
         /// <summary>The information domains this task belongs to</summary>
         public List<int> informationDomains { get; set; }
 
-        public string description { get; set; }
-
-        public bool inProgress { get; set; }
-
         /// <summary>
-        /// Constructor method
+        /// Constructor method.
         /// </summary>
         /// <param name="identifier">The identifier for this task</param>
         /// <param name="name">The name, which is used as a short description</param>
         /// <param name="eventIdentifier">The identifier of the event linked to this task</param>
-        public CTLTask(string identifier, string name, string eventIdentifier)
+        public CTLTask(string identifier, string name)
         {
             this.identifier = identifier;
             this.name = name;
-            this.eventIdentifier = eventIdentifier;
             this.moValue = -1;
             this.lipValue = 0;
         }
 
         /// <summary>
-        /// Implementation of the clone methode
+        /// Returns a clone of the task.
         /// </summary>
-        /// <returns>The clopne (copy) of a CTLTask</returns>
+        /// <returns>The clone object</returns>
         public Object Clone()
         {
-            CTLTask cloneTask = new CTLTask(identifier, name, eventIdentifier);
-            cloneTask.eventIdentifier = this.eventIdentifier;
-            // Structs are always copied on assignment
-            cloneTask.startTime = this.startTime;
-            cloneTask.endTime = this.endTime;
-            cloneTask.moValue = this.moValue;
-            cloneTask.lipValue = this.lipValue;
-            cloneTask.informationDomains = this.informationDomains;
-            cloneTask.description = this.description;
-            cloneTask.inProgress = this.inProgress;
+            // NOTE: Structs are always copied on assignment
 
-            return cloneTask;
+            CTLTask clone = new CTLTask(identifier, name);
+
+            clone.description = this.description;
+            clone.ctlEvent = this.ctlEvent;
+
+            clone.startTime = this.startTime;
+            clone.inProgress = this.inProgress;
+            clone.endTime = this.endTime;
+
+            clone.moValue = this.moValue;
+            clone.lipValue = this.lipValue;
+            clone.informationDomains = this.informationDomains;
+
+            return clone;
         }
 
         /// <summary>
@@ -72,7 +78,8 @@ namespace CLESMonitor.Model.CL
         /// <returns>A string-representation of the CTLTask object</returns>
         public override string ToString()
         {
-            return String.Format("Task: Identifier={0}, startTime={1}, endTime={2}, eventID={3}, moValue={4}, lipValue={5}, Type={6}", identifier, startTime.TotalSeconds, endTime.TotalSeconds, eventIdentifier, moValue, lipValue, name);
+            return String.Format("Task: Identifier={0}, startTime={1}, endTime={2}, moValue={3}, lipValue={4}, Type={5}",
+                identifier, startTime.TotalSeconds, endTime.TotalSeconds, moValue, lipValue, name);
         }
     }
 }

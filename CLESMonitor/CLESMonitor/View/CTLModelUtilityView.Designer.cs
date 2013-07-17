@@ -28,10 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
-            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Geschiedenis", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup1 = new System.Windows.Forms.ListViewGroup("Gebeurtenissen", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup2 = new System.Windows.Forms.ListViewGroup("Actieve Taken", System.Windows.Forms.HorizontalAlignment.Left);
+            System.Windows.Forms.ListViewGroup listViewGroup3 = new System.Windows.Forms.ListViewGroup("Afgelopen Taken", System.Windows.Forms.HorizontalAlignment.Left);
             System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
             System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem3 = new System.Windows.Forms.ListViewItem("");
             this.openScenarioFileButton = new System.Windows.Forms.Button();
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.activeListView = new System.Windows.Forms.ListView();
@@ -40,6 +42,7 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clearListButton = new System.Windows.Forms.Button();
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // openScenarioFileButton
@@ -64,24 +67,30 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.activeListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader4});
-            listViewGroup1.Header = "Actieve Taken";
-            listViewGroup1.Name = "listViewGroup1";
-            listViewGroup1.Tag = "";
-            listViewGroup2.Header = "Geschiedenis";
-            listViewGroup2.Name = "listViewGroup2";
+            listViewGroup1.Header = "Gebeurtenissen";
+            listViewGroup1.Name = "listViewGroup3";
+            listViewGroup2.Header = "Actieve Taken";
+            listViewGroup2.Name = "listViewGroup1";
             listViewGroup2.Tag = "";
+            listViewGroup3.Header = "Afgelopen Taken";
+            listViewGroup3.Name = "listViewGroup2";
+            listViewGroup3.Tag = "";
             this.activeListView.Groups.AddRange(new System.Windows.Forms.ListViewGroup[] {
             listViewGroup1,
-            listViewGroup2});
+            listViewGroup2,
+            listViewGroup3});
             listViewItem1.Group = listViewGroup1;
             listViewItem2.Group = listViewGroup2;
+            listViewItem3.Group = listViewGroup3;
             this.activeListView.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1,
-            listViewItem2});
+            listViewItem2,
+            listViewItem3});
             this.activeListView.Location = new System.Drawing.Point(0, 0);
             this.activeListView.Name = "activeListView";
             this.activeListView.Size = new System.Drawing.Size(442, 357);
@@ -92,22 +101,22 @@
             // columnHeader1
             // 
             this.columnHeader1.Text = "Naam";
-            this.columnHeader1.Width = 144;
+            this.columnHeader1.Width = 150;
             // 
             // columnHeader2
             // 
             this.columnHeader2.Text = "Starttijd";
-            this.columnHeader2.Width = 70;
+            this.columnHeader2.Width = 65;
             // 
             // columnHeader3
             // 
             this.columnHeader3.Text = "Eindtijd";
-            this.columnHeader3.Width = 64;
+            this.columnHeader3.Width = 65;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "Gebeurtenis";
-            this.columnHeader4.Width = 160;
+            this.columnHeader4.Text = "Beschrijving";
+            this.columnHeader4.Width = 150;
             // 
             // clearListButton
             // 
@@ -119,6 +128,11 @@
             this.clearListButton.Text = "Wis lijst";
             this.clearListButton.UseVisualStyleBackColor = true;
             this.clearListButton.Click += new System.EventHandler(this.clearListButton_Click);
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "ID";
+            this.columnHeader5.Width = 25;
             // 
             // CTLModelUtilityView
             // 
@@ -146,6 +160,7 @@
         public System.Windows.Forms.ListView activeListView;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Button clearListButton;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
 
 
     }

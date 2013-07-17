@@ -18,17 +18,18 @@ namespace CLESMonitor.Controller
     {
         /// <summary>The view this viewcontroller manages</summary>
         public CTLModelUtilityView View { get; private set; }
-
-        /// <summary>The CTLModel that this utility-viewcontroller interacts with</summary>
+        /// <summary>The CTLModel that this utility-viewcontroller supports</summary>
         private CTLModel ctlModel;
-        /// <summary>A snapshot from CTLModel.activeTasks, used to build the ListView</summary>
+        /// <summary>The XMLParser used by the CTLModel, enabling setting the filepath</summary>
+        private XMLParser parser;
+        /// <summary>A snapshot from CTLModel.activeEvents, used for building the ListView</summary>
+        private List<CTLEvent> cachedActiveEvents;
+        /// <summary>A snapshot from CTLModel.activeTasks, used for building the ListView</summary>
         private List<CTLTask> cachedActiveTasks;
+
+        private List<CTLEvent> eventsToDisplay;
         private List<CTLTask> activeTasksToDisplay;
         private List<CTLTask> historyTasksToDisplay;
-
-        /// <summary>The XMLParser (only CTLInputSource is available from CTLModel) to set the filepath</summary>
-        private XMLParser parser;
-
         private Timer listViewUpdateTimer;
 
         /// <summary>
@@ -39,123 +40,86 @@ namespace CLESMonitor.Controller
         public CTLModelUtilityVC(CTLModel ctlModel, XMLParser parser)
         {
             this.View = new CTLModelUtilityView();
-            this.View.openScenarioFileButtonClickedHandler += new CTLModelUtilityView.EventHandler(openScenarioFileDialog);
             this.View.CTLModelUtilityViewShownHandler += new CTLModelUtilityView.EventHandler(viewControllerIsShown);
+            this.View.openScenarioFileButtonClickedHandler += new CTLModelUtilityView.EventHandler(openScenarioFileDialog);
             this.View.clearListButtonClickedHandler += new CTLModelUtilityView.EventHandler(clearList);
 
             this.ctlModel = ctlModel;
             this.parser = parser;
+            this.cachedActiveEvents = new List<CTLEvent>();
             this.cachedActiveTasks = new List<CTLTask>();
+            this.eventsToDisplay = new List<CTLEvent>();
             this.activeTasksToDisplay = new List<CTLTask>();
             this.historyTasksToDisplay = new List<CTLTask>();
         }
 
         /// <summary>
-        /// This method is called when the view has appeared for the first time.
+        /// Called when the view has appeared for the first time.
         /// </summary>
-        public void viewControllerIsShown()
+        private void viewControllerIsShown()
         {
-            // Timer to update the listView with active tasks
+            // Timer to update the listView with data
             TimerCallback timerCallback = listViewUpdateTimerCallback;
             listViewUpdateTimer = new Timer(timerCallback, null, 0, 1000);
         }
 
         private void listViewUpdateTimerCallback(Object stateInfo)
         {
+            bool updateUIRequired = false;
+
+            // Compare the active events in the model to our own cached version
+            IEnumerable<CTLEvent> eventsUnion = cachedActiveEvents.Union(ctlModel.activeEvents);
+            IEnumerable<CTLEvent> eventsIntersect = cachedActiveEvents.Intersect(ctlModel.activeEvents);
+            foreach (CTLEvent ctlEvent in eventsUnion.Except(eventsIntersect))
+            {
+                updateUIRequired = true;
+
+                // A event has just become active
+                if (ctlModel.activeEvents.Contains(ctlEvent))
+                {
+                    Console.WriteLine(ctlEvent.ToString());
+                    eventsToDisplay.Insert(0, ctlEvent);
+                }
+            }
+            cachedActiveEvents = new List<CTLEvent>(ctlModel.activeEvents); // FIXME: mogelijk niet thread-safe
+
             // Compare the active tasks in the model to our own cached version
             IEnumerable<CTLTask> tasksUnion = cachedActiveTasks.Union(ctlModel.activeTasks);
             IEnumerable<CTLTask> tasksIntersect = cachedActiveTasks.Intersect(ctlModel.activeTasks);
-            bool displayTasksHaveChanged = false;
             foreach (CTLTask task in tasksUnion.Except(tasksIntersect))
             {
                 // A task has just become active
                 if (ctlModel.activeTasks.Contains(task))
                 {
                     activeTasksToDisplay.Insert(0, task);
-                    displayTasksHaveChanged = true;
+                    updateUIRequired = true;
                 }
                 // A task is no longer active
                 else if (cachedActiveTasks.Contains(task))
                 {
                     activeTasksToDisplay.Remove(task);
                     historyTasksToDisplay.Insert(0, task);
-                    displayTasksHaveChanged = true;
+                    updateUIRequired = true;
                 }
             }
             cachedActiveTasks = new List<CTLTask>(ctlModel.activeTasks); // FIXME: mogelijk niet thread-safe
 
-            //TODO: er wordt niet altijd een eventnaam geprint
-            if (displayTasksHaveChanged)
+            if (updateUIRequired)
             {
-                // Generate the listView items for the active group
-                List<ListViewItem> activeItems = generateActiveItemList();
-
-                // Generate the listView items for the history group
-                List<ListViewItem> historyItems = generateHistoryList();
-
-                // Update the UI
-                updateUI(activeItems, historyItems);
+                updateUI();
             }
-        }
-
-        public List<ListViewItem> generateActiveItemList()
-        {
-            List<ListViewItem> activeItems = new List<ListViewItem>();
-            foreach (CTLTask task in activeTasksToDisplay)
-            {
-                ListViewItem item = new ListViewItem(task.name);
-                String timeSpanFormat = @"%h\:mm\:ss";
-
-                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                item.SubItems.Add("");
-
-                foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
-                {
-                    if (ctlEvent.identifier == task.eventIdentifier)
-                    {
-                        item.SubItems.Add(ctlEvent.name);
-                    }
-                }
-                item.Group = View.activeListView.Groups["listViewGroup1"];
-
-                activeItems.Add(item);
-            }
-            return activeItems;
-        }
-
-        public List<ListViewItem> generateHistoryList()
-        {
-            List<ListViewItem> historyItems = new List<ListViewItem>();
-            foreach (CTLTask task in historyTasksToDisplay)
-            {
-                ListViewItem item = new ListViewItem(task.name);
-                String timeSpanFormat = @"%h\:mm\:ss";
-
-                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
-
-                foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
-                {
-                    if (ctlEvent.identifier == task.eventIdentifier)
-                    {
-                        item.SubItems.Add(ctlEvent.name);
-                    }
-                }
-                item.Group = View.activeListView.Groups["listViewGroup2"];
-
-                historyItems.Add(item);
-            }
-
-            return historyItems;
         }
 
         /// <summary>
         /// Updates the listView using the activecItems and historyItems
         /// </summary>
-        /// <param name="activeItems">A list of tasks that are currently active</param>
-        /// <param name="historyItems">A list of tasks that have ended</param>
-        public void updateUI(List<ListViewItem> activeItems, List<ListViewItem> historyItems)
+        public void updateUI()
         {
+            IEnumerable<ListViewItem> listViewItems = new List<ListViewItem>();
+            listViewItems = listViewItems.Union(generateEventsListViewItems());
+            listViewItems = listViewItems.Union(generateActiveTasksListViewItems());
+            listViewItems = listViewItems.Union(generateHistoryTasksListViewItems());
+
             try
             {
                 View.Invoke((Action)(() =>
@@ -166,7 +130,7 @@ namespace CLESMonitor.Controller
                         View.activeListView.Items.Clear();
 
                         // Add the generated active and history items
-                        foreach (ListViewItem item in activeItems.Union(historyItems))
+                        foreach (ListViewItem item in listViewItems)
                         {
                             View.activeListView.Items.Add(item);
                         }
@@ -184,6 +148,67 @@ namespace CLESMonitor.Controller
             }
             catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
         }
+
+        public List<ListViewItem> generateEventsListViewItems()
+        {
+            List<ListViewItem> eventsListViewItems = new List<ListViewItem>();
+
+            foreach (CTLEvent ctlEvent in eventsToDisplay)
+            {
+                ListViewItem item = new ListViewItem(ctlEvent.identifier);
+
+                item.SubItems.Add(ctlEvent.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+                item.SubItems.Add(ctlEvent.startTime.ToString(timeSpanFormat));
+                string subItem = ctlEvent.inProgress ? "" : ctlEvent.endTime.ToString(timeSpanFormat);
+                item.SubItems.Add(subItem);
+                item.Group = View.activeListView.Groups["listViewGroup3"];
+
+                eventsListViewItems.Add(item);
+            }
+
+            return eventsListViewItems;
+        }
+
+        public List<ListViewItem> generateActiveTasksListViewItems()
+        {
+            List<ListViewItem> activeTasksListViewItems = new List<ListViewItem>();
+            foreach (CTLTask task in activeTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem("");
+
+                item.SubItems.Add(task.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add("");
+                item.SubItems.Add("Deel van gebeurtenis ID: " + task.ctlEvent.identifier);
+                item.Group = View.activeListView.Groups["listViewGroup1"];
+
+                activeTasksListViewItems.Add(item);
+            }
+            return activeTasksListViewItems;
+        }
+
+        public List<ListViewItem> generateHistoryTasksListViewItems()
+        {
+            List<ListViewItem> historyItems = new List<ListViewItem>();
+            foreach (CTLTask task in historyTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem("");
+
+                item.SubItems.Add(task.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+                item.SubItems.Add("Deel van gebeurtenis ID: " + task.ctlEvent.identifier);
+                item.Group = View.activeListView.Groups["listViewGroup2"];
+
+                historyItems.Add(item);
+            }
+
+            return historyItems;
+        }
+
         /// <summary>
         /// Action method when the openScenarioFileButton is clicked.
         /// </summary>
@@ -198,10 +223,13 @@ namespace CLESMonitor.Controller
             }
         }
 
+        /// <summary>
+        /// Action method when the clear list button is clicked.
+        /// </summary>
         public void clearList()
         {
             View.activeListView.Items.Clear();
-            // Add a bogus item without text to ensure the groupnames remain visible.
+            // Add a item without text to ensure the groupnames remain visible.
             foreach (ListViewGroup group in View.activeListView.Groups)
             {
                 if (group.Items.Count == 0)
@@ -209,7 +237,9 @@ namespace CLESMonitor.Controller
                     View.activeListView.Items.Add(new ListViewItem(group));
                 }
             }
+            cachedActiveEvents.Clear();
             cachedActiveTasks.Clear();
+            eventsToDisplay.Clear();
             activeTasksToDisplay.Clear();
             historyTasksToDisplay.Clear();
         }
