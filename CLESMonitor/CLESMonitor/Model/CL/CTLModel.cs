@@ -201,7 +201,7 @@ namespace CLESMonitor.Model.CL
 
         #endregion
 
-        public void updateTimerCallback(Object stateInfo)
+        private void updateTimerCallback(Object stateInfo)
         {
             // Update the 'end time' for all active tasks
             foreach (CTLTask task in activeTasks)
@@ -209,85 +209,95 @@ namespace CLESMonitor.Model.CL
                 task.endTime = sessionTime;
             }
 
-            removeTasksFromCalculationFrame(sessionTime);
-            updateTasksInCalculationFrame(sessionTime);
-
-            // DEBUG
-            Console.WriteLine(sessionTime.TotalSeconds);
-            foreach (CTLTask task in tasksInCalculationFrame)
-            {
-                Console.WriteLine("# " + task);
-            }
+            updateCalculationFrame();
         }
 
-        //TODO: Moet nog getest worden
-        private void removeTasksFromCalculationFrame(TimeSpan sessionTime)
+        /// <summary>
+        /// Updates the calculation frame.
+        /// </summary>
+        public void updateCalculationFrame()
         {
-            List<CTLTask> tasksToRemove = new List<CTLTask>();
+            // When the start time of a task drops outside of the calculation frame, crop it
             foreach (CTLTask task in tasksInCalculationFrame)
             {
-                // Delete all tasks that have dropped outside of the calculation frame
-                if (task.endTime < (sessionTime - lengthTimeframe))
-                {
-                    tasksToRemove.Add(task);
-                }
-                // When the start time of a task drops outside of the calculation frame, crop it
-                else if (task.startTime < (sessionTime - lengthTimeframe))
+                if (task.startTime < (sessionTime - lengthTimeframe))
                 {
                     task.startTime = (sessionTime - lengthTimeframe);
                 }
             }
+            
+            // Update the endTime of the last task in the calculation frame if still in progress
+            if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
+            {
+                tasksInCalculationFrame.Last().endTime = sessionTime;
+            }
+
+            removeTasksFromCalculationFrame(sessionTime);
+
+            if (activeTasksHaveChanged)
+            {
+                addTasksToCalculationFrame(sessionTime);
+                activeTasksHaveChanged = false;
+            }
+        }
+
+        /// <summary>
+        /// Removes outdated tasks from the calculation frame.
+        /// </summary>
+        /// <param name="sessionTime">The current session time</param>
+        private void removeTasksFromCalculationFrame(TimeSpan sessionTime)
+        {
+            List<CTLTask> tasksToRemove = new List<CTLTask>();
+
+            // Delete all tasks that have dropped outside of the calculation frame
+            foreach (CTLTask task in tasksInCalculationFrame)
+            {
+                if (task.endTime < (sessionTime - lengthTimeframe))
+                {
+                    tasksToRemove.Add(task);
+                }
+            }
+
             foreach (CTLTask task in tasksToRemove)
             {
                 tasksInCalculationFrame.Remove(task);
             }
         }
 
-        //TODO: Moet nog getest worden
-        private void updateTasksInCalculationFrame(TimeSpan sessionTime)
+        private void addTasksToCalculationFrame(TimeSpan sessionTime)
         {
-            // When active tasks change, we need to edit the calculation frame
-            if (activeTasksHaveChanged)
+            // Stop the last task on the frame (the one most recently added) if still in progress
+            if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
             {
-                // Stop the last task on the frame (the one most recently added) if still in progress
-                if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
-                {
-                    CTLTask lastTask = tasksInCalculationFrame.Last();
-                    lastTask.endTime = sessionTime;
-                    lastTask.inProgress = false;   
-                }
-
-                // Put a cloned task on the frame
-                if (activeTasks.Count == 1)
-                {
-                    CTLTask newTask = (CTLTask)activeTasks[0].Clone();
-                    newTask.startTime = sessionTime;
-                    newTask.endTime = sessionTime;
-                    newTask.inProgress = true;
-
-                    tasksInCalculationFrame.Add(newTask);
-                }
-                // Put a multitask on the frame
-                else if (activeTasks.Count > 1)
-                {
-                    CTLTask multitask = activeTasks[0];
-
-                    // This will loop at least once
-                    for (int i = 1; i < activeTasks.Count; i++)
-                    {
-                        multitask = createMultitask(multitask, activeTasks[i]);
-                    }
-
-                    multitask.startTime = multitask.endTime = sessionTime;
-                    multitask.inProgress = true;
-                    tasksInCalculationFrame.Add(multitask);
-                }
-                
-                activeTasksHaveChanged = false;
+                CTLTask lastTask = tasksInCalculationFrame.Last();
+                lastTask.endTime = sessionTime;
+                lastTask.inProgress = false;   
             }
-            else if (tasksInCalculationFrame.Count > 0 && tasksInCalculationFrame.Last().inProgress)
+
+            // Put a cloned task on the frame
+            if (activeTasks.Count == 1)
             {
-                tasksInCalculationFrame.Last().endTime = sessionTime;
+                CTLTask newTask = (CTLTask)activeTasks[0].Clone();
+                newTask.startTime = sessionTime;
+                newTask.endTime = sessionTime;
+                newTask.inProgress = true;
+
+                tasksInCalculationFrame.Add(newTask);
+            }
+            // Put a multitask on the frame
+            else if (activeTasks.Count > 1)
+            {
+                CTLTask multitask = activeTasks[0];
+
+                // This will loop at least once
+                for (int i = 1; i < activeTasks.Count; i++)
+                {
+                    multitask = createMultitask(multitask, activeTasks[i]);
+                }
+
+                multitask.startTime = multitask.endTime = sessionTime;
+                multitask.inProgress = true;
+                tasksInCalculationFrame.Add(multitask);
             }
         }
 

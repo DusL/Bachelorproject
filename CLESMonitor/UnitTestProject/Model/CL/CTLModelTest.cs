@@ -55,16 +55,14 @@ namespace UnitTest.Model.CL
             usedDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUnknown });
         }
 
-        // FIXME: Test case is niet af!
+        // FIXME: Test case is nog niet af!
         [Test]
-        public void updateTimerCallback()
+        public void updateTasksInCalculationFrame()
         {
             ctlModel.startSession(Timeout.Infinite, Timeout.Infinite);
             ctlModel.eventHasStarted(startedEvent);
-            ctlModel.updateTimerCallback(null);
-
             ctlModel.taskHasStarted(startedTask);
-            ctlModel.updateTimerCallback(null);
+            ctlModel.updateCalculationFrame();
 
             Assert.AreEqual(1, ctlModel.tasksInCalculationFrame.Count);
             Assert.AreEqual(generatedTask.identifier, ctlModel.tasksInCalculationFrame[0].identifier);
