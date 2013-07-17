@@ -95,9 +95,9 @@ namespace CLESMonitor.View
 
         private void gsrTrackBar_Scroll(object sender, EventArgs e)
         {
-            if (HRTrackbarScrollHandler != null)
+            if (GSRTrackbarScrollHandler != null)
             {
-                HRTrackbarScrollHandler(sender, e);
+                GSRTrackbarScrollHandler(sender, e);
             }
         }
 
