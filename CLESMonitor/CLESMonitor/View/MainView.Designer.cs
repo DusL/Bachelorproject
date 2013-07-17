@@ -30,6 +30,11 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel1 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel2 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel3 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel4 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
+            System.Windows.Forms.DataVisualization.Charting.CustomLabel customLabel5 = new System.Windows.Forms.DataVisualization.Charting.CustomLabel();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
@@ -94,9 +99,30 @@
             chartArea1.AxisX.ScaleView.Size = 15D;
             chartArea1.AxisX.ScrollBar.ButtonStyle = System.Windows.Forms.DataVisualization.Charting.ScrollBarButtonStyles.SmallScroll;
             chartArea1.AxisX.ScrollBar.IsPositionedInside = false;
+            chartArea1.AxisX.Title = "Tijd in seconden";
+            customLabel1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            customLabel1.FromPosition = -1D;
+            customLabel1.Text = "Onbekend";
+            customLabel1.ToPosition = 1D;
+            customLabel2.Text = "Laag";
+            customLabel2.ToPosition = 2D;
+            customLabel3.FromPosition = 1D;
+            customLabel3.Text = "Gemiddeld-Laag";
+            customLabel3.ToPosition = 3D;
+            customLabel4.FromPosition = 2D;
+            customLabel4.Text = "Gemiddeld-Hoog";
+            customLabel4.ToPosition = 4D;
+            customLabel5.FromPosition = 3D;
+            customLabel5.Text = "Hoog";
+            customLabel5.ToPosition = 5D;
+            chartArea1.AxisY.CustomLabels.Add(customLabel1);
+            chartArea1.AxisY.CustomLabels.Add(customLabel2);
+            chartArea1.AxisY.CustomLabels.Add(customLabel3);
+            chartArea1.AxisY.CustomLabels.Add(customLabel4);
+            chartArea1.AxisY.CustomLabels.Add(customLabel5);
             chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
             chartArea1.AxisY.Interval = 1D;
-            chartArea1.AxisY.Maximum = 5D;
+            chartArea1.AxisY.Maximum = 4D;
             chartArea1.AxisY.Minimum = 0D;
             chartArea1.Name = "clesChartArea";
             this.clesChart.ChartAreas.Add(chartArea1);
