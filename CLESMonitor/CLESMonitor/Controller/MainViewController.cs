@@ -81,9 +81,17 @@ namespace CLESMonitor.Controller
         /// <param name="esModel">The ES model to use.</param>
         public MainViewController(CLModel clModel, ESModel esModel)
         {
-            View = new MainView(this);
+            this.View = new MainView();
+            this.View.startButtonClickedHandler += new MainView.EventHandler(startButtonClicked);
+            this.View.stopButtonClickedHandler += new MainView.EventHandler(stopButtonClicked);
+            this.View.startToolStripMenuItemClickedHandler += new MainView.EventHandler(startButtonClicked);
+            this.View.stopToolStripMenuItemClickedHandler += new MainView.EventHandler(stopButtonClicked);
+            this.View.quitToolStripMenuItemClickedHandler += new MainView.EventHandler(quit);
+
+
             this.clModel = clModel;
             this.esModel = esModel;
+
 
             // Set timer initially to 0 seconds elapsed seconden verstreken 
             emptyTimer = DateTime.Now - DateTime.Now;
@@ -237,6 +245,15 @@ namespace CLESMonitor.Controller
 
             // Stop the update timer
             updateTimer.Dispose();
+        }
+
+        public void keysArePressed(object sender, EventArgs e)
+        {
+            KeyEventArgs keyEventArgs = (KeyEventArgs)e;
+            if (keyEventArgs.Alt && keyEventArgs.KeyCode == Keys.F4)
+            {
+                quit();
+            }
         }
 
         /// <summary>

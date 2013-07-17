@@ -59,12 +59,11 @@ namespace UnitTest.Model.CL
         #region generateTask
 
         /// <summary>
-        /// If any null values are given, method should return null
+        /// If there are values missing (null) inside the InputElement, method should return null.
         /// </summary>
         [Test]
         public void generateTask_NullValues()
         {
-            Assert.IsNull(domain.generateTask(null));
             Assert.IsNull(domain.generateTask(new InputElement(null, "ANY_NAME", InputElement.Type.Unknown, InputElement.Action.Unknown)));
             Assert.IsNull(domain.generateTask(new InputElement("ANY_IDENTIFIER", null, InputElement.Type.Unknown, InputElement.Action.Unknown)));
             Assert.IsNull(domain.generateTask(new InputElement(null, null, InputElement.Type.Unknown, InputElement.Action.Unknown)));

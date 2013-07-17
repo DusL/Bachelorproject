@@ -13,28 +13,41 @@ namespace CLESMonitor.View
 {
     public partial class CTLModelUtilityView : Form
     {
-        CTLModelUtilityVC viewController;
+        public delegate void EventHandler();
+        public event EventHandler openScenarioFileButtonClickedHandler;
+        public event EventHandler CTLModelUtilityViewShownHandler;
+        public event EventHandler clearListButtonClickedHandler;
 
-        public CTLModelUtilityView(CTLModelUtilityVC viewController)
+        /// <summary>
+        /// Constructor method.
+        /// </summary>
+        public CTLModelUtilityView()
         {
             InitializeComponent();
-
-            this.viewController = viewController;
-        }
-
-        private void openScenarioFileButton_Click(object sender, EventArgs e)
-        {
-            viewController.openScenarioFileDialog();
         }
 
         private void CTLModelUtilityView_Shown(object sender, EventArgs e)
         {
-            viewController.viewControllerIsShown();
+            if (CTLModelUtilityViewShownHandler != null)
+            {
+                CTLModelUtilityViewShownHandler();
+            }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void openScenarioFileButton_Click(object sender, EventArgs e)
         {
-            viewController.clearList();
+            if (openScenarioFileButtonClickedHandler != null)
+            {
+                openScenarioFileButtonClickedHandler();
+            }
+        }
+
+        private void clearListButton_Click(object sender, EventArgs e)
+        {
+            if (clearListButtonClickedHandler != null)
+            {
+                clearListButtonClickedHandler();
+            }
         }
     }
 }

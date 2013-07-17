@@ -38,7 +38,11 @@ namespace CLESMonitor.Controller
         /// <param name="parser">A instance of the XMLParser class</param>
         public CTLModelUtilityVC(CTLModel ctlModel, XMLParser parser)
         {
-            this.View = new CTLModelUtilityView(this);
+            this.View = new CTLModelUtilityView();
+            this.View.openScenarioFileButtonClickedHandler += new CTLModelUtilityView.EventHandler(openScenarioFileDialog);
+            this.View.CTLModelUtilityViewShownHandler += new CTLModelUtilityView.EventHandler(viewControllerIsShown);
+            this.View.clearListButtonClickedHandler += new CTLModelUtilityView.EventHandler(clearList);
+
             this.ctlModel = ctlModel;
             this.parser = parser;
             this.cachedActiveTasks = new List<CTLTask>();
@@ -84,80 +88,102 @@ namespace CLESMonitor.Controller
             if (displayTasksHaveChanged)
             {
                 // Generate the listView items for the active group
-                List<ListViewItem> activeItems = new List<ListViewItem>();
-                foreach (CTLTask task in activeTasksToDisplay)
-                {
-                    ListViewItem item = new ListViewItem(task.name);
-                    String timeSpanFormat = @"%h\:mm\:ss";
-                   
-                    item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                    item.SubItems.Add("");
-
-                    foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
-                    {
-                        if (ctlEvent.identifier == task.eventIdentifier)
-                        {
-                            item.SubItems.Add(ctlEvent.name);
-                        }
-                    }
-                    item.Group = View.activeListView.Groups["listViewGroup1"];
-
-                    activeItems.Add(item);
-                }
+                List<ListViewItem> activeItems = generateActiveItemList();
 
                 // Generate the listView items for the history group
-                List<ListViewItem> historyItems = new List<ListViewItem>();
-                foreach (CTLTask task in historyTasksToDisplay)
-                {
-                    ListViewItem item = new ListViewItem(task.name);
-                    String timeSpanFormat = @"%h\:mm\:ss";
-                    
-                    item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
-                    item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
-
-                    foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
-                    {
-                        if (ctlEvent.identifier == task.eventIdentifier)
-                        {
-                            item.SubItems.Add(ctlEvent.name);
-                        }
-                    }
-                    item.Group = View.activeListView.Groups["listViewGroup2"];
-
-                    historyItems.Add(item);
-                }
+                List<ListViewItem> historyItems = generateHistoryList();
 
                 // Update the UI
-                try
-                {
-                    View.Invoke((Action)(() =>
-                    {
-                        try
-                        {
-                            // Delete all items that may be present
-                            View.activeListView.Items.Clear();
-
-                            // Add the generated active and history items
-                            foreach (ListViewItem item in activeItems.Union(historyItems))
-                            {
-                                View.activeListView.Items.Add(item);
-                            }
-                            // If no item is present in a group add a bogus item without text to ensure the groupnames remain visible.
-                            foreach (ListViewGroup group in View.activeListView.Groups)
-                            {
-                                if (group.Items.Count == 0)
-                                {
-                                    View.activeListView.Items.Add(new ListViewItem(group));
-                                }
-                            }
-                        }
-                        catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
-                    }));
-                }
-                catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+                updateUI(activeItems, historyItems);
             }
         }
 
+        public List<ListViewItem> generateActiveItemList()
+        {
+            List<ListViewItem> activeItems = new List<ListViewItem>();
+            foreach (CTLTask task in activeTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem(task.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add("");
+
+                foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
+                {
+                    if (ctlEvent.identifier == task.eventIdentifier)
+                    {
+                        item.SubItems.Add(ctlEvent.name);
+                    }
+                }
+                item.Group = View.activeListView.Groups["listViewGroup1"];
+
+                activeItems.Add(item);
+            }
+            return activeItems;
+        }
+
+        public List<ListViewItem> generateHistoryList()
+        {
+            List<ListViewItem> historyItems = new List<ListViewItem>();
+            foreach (CTLTask task in historyTasksToDisplay)
+            {
+                ListViewItem item = new ListViewItem(task.name);
+                String timeSpanFormat = @"%h\:mm\:ss";
+
+                item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
+                item.SubItems.Add(task.endTime.ToString(timeSpanFormat));
+
+                foreach (CTLEvent ctlEvent in ctlModel.activeEvents)
+                {
+                    if (ctlEvent.identifier == task.eventIdentifier)
+                    {
+                        item.SubItems.Add(ctlEvent.name);
+                    }
+                }
+                item.Group = View.activeListView.Groups["listViewGroup2"];
+
+                historyItems.Add(item);
+            }
+
+            return historyItems;
+        }
+
+        /// <summary>
+        /// Updates the listView using the activecItems and historyItems
+        /// </summary>
+        /// <param name="activeItems">A list of tasks that are currently active</param>
+        /// <param name="historyItems">A list of tasks that have ended</param>
+        public void updateUI(List<ListViewItem> activeItems, List<ListViewItem> historyItems)
+        {
+            try
+            {
+                View.Invoke((Action)(() =>
+                {
+                    try
+                    {
+                        // Delete all items that may be present
+                        View.activeListView.Items.Clear();
+
+                        // Add the generated active and history items
+                        foreach (ListViewItem item in activeItems.Union(historyItems))
+                        {
+                            View.activeListView.Items.Add(item);
+                        }
+                        // If no item is present in a group add a bogus item without text to ensure the groupnames remain visible.
+                        foreach (ListViewGroup group in View.activeListView.Groups)
+                        {
+                            if (group.Items.Count == 0)
+                            {
+                                View.activeListView.Items.Add(new ListViewItem(group));
+                            }
+                        }
+                    }
+                    catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+                }));
+            }
+            catch (ObjectDisposedException exception) { Console.WriteLine(exception.ToString()); }
+        }
         /// <summary>
         /// Action method when the openScenarioFileButton is clicked.
         /// </summary>
