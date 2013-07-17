@@ -68,102 +68,103 @@ namespace CLESMonitor.Model.CL
         {
             CTLTask ctlTask = null;
 
-            if (inputElement != null && inputElement.identifier != null && inputElement.name != null)
+            List<Tuple<string, string, List<int>>> availableTaskData = PRLDomain.availableTaskData();
+
+            foreach (Tuple<string, string, List<int>> taskData in availableTaskData)
             {
-                // TODO: Dictionary of iig andere oplossing !!?
-                if (inputElement.name.Equals("ARI_UIT"))
+                if (taskData.Item1.Equals(inputElement.name))
                 {
-                    ctlTask = new CTLTask(inputElement.identifier, "ARI_UIT", inputElement.secondaryIndentifier);
-                    ctlTask.description = "ARI uitschakelen voor geselecteerde planregels";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("ARI_IN"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "ARI_IN", inputElement.secondaryIndentifier);
-                    ctlTask.description = "ARI inschakelen voor geselecteerde planregels";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("VIND_TREIN"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "VIND_TREIN", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Vind planregel met specifiek treinnummer";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("SELECTEER_REGEL"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "SELECTEER_REGEL", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Selecteer planregel";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("DESELECTEER_REGEL"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "DESELECTEER_REGEL", inputElement.secondaryIndentifier);
-                    ctlTask.description = "De-selecteer planregels";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("REGEL_IN_MUTATIESCHERM"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_IN_MUTATIESCHERM", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Planregel in mutatiescherm plaatsen";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("MUTEER_REGEL"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "MUTEER_REGEL", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Planregel muteren";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("REGEL_TERUG"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "REGEL_TERUG", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Planregel terug plaatsen";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("HAND_VERWERK_REGEL"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "HAND_VERWERK_REGEL", inputElement.secondaryIndentifier);
-                    ctlTask.description = "planregel handmatig verwerken";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("VERWERK_VERT_REGELS"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_REGELS", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Vertraging verwerken voor geselecteerde planregels";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("KWIT_VERT_REGELS"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "KWIT_VERT_REGELS", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Vertraging kwiteren voor geselecteerde planregels";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("VERWERK_VERT_TREIN"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "VERWERK_VERT_TREIN", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Vertraging verwerken voor trein";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("LASTGEVING"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "LASTGEVING", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Lastgeving";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
-                }
-                else if (inputElement.name.Equals("HERROEP_SEIN"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "HERROEP_SEIN", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Sein herroepen";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface });
-                }
-                else if (inputElement.name.Equals("COMMUNICATIE"))
-                {
-                    ctlTask = new CTLTask(inputElement.identifier, "COMMUNICATIE", inputElement.secondaryIndentifier);
-                    ctlTask.description = "Communicatie met andere processleiders en externe partijen";
-                    ctlTask.informationDomains = new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact });
+                    ctlTask = new CTLTask(inputElement.identifier, inputElement.name, inputElement.secondaryIndentifier);
+                    ctlTask.description = taskData.Item2;
+                    ctlTask.informationDomains = taskData.Item3;
+                    break;
                 }
             }
 
             return ctlTask;
+        }
+
+        private static List<Tuple<string, string, List<int>>> availableTaskData()
+        {
+            List<Tuple<string, string, List<int>>> availableTaskData = new List<Tuple<string, string, List<int>>>();
+
+            availableTaskData.Add(Tuple.Create(
+                "ARI_UIT",
+                "ARI uitschakelen voor geselecteerde planregels",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "ARI_IN",
+                "ARI inschakelen voor geselecteerde planregels",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "VIND_TREIN",
+                "Vind planregel met specifiek treinnummer",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "SELECTEER_REGEL",
+                "Selecteer planregel",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "DESELECTEER_REGEL",
+                "De-selecteer planregels",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "REGEL_IN_MUTATIESCHERM",
+                "Planregel in mutatiescherm plaatsen",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "MUTEER_REGEL",
+                "Planregel muteren",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "REGEL_TERUG",
+                "Planregel terug plaatsen",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "HAND_VERWERK_REGEL",
+                "Planregel handmatig verwerken",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "VERWERK_VERT_REGELS",
+                "Vertraging verwerken voor geselecteerde planregels",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "KWIT_VERT_REGELS",
+                "Vertraging kwiteren voor geselecteerde planregels",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "VERWERK_VERT_TREIN",
+                "Vertraging verwerken voor trein",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "LASTGEVING",
+                "Lastgeving afgeven",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "HERROEP_SEIN",
+                "Sein herroepen",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainUsingInterface })
+                ));
+            availableTaskData.Add(Tuple.Create(
+                "COMMUNICATIE",
+                "Communicatie met andere processleiders en externe partijen",
+                new List<int>(new int[] { (int)InformationDomain.InformationDomainExternalContact })
+                ));
+
+            return availableTaskData;
         }
 
         #endregion
