@@ -181,6 +181,7 @@ namespace CLESMonitor.Controller
                 String timeSpanFormat = @"%h\:mm\:ss";
                 item.SubItems.Add(task.startTime.ToString(timeSpanFormat));
                 item.SubItems.Add("");
+                // FIXME: is een keer gecrasht; ctlEvent is null
                 item.SubItems.Add("Deel van gebeurtenis ID: " + task.ctlEvent.identifier);
                 item.Group = View.activeListView.Groups["listViewGroup1"];
 

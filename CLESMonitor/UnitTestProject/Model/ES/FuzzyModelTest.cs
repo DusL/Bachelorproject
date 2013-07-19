@@ -60,52 +60,20 @@ namespace UnitTest.Model.ES
             Assert.AreEqual(gsrList, model.calibrationGSR);
         }
 
-        /// <summary>
-        /// Input values between 0 and 1 result in the expected HRLevel
-        /// </summary>
         [Test]
-        public void findHRLevel_ValidValues()
+        public void getArousalLevel()
         {
-            double lowValue = .2;
-            double midValue = .8;
-            double highValue = .6;
+            List<double> arousalFuzzySet = new List<double>() { 0.1, 0.2, 0.3, 0.4 };
+            Assert.AreEqual(FuzzyModel.ArousalLevel.MidHigh, model.getArousalLevel(arousalFuzzySet));
 
-            List<double> inputList = new List<double>(new double[] { lowValue, midValue, highValue });
-            model.findHRLevel(inputList);
-            Assert.AreEqual(HRLevel.Mid, model.hrLevel);
+            arousalFuzzySet = new List<double>() { 0.4, 0.3, 0.2, 0.1 };
+            Assert.AreEqual(FuzzyModel.ArousalLevel.MidLow, model.getArousalLevel(arousalFuzzySet));
 
-            lowValue = .0;
-            midValue = .5;
-            highValue = .5;
-            inputList = new List<double>(new double[] { lowValue, midValue, highValue });
+            arousalFuzzySet = new List<double>() { 0.5, 0.0, 0.0, 0.5 };
+            Assert.AreEqual(FuzzyModel.ArousalLevel.MidHigh, model.getArousalLevel(arousalFuzzySet));
 
-            Assert.AreEqual(HRLevel.Mid, model.hrLevel);
+            arousalFuzzySet = new List<double>() { 0.1, 0.0, 0.0, 0.0 };
+            Assert.AreEqual(FuzzyModel.ArousalLevel.Low, model.getArousalLevel(arousalFuzzySet));
         }
-
-        /// <summary>
-        /// Input values between 0 and 1, result in the expected GSRLevel
-        /// </summary>
-        [Test]
-        public void findGSRLevel_ValidValues()
-        {
-            double lowValue = .0;
-            double midLowValue = .2;
-            double midHighValue = .6;
-            double highValue = .3;
-
-            List<double> inputList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
-            model.findGSRLevel(inputList);
-            Assert.AreEqual(GSRLevel.MidHigh, model.gsrLevel);
-
-            lowValue = .0;
-            midLowValue = .5;
-            midHighValue = .5;
-            highValue = .1;
-
-            inputList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
-            model.findGSRLevel(inputList);
-            Assert.AreEqual(GSRLevel.MidLow, model.gsrLevel);
-        }
-
     }
 }

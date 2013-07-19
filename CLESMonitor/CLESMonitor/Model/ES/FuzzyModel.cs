@@ -1,44 +1,43 @@
-﻿using System;
+﻿using CLESMonitor;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-using CLESMonitor;
-
 namespace CLESMonitor.Model.ES
 {
-    public enum GSRLevel
-    {
-        Unknown,
-        Low,
-        MidLow,
-        MidHigh,
-        High
-    }
-
-    public enum HRLevel
-    { 
-        Unknown,
-        Low,
-        Mid,
-        High
-    }
-
-    public enum ArousalLevel
-    { 
-        Unknown,
-        Low,
-        MidLow,
-        MidHigh,
-        High
-    }
-
     /// <summary>
     /// This class is an implementation of an Emotional State model
     /// using Fuzzy Logic.
     /// </summary>
     public class FuzzyModel : ESModel
     {
+        public enum GSRLevel
+        {
+            Unknown,
+            Low,
+            MidLow,
+            MidHigh,
+            High
+        }
+
+        public enum HRLevel
+        {
+            Unknown,
+            Low,
+            Mid,
+            High
+        }
+
+        public enum ArousalLevel
+        {
+            Unknown,
+            Low,
+            MidLow,
+            MidHigh,
+            High
+        }
+
         /// <summary>The Heart Rate sensor object</summary>
         public HRSensor hrSensor { get; private set; } 
         /// <summary>The Galvanic Skin Response sensor object</summary>
@@ -66,9 +65,6 @@ namespace CLESMonitor.Model.ES
         /// <summary>The current Heart Rate sensor level</summary>
         public HRLevel hrLevel;
 
-        // The current arousal level
-        private ArousalLevel[,] arousal;
-
         /// <summary>
         /// Constructor method that sets the sensors immediately
         /// </summary>
@@ -76,7 +72,6 @@ namespace CLESMonitor.Model.ES
         {
             this.hrSensor = new HRSensor(HRSensor.Type.Unknown);
             this.gsrSensor = new GSRSensor();
-            arousal = createFuzzyMatrix(); // set the matrix for the arousal values
         }
 
         /// <summary>
@@ -137,16 +132,6 @@ namespace CLESMonitor.Model.ES
             GSRMean = calibrationGSR.Average();
             HRsd = FuzzyMath.standardDeviationFromList(calibrationHR);
             GSRsd = FuzzyMath.standardDeviationFromList(calibrationGSR);
-
-            foreach (double value in calibrationHR)
-            {
-                Console.WriteLine("HR - " + value);
-            }
-            foreach (double value in calibrationGSR)
-            {
-                Console.WriteLine("GSR - " + value);
-            }
-            Console.WriteLine("HRMin={0} HRMax={1} GSRMin={2} GSRMax={3} HRMean={4} GSRMean={5} HRsd={6} GSRsd={7}", HRMin, HRMax, GSRMin, GSRMax, HRMean, GSRMean, HRsd, GSRsd);
         }
         
         /// <summary>
@@ -170,164 +155,109 @@ namespace CLESMonitor.Model.ES
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
 
-            // TODO: Blijft 0 totdat je de slider een keer beweegt.
             normalisedHR = FuzzyMath.normalised(currentHR, HRMin, HRMax);
             normalisedGSR = FuzzyMath.normalised(currentGSR, GSRMin, GSRMax);
 
             // Check to see if the normalised values are valid (not NaN or otherwise invalid)
+            List<double> arousalFuzzySet = new List<double>();
             if(normalisedGSR >= 0 && normalisedGSR <= 100 && normalisedHR >= 0 && normalisedHR <= 100)
             {
-                // Find the current GSR and HR Levels
-                findGSRLevel(fuzzyGSR());
-                findHRLevel(fuzzyHR());
+                arousalFuzzySet = inferToArousal(getGSRMembershipValues(), getHRMembershipValues());
             }
 
-            return (double)getArousalLevel(gsrLevel, hrLevel); 
+            return (double)getArousalLevel(arousalFuzzySet);
         }
 
         /// <summary>
-        /// Sets the ArousalLevel for each possible combination of gsr and hr levels.
+        /// Performs fuzzy inferance on the gsr and hr fuzzy sets.
         /// </summary>
-        public static ArousalLevel[,] createFuzzyMatrix()
+        /// <param name="gsrFuzzySet">The fuzzy set for gsr</param>
+        /// <param name="hrFuzzySet">The fuzzy set for hr</param>
+        /// <returns>The arousal fuzzy set, declaring membership to the values: 
+        /// low, midlow, midhigh, high</returns>
+        private List<double> inferToArousal(List<double> gsrFuzzySet, List<double> hrFuzzySet)
         {
-            // Create a 2-dimensional array of length 5, 4
-            ArousalLevel[,] arousal = new ArousalLevel[(int)GSRLevel.High +1, (int)HRLevel.High+1];
+            List<double> arousalFuzzySet = new List<double>();
+            // These lists are used to store all values used to calculate the final fuzzy set per membership
+            List<double> arousalHighList, arousalMidHighList, arousalMidLowList, arousalLowList;
+            arousalHighList = new List<double>();
+            arousalMidHighList = new List<double>();
+            arousalMidLowList = new List<double>();
+            arousalLowList = new List<double>();
 
-            // Set all values for which GSRLevel is unknown
-            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Low] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.Unknown, (int)HRLevel.Mid] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.Unknown, (int)HRLevel.High] = ArousalLevel.Unknown;
+            // Fuzzy rules
+            arousalHighList.Add(gsrFuzzySet[(int)GSRLevel.High]);
+            arousalHighList.Add(hrFuzzySet[(int)HRLevel.High]);
+            arousalHighList.Add(Math.Min(gsrFuzzySet[(int)GSRLevel.High], hrFuzzySet[(int)HRLevel.Mid]));
 
-            // Set all values for which GSRLevel is Low
-            arousal[(int)GSRLevel.Low, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.Low, (int)HRLevel.Low] = ArousalLevel.Low;
-            arousal[(int)GSRLevel.Low, (int)HRLevel.Mid] = ArousalLevel.Low;
-            arousal[(int)GSRLevel.Low, (int)HRLevel.High] = ArousalLevel.MidLow;
+            arousalMidHighList.Add(gsrFuzzySet[(int)GSRLevel.MidHigh]);
+            arousalMidHighList.Add(Math.Min(gsrFuzzySet[(int)GSRLevel.High], hrFuzzySet[(int)HRLevel.Low]));
+            arousalMidHighList.Add(Math.Min(gsrFuzzySet[(int)GSRLevel.MidHigh], hrFuzzySet[(int)HRLevel.Mid]));
 
-            // Set all values for which GSRLevel is MidLow
-            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Low] = ArousalLevel.MidLow;
-            arousal[(int)GSRLevel.MidLow, (int)HRLevel.Mid] = ArousalLevel.MidLow;
-            arousal[(int)GSRLevel.MidLow, (int)HRLevel.High] = ArousalLevel.MidLow;
+            arousalMidLowList.Add(gsrFuzzySet[(int)GSRLevel.MidLow]);
+            arousalMidLowList.Add(Math.Min(gsrFuzzySet[(int)GSRLevel.Low], hrFuzzySet[(int)HRLevel.High]));
+            arousalMidLowList.Add(Math.Min(gsrFuzzySet[(int)GSRLevel.MidLow], hrFuzzySet[(int)HRLevel.Mid]));
 
-            // Set all values for which GSRLevel is MidHigh
-            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Low] = ArousalLevel.MidHigh;
-            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.Mid] = ArousalLevel.MidHigh;
-            arousal[(int)GSRLevel.MidHigh, (int)HRLevel.High] = ArousalLevel.MidHigh;
+            arousalLowList.Add(gsrFuzzySet[(int)GSRLevel.Low]);
+            arousalLowList.Add(hrFuzzySet[(int)HRLevel.Low]);
 
-            // Set all values for which GSRLevel is High
-            arousal[(int)GSRLevel.High, (int)HRLevel.Unknown] = ArousalLevel.Unknown;
-            arousal[(int)GSRLevel.High, (int)HRLevel.Low] = ArousalLevel.MidHigh;
-            arousal[(int)GSRLevel.High, (int)HRLevel.Mid] = ArousalLevel.High;
-            arousal[(int)GSRLevel.High, (int)HRLevel.High] = ArousalLevel.High;
+            // Add the average values to the arousal fuzzy set. These averages represent the membership values.
+            arousalFuzzySet.Add(arousalLowList.Average());
+            arousalFuzzySet.Add(arousalMidLowList.Average());
+            arousalFuzzySet.Add(arousalMidHighList.Average());
+            arousalFuzzySet.Add(arousalHighList.Average());
 
-            return arousal;
+            return arousalFuzzySet;
         }
 
         /// <summary>
-        /// Returns the arousal level based on the current gsr and hr values
+        /// Defuzzify the arousal fuzzy set inorder to get the arousal level
         /// </summary>
-        /// <param name="gsrLevel">The current GSRLevel in terms of the enum</param>
-        /// <param name="hrLevel">The current HRLevel in terms of the enum</param>
-        /// <returns>The ArousalLevel</returns>
-        public ArousalLevel getArousalLevel(GSRLevel gsrLevel, HRLevel hrLevel)
+        /// <param name="arousalFuzzySet">The arousal fuzzy set, at least one 
+        /// membership value must be nonzero. Also, all values must be in the interval [0, 1].</param>
+        /// <returns>The arousal level</returns>
+        public ArousalLevel getArousalLevel(List<double> arousalFuzzySet)
         {
-            return arousal[(int)gsrLevel, (int)hrLevel];
-        }
+            ArousalLevel arousalLevel = ArousalLevel.Unknown;
 
-        /// <summary>
-        /// Based on the fuzzy values it receives, determines which 'level' GSR is at.
-        /// Sets the GSR enum
-        /// </summary>
-        /// <param name="GSRValueList"></param>
-        public void findGSRLevel(List<double> GSRValueList)
-        {
-            double lowValue = GSRValueList[0];
-            double midLowValue = GSRValueList[1];
-            double midHighValue = GSRValueList[2];
-            double highValue = GSRValueList[3];
-
-            double maxTemp = lowValue;
-            GSRLevel tempLevel = GSRLevel.Low;
-
-            if (midLowValue > maxTemp)
+            double weightedSum = 0;
+            for (int i = 0; i < arousalFuzzySet.Count; i++)
             {
-                maxTemp = midLowValue;
-                tempLevel = GSRLevel.MidLow;
+                weightedSum += arousalFuzzySet[i] * (i + 1);
             }
+            double weightedAverage = weightedSum / arousalFuzzySet.Sum();
+            arousalLevel = (ArousalLevel)Math.Round(weightedAverage, MidpointRounding.AwayFromZero);
 
-            if (midHighValue > maxTemp)
-            {
-                maxTemp = midHighValue;
-                tempLevel = GSRLevel.MidHigh;
-            }
-            if (highValue > maxTemp)
-            {
-                maxTemp = highValue;
-                tempLevel = GSRLevel.High;
-            }
-
-            gsrLevel = tempLevel;
-        }
-
-        /// <summary>
-        /// Based on the fuzzy values it receives, determines which 'level' HR is at.
-        /// Sets the HR enum
-        /// </summary>
-        /// <param name="HRValueList"></param>
-        public void findHRLevel(List<double> HRValueList) 
-        {
-            double lowValue = HRValueList[0];
-            double midValue = HRValueList[1];
-            double highValue = HRValueList[2];
-
-            double maxTemp = lowValue;
-            HRLevel tempLevel = HRLevel.Low;
-
-            if (midValue > maxTemp)
-            {
-                maxTemp = midValue;
-                tempLevel = HRLevel.Mid;
-            }
-
-            if (highValue > maxTemp)
-            {
-                maxTemp = highValue;
-                tempLevel = HRLevel.High;
-            }
-
-            hrLevel = tempLevel;
+            return arousalLevel;
         }
 
         /// <summary>
         /// Based on the normalised GSRValue, set the fuzzy values for the 4 levels of GSR: low, midlow, midhigh and high.
         /// </summary>
         /// <returns>A list of the fuzzy values for each level of GSR</returns>
-        public List<double> fuzzyGSR()
+        public List<double> getGSRMembershipValues()
         {
             double lowValue = FuzzyMath.lowGSRValue(GSRMean, GSRsd, normalisedGSR);
             double midLowValue = FuzzyMath.midLowGSRValue(GSRMean, GSRsd, normalisedGSR);
             double midHighValue = FuzzyMath.midHighGSRValue(GSRMean, GSRsd, normalisedGSR);
             double highValue = FuzzyMath.highGSRValue(GSRMean, GSRsd, normalisedGSR);
 
-            List<double> GSRValueList = new List<double>(new double[] { lowValue, midLowValue, midHighValue, highValue });
+            List<double> GSRValueList = new List<double>(new double[] { 0, lowValue, midLowValue, midHighValue, highValue });
 
             return GSRValueList;
         }
 
         /// <summary>
-        /// Based on the normalised HRValue, set the fuzzy values fir the 3 HR levels, low, mid and high
+        /// Based on the normalised HRValue, set the fuzzy values for the 3 HR levels, low, mid and high
         /// </summary>
         /// <returns>>A list of the fuzzy values for each level of HR</returns>
-        public List<double> fuzzyHR()
+        public List<double> getHRMembershipValues()
         {
             double lowValue = FuzzyMath.lowHRValue(HRMean, HRsd, normalisedHR);
             double midValue = FuzzyMath.midHRValue(HRMean, HRsd, normalisedHR);
             double highValue = FuzzyMath.highHRValue(HRMean, normalisedHR);
 
-            List<double> HRValueList = new List<double>(new double[] { lowValue, midValue, highValue });
+            List<double> HRValueList = new List<double>(new double[] { 0, lowValue, midValue, highValue });
 
             return HRValueList;
         }
