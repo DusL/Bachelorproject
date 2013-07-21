@@ -13,6 +13,9 @@ namespace CLESMonitor.Model.ES
     /// </summary>
     public abstract class ESModel
     {
+        /// <summary>The delegate for this object, implementing the ESModelDelegate interface</summary>
+        public ESModelDelegate delegateObject;
+
         /// <summary>
         /// Starts a new session, calculateModelValue() will
         /// now produce valid values.
@@ -39,5 +42,10 @@ namespace CLESMonitor.Model.ES
         /// Stops the current calibration session.
         /// </summary>
         public abstract void stopCalibration();
+    }
+
+    public interface ESModelDelegate
+    {
+        void displayLogMessage(string message);
     }
 }

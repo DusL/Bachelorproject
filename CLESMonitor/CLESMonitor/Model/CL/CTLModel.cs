@@ -287,6 +287,8 @@ namespace CLESMonitor.Model.CL
             // Put a multitask on the frame
             else if (activeTasks.Count > 1)
             {
+                displayLogMessage("Er zijn nu meerdere taken tegelijk bezig");
+
                 CTLTask multitask = activeTasks[0];
 
                 // This will loop at least once
@@ -321,6 +323,14 @@ namespace CLESMonitor.Model.CL
             }
             multiTaskCounter++;
             return multiTask;
+        }
+
+        private void displayLogMessage(string message)
+        {
+            if (delegateObject != null)
+            {
+                delegateObject.displayLogMessage("[CTLModel] " + message);
+            }
         }
     }
 }

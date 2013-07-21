@@ -13,6 +13,8 @@ namespace CLESMonitor.Model.CL
     /// </summary>
     public abstract class CLModel
     {
+        /// <summary>The delegate for this object, implementing the CLModelDelegate interface</summary>
+        public CLModelDelegate delegateObject;
         /// <summary>Time frame in seconds</summary>
         public TimeSpan lengthTimeframe;
 
@@ -32,5 +34,10 @@ namespace CLESMonitor.Model.CL
         /// Stops the current session.
         /// </summary>
         public abstract void stopSession();
+    }
+
+    public interface CLModelDelegate
+    {
+        void displayLogMessage(string message);
     }
 }

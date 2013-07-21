@@ -120,7 +120,7 @@ namespace CLESMonitor.Model.ES
         }
 
         /// <summary>
-        /// Creates a timerCallback for calibration and resets teh Lists of any previous calibration sessions
+        /// Creates a timerCallback for calibration and resets the Lists of any previous calibration sessions
         /// </summary>
         /// <param name="dueTime">The time of delay before the callback is invoked</param>
         /// <param name="period">The time interval between invokes</param>
@@ -173,6 +173,15 @@ namespace CLESMonitor.Model.ES
             // Get the values from the sensors
             currentHR = hrSensor.sensorValue;
             currentGSR = gsrSensor.sensorValue;
+
+            if (currentHR < HRMin || currentHR > HRMax)
+            {
+                displayLogMessage("Hartslag valt buiten de waarden gemeten tijdens calibratie");
+            }
+            if (currentGSR < GSRMin || currentGSR > GSRMax)
+            {
+                displayLogMessage("Huidgeleiding valt buiten de waarden gemeten tijdens calibratie");
+            }
 
             normalisedHR = FuzzyMath.normalised(currentHR, HRMin, HRMax);
             normalisedGSR = FuzzyMath.normalised(currentGSR, GSRMin, GSRMax);
@@ -291,6 +300,14 @@ namespace CLESMonitor.Model.ES
             this.hrSensor.stopMeasuring();
             this.hrSensor = hrSensor;
             this.hrSensor.startMeasuring();
+        }
+
+        private void displayLogMessage(string message)
+        {
+            if (delegateObject != null)
+            {
+                delegateObject.displayLogMessage("[FuzzyModel] " + message);
+            }
         }
     }
 }
