@@ -4,6 +4,7 @@ namespace CLESMonitor.Model.CL
 {
     public class InputElement
     {
+        /// <summary>Specifies the type of the InputElement; either a task or an event</summary>
         public enum Type
         {
             /// <summary>Default value</summary>
@@ -12,6 +13,7 @@ namespace CLESMonitor.Model.CL
             Task,
         }
 
+        /// <summary> Specifies weather the InputElement represents an element that has stopped or started this second</summary>
         public enum Action
         {
             /// <summary>Default value</summary>
@@ -76,6 +78,10 @@ namespace CLESMonitor.Model.CL
             return equality;
         }
 
+        /// <summary>
+        /// Creates a string representation of an InputElement.
+        /// </summary>
+        /// <returns>A string</returns>
         public override string ToString()
         {
             string returnString = "InputElement: identifier=" + identifier
@@ -91,9 +97,17 @@ namespace CLESMonitor.Model.CL
     /// </summary>
     public interface CTLInputSourceDelegate
     {
+        /// <summary> When an event has started, this method will be called </summary>
+        /// <param name="eventElement">An input element representing an event</param>
         void eventHasStarted(InputElement eventElement);
+        /// <summary>  When an event has stoped, this method will be called </summary>
+        /// <param name="eventElement">An input element representing an event</param>
         void eventHasStopped(InputElement eventElement);
+        /// <summary> When an event has started, this method will be called </summary>
+        /// <param name="taskElement">An input element representing a task</param>
         void taskHasStarted(InputElement taskElement);
+        /// <summary> When an event has started, this method will be called </summary>
+        /// <param name="taskElement">An input element representing a task</param>
         void taskHasStopped(InputElement taskElement);
     }
 
@@ -107,9 +121,11 @@ namespace CLESMonitor.Model.CL
         /// </summary>
         public CTLInputSourceDelegate delegateObject;
 
+        /// <summary>This method should implement a way to start receiving input</summary>
         public abstract void startReceivingInput();
+        /// <summary>This method should implement a way to stop receiving input</summary>
         public abstract void stopReceivingInput();
-
+        /// <summary>This method should implement a way to reset the CTLInputSource </summary>
         public abstract void reset();
     }
 }
