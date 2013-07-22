@@ -111,14 +111,12 @@ namespace CLESMonitor.Controller
                     try
                     {
                         View.hrValueLabel.Text = fuzzyModel.hrSensor.sensorValue.ToString();
-                        View.hrLevelLabel.Text = fuzzyModel.hrLevel.ToString();
                         View.hrMeanLabel.Text = Math.Round(fuzzyModel.HRMean).ToString();
                         View.hrSDLabel.Text = Math.Round(fuzzyModel.HRsd).ToString();
                         View.hrMinLabel.Text = Math.Round(fuzzyModel.HRMin).ToString();
                         View.hrMaxLabel.Text = Math.Round(fuzzyModel.HRMax).ToString();
 
                         View.gsrValueLabel.Text = fuzzyModel.gsrSensor.sensorValue.ToString();
-                        View.gsrLevelLabel.Text = fuzzyModel.gsrLevel.ToString();
                         View.gsrMeanLabel.Text = Math.Round(fuzzyModel.GSRMean).ToString();
                         View.gsrSDLabel.Text = Math.Round(fuzzyModel.GSRsd).ToString();
                         View.gsrMinLabel.Text = Math.Round(fuzzyModel.GSRMin).ToString();
@@ -193,7 +191,7 @@ namespace CLESMonitor.Controller
             {
                 // Stop the countdown and set the form back to the original state
                 timer.Stop();
-                calibrateButton.Text = "Opnieuw calibreren";
+                calibrateButton.Text = "Opnieuw kalibreren";
 
                 fuzzyModel.stopCalibration();
                 currentState = State.Calibrated;
