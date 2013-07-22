@@ -78,7 +78,7 @@ namespace CLESMonitor.Model.CL
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>Average Lip-value (not rounded). 
         /// It can attain values between 1 and 3 (only without overlapping tasks!).</returns>
-        public static double calculateOverallLip(List<CTLTask> tasks, TimeSpan lengthTimeframe)
+        public static double calculateOverallLip(List<CTLTask> tasks, double lengthTimeframe)
         {
             double lipValue = 1;
             if (tasks.Count() != 0)
@@ -88,7 +88,7 @@ namespace CLESMonitor.Model.CL
                 {
                     lipValue += tasks[i].lipValue * tasks[i].duration.TotalSeconds;
                 }
-                lipValue = lipValue / lengthTimeframe.TotalSeconds;
+                lipValue = lipValue / lengthTimeframe;
             }
 
             return lipValue;
@@ -100,7 +100,7 @@ namespace CLESMonitor.Model.CL
         /// <param name="tasks">A list of task that are currently in the timeframe</param>
         /// <returns>The normalized MO-value across 1 time frame. 
         /// It can attain values between 0 and 1 (only without overlapping tasks!).</returns>
-        public static double calculateOverallMo(List<CTLTask> tasks, TimeSpan lengthTimeframe)
+        public static double calculateOverallMo(List<CTLTask> tasks, double lengthTimeframe)
         {
             double moValue = 0;
 
@@ -109,7 +109,7 @@ namespace CLESMonitor.Model.CL
                 moValue += tasks[i].moValue * tasks[i].duration.TotalSeconds;
                 //Console.WriteLine("Duration: " + tasks[i].duration.TotalSeconds);
             }
-            moValue = moValue / lengthTimeframe.TotalSeconds;
+            moValue = moValue / lengthTimeframe;
 
             return moValue;
         }

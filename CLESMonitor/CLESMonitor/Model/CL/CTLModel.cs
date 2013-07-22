@@ -20,6 +20,8 @@ namespace CLESMonitor.Model.CL
         private DateTime startSessionTime;
         private TimeSpan sessionTime { get { return (DateTime.Now - startSessionTime); } }
         private bool activeTasksHaveChanged;
+        /// <summary>The length of the calculation frame in seconds</summary>
+        public TimeSpan lengthTimeframe;
 
         /// <summary>A list of events that are currently in progress</summary>
         public List<CTLEvent> activeEvents { get; private set; }
@@ -27,6 +29,8 @@ namespace CLESMonitor.Model.CL
         public List<CTLTask> activeTasks { get; private set; }
         /// <summary> The list of tasks that is used for model calculation</summary>
         public List<CTLTask> tasksInCalculationFrame { get; private set; }
+
+        public const int CALCULATION_FRAME_IN_SECONDS = 120;
 
         /// <summary>
         /// The constructor method.
@@ -38,7 +42,7 @@ namespace CLESMonitor.Model.CL
             this.inputSource = inputSource;
             inputSource.delegateObject = this;
             this.domain = domain;
-            lengthTimeframe = new TimeSpan(0, 0, 10);
+            lengthTimeframe = new TimeSpan(0, 0, CALCULATION_FRAME_IN_SECONDS);
             activeEvents = new List<CTLEvent>();
             activeTasks = new List<CTLTask>();
             tasksInCalculationFrame = new List<CTLTask>();
@@ -76,9 +80,11 @@ namespace CLESMonitor.Model.CL
         /// <returns>The model value</returns>
         public override double calculateModelValue()
         {
+            double lengthToPass = Math.Min(lengthTimeframe.TotalSeconds, sessionTime.TotalSeconds);
+
             // Calculate all necessary values
-            double lip = CTLMath.calculateOverallLip(tasksInCalculationFrame, lengthTimeframe);
-            double mo = CTLMath.calculateOverallMo(tasksInCalculationFrame, lengthTimeframe);
+            double lip = CTLMath.calculateOverallLip(tasksInCalculationFrame, lengthToPass);
+            double mo = CTLMath.calculateOverallMo(tasksInCalculationFrame, lengthToPass);
             double tss = CTLMath.calculateTSS(tasksInCalculationFrame);
 
             return CTLMath.categoriseWorkLoad(CTLMath.calculateMentalWorkLoad(lip, mo, tss, tasksInCalculationFrame.Count()));
