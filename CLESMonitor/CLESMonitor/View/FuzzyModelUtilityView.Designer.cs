@@ -58,10 +58,6 @@
             this.hrMinLabel = new System.Windows.Forms.Label();
             this.hrCalLabel = new System.Windows.Forms.Label();
             this.gsrCalLabel = new System.Windows.Forms.Label();
-            this.gsrLevelLabel = new System.Windows.Forms.Label();
-            this.hrLevelLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.HRLabel = new System.Windows.Forms.Label();
             this.sensorButton = new System.Windows.Forms.Button();
             this.calibrateButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
@@ -268,10 +264,6 @@
             this.groupBox2.Controls.Add(this.hrMinLabel);
             this.groupBox2.Controls.Add(this.hrCalLabel);
             this.groupBox2.Controls.Add(this.gsrCalLabel);
-            this.groupBox2.Controls.Add(this.gsrLevelLabel);
-            this.groupBox2.Controls.Add(this.hrLevelLabel);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.HRLabel);
             this.groupBox2.Controls.Add(this.sensorButton);
             this.groupBox2.Controls.Add(this.calibrateButton);
             this.groupBox2.Controls.Add(this.groupBox1);
@@ -424,46 +416,6 @@
             this.gsrCalLabel.TabIndex = 34;
             this.gsrCalLabel.Text = "Huidgeleiding:";
             // 
-            // gsrLevelLabel
-            // 
-            this.gsrLevelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.gsrLevelLabel.AutoSize = true;
-            this.gsrLevelLabel.Location = new System.Drawing.Point(317, 74);
-            this.gsrLevelLabel.Name = "gsrLevelLabel";
-            this.gsrLevelLabel.Size = new System.Drawing.Size(53, 13);
-            this.gsrLevelLabel.TabIndex = 31;
-            this.gsrLevelLabel.Text = "Unknown";
-            // 
-            // hrLevelLabel
-            // 
-            this.hrLevelLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.hrLevelLabel.AutoSize = true;
-            this.hrLevelLabel.Location = new System.Drawing.Point(317, 52);
-            this.hrLevelLabel.Name = "hrLevelLabel";
-            this.hrLevelLabel.Size = new System.Drawing.Size(53, 13);
-            this.hrLevelLabel.TabIndex = 30;
-            this.hrLevelLabel.Text = "Unknown";
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(238, 74);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(71, 13);
-            this.label2.TabIndex = 29;
-            this.label2.Text = "Huidgeleiding";
-            // 
-            // HRLabel
-            // 
-            this.HRLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.HRLabel.AutoSize = true;
-            this.HRLabel.Location = new System.Drawing.Point(263, 52);
-            this.HRLabel.Name = "HRLabel";
-            this.HRLabel.Size = new System.Drawing.Size(46, 13);
-            this.HRLabel.TabIndex = 28;
-            this.HRLabel.Text = "Hartslag";
-            // 
             // sensorButton
             // 
             this.sensorButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -523,10 +475,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         public System.Windows.Forms.Button sensorButton;
         public System.Windows.Forms.Button calibrateButton;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label HRLabel;
-        public System.Windows.Forms.Label gsrLevelLabel;
-        public System.Windows.Forms.Label hrLevelLabel;
         private System.Windows.Forms.Label gsrCalLabel;
         private System.Windows.Forms.Label hrCalLabel;
         public System.Windows.Forms.Label hrMinLabel;
