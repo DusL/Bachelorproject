@@ -14,8 +14,10 @@ namespace CLESMonitor.Model.CL
     {
         public string identifier {get; private set;}
         public string name { get; private set; }
+        /// <summary>The mental ocupancy value</summary>
         public double moValue { get; set; }
-        public int lipValue { get; set; }
+        /// <summary>The Level of Informationprocessing </summary>
+        public int lipValue { get; set; }   
         public TimeSpan startTime { get; private set; }
         public bool inProgress { get; private set; }
         public TimeSpan endTime { get; private set; }
@@ -23,10 +25,10 @@ namespace CLESMonitor.Model.CL
         /// <summary>
         /// Constructor method.
         /// </summary>
-        /// <param name="identifier"></param>
-        /// <param name="name"></param>
-        /// <param name="moValue"></param>
-        /// <param name="lipValue"></param>
+        /// <param name="identifier">The unique id of the task</param>
+        /// <param name="name">The name of the task (not unique per se)</param>
+        /// <param name="moValue">The mental occupancy value of the task</param>
+        /// <param name="lipValue">The Level of Informationprocessing for the task</param>
         public CTLEvent(string identifier, string name, double moValue, int lipValue)
         {
             this.identifier = identifier;
