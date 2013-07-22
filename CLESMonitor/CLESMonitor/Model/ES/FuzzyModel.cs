@@ -12,25 +12,44 @@ namespace CLESMonitor.Model.ES
     /// </summary>
     public class FuzzyModel : ESModel
     {
+        /// <summary>
+        /// Represents a level of Galvanic Skin Response.
+        /// </summary>
         public enum GSRLevel
         {
+            /// <summary>Default unknown value</summary>
             Unknown,
+            /// <summary>A low level of skin conductance</summary>
             Low,
+            /// <summary>A low to medium level of skin conductance</summary>
             MidLow,
+            /// <summary>A medium to high level of skin conductance</summary>
             MidHigh,
+            /// <summary>A high level of skin conductance</summary>
             High
         }
 
+        /// <summary>
+        /// Represents a Heart Rate level.
+        /// </summary>
         public enum HRLevel
         {
+            /// <summary>Default unknown value</summary>
             Unknown,
+            /// <summary>A low heart rate</summary>
             Low,
+            /// <summary>A medium heart rate</summary>
             Mid,
+            /// <summary>A high heart rate</summary>
             High
         }
 
+        /// <summary>
+        /// Represents a level of arousal.
+        /// </summary>
         public enum ArousalLevel
         {
+            /// <summary>Default unknown value</summary>
             Unknown,
             Low,
             MidLow,
