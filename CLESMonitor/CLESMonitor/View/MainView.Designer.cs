@@ -108,10 +108,10 @@
             customLabel2.Text = "Laag";
             customLabel2.ToPosition = 2D;
             customLabel3.FromPosition = 1D;
-            customLabel3.Text = "Gemiddeld-Laag";
+            customLabel3.Text = "Ondergemiddeld";
             customLabel3.ToPosition = 3D;
             customLabel4.FromPosition = 2D;
-            customLabel4.Text = "Gemiddeld-Hoog";
+            customLabel4.Text = "Bovengemiddeld";
             customLabel4.ToPosition = 4D;
             customLabel5.FromPosition = 3D;
             customLabel5.Text = "Hoog";
