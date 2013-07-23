@@ -105,6 +105,20 @@
               LastKnownName="ESModel"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
+          <dependency
+            Id="47c06bd7-8722-4b49-85ed-9c4754a4104f">
+            <interfaceMoniker
+              Id="03637202-234b-4cad-82ad-21ac6a7cb083"
+              LastKnownName="CLModelDelegate"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="afdabd23-cc9f-42dd-b4ff-52540f862f5d">
+            <interfaceMoniker
+              Id="ad914268-252c-4510-a0e3-52b036b9e7b8"
+              LastKnownName="ESModelDelegate"
+              LastKnownLocation="ModelingProject.uml" />
+          </dependency>
         </suppliersInternal>
         <targetEnds>
           <association
@@ -747,6 +761,28 @@
         Id="0556f4ee-e165-4eec-aa42-17ae73662c83"
         LastKnownName="Package1"
         LastKnownLocation="Package_1140.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="28227b44-7705-455d-a11b-3b9224eaeb76"
+        name="Class1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="03637202-234b-4cad-82ad-21ac6a7cb083"
+        name="CLModelDelegate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="ad914268-252c-4510-a0e3-52b036b9e7b8"
+        name="ESModelDelegate"
+        isAbstract="false"
+        isLeaf="false" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType

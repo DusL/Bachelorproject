@@ -52,6 +52,14 @@
             <classMoniker Id="f6f0fd90-8a03-444d-82f9-ff4c7ac4a1a7" LastKnownName="ESModel" />
             <elementDefinition Id="74f79df1-ab94-4c7f-8262-b6db9bc70a95" />
           </dependency>
+          <dependency Id="667e78de-87b1-4e9f-8830-7449f7b970ec">
+            <interfaceMoniker Id="09748835-24b2-4353-bd88-2087c0e3aaad" LastKnownName="CLModelDelegate" />
+            <elementDefinition Id="47c06bd7-8722-4b49-85ed-9c4754a4104f" />
+          </dependency>
+          <dependency Id="0aafa205-921c-4100-af15-b3690cffe0a8">
+            <interfaceMoniker Id="3a806d4b-be3c-41cf-a528-0fc86cb3e948" LastKnownName="ESModelDelegate" />
+            <elementDefinition Id="afdabd23-cc9f-42dd-b4ff-52540f862f5d" />
+          </dependency>
         </suppliersInternal>
         <targetEnds>
           <association Id="d7ac2728-ddc4-475e-943a-039f4e4157cb" isDerived="false" sourceEndRoleName="MainViewController" targetEndRoleName="MainView" isLeaf="false" isAbstract="false">
@@ -363,6 +371,16 @@
           </dependency>
         </suppliersInternal>
       </class>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="09748835-24b2-4353-bd88-2087c0e3aaad" name="CLModelDelegate" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="03637202-234b-4cad-82ad-21ac6a7cb083" />
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="3a806d4b-be3c-41cf-a528-0fc86cb3e948" name="ESModelDelegate" isAbstract="false" isLeaf="false">
+        <elementDefinition Id="ad914268-252c-4510-a0e3-52b036b9e7b8" />
+      </Interface>
     </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="99542157-bec8-4e29-bd17-7ff5522c7adf" name="ModelingProject">
