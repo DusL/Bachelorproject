@@ -2,63 +2,24 @@
 <logicalClassDesignerModel xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/ModelStore" dslVersion="1.0.0.0" Id="f082c34f-d3a2-47f2-99d6-1fd69890abf3" name="UMLClassDiagram1" linkedPackageId="99542157-bec8-4e29-bd17-7ff5522c7adf" xmlns="http://schemas.microsoft.com/dsltools/LogicalClassDesigner">
   <packagedElements>
     <logicalClassDesignerModelHasTypes>
-      <class Id="632da8fe-19b0-495b-8e8d-6502fd5d9165" name="CLModel" isAbstract="true" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="b4821ea8-7895-4609-895f-359556c04ef3" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="f6f0fd90-8a03-444d-82f9-ff4c7ac4a1a7" name="ESModel" isAbstract="true" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="c6e5df67-60b3-476e-a262-705f3e3bf72d" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="d57e9f0e-c3ce-4c82-9ea8-4ab2e433be4c" name="CTLModel" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="9f3b8cf1-e2f4-4306-b445-a41f04f2d024" />
-        <suppliersInternal>
-          <dependency Id="178c1017-cd29-4aa9-99af-aeda0ef8affa">
-            <classMoniker Id="a512281d-3e34-4818-8096-a9b972decc9c" LastKnownName="CTLDomain" />
-            <elementDefinition Id="8456e705-a3bc-43a2-ba85-34b1142d4332" />
-          </dependency>
-          <dependency Id="099221d7-6707-49c1-b19c-190f5e226eba">
-            <classMoniker Id="6abe171b-d705-424b-ac19-cfe5fd38e926" LastKnownName="CTLInputSource" />
-            <elementDefinition Id="d9ec6f0f-d168-4862-984f-a31fa37fc6fc" />
-          </dependency>
-          <interfaceRealization Id="2ae66646-3f00-4d99-ac0e-0b011a4c1519">
-            <interfaceMoniker Id="b61e3a30-e806-452c-9fec-cced8702381c" LastKnownName="CTLInputSourceDelegate" />
-            <elementDefinition Id="e83483ae-8816-42b1-a16c-2c2dc88d1446" />
-          </interfaceRealization>
-          <dependency Id="64ad8671-f27f-4882-a36b-1bc0373f9036">
-            <classMoniker Id="dd4eef61-e069-4554-a405-100f139589eb" LastKnownName="CTLMath" />
-            <elementDefinition Id="eeaad2b6-b448-47ea-a3f5-2c6216510c7b" />
-          </dependency>
-        </suppliersInternal>
-        <generalsInternal>
-          <generalization Id="c2d402cd-4669-4271-8f5d-035ea006a461" isSubstitutable="false">
-            <classMoniker Id="632da8fe-19b0-495b-8e8d-6502fd5d9165" LastKnownName="CLModel" />
-            <elementDefinition Id="54803e5b-b2a3-45d2-9870-22808c1b40d8" />
-          </generalization>
-        </generalsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
       <class Id="0ccfd474-bd76-415c-9c48-159ea081d23d" name="MainViewController" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="a289451d-4604-4bcd-acb2-669ce1563cb8" />
         <suppliersInternal>
-          <dependency Id="23a83853-b126-4cff-b80d-021da91fe529">
-            <classMoniker Id="632da8fe-19b0-495b-8e8d-6502fd5d9165" LastKnownName="CLModel" />
-            <elementDefinition Id="3884e6b9-9692-4eaa-a3b0-6465be178e34" />
+          <dependency Id="cb1483ec-a8a5-434f-b2c0-396b0dff7671">
+            <interfaceMoniker Id="e745b422-2271-44d5-a023-832268de4e76" LastKnownName="ESModelDelegate" />
+            <elementDefinition Id="bf75b450-8bb6-4e63-914a-8ba56f8285fb" />
           </dependency>
-          <dependency Id="7d903643-983f-4034-9b5c-720c18471039">
-            <classMoniker Id="f6f0fd90-8a03-444d-82f9-ff4c7ac4a1a7" LastKnownName="ESModel" />
-            <elementDefinition Id="74f79df1-ab94-4c7f-8262-b6db9bc70a95" />
+          <dependency Id="771b64f4-0b21-4c40-8399-91db86e7aeef">
+            <classMoniker Id="18d4b63f-79ea-4409-9396-b6b3a4872cfe" LastKnownName="ESModel" />
+            <elementDefinition Id="1671ae5c-dbe0-4eca-8cbc-83041e7d55a7" />
           </dependency>
-          <dependency Id="667e78de-87b1-4e9f-8830-7449f7b970ec">
-            <interfaceMoniker Id="09748835-24b2-4353-bd88-2087c0e3aaad" LastKnownName="CLModelDelegate" />
-            <elementDefinition Id="47c06bd7-8722-4b49-85ed-9c4754a4104f" />
+          <dependency Id="76b24bb4-1583-40af-86f1-c589e0dcd3c8">
+            <classMoniker Id="a8ad9325-dc98-4418-a6d4-61148424c4e6" LastKnownName="CLModel" />
+            <elementDefinition Id="90ddedaa-cf5c-451f-84a1-5b5256e3f9d4" />
           </dependency>
-          <dependency Id="0aafa205-921c-4100-af15-b3690cffe0a8">
-            <interfaceMoniker Id="3a806d4b-be3c-41cf-a528-0fc86cb3e948" LastKnownName="ESModelDelegate" />
-            <elementDefinition Id="afdabd23-cc9f-42dd-b4ff-52540f862f5d" />
+          <dependency Id="c05929d0-e09d-4be4-9100-4155eaac263b">
+            <interfaceMoniker Id="7c3b7c7f-c715-40b3-8467-86b175e085c7" LastKnownName="CLModelDelegate" />
+            <elementDefinition Id="34d0c670-2a14-4891-9af6-c212a9c386e9" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -113,76 +74,14 @@
         </targetEnds>
       </class>
     </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="4aa14ddb-d06a-4da9-ab60-231048d2ca23" name="PRLDomain" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="fdfcf92a-a48e-403e-83bf-d0eecf48d5d7" />
-        <generalsInternal>
-          <generalization Id="111df9fb-a147-4535-bf85-33710b2cbced" isSubstitutable="false">
-            <classMoniker Id="a512281d-3e34-4818-8096-a9b972decc9c" LastKnownName="CTLDomain" />
-            <elementDefinition Id="4438e6fb-af0c-447f-b3d3-4bb5512eb476" />
-          </generalization>
-        </generalsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="5092022c-e5f2-4ab6-b809-5fd7a8821f5c" name="FuzzyModel" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="aa9ceb99-7ba0-4d56-93aa-b27c155565b4" />
-        <suppliersInternal>
-          <dependency Id="7e7e36f3-a860-4721-973e-b09f03cf1a9b">
-            <classMoniker Id="ddc1df34-d1a1-4401-8a74-70599b2bac92" LastKnownName="FuzzyMath" />
-            <elementDefinition Id="0aba264e-b6ef-448c-886e-70610d32a1ce" />
-          </dependency>
-          <dependency Id="d1c63819-abd4-4000-812d-9592fba72dbb">
-            <classMoniker Id="2b5b8c3f-512f-48cc-98e5-949b9925800a" LastKnownName="HRSensor" />
-            <elementDefinition Id="61a26de8-4d72-4113-86a1-f60079bb1d2c" />
-          </dependency>
-          <dependency Id="bec78c67-26b1-44b8-8006-0945830d7261">
-            <classMoniker Id="23645de0-6d58-4fd0-b84a-c205d84f477e" LastKnownName="GSRSensor" />
-            <elementDefinition Id="ad32665c-116e-4abb-a264-04958512fe32" />
-          </dependency>
-        </suppliersInternal>
-        <generalsInternal>
-          <generalization Id="6c0e1937-bb7e-48b6-98d0-97c1225762b8" isSubstitutable="false">
-            <classMoniker Id="f6f0fd90-8a03-444d-82f9-ff4c7ac4a1a7" LastKnownName="ESModel" />
-            <elementDefinition Id="6f0a70ff-9a2c-4500-9f49-3eb2b0c9d21e" />
-          </generalization>
-        </generalsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
     <packageHasNamedElement>
       <referencedType Id="98c011db-9e08-49a8-8b44-f2a3f310ae31" name="Integer" isAbstract="false" isLeaf="false" cachedFullName="Integer">
         <elementDefinition Id="220a3521-e091-4221-bae9-3ef9018e845c" />
       </referencedType>
     </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
-      <class Id="23645de0-6d58-4fd0-b84a-c205d84f477e" name="GSRSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="36d5b9c0-a723-457a-b3df-8d59f841f3ce" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
       <class Id="6612374c-d997-4549-883b-f5c434f5f447" name="MainView" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="52b4c57d-2c6e-4f72-b2d7-394139ad1f42" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="7463881b-a5d4-4244-9890-bc0540e393a8" name="XMLParser" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded" />
-        <generalsInternal>
-          <generalization Id="24105613-9270-4b2c-8719-fc6276775abd" isSubstitutable="false">
-            <classMoniker Id="6abe171b-d705-424b-ac19-cfe5fd38e926" LastKnownName="CTLInputSource" />
-            <elementDefinition Id="649e819b-7de2-4905-a5e0-45d907faa6e4" />
-          </generalization>
-        </generalsInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="1223f39c-8b00-405b-bb24-e5f4996c9174" name="CTLTask" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="2b5b8c3f-512f-48cc-98e5-949b9925800a" name="HRSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="0862e8fd-5bf4-42dc-a2ac-e40df0da9cbd" />
       </class>
     </logicalClassDesignerModelHasTypes>
     <packageHasNamedElement>
@@ -191,69 +90,16 @@
       </referencedType>
     </packageHasNamedElement>
     <logicalClassDesignerModelHasTypes>
-      <class Id="ddc1df34-d1a1-4401-8a74-70599b2bac92" name="FuzzyMath" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="fb02ec03-d20e-473e-8847-ccb0d77d2874" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="6abe171b-d705-424b-ac19-cfe5fd38e926" name="CTLInputSource" isAbstract="true" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="2eb03d6e-bd02-4d24-a9b1-76d64a2a2e28" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="a512281d-3e34-4818-8096-a9b972decc9c" name="CTLDomain" isAbstract="true" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="14dc8e3e-ba7d-489e-8359-c45aeb60310e" />
-        <suppliersInternal>
-          <dependency Id="08dad555-bd90-4a5a-887b-9617456c9091">
-            <classMoniker Id="1223f39c-8b00-405b-bb24-e5f4996c9174" LastKnownName="CTLTask" />
-            <elementDefinition Id="a75893b2-b45c-4074-bf2b-cbcb915b348c" />
-          </dependency>
-          <dependency Id="437bf1f7-2dea-4dfe-ab31-8f3dae0175ff">
-            <classMoniker Id="66056f16-8a3f-417a-924b-cbe286ded122" LastKnownName="CTLEvent" />
-            <elementDefinition Id="eca1583b-2f58-4522-b1ae-8e992310952b" />
-          </dependency>
-          <dependency Id="201f6538-ea52-4d46-a4ec-5aa03ef0e4bc">
-            <classMoniker Id="e8158627-a035-49cb-93bd-336f6369fc37" LastKnownName="InputElement" />
-            <elementDefinition Id="e37b0ec1-9b6b-487e-875d-b16da30147ac" />
-          </dependency>
-        </suppliersInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="2365eeb4-d151-450c-8f0f-63afe3e9cc7c" name="Vector" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="044e4edc-ac39-4d44-bc42-05e83a237094" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="66056f16-8a3f-417a-924b-cbe286ded122" name="CTLEvent" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="f7203876-6c12-447c-beb4-0ee25b1e6b10" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="e8158627-a035-49cb-93bd-336f6369fc37" name="InputElement" isAbstract="false" isLeaf="true" isActiveClass="false">
-        <elementDefinition Id="6714bbde-24cf-4e22-905c-277f87121ed0" />
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <Interface Id="b61e3a30-e806-452c-9fec-cced8702381c" name="CTLInputSourceDelegate" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="9031a88a-88cb-4382-a444-1544560fd237" />
-      </Interface>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
       <class Id="be76a58b-bd25-4d82-9c63-96c7b44ee902" name="CTLModelUtilityVC" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="b4bdf34e-94a8-47be-ab98-1910d83b659e" />
         <suppliersInternal>
-          <dependency Id="0f4cbbf8-0098-4585-9597-4b3bb3ab0392">
-            <classMoniker Id="d57e9f0e-c3ce-4c82-9ea8-4ab2e433be4c" LastKnownName="CTLModel" />
-            <elementDefinition Id="36547181-4e94-4369-a4db-e7ae7d91bc2a" />
+          <dependency Id="c0e88099-a87f-4295-8d54-b42455630c27">
+            <classMoniker Id="e5b4d1f4-b4bf-4a30-a25f-b358131773a8" LastKnownName="XMLParser" />
+            <elementDefinition Id="579b3742-dee6-4a31-8646-e8c9e4d19bfe" />
           </dependency>
-          <dependency Id="2ed40d93-482b-49ad-b139-6791520c4b64">
-            <classMoniker Id="1223f39c-8b00-405b-bb24-e5f4996c9174" LastKnownName="CTLTask" />
-            <elementDefinition Id="d7d0698b-dfbb-45a9-b4c9-ca896aa223a1" />
-          </dependency>
-          <dependency Id="66038db6-7eb9-4abe-9855-36dcdd5df6fe">
-            <classMoniker Id="7463881b-a5d4-4244-9890-bc0540e393a8" LastKnownName="XMLParser" />
-            <elementDefinition Id="f33929b2-08b1-4b40-8af6-007257430151" />
+          <dependency Id="f6387710-3b39-4d21-98e6-7738bc7470f1">
+            <classMoniker Id="b4a9e398-ba1a-4c46-8513-03a3f0c7afe1" LastKnownName="CTLModel" />
+            <elementDefinition Id="6f2b3114-2c0b-44cb-9a1d-264263dc185b" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -285,13 +131,13 @@
       <class Id="c33857f2-2e8b-4cc3-a5f2-c829e0c4f88a" name="FuzzyModelUtilityVC" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="fe6d949a-6523-486e-8b69-6fb23c203a5a" />
         <suppliersInternal>
-          <dependency Id="cb9dbbad-4361-4492-a21e-8ce36d374cd8">
-            <classMoniker Id="5092022c-e5f2-4ab6-b809-5fd7a8821f5c" LastKnownName="FuzzyModel" />
-            <elementDefinition Id="9b7a8318-bf1c-4f9a-8b5c-a9f485541880" />
-          </dependency>
           <dependency Id="a401ab27-b5a1-4b43-8f3c-b2b3888a2716">
             <classMoniker Id="f7d128d7-f15b-413b-a482-0114a983e19e" LastKnownName="SensorViewController" />
             <elementDefinition Id="1352c955-13e2-475d-946e-831cbad59cdd" />
+          </dependency>
+          <dependency Id="4814638e-5fb6-4e54-a9b2-d5118ecd5d61">
+            <classMoniker Id="fcea667e-e027-423d-ba3a-b01bb59e708b" LastKnownName="FuzzyModel" />
+            <elementDefinition Id="88989045-42a9-4066-b37b-b9619b9daa8f" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -323,13 +169,13 @@
       <class Id="f7d128d7-f15b-413b-a482-0114a983e19e" name="SensorViewController" isAbstract="false" isLeaf="false" isActiveClass="false">
         <elementDefinition Id="1a0be175-50be-44ca-a965-37dcba5f4c49" />
         <suppliersInternal>
-          <dependency Id="2c2b49b4-0c6a-4ad9-8ccb-298720a7a75a">
-            <classMoniker Id="2b5b8c3f-512f-48cc-98e5-949b9925800a" LastKnownName="HRSensor" />
-            <elementDefinition Id="fc3f95e5-b418-46a9-8415-10681cf20185" />
+          <dependency Id="e4360e42-0f62-46c7-827d-76cfa7774903">
+            <classMoniker Id="7ad7f170-b51a-4e82-9d33-162713bd7377" LastKnownName="HRSensor" />
+            <elementDefinition Id="b3432a50-de4f-424d-b92b-041e8045b139" />
           </dependency>
-          <dependency Id="7ea92627-31d1-4162-99a3-038218c65fe7">
-            <classMoniker Id="23645de0-6d58-4fd0-b84a-c205d84f477e" LastKnownName="GSRSensor" />
-            <elementDefinition Id="7ee05533-333f-4661-b973-b5c120a935e9" />
+          <dependency Id="d3215a5c-bf12-4deb-9ded-02312a8f0b0e">
+            <classMoniker Id="b866b026-6a42-4921-b974-103f1e32f230" LastKnownName="GSRSensor" />
+            <elementDefinition Id="302915a2-8428-4d7b-9a07-54064e680423" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -357,31 +203,195 @@
         <elementDefinition Id="8a25a312-61dc-44d3-aaf7-3555133ded0c" />
       </class>
     </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <class Id="dd4eef61-e069-4554-a405-100f139589eb" name="CTLMath" isAbstract="false" isLeaf="false" isActiveClass="false">
-        <elementDefinition Id="2e44645c-c504-4041-84de-531d02a47618" />
-        <suppliersInternal>
-          <dependency Id="3a4bc589-5a9e-4d51-ae4b-6947b675eec4">
-            <classMoniker Id="2365eeb4-d151-450c-8f0f-63afe3e9cc7c" LastKnownName="Vector" />
-            <elementDefinition Id="b28aa079-6fbf-4f0f-b618-981748d6e9f2" />
-          </dependency>
-          <dependency Id="08c5c662-8ebb-4127-b3d2-cfbe43e2600f">
-            <classMoniker Id="1223f39c-8b00-405b-bb24-e5f4996c9174" LastKnownName="CTLTask" />
-            <elementDefinition Id="2beb45a6-27e7-4abe-b5a9-bc980dd578cb" />
-          </dependency>
-        </suppliersInternal>
-      </class>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <Interface Id="09748835-24b2-4353-bd88-2087c0e3aaad" name="CLModelDelegate" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="03637202-234b-4cad-82ad-21ac6a7cb083" />
-      </Interface>
-    </logicalClassDesignerModelHasTypes>
-    <logicalClassDesignerModelHasTypes>
-      <Interface Id="3a806d4b-be3c-41cf-a528-0fc86cb3e948" name="ESModelDelegate" isAbstract="false" isLeaf="false">
-        <elementDefinition Id="ad914268-252c-4510-a0e3-52b036b9e7b8" />
-      </Interface>
-    </logicalClassDesignerModelHasTypes>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="75e06593-d388-45b8-a612-468da14218b2" name="Emotionele toestand">
+        <elementDefinition Id="b694ac0d-8e3e-4c55-bfa3-cc24bf99ac80" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="18d4b63f-79ea-4409-9396-b6b3a4872cfe" name="ESModel" isAbstract="true" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="2bf16726-5a39-4953-823d-54010909fe71" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="fcea667e-e027-423d-ba3a-b01bb59e708b" name="FuzzyModel" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="955de052-f556-4dfb-a050-84d9bdaccaac" />
+              <suppliersInternal>
+                <dependency Id="797195e0-e3fb-43df-a451-b1cbad106e37">
+                  <classMoniker Id="d8199326-c7e7-4952-83b7-e307e0628046" LastKnownName="FuzzyMath" />
+                  <elementDefinition Id="b55c8709-14c3-4f8b-b6f2-9d986cd56f58" />
+                </dependency>
+                <dependency Id="4e5468f0-58aa-4396-8a39-74f2a5fa7c74">
+                  <classMoniker Id="7ad7f170-b51a-4e82-9d33-162713bd7377" LastKnownName="HRSensor" />
+                  <elementDefinition Id="67b946ac-236b-4540-89fb-2961c4333500" />
+                </dependency>
+                <dependency Id="6149614d-bcaa-4752-923c-be4d2c336f8b">
+                  <classMoniker Id="b866b026-6a42-4921-b974-103f1e32f230" LastKnownName="GSRSensor" />
+                  <elementDefinition Id="b305b4a4-fc92-44c5-a0f2-3909a5cff47c" />
+                </dependency>
+              </suppliersInternal>
+              <generalsInternal>
+                <generalization Id="112910c8-8ee4-4c75-95ab-70e3174505d3" isSubstitutable="false">
+                  <classMoniker Id="18d4b63f-79ea-4409-9396-b6b3a4872cfe" LastKnownName="ESModel" />
+                  <elementDefinition Id="1fb61403-51e0-4547-805d-72a1d55aebe5" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b866b026-6a42-4921-b974-103f1e32f230" name="GSRSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="7c2a393a-8790-4efe-9f00-7f81c9de3784" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="7ad7f170-b51a-4e82-9d33-162713bd7377" name="HRSensor" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="23bde1d2-d3db-42fe-81b0-6cb9d3a5a440" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="d8199326-c7e7-4952-83b7-e307e0628046" name="FuzzyMath" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="fffe9c90-107b-4902-81b7-76db1b5fbbc4" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <Interface Id="e745b422-2271-44d5-a023-832268de4e76" name="ESModelDelegate" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="0d2d46cc-4a5e-4223-8a9f-25bf457c7162" />
+            </Interface>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
+    <logicalClassDesignerModelHasPackages>
+      <package Id="94b177c5-b64d-4edb-8b82-6b90ad70d180" name="Cognitieve belasting">
+        <elementDefinition Id="d1f93c52-cd84-4495-bff5-282fbba73220" />
+        <packagedElements>
+          <packageHasNamedElement>
+            <class Id="a8ad9325-dc98-4418-a6d4-61148424c4e6" name="CLModel" isAbstract="true" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="9ca3d6d6-3446-4263-9767-8a79e9f0dc80" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b4a9e398-ba1a-4c46-8513-03a3f0c7afe1" name="CTLModel" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="06658bc2-15b9-49c9-9e43-9a6777231f55" />
+              <suppliersInternal>
+                <dependency Id="6ac74158-991e-4cbd-b42f-c90903173de9">
+                  <classMoniker Id="b5b1e479-03ce-47f5-bb08-5eb99d1fa327" LastKnownName="CTLDomain" />
+                  <elementDefinition Id="746b5e8a-4d4f-46ac-8840-5f53358981e0" />
+                </dependency>
+                <dependency Id="98ce172a-48dd-4a33-a792-0511621b3030">
+                  <classMoniker Id="78e5fa39-3591-4e2c-8631-42fe285dc5e5" LastKnownName="CTLInputSource" />
+                  <elementDefinition Id="25977270-f5f9-487a-945c-103ed6905c97" />
+                </dependency>
+                <interfaceRealization Id="d8fafdfb-92fe-4089-b06c-2406bf7bc382">
+                  <interfaceMoniker Id="613b3333-90b8-4c96-8189-1b6be825c137" LastKnownName="CTLInputSourceDelegate" />
+                  <elementDefinition Id="fb1c5bbc-2119-4b75-88cb-fd4f1ba7f0cc" />
+                </interfaceRealization>
+                <dependency Id="f64c0327-e6e0-46ac-9b29-3dc63b62c475">
+                  <classMoniker Id="12f51901-bc67-4c98-a7d7-8d9d70bfd1b9" LastKnownName="CTLMath" />
+                  <elementDefinition Id="52cd1cf6-1252-4a05-ab68-34c0daac589d" />
+                </dependency>
+              </suppliersInternal>
+              <generalsInternal>
+                <generalization Id="889a5097-024d-46d8-bd2d-6a2edcfa88f2" isSubstitutable="false">
+                  <classMoniker Id="a8ad9325-dc98-4418-a6d4-61148424c4e6" LastKnownName="CLModel" />
+                  <elementDefinition Id="9ec06ca4-8d74-4be9-9ceb-67a525fea199" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="618248b7-9d04-40da-9bb5-efaa8ef4a929" name="PRLDomain" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="bf84790e-826d-4efc-be85-ad18a02295f7" />
+              <generalsInternal>
+                <generalization Id="01b8b3cf-f50c-496b-bec9-b9bc95fe024d" isSubstitutable="false">
+                  <classMoniker Id="b5b1e479-03ce-47f5-bb08-5eb99d1fa327" LastKnownName="CTLDomain" />
+                  <elementDefinition Id="ecfef317-71d1-4ac0-9458-218d99892ece" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="e5b4d1f4-b4bf-4a30-a25f-b358131773a8" name="XMLParser" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="25e2b030-d8be-469b-a0d5-7baf574bbca5" />
+              <generalsInternal>
+                <generalization Id="123cf36d-3911-487d-bbce-a6f469f6772e" isSubstitutable="false">
+                  <classMoniker Id="78e5fa39-3591-4e2c-8631-42fe285dc5e5" LastKnownName="CTLInputSource" />
+                  <elementDefinition Id="c763fa17-e435-441c-9346-c5cca51a4d6c" />
+                </generalization>
+              </generalsInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="1374d2ff-4ec5-442a-a8f6-4e8c0fa4d24b" name="CTLTask" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="0995cbd6-bc88-47ce-b246-104ccbb280f3" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="78e5fa39-3591-4e2c-8631-42fe285dc5e5" name="CTLInputSource" isAbstract="true" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="5904a25d-afe6-41dc-8e10-389ee8b4d589" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="b5b1e479-03ce-47f5-bb08-5eb99d1fa327" name="CTLDomain" isAbstract="true" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="f92f5ac2-744c-41e6-83b7-7d338f1e586e" />
+              <suppliersInternal>
+                <dependency Id="ec872f0a-7f5c-4b4a-a691-42fdf3b98cb9">
+                  <classMoniker Id="1374d2ff-4ec5-442a-a8f6-4e8c0fa4d24b" LastKnownName="CTLTask" />
+                  <elementDefinition Id="73ddae6c-6d83-49eb-9edf-ca89e2043397" />
+                </dependency>
+                <dependency Id="c1527bb8-e02e-4d0c-a576-f731a2e71b82">
+                  <classMoniker Id="63a9126b-e3c5-48a3-8441-89964d466d5f" LastKnownName="CTLEvent" />
+                  <elementDefinition Id="dceb45b9-652e-49f3-b2a3-f2886ed5f206" />
+                </dependency>
+                <dependency Id="5c0eca7a-207d-437a-8550-35fe1c386c8d">
+                  <classMoniker Id="a3dbda55-6b81-4c15-a7f9-6a649ca721dc" LastKnownName="InputElement" />
+                  <elementDefinition Id="96f2d0d7-6f39-40f5-a4dc-2a5b0fa8814f" />
+                </dependency>
+              </suppliersInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="f5ef6f27-441a-4aaa-838e-0d41dbf62416" name="Vector" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="758bc1f2-b034-4daa-b6fa-f0ba9bb1ab67" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="63a9126b-e3c5-48a3-8441-89964d466d5f" name="CTLEvent" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="538a7abb-17fd-4c85-8249-fd7a82287c06" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="a3dbda55-6b81-4c15-a7f9-6a649ca721dc" name="InputElement" isAbstract="false" isLeaf="true" isActiveClass="false">
+              <elementDefinition Id="f4454a9a-52eb-4dc5-b881-1d7dad75a332" />
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <Interface Id="613b3333-90b8-4c96-8189-1b6be825c137" name="CTLInputSourceDelegate" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="a1124a0b-2eef-43de-8f8c-80e40bd7bb6f" />
+            </Interface>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <class Id="12f51901-bc67-4c98-a7d7-8d9d70bfd1b9" name="CTLMath" isAbstract="false" isLeaf="false" isActiveClass="false">
+              <elementDefinition Id="e6f54f88-78b1-41ac-8b4c-4b4e013f8a4f" />
+              <suppliersInternal>
+                <dependency Id="65dc925f-fb6f-4de5-b489-64e93352fb4a">
+                  <classMoniker Id="f5ef6f27-441a-4aaa-838e-0d41dbf62416" LastKnownName="Vector" />
+                  <elementDefinition Id="ff6b63f3-e197-4466-9a7e-4e4ddfb71382" />
+                </dependency>
+                <dependency Id="9b9d8ff2-7809-474a-ba1a-db66d2139743">
+                  <classMoniker Id="1374d2ff-4ec5-442a-a8f6-4e8c0fa4d24b" LastKnownName="CTLTask" />
+                  <elementDefinition Id="5d821b98-923d-44b9-856e-701962046594" />
+                </dependency>
+              </suppliersInternal>
+            </class>
+          </packageHasNamedElement>
+          <packageHasNamedElement>
+            <Interface Id="7c3b7c7f-c715-40b3-8467-86b175e085c7" name="CLModelDelegate" isAbstract="false" isLeaf="false">
+              <elementDefinition Id="15ecd456-70fb-43d0-a56f-96859b5ab7ad" />
+            </Interface>
+          </packageHasNamedElement>
+        </packagedElements>
+      </package>
+    </logicalClassDesignerModelHasPackages>
   </packagedElements>
   <package Id="99542157-bec8-4e29-bd17-7ff5522c7adf" name="ModelingProject">
     <elementDefinition Id="75c6a20b-d4ba-45eb-8ded-86ff4e263227" />

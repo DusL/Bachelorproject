@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="d1f93c52-cd84-4495-bff5-282fbba73220"
+  name="Cognitieve belasting" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="9ca3d6d6-3446-4263-9767-8a79e9f0dc80"
+        name="CLModel"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="06658bc2-15b9-49c9-9e43-9a6777231f55"
+        name="CTLModel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <interfaceRealization
+            Id="fb1c5bbc-2119-4b75-88cb-fd4f1ba7f0cc">
+            <interfaceMoniker
+              Id="a1124a0b-2eef-43de-8f8c-80e40bd7bb6f"
+              LastKnownName="CTLInputSourceDelegate"
+              LastKnownLocation="Package_1507.uml" />
+          </interfaceRealization>
+          <dependency
+            Id="746b5e8a-4d4f-46ac-8840-5f53358981e0">
+            <classMoniker
+              Id="f92f5ac2-744c-41e6-83b7-7d338f1e586e"
+              LastKnownName="CTLDomain"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="25977270-f5f9-487a-945c-103ed6905c97">
+            <classMoniker
+              Id="5904a25d-afe6-41dc-8e10-389ee8b4d589"
+              LastKnownName="CTLInputSource"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="52cd1cf6-1252-4a05-ab68-34c0daac589d">
+            <classMoniker
+              Id="e6f54f88-78b1-41ac-8b4c-4b4e013f8a4f"
+              LastKnownName="CTLMath"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization
+            Id="9ec06ca4-8d74-4be9-9ceb-67a525fea199"
+            isSubstitutable="false">
+            <classMoniker
+              Id="9ca3d6d6-3446-4263-9767-8a79e9f0dc80"
+              LastKnownName="CLModel"
+              LastKnownLocation="Package_1507.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="bf84790e-826d-4efc-be85-ad18a02295f7"
+        name="PRLDomain"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="ecfef317-71d1-4ac0-9458-218d99892ece"
+            isSubstitutable="false">
+            <classMoniker
+              Id="f92f5ac2-744c-41e6-83b7-7d338f1e586e"
+              LastKnownName="CTLDomain"
+              LastKnownLocation="Package_1507.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="25e2b030-d8be-469b-a0d5-7baf574bbca5"
+        name="XMLParser"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <generalsInternal>
+          <generalization
+            Id="c763fa17-e435-441c-9346-c5cca51a4d6c"
+            isSubstitutable="false">
+            <classMoniker
+              Id="5904a25d-afe6-41dc-8e10-389ee8b4d589"
+              LastKnownName="CTLInputSource"
+              LastKnownLocation="Package_1507.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="0995cbd6-bc88-47ce-b246-104ccbb280f3"
+        name="CTLTask"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="5904a25d-afe6-41dc-8e10-389ee8b4d589"
+        name="CTLInputSource"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f92f5ac2-744c-41e6-83b7-7d338f1e586e"
+        name="CTLDomain"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="73ddae6c-6d83-49eb-9edf-ca89e2043397">
+            <classMoniker
+              Id="0995cbd6-bc88-47ce-b246-104ccbb280f3"
+              LastKnownName="CTLTask"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="dceb45b9-652e-49f3-b2a3-f2886ed5f206">
+            <classMoniker
+              Id="538a7abb-17fd-4c85-8249-fd7a82287c06"
+              LastKnownName="CTLEvent"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="96f2d0d7-6f39-40f5-a4dc-2a5b0fa8814f">
+            <classMoniker
+              Id="f4454a9a-52eb-4dc5-b881-1d7dad75a332"
+              LastKnownName="InputElement"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="758bc1f2-b034-4daa-b6fa-f0ba9bb1ab67"
+        name="Vector"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="538a7abb-17fd-4c85-8249-fd7a82287c06"
+        name="CTLEvent"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="f4454a9a-52eb-4dc5-b881-1d7dad75a332"
+        name="InputElement"
+        isAbstract="false"
+        isLeaf="true"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="a1124a0b-2eef-43de-8f8c-80e40bd7bb6f"
+        name="CTLInputSourceDelegate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="e6f54f88-78b1-41ac-8b4c-4b4e013f8a4f"
+        name="CTLMath"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="ff6b63f3-e197-4466-9a7e-4e4ddfb71382">
+            <classMoniker
+              Id="758bc1f2-b034-4daa-b6fa-f0ba9bb1ab67"
+              LastKnownName="Vector"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="5d821b98-923d-44b9-856e-701962046594">
+            <classMoniker
+              Id="0995cbd6-bc88-47ce-b246-104ccbb280f3"
+              LastKnownName="CTLTask"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="15ecd456-70fb-43d0-a56f-96859b5ab7ad"
+        name="CLModelDelegate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b694ac0d-8e3e-4c55-bfa3-cc24bf99ac80"
+  name="Emotionele toestand" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="c3ff5ea0-9269-497b-9a89-ada0fd5f6ccc"
+        LastKnownName="Package1"
+        LastKnownLocation="Package1_1459.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="1540c29a-fdfe-429e-999c-186417c737d4"
+        name="Class1"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="210f8e4c-dbf5-40f2-8f4d-adcba2b79b16"
+        name="FuzzyMath"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="2bf16726-5a39-4953-823d-54010909fe71"
+        name="ESModel"
+        isAbstract="true"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="955de052-f556-4dfb-a050-84d9bdaccaac"
+        name="FuzzyModel"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="b55c8709-14c3-4f8b-b6f2-9d986cd56f58">
+            <classMoniker
+              Id="fffe9c90-107b-4902-81b7-76db1b5fbbc4"
+              LastKnownName="FuzzyMath"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+          <dependency
+            Id="67b946ac-236b-4540-89fb-2961c4333500">
+            <classMoniker
+              Id="23bde1d2-d3db-42fe-81b0-6cb9d3a5a440"
+              LastKnownName="HRSensor"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+          <dependency
+            Id="b305b4a4-fc92-44c5-a0f2-3909a5cff47c">
+            <classMoniker
+              Id="7c2a393a-8790-4efe-9f00-7f81c9de3784"
+              LastKnownName="GSRSensor"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+        </suppliersInternal>
+        <generalsInternal>
+          <generalization
+            Id="1fb61403-51e0-4547-805d-72a1d55aebe5"
+            isSubstitutable="false">
+            <classMoniker
+              Id="2bf16726-5a39-4953-823d-54010909fe71"
+              LastKnownName="ESModel"
+              LastKnownLocation="Package_1459.uml" />
+          </generalization>
+        </generalsInternal>
+      </class>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="7c2a393a-8790-4efe-9f00-7f81c9de3784"
+        name="GSRSensor"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="23bde1d2-d3db-42fe-81b0-6cb9d3a5a440"
+        name="HRSensor"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <class
+        Id="fffe9c90-107b-4902-81b7-76db1b5fbbc4"
+        name="FuzzyMath"
+        isAbstract="false"
+        isLeaf="false"
+        isActiveClass="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="0d2d46cc-4a5e-4223-8a9f-25bf457c7162"
+        name="ESModelDelegate"
+        isAbstract="false"
+        isLeaf="false" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

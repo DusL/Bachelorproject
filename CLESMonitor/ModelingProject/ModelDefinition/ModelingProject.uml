@@ -119,6 +119,34 @@
               LastKnownName="ESModelDelegate"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
+          <dependency
+            Id="bf75b450-8bb6-4e63-914a-8ba56f8285fb">
+            <interfaceMoniker
+              Id="0d2d46cc-4a5e-4223-8a9f-25bf457c7162"
+              LastKnownName="ESModelDelegate"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+          <dependency
+            Id="1671ae5c-dbe0-4eca-8cbc-83041e7d55a7">
+            <classMoniker
+              Id="2bf16726-5a39-4953-823d-54010909fe71"
+              LastKnownName="ESModel"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+          <dependency
+            Id="90ddedaa-cf5c-451f-84a1-5b5256e3f9d4">
+            <classMoniker
+              Id="9ca3d6d6-3446-4263-9767-8a79e9f0dc80"
+              LastKnownName="CLModel"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="34d0c670-2a14-4891-9af6-c212a9c386e9">
+            <interfaceMoniker
+              Id="15ecd456-70fb-43d0-a56f-96859b5ab7ad"
+              LastKnownName="CLModelDelegate"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
         </suppliersInternal>
         <targetEnds>
           <association
@@ -518,18 +546,25 @@
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
           <dependency
-            Id="d7d0698b-dfbb-45a9-b4c9-ca896aa223a1">
-            <classMoniker
-              Id="5f2717bd-4f37-4a8e-bbf6-c4f2b0a0949b"
-              LastKnownName="CTLTask"
-              LastKnownLocation="ModelingProject.uml" />
-          </dependency>
-          <dependency
             Id="f33929b2-08b1-4b40-8af6-007257430151">
             <classMoniker
               Id="bca5f0b4-6f2d-4bfb-b12a-be4b23088ded"
               LastKnownName="XMLParser"
               LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="579b3742-dee6-4a31-8646-e8c9e4d19bfe">
+            <classMoniker
+              Id="25e2b030-d8be-469b-a0d5-7baf574bbca5"
+              LastKnownName="XMLParser"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+          <dependency
+            Id="6f2b3114-2c0b-44cb-9a1d-264263dc185b">
+            <classMoniker
+              Id="06658bc2-15b9-49c9-9e43-9a6777231f55"
+              LastKnownName="CTLModel"
+              LastKnownLocation="Package_1507.uml" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -605,6 +640,13 @@
               LastKnownName="SensorViewController"
               LastKnownLocation="ModelingProject.uml" />
           </dependency>
+          <dependency
+            Id="88989045-42a9-4066-b37b-b9619b9daa8f">
+            <classMoniker
+              Id="955de052-f556-4dfb-a050-84d9bdaccaac"
+              LastKnownName="FuzzyModel"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
         </suppliersInternal>
         <targetEnds>
           <association
@@ -678,6 +720,20 @@
               Id="36d5b9c0-a723-457a-b3df-8d59f841f3ce"
               LastKnownName="GSRSensor"
               LastKnownLocation="ModelingProject.uml" />
+          </dependency>
+          <dependency
+            Id="b3432a50-de4f-424d-b92b-041e8045b139">
+            <classMoniker
+              Id="23bde1d2-d3db-42fe-81b0-6cb9d3a5a440"
+              LastKnownName="HRSensor"
+              LastKnownLocation="Package_1459.uml" />
+          </dependency>
+          <dependency
+            Id="302915a2-8428-4d7b-9a07-54064e680423">
+            <classMoniker
+              Id="7c2a393a-8790-4efe-9f00-7f81c9de3784"
+              LastKnownName="GSRSensor"
+              LastKnownLocation="Package_1459.uml" />
           </dependency>
         </suppliersInternal>
         <targetEnds>
@@ -783,6 +839,18 @@
         name="ESModelDelegate"
         isAbstract="false"
         isLeaf="false" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="b694ac0d-8e3e-4c55-bfa3-cc24bf99ac80"
+        LastKnownName="Package2"
+        LastKnownLocation="Package_1459.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="d1f93c52-cd84-4495-bff5-282fbba73220"
+        LastKnownName="Package3"
+        LastKnownLocation="Package_1507.uml" />
     </packageHasNamedElement>
   </packagedElements>
   <primitiveType
