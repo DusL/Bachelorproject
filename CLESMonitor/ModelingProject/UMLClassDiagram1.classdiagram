@@ -328,6 +328,12 @@
           <packageHasNamedElement>
             <class Id="78e5fa39-3591-4e2c-8631-42fe285dc5e5" name="CTLInputSource" isAbstract="true" isLeaf="false" isActiveClass="false">
               <elementDefinition Id="5904a25d-afe6-41dc-8e10-389ee8b4d589" />
+              <suppliersInternal>
+                <dependency Id="9aa267b9-28c6-401a-86c0-e62dbce45e13">
+                  <classMoniker Id="a3dbda55-6b81-4c15-a7f9-6a649ca721dc" LastKnownName="InputElement" />
+                  <elementDefinition Id="6825f5c5-7384-4235-977e-2787f54d4331" />
+                </dependency>
+              </suppliersInternal>
             </class>
           </packageHasNamedElement>
           <packageHasNamedElement>

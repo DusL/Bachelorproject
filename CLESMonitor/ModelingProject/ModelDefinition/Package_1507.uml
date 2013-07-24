@@ -113,7 +113,17 @@
         name="CTLInputSource"
         isAbstract="true"
         isLeaf="false"
-        isActiveClass="false" />
+        isActiveClass="false">
+        <suppliersInternal>
+          <dependency
+            Id="6825f5c5-7384-4235-977e-2787f54d4331">
+            <classMoniker
+              Id="f4454a9a-52eb-4dc5-b881-1d7dad75a332"
+              LastKnownName="InputElement"
+              LastKnownLocation="Package_1507.uml" />
+          </dependency>
+        </suppliersInternal>
+      </class>
     </packageHasNamedElement>
     <packageHasNamedElement>
       <class
