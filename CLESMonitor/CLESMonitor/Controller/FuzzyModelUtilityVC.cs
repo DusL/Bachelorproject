@@ -163,7 +163,7 @@ namespace CLESMonitor.Controller
                 sensorController.View.Show(); 
 
                 // Setup the countdown calibration timer 
-                timeSpanCounter = new TimeSpan(0, 30, 0);
+                timeSpanCounter = new TimeSpan(0, 10, 0);
                 timer = new System.Windows.Forms.Timer();
                 timer.Tick += new EventHandler(timer_Tick);
                 timer.Interval = 1000; // 1 second
