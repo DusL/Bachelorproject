@@ -178,13 +178,13 @@ namespace XMLScenarioGenerator
             elements.Add(new Task("ARI_UIT", 80, 3, event1));
             elements.Add(new Task("HERROEP_SEIN", 85, 20, event1));
             elements.Add(new Task("DESELECTEER_REGEL", 113, 3, event1));
-
+            // De tweede trein wordt omgeleid
             elements.Add(new Task("SELECTEER_REGEL", 115, 3, event1));
             elements.Add(new Task("HAND_VERWERK_REGEL", 125, 35, event1));
             elements.Add(new Task("VERWERK_VERT_REGELS", 170, 5, event1));
             elements.Add(new Task("ARI_IN", 178, 3, event1));
             elements.Add(new Task("DESELECTEER_REGEL", 184, 3, event1));
-
+            // Na inspectie kan de eerste trein voorzichtig over de geklemde wissel
             elements.Add(new Task("SELECTEER_REGEL", 190, 3, event1));
             elements.Add(new Task("HAND_VERWERK_REGEL", 200, 35, event1));
             elements.Add(new Task("VERWERK_VERT_REGELS", 245, 5, event1));
