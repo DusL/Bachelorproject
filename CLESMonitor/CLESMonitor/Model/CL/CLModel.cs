@@ -15,8 +15,6 @@ namespace CLESMonitor.Model.CL
     {
         /// <summary>The delegate for this object, implementing the CLModelDelegate interface</summary>
         public CLModelDelegate delegateObject;
-        /// <summary>Time frame in seconds</summary>
-        public TimeSpan lengthTimeframe;
 
         /// <summary>
         /// Starts a new session, calculateModelValue() will
