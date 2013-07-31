@@ -196,7 +196,7 @@ namespace UnitTest.Model
             double tss = 2.0 / 2.0;
 
             List<CTLTask> tasks = new List<CTLTask>(new CTLTask[] { validTask1, validTask2 });
-            Assert.AreEqual(tss, CTLMath.calculateTSS(tasks));
+            Assert.AreEqual(tss, CTLMath.calculateOverallTSS(tasks));
         }
 
 

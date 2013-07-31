@@ -85,7 +85,7 @@ namespace CLESMonitor.Model.CL
             // Calculate all necessary values
             double lip = CTLMath.calculateOverallLip(tasksInCalculationFrame, lengthToPass);
             double mo = CTLMath.calculateOverallMo(tasksInCalculationFrame, lengthToPass);
-            double tss = CTLMath.calculateTSS(tasksInCalculationFrame);
+            double tss = CTLMath.calculateOverallTSS(tasksInCalculationFrame);
 
             return CTLMath.categoriseWorkLoad(CTLMath.calculateMentalWorkLoad(lip, mo, tss, tasksInCalculationFrame.Count()));
         }

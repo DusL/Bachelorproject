@@ -116,11 +116,12 @@ namespace CLESMonitor.Model.CL
 
         /// <summary>
         /// Implements the overall Task Set Switching (TSS) formula as defined in the scientific literature.
+        /// This calculates the TSS over the entire calculation frame.
         /// </summary>
         /// <param name="tasks">The list of tasks to use</param>
         /// <returns>The calculated TSS-value. 
         /// It can attain values between 0 and (tasks.Count-1) (only without overlapping tasks!).</returns>
-        public static double calculateTSS(List<CTLTask> tasks)
+        public static double calculateOverallTSS(List<CTLTask> tasks)
         {
             double tssValue = 0;
 
@@ -162,6 +163,7 @@ namespace CLESMonitor.Model.CL
             if (tssBounds.Item2 != 0)
             {
                 normalizedTssValue = (tssValue - tssBounds.Item1) / tssBounds.Item2;
+                Console.WriteLine(normalizedTssValue);
             }
 
             Vector diagonalVector = new Vector(1.0, 1.0, 1.0);

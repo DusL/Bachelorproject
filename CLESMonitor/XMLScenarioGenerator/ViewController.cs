@@ -94,7 +94,8 @@ namespace XMLScenarioGenerator
             saveFileDialog = this.view.saveFileDialog;
 
             // Add the (hardcoded) data to be generated here
-            addScenario1d();
+            addScenario3();
+            addScenario3();
         }
 
         /// <summary>
